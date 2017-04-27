@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 var ImagePicker = require('react-native-image-picker')
 var options = {
-  title: '图片选择',
+  title: '图片',
   cancelButtonTitle: '取消',
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
