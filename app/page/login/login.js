@@ -48,7 +48,6 @@ class login extends PageComponent {
           underlineColorAndroid="transparent"
           defaultValue = {'13701806361'}
           onChangeText = {(username) => this.setState({username: username})}
-          autoFocus={true}
         ></TextInput>
         <TextInput style ={styles.password}
           placeholder ={'请输入密码，不少于8位'}
