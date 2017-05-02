@@ -83,13 +83,17 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
+
+    lintOptions {
+        abortOnError false
+    }
 
     defaultConfig {
         applicationId "com.marksman"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         ndk {
@@ -110,6 +114,41 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
+    dexOptions {
+        preDexLibraries = false //delete the already predexed libraries
+        javaMaxHeapSize "6g" //specify the heap size for the dex process
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../marksman.jks')
+            storePassword 'marksman'
+            keyAlias 'zy'
+            keyPassword 'marksman'
+        }
+
+        debug {
+            storeFile file('../marksman.jks')
+            storePassword 'marksman'
+            keyAlias 'zy'
+            keyPassword 'marksman'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
