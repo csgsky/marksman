@@ -1,17 +1,16 @@
 'use strict'
-import React from 'react'
+import React, {Component} from 'react'
 import {View} from 'react-native'
-import TabBar from '../component/TabBar'
-import PageComponent from '../component/BackPageComponent'
-export default class MainScene extends PageComponent {
-  componentDidMount () {
-    this._handleBack.bind(this)
-  }
+
+import {TabBarBottom, TabNavigator} from 'react-navigation'
+export default class MainScene extends Component {
   render () {
     return (
-      <View style={{flex: 1, justifyContent: 'flex-end'}}>
-        <TabBar navigator = {this.props.navigator}/>
+      <View style={{flex: 1, backgroundColor: 'red'}}>
+        
       </View>
     )
   }
 }
+
+

@@ -5,7 +5,8 @@ import * as actions from '../actions/homeActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 var ImagePicker = require('react-native-image-picker')
-var CryptoJS = require('crypto-js')
+
+// var CryptoJS = require('crypto-js')
 var options = {
   title: '图片',
   cancelButtonTitle: '取消',
@@ -51,23 +52,23 @@ class HomeFragment extends Component {
   }
 
   render () {
-    var keyHex = CryptoJS.enc.Base64.parse('rUqSznmiv78=') // 客户端 和 服务端 约定的一种秘钥
-    var encrypted = CryptoJS.DES.encrypt('87654321', keyHex, {
-      mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
-    })
-    console.log('==============加密：' + encrypted.toString())
-    var decrypted = CryptoJS.DES.decrypt({
-      ciphertext: CryptoJS.enc.Base64.parse(encrypted.toString())}, keyHex, {
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-      })
-    console.log('==============解密：' + decrypted.toString(CryptoJS.enc.Utf8))
+    // var keyHex = CryptoJS.enc.Base64.parse('rUqSznmiv78=') // 客户端 和 服务端 约定的一种秘钥
+    // var encrypted = CryptoJS.DES.encrypt('87654321', keyHex, {
+    //   mode: CryptoJS.mode.ECB,
+    //   padding: CryptoJS.pad.Pkcs7
+    // })
+    // console.log('==============加密：' + encrypted.toString())
+    // var decrypted = CryptoJS.DES.decrypt({
+    //   ciphertext: CryptoJS.enc.Base64.parse(encrypted.toString())}, keyHex, {
+    //     mode: CryptoJS.mode.ECB,
+    //     padding: CryptoJS.pad.Pkcs7
+    //   })
+    // console.log('==============解密：' + decrypted.toString(CryptoJS.enc.Utf8))
 
     return (
-      <TouchableOpacity onPress={this.openImagePicker}>
-        <Text>点击打开相机</Text>
-      </TouchableOpacity>
+      <View>
+        <Text>哈哈哈哈哈囖囖囖</Text>
+      </View>
     )
   }
 

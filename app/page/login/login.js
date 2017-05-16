@@ -1,15 +1,13 @@
-import React from 'React'
-import {StyleSheet, View, Text, TextInput, TouchableNativeFeedback, ActivityIndicator, AsyncStorage} from 'react-native'
+import React, {Component} from 'React'
+import {StyleSheet, View, Text, TextInput, TouchableNativeFeedback, AsyncStorage} from 'react-native'
 import theme from '../../config/theme'
-import MainPage from '../../page/MainPage'
-import PageComponent from '../../component/BackPageComponent'
 import * as actions from '../../actions/loginActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 var dismissKeyboard = require('dismissKeyboard')
 
-class login extends PageComponent {
+class login extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -24,48 +22,45 @@ class login extends PageComponent {
     console.log('componentWillReceiveProps  token ==>' + token)
     if (token) {
       AsyncStorage.setItem('token', token).then(
-            () => {
-              console.log('token 保存成功!')
-            }
-          )
+        () => {
+          console.log('token 保存成功!')
+        }
+      )
     }
     if (slug) {
       AsyncStorage.setItem('slug', slug).then(
-            () => {
-              console.log('slug 保存成功!')
-            }
-          )
-      this.props.navigator.replace({component: MainPage})
+        () => {
+          console.log('slug 保存成功!')
+        }
+      )
     }
+    this.props.navigation.navigate('Tab', {token: token})
   }
   render () {
     return (
-      <View style = {{backgroundColor: 'white', height: theme.screenHeight, width: theme.screenWidth}}>
-        <Text style ={styles.title}>欢迎来到爱燃烧</Text>
-        <TextInput style ={styles.username}
-          placeholder ={'请输入手机号或者邮箱'}
-          placeholderTextColor = '#9d9d9d'
-          underlineColorAndroid="transparent"
-          defaultValue = {'13701806361'}
-          onChangeText = {(username) => this.setState({username: username})}
-        ></TextInput>
-        <TextInput style ={styles.password}
-          placeholder ={'请输入密码，不少于8位'}
-          placeholderTextColor = '#9d9d9d'
-          defaultValue = {'az19931104csg'}
-          underlineColorAndroid="transparent"
-          onChangeText = {(password) => this.setState({password: password})}
-        ></TextInput>
-        <TouchableNativeFeedback
-        onPress={this._onPressButton}
-        background={TouchableNativeFeedback.SelectableBackground()}>
-        <View style={{backgroundColor: 'red', marginLeft: 30, marginRight: 30, marginTop: 30}}>
-        <Text style={styles.login} onPress = {this.login.bind(this, this.state.username, this.state.password)}>登录</Text>
-        </View>
-        </TouchableNativeFeedback>
-        {this.state.loading && <View style = {styles.blur}>
-          <ActivityIndicator animating={this.state.loading} style ={styles.loading} size ='large'/>
-        </View>}
+      <View style ={{flex: 1, width: theme.screenWidth, height: theme.screenHeight, backgroundColor: 'white'}}>
+          <Text style ={styles.title}>欢迎来到爱燃烧!</Text>
+          <TextInput style ={styles.username}
+            placeholder ={'请输入手机号或者邮箱'}
+            placeholderTextColor = '#9d9d9d'
+            underlineColorAndroid="transparent"
+            defaultValue = {'13701806361'}
+            onChangeText = {(username) => this.setState({username: username})}
+          ></TextInput>
+          <TextInput style ={styles.password}
+            placeholder ={'请输入密码，不少于8位'}
+            placeholderTextColor = '#9d9d9d'
+            defaultValue = {'az19931104csg'}
+            underlineColorAndroid="transparent"
+            onChangeText = {(password) => this.setState({password: password})}
+          ></TextInput>
+          <TouchableNativeFeedback
+            onPress={this._onPressButton}
+            background={TouchableNativeFeedback.SelectableBackground()}>
+          <View style={{backgroundColor: 'red', marginLeft: 30, marginRight: 30, marginTop: 30}}>
+          <Text style={styles.login} onPress = {this.login.bind(this, this.state.username, this.state.password)}>登录</Text>
+          </View>
+          </TouchableNativeFeedback>
       </View>
     )
   }
