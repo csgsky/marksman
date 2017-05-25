@@ -2,24 +2,25 @@ export const LOGIN = 'LOGIN'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 
 
-export function login (account, password) {
+export function login (sex, sign, nickname, tags) {
   console.log('action  --->  LOGIN')
-  console.log('account  ---> ' + account)
-  console.log('action  ---> ' + password)
+  console.log('sex  ---> ' + sex)
+  console.log('sign  ---> ' + sign)
+  console.log('nickname  ---> ' + nickname)
+  console.log('tags  ---> ' + tags)
   return {
     type: LOGIN,
-    account: account,
-    password: password
+    sex: sex,
+    sign: sign,
+    nickname: nickname,
+    tags: tags
   }
 }
 
-export function loginSuccess (token, slug) {
-  console.log('action ---> LOGIN_SUCCESS')
-  console.log('action ---> token ' + token)
-  console.log('action ---> slug ' + slug)
+export function loginSuccess (it) {
+  console.warn('action ==> ' + it)
   return {
     type: LOGIN_SUCCESS,
-    token: token,
-    slug: slug
+    it: it
   }
 }

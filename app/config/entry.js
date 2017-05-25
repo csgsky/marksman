@@ -8,10 +8,11 @@ import RaceFragment from '../page/RaceFragment'
 import SocietyFragment from '../page/SocietyFragment'
 import MeFragment from '../page/MeFragment'
 import Login from '../page/login/login'
-import theme from '../config/theme'
 import TabBarItem from '../widget/TabBarItem'
+import LabelPage from '../page/splash/LabelPage'
+import LabelPageTwo from '../page/splash/LabelPageTwo'
+import Splash from '../page/splash/Splash'
 import {StackNavigator, TabBarBottom, TabNavigator} from 'react-navigation'
-
 class Navigation extends Component {
   constructor () {
     super()
@@ -33,13 +34,12 @@ const Tab = TabNavigator(
     Home: {
       screen: HomeFragment,
       navigationOptions: ({ navigation }) => ({
-        tabBarLabel: '心情',
+        tabBarLabel: '浅记',
         tabBarIcon: ({ focused, tintColor }) => (
             <TabBarItem
-                tintColor={tintColor}
                 focused={focused}
-                normalImage={require('../img/main_tab_home.png')}
-                selectedImage={require('../img/main_tab_home_click.png')}
+                normalImage={require('../img/qianyan@2x.png')}
+                selectedImage={require('../img/qianyan-selected@2x.png')}
             />
         )
       })
@@ -47,13 +47,12 @@ const Tab = TabNavigator(
     Nearby: {
       screen: RaceFragment,
       navigationOptions: ({ navigation }) => ({
-        tabBarLabel: '比较',
+        tabBarLabel: '足迹',
         tabBarIcon: ({ focused, tintColor }) => (
             <TabBarItem
-              tintColor={tintColor}
               focused={focused}
-              normalImage={require('../img/main_tab_match.png')}
-              selectedImage={require('../img/main_tab_match_click.png')}
+              normalImage={require('../img/zy@2x.png')}
+              selectedImage={require('../img/zy-selected@2x.png')}
             />
         )
       })
@@ -62,13 +61,12 @@ const Tab = TabNavigator(
     Order: {
       screen: SocietyFragment,
       navigationOptions: ({ navigation }) => ({
-        tabBarLabel: '不错',
+        tabBarLabel: '发现',
         tabBarIcon: ({ focused, tintColor }) => (
           <TabBarItem
-            tintColor={tintColor}
             focused={focused}
-            normalImage={require('../img/main_tab_feed.png')}
-            selectedImage={require('../img/main_tab_feed_selected.png')}
+            normalImage={require('../img/find2x.png')}
+            selectedImage={require('../img/find-selected@2x.png')}
           />
         )
       })
@@ -76,13 +74,12 @@ const Tab = TabNavigator(
     Mine: {
       screen: MeFragment,
       navigationOptions: ({ navigation }) => ({
-        tabBarLabel: '我的',
+        tabBarLabel: '文集',
         tabBarIcon: ({ focused, tintColor }) => (
           <TabBarItem
-            tintColor={tintColor}
             focused={focused}
-            normalImage={require('../img/main_tab_me.png')}
-            selectedImage={require('../img/main_tab_me_click.png')}
+            normalImage={require('../img/wj@2x.png')}
+            selectedImage={require('../img/wenji-selected@2x.png')}
           />
         )
       })
@@ -91,11 +88,11 @@ const Tab = TabNavigator(
   {
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
-    swipeEnabled: true,
-    animationEnabled: true,
+    swipeEnabled: false,
+    animationEnabled: false,
     lazy: true,
     tabBarOptions: {
-      activeTintColor: theme.themeColor,
+      activeTintColor: '#f89f33',
       inactiveTintColor: '#979797',
       style: { backgroundColor: '#ffffff' }
     }
@@ -104,15 +101,36 @@ const Tab = TabNavigator(
 
 const Navigator = StackNavigator(
   {
+    Splash: {
+      screen: Splash,
+      navigationOptions: {
+        header: null
+      }
+    },
+    LabelPage: {
+      screen: LabelPage,
+      navigationOptions: {
+        header: null
+      }
+    },
     Login: { screen: Login,
       navigationOptions: {
         header: null
       }
     },
-    Tab: {screen: Tab}
-    // MainPage: {screen: MainPage}
+    LabelPageTwo: {
+      screen: LabelPageTwo,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Tab: {screen: Tab,
+      navigationOptions: {
+        header: null
+      }
+    }
   },
-  {
+  { initialRouteName: 'Splash',
     navigationOptions: {
       headerBackTitle: null,
       headerTintColor: '#333333',

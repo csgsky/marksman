@@ -6,23 +6,25 @@ function loginEpic (action$) {
   return action$.ofType(actions.LOGIN)
             .mergeMap((action) =>
                 Observable.zip(
-                  Observable.of(action.account),
-                  Observable.of(action.password),
-                  (account, password) => {
-                    console.log('epic  --->  username  ' + account)
-                    console.log('epic  --->  password  ' + password)
-                    return {account, password}
+                  Observable.of(action.sex),
+                  Observable.of(action.sign),
+                  Observable.of(action.nickname),
+                  Observable.of(action.tags),
+                  (sex, sign, nickname, tags) => {
+                    console.log('epic  --->  username  ' + sex)
+                    console.log('epic  --->  password  ' + sign)
+                    console.log('epic  --->  password  ' + nickname)
+                    console.log('epic  --->  password  ' + tags)
+                    return {sex, sign, nickname, tags}
                   }
                 ).flatMap(it => {
-                  console.log('epic  --->  username  ' + it.account)
-                  console.log('epic  --->  password  ' + it.password)
                   return Observable.from(login(it))
                 }
                 ).map(it => {
-                  if (it.success) {
-                    return actions.loginSuccess(it.access_token, it.user_slug)
+                  if (it != null) {
+                    return actions.loginSuccess(it)
                   } else {
-                    console.log('异步有问题')
+                    console.log('epic 异步有问题')
                   }
                 }
                 )
