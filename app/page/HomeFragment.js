@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {Text, View, AsyncStorage, TouchableOpacity} from 'react-native'
+import {Text, View, Image, TouchableOpacity} from 'react-native'
 import * as actions from '../actions/homeActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -8,7 +8,7 @@ var ImagePicker = require('react-native-image-picker')
 
 // var CryptoJS = require('crypto-js')
 var options = {
-  title: '图片',
+  title: '图片选择',
   cancelButtonTitle: '取消',
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
@@ -22,7 +22,7 @@ var options = {
   aspectY: 1,
   quality: 0.8,
   angle: 0,
-  allowsEditing: false,
+  allowsEditing: true,
   noData: false,
   storageOptions: {
     skipBackup: true,
@@ -34,21 +34,12 @@ class HomeFragment extends Component {
     super(props)
     this.state = {
       token: '',
-      slug: ''
+      slug: '',
+      value: '',
+      avatarSource: ''
     }
   }
   componentDidMount () {
-    const { homeInit } = this.props.actions
-    // 获取 token
-    AsyncStorage.getItem('token').then(
-      (result) => {
-        if (result) {
-          homeInit(result)
-        } else {
-          console.log('HomeFragment token ===> ')
-        }
-      }
-    )
   }
 
   render () {
@@ -67,14 +58,18 @@ class HomeFragment extends Component {
 
     return (
       <View>
-        <Text>哈哈哈哈哈囖囖囖</Text>
+        <TouchableOpacity onPress={this.openImagePicker.bind(this)}>
+          <Text>
+            打开相册
+          </Text>
+        </TouchableOpacity>
+          <Image source={this.state.avatarSource} style={{width: 200, height: 200}}></Image>
       </View>
     )
   }
 
   openImagePicker () {
     ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response)
       if (response.didCancel) {
         console.log('User cancelled image picker')
       } else if (response.error) {
@@ -83,7 +78,10 @@ class HomeFragment extends Component {
         console.log('User tapped custom button: ', response.customButton)
       } else {
         let source = { uri: response.uri }
-        console.log(source)
+        this.setState({
+          value: response.data,
+          avatarSource: source
+        })
       }
     })
   }

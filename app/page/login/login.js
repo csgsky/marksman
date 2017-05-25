@@ -1,12 +1,11 @@
 import React, {Component} from 'React'
-import {StyleSheet, View, Text, TextInput, TouchableNativeFeedback, AsyncStorage} from 'react-native'
+import {StyleSheet, View, Text, TextInput, TouchableNativeFeedback} from 'react-native'
 import theme from '../../config/theme'
 import * as actions from '../../actions/loginActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-
+import { NavigationActions } from 'react-navigation'
 var dismissKeyboard = require('dismissKeyboard')
-
 class login extends Component {
   constructor (props) {
     super(props)
@@ -17,29 +16,20 @@ class login extends Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    const {slug, token} = nextProps
-    console.log('componentWillReceiveProps  slug ==>' + slug)
-    console.log('componentWillReceiveProps  token ==>' + token)
-    if (token) {
-      AsyncStorage.setItem('token', token).then(
-        () => {
-          console.log('token 保存成功!')
-        }
-      )
-    }
-    if (slug) {
-      AsyncStorage.setItem('slug', slug).then(
-        () => {
-          console.log('slug 保存成功!')
-        }
-      )
-    }
-    this.props.navigation.navigate('Tab', {token: token})
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({routeName: 'Tab'})
+      ]
+    })
+    this.props.navigation.dispatch(resetAction)
   }
   render () {
+    const {it} = this.props
+    console.warn('render ===> ' + it)
     return (
       <View style ={{flex: 1, width: theme.screenWidth, height: theme.screenHeight, backgroundColor: 'white'}}>
-          <Text style ={styles.title}>欢迎来到爱燃烧!</Text>
+          <Text style ={styles.title}>爱燃烧</Text>
           <TextInput style ={styles.username}
             placeholder ={'请输入手机号或者邮箱'}
             placeholderTextColor = '#9d9d9d'
@@ -57,10 +47,14 @@ class login extends Component {
           <TouchableNativeFeedback
             onPress={this._onPressButton}
             background={TouchableNativeFeedback.SelectableBackground()}>
-          <View style={{backgroundColor: 'red', marginLeft: 30, marginRight: 30, marginTop: 30}}>
-          <Text style={styles.login} onPress = {this.login.bind(this, this.state.username, this.state.password)}>登录</Text>
+          <View style={{backgroundColor: 'rgba(248,159,51,0.7)', marginLeft: 30, marginRight: 30, marginTop: 30}}>
+            <Text style={styles.login} onPress = {this.login.bind(this, this.state.username, this.state.password)}>确认</Text>
           </View>
           </TouchableNativeFeedback>
+          <Text style={{color: '#4990e2', fontSize: 15, alignSelf: 'center', marginTop: 20}}>快速注册</Text>
+          <View style={{flex: 1}}>
+            <Text style={{color: '#9b9b9b', fontSize: 15, marginTop: 140, alignSelf: 'center'}}>忘记密码</Text>
+          </View>
       </View>
     )
   }
@@ -68,17 +62,14 @@ class login extends Component {
   login (username, password) {
     dismissKeyboard()
     const {login} = this.props.actions
-    login(username, password)
-    this.setState({
-      loading: true
-    })
+    login(1, '只言片语，明媚忧伤', '爱过', '1,4,5')
   }
 }
 
 const mapStateToProps = (state) => {
+  const {login} = state
   return {
-    token: state.login.token,
-    slug: state.login.slug
+    it: login.it
   }
 }
 
@@ -91,10 +82,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(login)
 const styles = StyleSheet.create({
   title: {
     backgroundColor: 'white',
-    color: 'black',
-    fontSize: 28,
-    marginLeft: 30,
-    marginTop: 70
+    color: '#f89f33',
+    fontSize: 36,
+    marginTop: 70,
+    alignSelf: 'center'
   },
   username: {
     height: 60,

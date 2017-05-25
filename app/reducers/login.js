@@ -1,19 +1,17 @@
 import * as types from '../constant/actionType'
 
 const initState = {
-  slug: '',
-  token: ''
+  it: ''
 }
 
 
 export default function slug (state = initState, action = {}) {
-  console.log('reducer' + action.type)
   switch (action.type) {
-    case types.LOGIN_SUCCESS :
+    case types.LOGIN_SUCCESS:
+      console.warn('return_code ===> ' + action.it.return_msg)
       return {
         ...state,
-        token: action.token,
-        slug: action.slug
+        it: action.it.return_msg
       }
     default:
       return state
