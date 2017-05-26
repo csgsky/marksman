@@ -1,11 +1,11 @@
 'use strict'
 import React, {Component} from 'react'
 import {Text, View} from 'react-native'
-export default class SocietyFragment extends Component {
+export default class DiscoveryFrament extends Component {
   render () {
     return (
       <View>
-        <Text>SocietyFragment</Text>
+        <Text>发现</Text>
       </View>
     )
   }

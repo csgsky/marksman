@@ -5,23 +5,18 @@ import theme from '../../config/theme'
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
 
-export default class LabelPage extends Component {
+export default class ProfilePage extends Component {
   render () {
     return (
       <View>
         <View style={styles.lable}>
-          <Text style={{color: 'red'}}>选择元素 A</Text>
+          <Text style={{color: 'red'}}>个人</Text>
         </View>
-        <TouchableOpacity  style={{marginTop: 30}} onPress={this._onPress}>
-          <Text style={{alignSelf: 'center'}}>
-              进入下一页
-          </Text>
-        </TouchableOpacity>
       </View>
     )
   }
   _onPress = () => {
-    this.props.navigation.navigate('LabelPageTwo', {message: '进入下一页'})
+    // this.props.navigation.navigate('LabelPageTwo', {message: 'hello'})
   }
 }
 const styles = StyleSheet.create({

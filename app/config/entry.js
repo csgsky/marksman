@@ -2,16 +2,17 @@
 import React, {Component} from 'react'
 
 import {NativeModules, StatusBar} from 'react-native'
-// import MainPage from '../page/MainPage'
 import HomeFragment from '../page/HomeFragment'
-import RaceFragment from '../page/RaceFragment'
-import SocietyFragment from '../page/SocietyFragment'
-import MeFragment from '../page/MeFragment'
+import FootersFragment from '../page/FootersFragment'
+import DiscoveryFrament from '../page/DiscoveryFrament'
+import CollectionsFragment from '../page/CollectionsFragment'
 import Login from '../page/login/login'
 import TabBarItem from '../widget/TabBarItem'
 import LabelPage from '../page/splash/LabelPage'
 import LabelPageTwo from '../page/splash/LabelPageTwo'
 import Splash from '../page/splash/Splash'
+import ProfilePage from '../page/profile/Profile'
+import SearchPage from '../page/SearchPage'
 import {StackNavigator, TabBarBottom, TabNavigator} from 'react-navigation'
 class Navigation extends Component {
   constructor () {
@@ -45,7 +46,7 @@ const Tab = TabNavigator(
       })
     },
     Nearby: {
-      screen: RaceFragment,
+      screen: FootersFragment,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '足迹',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -59,7 +60,7 @@ const Tab = TabNavigator(
     },
 
     Order: {
-      screen: SocietyFragment,
+      screen: DiscoveryFrament,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '发现',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -72,7 +73,7 @@ const Tab = TabNavigator(
       })
     },
     Mine: {
-      screen: MeFragment,
+      screen: CollectionsFragment,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '文集',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -92,8 +93,8 @@ const Tab = TabNavigator(
     animationEnabled: false,
     lazy: true,
     tabBarOptions: {
-      activeTintColor: '#f89f33',
-      inactiveTintColor: '#979797',
+      activeTintColor: '#ffa3c4',
+      inactiveTintColor: '#9b9b9b',
       style: { backgroundColor: '#ffffff' }
     }
   }
@@ -127,6 +128,20 @@ const Navigator = StackNavigator(
     Tab: {screen: Tab,
       navigationOptions: {
         header: null
+      }
+    },
+    SearchPage: {
+      screen: SearchPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '搜索'
+      }
+    },
+    ProfilePage: {
+      screen: ProfilePage,
+      mode: 'card',
+      navigationOptions: {
+        title: '个人主页'
       }
     }
   },
