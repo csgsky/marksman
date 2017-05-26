@@ -32,7 +32,8 @@ export default class LabelPageTwo extends Component {
         console.warn('first ===> 保存成功')
         this.props.navigation.dispatch(resetAction)
       }
-  )   
+  )  
+    // this.props.navigation.navigate('Login', {message: 'nextPage'})
   }
 }
 const styles = StyleSheet.create({

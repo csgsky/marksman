@@ -5,6 +5,7 @@ import * as actions from '../../actions/loginActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
+import * as consts from '../../utils/const'
 var dismissKeyboard = require('dismissKeyboard')
 class login extends Component {
   constructor (props) {
@@ -29,7 +30,7 @@ class login extends Component {
     console.warn('render ===> ' + it)
     return (
       <View style ={{flex: 1, width: theme.screenWidth, height: theme.screenHeight, backgroundColor: 'white'}}>
-          <Text style ={styles.title}>爱燃烧</Text>
+          <Text style ={styles.title}>consts.appName</Text>
           <TextInput style ={styles.username}
             placeholder ={'请输入手机号或者邮箱'}
             placeholderTextColor = '#9d9d9d'
