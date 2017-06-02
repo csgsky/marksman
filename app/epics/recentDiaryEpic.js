@@ -1,10 +1,10 @@
 import 'rxjs'
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/homeActions'
+import * as actions from '../actions/recentDiaryAction'
 import { combineEpics } from 'redux-observable'
-import { MineDiaryApi } from '../api/apis'
-function homeInitEpic (action$) {
-  return action$.ofType(actions.HOME_INIT)
+import { FooterRecentDiaryApi } from '../api/apis'
+function recentInitEpic (action$) {
+  return action$.ofType(actions.RECENTDIARY_INIT)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.of(action.token),
@@ -15,7 +15,7 @@ function homeInitEpic (action$) {
                 it => {
                   if (it.token) {
                     console.log('epic  --->  it token  ' + it.token)
-                    return Observable.from(MineDiaryApi(it.token))
+                    return Observable.from(FooterRecentDiaryApi(it.token))
                   } else {
                     return Observable.of(2)
                   }
@@ -25,7 +25,7 @@ function homeInitEpic (action$) {
                 } else {
                   console.log('epic  ---> return_code ' + it.return_code)
                   console.log('epic  ---> diary ' + it.diarys.length)
-                  return actions.homeData(it)
+                  return actions.recentDiaryData(it)
                 }
               }
             ).catch(error => {
@@ -34,4 +34,4 @@ function homeInitEpic (action$) {
        )
 }
 
-export default combineEpics(homeInitEpic)
+export default combineEpics(recentInitEpic)

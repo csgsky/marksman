@@ -10,13 +10,13 @@ export default class ProfilePage extends Component {
     return (
       <View>
         <View style={styles.lable}>
-          <Text style={{color: 'red'}}>个人</Text>
+          <Text style={{color: 'red'}} onPress = {this._onPress}>个人</Text>
         </View>
       </View>
     )
   }
   _onPress = () => {
-    // this.props.navigation.navigate('LabelPageTwo', {message: 'hello'})
+    this.props.navigation.navigate('SearchPage',{message: '搜索'})
   }
 }
 const styles = StyleSheet.create({

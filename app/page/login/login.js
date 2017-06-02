@@ -24,13 +24,14 @@ class login extends Component {
       ]
     })
     this.props.navigation.dispatch(resetAction)
+    this.props.navigation.goBack()
   }
   render () {
     const {it} = this.props
     console.warn('render ===> ' + it)
     return (
       <View style ={{flex: 1, width: theme.screenWidth, height: theme.screenHeight, backgroundColor: 'white'}}>
-          <Text style ={styles.title}>consts.appName</Text>
+          <Text style ={styles.title}>{consts.appName}</Text>
           <TextInput style ={styles.username}
             placeholder ={'请输入手机号或者邮箱'}
             placeholderTextColor = '#9d9d9d'

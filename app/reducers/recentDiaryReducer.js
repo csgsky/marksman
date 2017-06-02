@@ -1,4 +1,4 @@
-import * as types from '../actions/homeActions'
+import * as types from '../actions/recentDiaryAction'
 
 const initState = {
   isRefreshing: false,
@@ -6,14 +6,14 @@ const initState = {
 }
 
 
-export default function recentDiary (state = initState, action = {}) {
+export default function getArticles (state = initState, action = {}) {
   switch (action.type) {
-    case types.HOME_INIT:
+    case types.RECENTDIARY_INIT:
       return {
         ...state,
         isRefreshing: action.isRefreshing
       }
-    case types.HOME_DATA:
+    case types.RECENTDIARY_DATA:
       return {
         ...state,
         isRefreshing: action.isRefreshing,

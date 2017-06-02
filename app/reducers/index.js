@@ -2,10 +2,9 @@ import {combineReducers} from 'redux'
 
 import homePage from './homeReducer'
 import login from './login'
-
-let reducer = combineReducers({
+import recentDiary from './recentDiaryReducer'
+export default combineReducers({
   homePage,
-  login
+  login,
+  recentDiary
 })
-
-export default reducer

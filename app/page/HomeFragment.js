@@ -1,14 +1,20 @@
 'use strict'
 import React, {Component} from 'react'
-import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native'
+import {Text, View, Image, TouchableOpacity, StyleSheet, FlatList, RefreshControl} from 'react-native'
 import * as actions from '../actions/homeActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as consts from '../utils/const'
 import theme from '../config/theme'
-var ImagePicker = require('react-native-image-picker')
+import Separator from '../component/Separator'
+import DiaryItem from '../component/item/DiaryItem'
+import ListSeperator from '../component/ListSeperator'
 
-// var CryptoJS = require('crypto-js')
+var ImagePicker = require('react-native-image-picker')
+// 加密使用
+var CryptoJS = require('crypto-js')
+
+
 var options = {
   title: '图片选择',
   cancelButtonTitle: '取消',
@@ -40,37 +46,46 @@ class HomeFragment extends Component {
     }
   }
   componentDidMount () {
-
+    this.props.actions.homeInit('a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
   }
 
   render () {
-    // var keyHex = CryptoJS.enc.Base64.parse('rUqSznmiv78=') // 客户端 和 服务端 约定的一种秘钥
-    // var encrypted = CryptoJS.DES.encrypt('87654321', keyHex, {
-    //   mode: CryptoJS.mode.ECB,
-    //   padding: CryptoJS.pad.Pkcs7
-    // })
-    // console.log('==============加密：' + encrypted.toString())
-    // var decrypted = CryptoJS.DES.decrypt({
-    //   ciphertext: CryptoJS.enc.Base64.parse(encrypted.toString())}, keyHex, {
-    //     mode: CryptoJS.mode.ECB,
-    //     padding: CryptoJS.pad.Pkcs7
-    //   })
-    // console.log('==============解密：' + decrypted.toString(CryptoJS.enc.Utf8))
+    // 加密
+    // var base64 = require('base-64')
+    // var utf8 = require('utf8')
+    // var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    // var words = encodeURIComponent(rawStr)
+    // var base64 = base64.encode(words)
+    // var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
 
+    const {diarys, isRefreshing} = this.props
     return (
-      <View>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={styles.toolbar}>
           <TouchableOpacity style={{width: 52,height: 52, justifyContent: 'center'}} onPress={this._onRouterMine}>
             <Image source={require('../img/mine.png')} style = {styles.profile}></Image>
           </TouchableOpacity>
-          <Text style = {styles.title}>{consts.appName}</Text>
+          <View style={styles.titleView}><Text style = {styles.title}>{consts.appName}</Text></View>
           <TouchableOpacity style={{width: 52,height: 52, alignItems: 'center', marginTop: 16}} onPress={this._onRouterSearch}>
             <Image source={require('../img/search.png')} style = {styles.search}></Image>
           </TouchableOpacity>
         </View>
-        <Image source={require('../img/pen.png')} style = {styles.pen}></Image>
-
-        <Image source={this.state.avatarSource} style={{width: 200, height: 200}}></Image>
+        <Separator />
+        <FlatList
+          data={diarys}
+          renderItem={this.getItemCompt}
+          ItemSeparatorComponent={this.getItemSeparator}
+          refreshControl={
+            <RefreshControl
+              onRefresh={this.onRefresh}
+              color="#ccc"
+              refreshing={isRefreshing}
+            />
+          }
+        />
+        <TouchableOpacity style={styles.penView} onPress={this._onRouterWrite}>
+          <Image source={require('../img/pen.png')} style = {styles.pen} ></Image>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -81,7 +96,21 @@ class HomeFragment extends Component {
   _onRouterSearch = () => {
     this.props.navigation.navigate('SearchPage',{message: '搜索'})
   }
+  _onRouterWrite = () => {
+    this.props.navigation.navigate('WriteDiaryPage',{message: '写日记'})
+  }
+
+  getItemCompt = ({item, index}) => {
+    return <DiaryItem item={item} hasComment = {false}/>
+  }
   
+  getItemSeparator = () => {
+    return <ListSeperator />
+  }
+
+  onRefresh = () => {
+    this.props.actions.homeInit('a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+  }
   openImagePicker () {
     ImagePicker.showImagePicker(options, (response) => {
       if (response.didCancel) {
@@ -104,7 +133,8 @@ class HomeFragment extends Component {
 const mapStateToProps = (state) => {
   const {homePage} = state
   return {
-    isRefreshing: homePage.isRefreshing
+    isRefreshing: homePage.isRefreshing,
+    diarys: homePage.diarys
   }
 }
 
@@ -118,10 +148,14 @@ const styles = StyleSheet.create({
     height: 52,
     backgroundColor: 'white'
   },
-  title: {
+  titleView: {
     flex: 1,
-    alignSelf: 'center',
-    marginLeft: 130,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  title: {
+    width: 50,
     color: '#6a6a6a',
     fontSize: 18
   },
@@ -135,10 +169,10 @@ const styles = StyleSheet.create({
     height: 18,
     marginRight: 4
   },
-  pen: {
+  penView: {
     position: 'absolute',
-    right: 20,
-    top: theme.screenHeight - 150
+    right: 25,
+    top: theme.screenHeight - 140
   }
 })
 

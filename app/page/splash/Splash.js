@@ -1,5 +1,5 @@
 import React, {Component} from 'React'
-import {StyleSheet, View, Text, Image, AsyncStorage} from 'react-native'
+import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 import Rx from 'rxjs'
 import { NavigationActions } from 'react-navigation'
@@ -19,9 +19,20 @@ const resetAction = NavigationActions.reset({
   ]
 })
 export default class Splash extends Component {
+
+  constructor (props) {
+    super (props)
+    this.state = {
+      time: 3,
+      timeSubscribe: ''
+    }
+  }
   componentDidMount () {
-   Rx.Observable.timer(0, 1000).subscribe(it => {
-      if ((it + 1) === 5) {
+   const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
+      this.setState({
+        time: 3 - it
+      })
+      if ((it + 1) === 4) {
         AsyncStorage.getItem('first').then(
           (result) => {
             if (result !== null) {
@@ -33,6 +44,13 @@ export default class Splash extends Component {
         )
       }
     })
+   this.setState({
+     timeSubscribe: subscribe
+   })
+   Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
+     .subscribe(imsi => {
+       console.warn('imsi ====> ' + imsi)
+     })
   }
   render () {
     return (
@@ -40,14 +58,16 @@ export default class Splash extends Component {
         <View style={styles.lable}>
           <Image style= {styles.lable} source={require('../../img/splash.jpg')}></Image>
         </View>
-        <Text style={styles.skipText} onPress={this._onPress}>跳过</Text>
+        <Text style={styles.skipText} onPress={this._onPress}>跳过 {this.state.time}</Text>
       </View>
     )
   }
 
-  _onPress = () => {
+ _onPress = () => {
+    this.state.timeSubscribe.unsubscribe()
     AsyncStorage.getItem('first').then(
           (result) => {
+            console.warn('first ===> '+ result)
             if (result !== null) {
               this.props.navigation.dispatch(resetActionMain)
             } else {
@@ -57,10 +77,10 @@ export default class Splash extends Component {
         )
   }
 
+ componentWillUnmount() {
+   this.state.timeSubscribe.unsubscribe()
+ }
 
-  componentWillUnmount () {
-    console.log('componentWillUnmount ====> ')
-  }
 }
 const styles = StyleSheet.create({
   lable: {
@@ -75,11 +95,11 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     borderWidth: 1,
     borderColor: '#dcdddd',
-    width: 55,
     fontSize: 13,
     color: '#ffffff',
     alignSelf: 'center',
     paddingTop: 4,
-    paddingLeft: 12
+    paddingLeft: 12,
+    paddingRight: 10
   }
 })

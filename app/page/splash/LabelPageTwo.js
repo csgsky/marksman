@@ -29,7 +29,6 @@ export default class LabelPageTwo extends Component {
   _onPress = () => {
     AsyncStorage.setItem('first', 'first').then(
       () => {
-        console.warn('first ===> 保存成功')
         this.props.navigation.dispatch(resetAction)
       }
   )  
