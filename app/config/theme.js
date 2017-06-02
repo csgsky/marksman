@@ -2,8 +2,8 @@
 import { Dimensions, Platform } from 'react-native'
 import px2dp from '../utils/px2dp'
 
-const globalTextColor = '#000'
-
+const globalTextColor = '#4a4a4a'
+const globalSubTextColor = '#9b9b9b'
 module.exports = {
   screenWidth: Dimensions.get('window').width,
   screenHeight: Dimensions.get('window').height,
@@ -18,7 +18,8 @@ module.exports = {
     fontColor: (Platform.OS === 'ios') ? '#313131' : 'white'
   },
   text: {
-    color: globalTextColor,
+    globalTextColor: globalTextColor,
+    globalSubTextColor: globalSubTextColor,
     fontSize: px2dp(15)
   },
   scrollView: {

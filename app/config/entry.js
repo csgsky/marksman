@@ -13,7 +13,11 @@ import LabelPageTwo from '../page/splash/LabelPageTwo'
 import Splash from '../page/splash/Splash'
 import ProfilePage from '../page/profile/Profile'
 import SearchPage from '../page/SearchPage'
-import {StackNavigator, TabBarBottom, TabNavigator} from 'react-navigation'
+import SettingPage from '../page/SettingPage'
+import WriteDiaryPage from '../page/WriteDiaryPage'
+import HotDiary from '../page/HotDiary'
+import RecentDiary from '../page/RecentDiary'
+import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 class Navigation extends Component {
   constructor () {
     super()
@@ -26,9 +30,41 @@ class Navigation extends Component {
   }
 
   componentWillMount () {
-    NativeModules.SplashScreen.hide()
+    // NativeModules.SplashScreen.hide()
   }
 }
+
+const FooterTab = TabNavigator(
+  {
+    Recent: {
+      screen: RecentDiary,
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: '最新'
+      })
+    },
+    Hot: {
+      screen: HotDiary,
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: '热门'
+      })
+    }
+  },
+  {
+    tabBarComponent: TabBarTop,
+    swipeEnabled: true,
+    animationEnabled: true,
+    lazy: true,
+    tabBarOptions: {
+      activeTintColor: 'black',
+      inactiveTintColor: '#9b9b9b',
+      style: {backgroundColor: '#ffffff', paddingLeft: 140},
+      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: 140},
+      labelStyle: {fontSize: 15},
+      tabStyle: {width: 65}
+    }
+  }
+)
+
 
 const Tab = TabNavigator(
   {
@@ -45,8 +81,8 @@ const Tab = TabNavigator(
         )
       })
     },
-    Nearby: {
-      screen: FootersFragment,
+    Footer: {
+      screen: FooterTab,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '足迹',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -58,8 +94,7 @@ const Tab = TabNavigator(
         )
       })
     },
-
-    Order: {
+    Discovery: {
       screen: DiscoveryFrament,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '发现',
@@ -72,7 +107,7 @@ const Tab = TabNavigator(
         )
       })
     },
-    Mine: {
+    Collection: {
       screen: CollectionsFragment,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '文集',
@@ -92,6 +127,7 @@ const Tab = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     lazy: true,
+    initialRouteName: 'Home',
     tabBarOptions: {
       activeTintColor: '#ffa3c4',
       inactiveTintColor: '#9b9b9b',
@@ -99,6 +135,8 @@ const Tab = TabNavigator(
     }
   }
 )
+
+
 
 const Navigator = StackNavigator(
   {
@@ -142,6 +180,20 @@ const Navigator = StackNavigator(
       mode: 'card',
       navigationOptions: {
         title: '个人主页'
+      }
+    },
+    SettingPage: {
+      screen: SettingPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '设置'
+      }
+    },
+    WriteDiaryPage: {
+      screen: WriteDiaryPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '写日记'
       }
     }
   },
