@@ -1,16 +1,16 @@
-
+import Moment from 'moment'
 export const getDay = (time) => {
-  let date = new Date(time)
-  return date.getDate()
+  let date = Moment(time)
+  return date.date()
 }
 
 export const getYYMM = (time) => {
-  let date = new Date(time)
-  return date.getFullYear() + '年' + date.getMonth() + '月'
+  let date = Moment(time)
+  return date.year() + '年' + date.month() + '月'
 }
 
 export const getDate = (time) => {
-  let date = new Date(time).getDay()
+  let date = Moment(time).day
   switch (date) {
     case 1:
       return '星期一'
