@@ -63,4 +63,6 @@ export const FooterRecentDiaryApi = (userId) =>
   getApi('/api/diary?p=0&rn=10&ordertype=0&status=1&private=1', userId)
 
 // 足迹、最新
+export const FooterHotDiaryApi = (userId) =>
+  getApi('/api/diary?p=0&rn=10&ordertype=0&status=1&private=1', userId)
 
