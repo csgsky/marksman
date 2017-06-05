@@ -43,7 +43,7 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
                             String imsi = manager.getSubscriberId();
                             promise.resolve(imsi);
                         } else {
-                            promise.resolve("hahahha");
+                            promise.resolve("reject");
                         }
                     });
 

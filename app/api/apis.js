@@ -66,3 +66,6 @@ export const FooterRecentDiaryApi = (userId) =>
 export const FooterHotDiaryApi = (userId) =>
   getApi('/api/diary?p=0&rn=10&ordertype=0&status=1&private=1', userId)
 
+// 文集
+export const CollectionsApi = (userId) =>
+  getApi('/api/collection?p=0&rn=10&ordertype=0', userId)
