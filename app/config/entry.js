@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 
 import {NativeModules, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
-import FootersFragment from '../page/FootersFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
 import Login from '../page/login/login'
@@ -17,7 +16,9 @@ import SettingPage from '../page/SettingPage'
 import WriteDiaryPage from '../page/WriteDiaryPage'
 import HotDiary from '../page/HotDiary'
 import RecentDiary from '../page/RecentDiary'
+import CommonWebviewPage from '../page/webview/CommonWebviewPage'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
+import theme from '../config/theme'
 class Navigation extends Component {
   constructor () {
     super()
@@ -57,8 +58,8 @@ const FooterTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: '#ffffff', paddingLeft: 140},
-      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: 140},
+      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2},
+      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
       labelStyle: {fontSize: 15},
       tabStyle: {width: 65}
     }
@@ -195,6 +196,13 @@ const Navigator = StackNavigator(
       navigationOptions: {
         title: '写日记'
       }
+    },
+    CommonWebviewPage: {
+      screen: CommonWebviewPage,
+      mode: 'card',
+      navigationOptions: ({navigation}) => ({
+        title: navigation.state.params.name
+      })
     }
   },
   { initialRouteName: 'Splash',

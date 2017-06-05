@@ -35,11 +35,12 @@ export default class Splash extends Component {
       if ((it + 1) === 4) {
         AsyncStorage.getItem('first').then(
           (result) => {
-            if (result !== null) {
-              this.props.navigation.dispatch(resetActionMain)
-            } else {
-              this.props.navigation.dispatch(resetAction)
-            }
+            this.props.navigation.dispatch(resetActionMain)
+            // if (result !== null) {
+            //   this.props.navigation.dispatch(resetActionMain)
+            // } else {
+            //   this.props.navigation.dispatch(resetAction)
+            // }
           }
         )
       }
@@ -47,10 +48,10 @@ export default class Splash extends Component {
    this.setState({
      timeSubscribe: subscribe
    })
-   Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
-     .subscribe(imsi => {
-       console.warn('imsi ====> ' + imsi)
-     })
+  //  Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
+  //    .subscribe(imsi => {
+  //      console.warn('imsi ====> ' + imsi)
+  //    })
   }
   render () {
     return (
@@ -68,11 +69,12 @@ export default class Splash extends Component {
     AsyncStorage.getItem('first').then(
           (result) => {
             console.warn('first ===> '+ result)
-            if (result !== null) {
-              this.props.navigation.dispatch(resetActionMain)
-            } else {
-              this.props.navigation.dispatch(resetAction)
-            }
+            this.props.navigation.dispatch(resetActionMain)
+            // if (result !== null) {
+            //   this.props.navigation.dispatch(resetActionMain)
+            // } else {
+            //   this.props.navigation.dispatch(resetAction)
+            // }
           }
         )
   }
