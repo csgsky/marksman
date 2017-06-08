@@ -47,10 +47,10 @@ export default class Splash extends Component {
    this.setState({
      timeSubscribe: subscribe
    })
-   Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
-     .subscribe(imsi => {
-       console.warn('imsi ====> ' + imsi)
-     })
+  //  Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
+  //    .subscribe(imsi => {
+  //      console.warn('imsi ====> ' + imsi)
+  //    })
   }
   render () {
     return (
