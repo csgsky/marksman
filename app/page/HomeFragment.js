@@ -46,7 +46,7 @@ class HomeFragment extends Component {
     }
   }
   componentDidMount () {
-    this.props.actions.homeInit('a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+    this.props.actions.homeInit()
   }
 
   render () {

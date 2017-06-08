@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 class MeFragment extends Component {
   componentDidMount () {
-    this.props.actions.collectionsInit('a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+    this.props.actions.collectionsInit()
   }
   render () {
     const {collections, isRefreshing, navigation} = this.props
