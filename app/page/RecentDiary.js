@@ -9,7 +9,7 @@ import ListSeperator from '../component/ListSeperator'
 
 class RecentDiary extends Component {
   componentDidMount () {
-    this.props.actions.recentDiaryInit('a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+    this.props.actions.recentDiaryInit()
   }
 
   render () {

@@ -27,7 +27,7 @@ export default class DiaryItem extends Component {
             <Text style={styles.hour_minute}>22:17</Text>
           </View>
           {content && <Text style={styles.body}>{content}</Text>}
-          {img && <Image style={styles.img} source={this.getSource(img)} />}
+          {img && <Image style={styles.img} source={require('../../img/splash.jpg')} />}
         </TouchableOpacity>
         {this.props.hasComment && <CommentItem />}
       </View>
