@@ -6,19 +6,19 @@ export default class CommentItem extends Component {
     return <View style={styles.commentView}>
       <View style={styles.singleView}>
         <View style={{flexDirection: 'row'}}>
-          <Image style={styles.img} source={require('../img/conment_vote.png')} />
+          <Image resizeMode ='contain' style={styles.img} source={require('../img/conment_vote.png')} />
           <Text style={styles.text}>99</Text>
         </View>
       </View>
       <View style={styles.singleView}>
         <View style={{flexDirection: 'row'}}>
-          <Image style={styles.img} source={require('../img/comment.png')} />
+          <Image resizeMode ='contain' style={styles.img} source={require('../img/comment.png')} />
           <Text style={styles.text}>88</Text>
         </View>
       </View>
       <View style={styles.singleView}>
         <View style={{flexDirection: 'row'}}>
-          <Image style={styles.img} source={require('../img/comment_share.png')} />
+          <Image resizeMode ='contain' style={styles.img} source={require('../img/comment_share.png')} />
         </View>
       </View>
     </View>
@@ -36,12 +36,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   img: {
-    width: 18,
-    height: 19
+    width: 15,
+    height: 15,
+    marginTop: 4
   },
   text: {
     color: '#9b9b9b',
-    fontSize: 18,
+    fontSize: 16,
     marginLeft: 5
   }
 })
