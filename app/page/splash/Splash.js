@@ -28,6 +28,7 @@ export default class Splash extends Component {
     }
   }
   componentDidMount () {
+   AsyncStorage.setItem('token', 'a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
    const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
       this.setState({
         time: 3 - it
@@ -48,10 +49,10 @@ export default class Splash extends Component {
    this.setState({
      timeSubscribe: subscribe
    })
-  //  Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
-  //    .subscribe(imsi => {
-  //      console.warn('imsi ====> ' + imsi)
-  //    })
+   Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
+     .subscribe(udid => {
+       console.warn('udid ====> ' + udid)
+     })
   }
   render () {
     return (

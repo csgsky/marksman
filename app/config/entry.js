@@ -17,6 +17,9 @@ import WriteDiaryPage from '../page/WriteDiaryPage'
 import HotDiary from '../page/HotDiary'
 import RecentDiary from '../page/RecentDiary'
 import CommonWebviewPage from '../page/webview/CommonWebviewPage'
+import TopicListPage from '../page/TopicListPage'
+import LovedListPage from '../page/LovedListPage'
+import PersonalPage from '../page/PersonalPage'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
 class Navigation extends Component {
@@ -128,6 +131,7 @@ const Tab = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     lazy: true,
+    lazyLoad: true,
     initialRouteName: 'Home',
     tabBarOptions: {
       activeTintColor: '#ffa3c4',
@@ -173,14 +177,14 @@ const Navigator = StackNavigator(
       screen: SearchPage,
       mode: 'card',
       navigationOptions: {
-        title: '搜索'
+        header: null
       }
     },
     ProfilePage: {
       screen: ProfilePage,
       mode: 'card',
       navigationOptions: {
-        title: '个人主页'
+        title: '我的'
       }
     },
     SettingPage: {
@@ -203,6 +207,27 @@ const Navigator = StackNavigator(
       navigationOptions: ({navigation}) => ({
         title: navigation.state.params.name
       })
+    },
+    TopicListPage: {
+      screen: TopicListPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '精选话题'
+      }
+    },
+    LovedListPage: {
+      screen: LovedListPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '备受宠爱'
+      }
+    },
+    PersonalPage: {
+      screen: PersonalPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '个人主页'
+      }
     }
   },
   { initialRouteName: 'Splash',

@@ -1,4 +1,5 @@
 import 'rxjs'
+import {AsyncStorage} from 'react-native'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/collectionsAction'
 import { combineEpics } from 'redux-observable'
@@ -7,7 +8,7 @@ function collectionsInitEpic (action$) {
   return action$.ofType(actions.COLLECTIONS_INIT)
             .mergeMap((action) =>
               Observable.zip(
-                Observable.of(action.token),
+                Observable.from(AsyncStorage.getItem('token')),
                 (token) => {
                   return {token}
                 }

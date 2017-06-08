@@ -2,13 +2,10 @@ export const RECENTDIARY_INIT = 'RECENTDIARY_INIT'
 export const RECENTDIARY_DATA = 'RECENTDIARY_DATA'
 
 
-export function recentDiaryInit (token) {
-  console.log('action  --->  RECENTDIARY_INIT')
-  console.log('action  --->  RECENTDIARY_INIT_TOKEN:' + token)
+export function recentDiaryInit () {
   return {
     type: RECENTDIARY_INIT,
-    isRefreshing: true,
-    token: token
+    isRefreshing: true
   }
 }
 
