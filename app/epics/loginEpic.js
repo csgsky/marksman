@@ -2,6 +2,7 @@ import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/loginActions'
 import {login} from '../utils/NetUtils'
 import { combineEpics } from 'redux-observable'
+import {AsyncStorage} from 'react-native'
 function loginEpic (action$) {
   return action$.ofType(actions.LOGIN)
             .mergeMap((action) =>

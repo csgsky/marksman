@@ -3,11 +3,12 @@ import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/recentDiaryAction'
 import { combineEpics } from 'redux-observable'
 import { FooterRecentDiaryApi } from '../api/apis'
+import {AsyncStorage} from 'react-native'
 function recentInitEpic (action$) {
   return action$.ofType(actions.RECENTDIARY_INIT)
             .mergeMap((action) =>
               Observable.zip(
-                Observable.of(action.token),
+                Observable.from(AsyncStorage.getItem('token')),
                 (token) => {
                   return {token}
                 }

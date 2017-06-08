@@ -8,6 +8,7 @@ class TabBarItem extends Component {
     let selectedImage = this.props.selectedImage ? this.props.selectedImage : this.props.normalImage
     return (
       <Image
+        resizeMode ='contain'
         source={this.props.focused
             ? selectedImage
             : this.props.normalImage}
