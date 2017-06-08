@@ -3,11 +3,12 @@ import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/homeActions'
 import { combineEpics } from 'redux-observable'
 import { MineDiaryApi } from '../api/apis'
+import {AsyncStorage} from 'react-native'
 function homeInitEpic (action$) {
   return action$.ofType(actions.HOME_INIT)
             .mergeMap((action) =>
               Observable.zip(
-                Observable.of(action.token),
+                Observable.from(AsyncStorage.getItem('token')),
                 (token) => {
                   return {token}
                 }

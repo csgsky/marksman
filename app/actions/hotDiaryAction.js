@@ -2,13 +2,10 @@ export const HOTDIARY_INIT = 'HOTDIARY_INIT'
 export const HOTDIARY_DATA = 'HOTDIARY_DATA'
 
 
-export function recentDiaryInit (token) {
-  console.log('action  --->  HOTDIARY_INIT')
-  console.log('action  --->  HOTDIARY_TOKEN:' + token)
+export function recentDiaryInit () {
   return {
     type: HOTDIARY_INIT,
-    isRefreshing: true,
-    token: token
+    isRefreshing: true
   }
 }
 

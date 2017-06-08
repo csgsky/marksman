@@ -1,4 +1,8 @@
 
+import Rx from 'rxjs'
+import {AsyncStorage} from 'react-native'
+
+
 const baseUrlWithoutToken = (path) => 'http://101.95.97.178:2003' + path
 const accept = 'application/com.droi.qy-v1.0-1+json'
 const userAgent = 'zy'
@@ -66,3 +70,19 @@ export const FooterRecentDiaryApi = (userId) =>
 export const FooterHotDiaryApi = (userId) =>
   getApi('/api/diary?p=0&rn=10&ordertype=0&status=1&private=1', userId)
 
+// 文集
+export const CollectionsApi = (userId) =>
+  getApi('/api/collection?p=0&rn=10&ordertype=0', userId)
+
+// 发现、话题
+export const TopicsListApi = (userId, page) =>
+  getApi(`/api/talk?rn=8&tag=1,2,3&p=${page}`, userId)
+
+// 发现、备受宠爱
+export const TopUsersApi = (userId) =>
+  getApi('/api/rankuser?p=0&rn=10', userId)
+
+// 备受宠爱列表
+export const LovedUsersApi = (userId, page) => {
+  return getApi(`/api/rankuser?rn=8&p=${page}`, userId)
+}

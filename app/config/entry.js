@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 
 import {NativeModules, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
-// import FootersFragment from '../page/FootersFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
 import Login from '../page/login/login'
@@ -17,7 +16,12 @@ import SettingPage from '../page/SettingPage'
 import WriteDiaryPage from '../page/WriteDiaryPage'
 import HotDiary from '../page/HotDiary'
 import RecentDiary from '../page/RecentDiary'
+import CommonWebviewPage from '../page/webview/CommonWebviewPage'
+import TopicListPage from '../page/TopicListPage'
+import LovedListPage from '../page/LovedListPage'
+import PersonalPage from '../page/PersonalPage'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
+import theme from '../config/theme'
 class Navigation extends Component {
   constructor () {
     super()
@@ -57,8 +61,8 @@ const FooterTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: '#ffffff', paddingLeft: 140},
-      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: 140},
+      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2},
+      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
       labelStyle: {fontSize: 15},
       tabStyle: {width: 65}
     }
@@ -127,6 +131,7 @@ const Tab = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     lazy: true,
+    lazyLoad: true,
     initialRouteName: 'Home',
     tabBarOptions: {
       activeTintColor: '#ffa3c4',
@@ -172,14 +177,14 @@ const Navigator = StackNavigator(
       screen: SearchPage,
       mode: 'card',
       navigationOptions: {
-        title: '搜索'
+        header: null
       }
     },
     ProfilePage: {
       screen: ProfilePage,
       mode: 'card',
       navigationOptions: {
-        title: '个人主页'
+        title: '我的'
       }
     },
     SettingPage: {
@@ -194,6 +199,34 @@ const Navigator = StackNavigator(
       mode: 'card',
       navigationOptions: {
         title: '写日记'
+      }
+    },
+    CommonWebviewPage: {
+      screen: CommonWebviewPage,
+      mode: 'card',
+      navigationOptions: ({navigation}) => ({
+        title: navigation.state.params.name
+      })
+    },
+    TopicListPage: {
+      screen: TopicListPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '精选话题'
+      }
+    },
+    LovedListPage: {
+      screen: LovedListPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '备受宠爱'
+      }
+    },
+    PersonalPage: {
+      screen: PersonalPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '个人主页'
       }
     }
   },

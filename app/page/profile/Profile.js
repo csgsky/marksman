@@ -4,15 +4,15 @@ import theme from '../../config/theme'
 // import * as actions from '../../actions/loginActions'
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
+import { ColorPicker } from 'react-native-color-picker'
 
 export default class ProfilePage extends Component {
   render () {
     return (
-      <View>
-        <View style={styles.lable}>
-          <Text style={{color: 'red'}} onPress = {this._onPress}>个人</Text>
-        </View>
-      </View>
+      <ColorPicker
+        onColorSelected={color => alert(`Color selected: ${color}`)}
+        style={{flex: 1}}
+      />
     )
   }
   _onPress = () => {
