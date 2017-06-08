@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 
 import {NativeModules, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
-import FootersFragment from '../page/FootersFragment'
+// import FootersFragment from '../page/FootersFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
 import Login from '../page/login/login'
