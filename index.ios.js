@@ -4,50 +4,32 @@
  * @flow
  */
 
-import React, { Component } from 'react';
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React, { Component } from 'react'
+import { AppRegistry } from 'react-native'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+// import { composeWithDevTools } from 'redux-devtools-extension'
+import {composeWithDevTools} from 'remote-redux-devtools'
+import { createEpicMiddleware } from 'redux-observable'
+import Navigation from './app/config/entry'
 
+import rootEpic from './app/epics/index'
+import rootReducer from './app/reducers/index'
+
+const epicMiddleware = createEpicMiddleware(rootEpic)
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(
+    applyMiddleware(epicMiddleware)
+  )
+)
 export default class marksman extends Component {
-  render() {
+  render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
+      <Provider store ={store}>
+        <Navigation />
+      </Provider>
+    )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('marksman', () => marksman);
+AppRegistry.registerComponent('marksman', () => marksman)
