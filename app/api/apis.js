@@ -1,8 +1,4 @@
 
-import Rx from 'rxjs'
-import {AsyncStorage} from 'react-native'
-
-
 const baseUrlWithoutToken = (path) => 'http://101.95.97.178:2003' + path
 const accept = 'application/com.droi.qy-v1.0-1+json'
 const userAgent = 'zy'
@@ -85,4 +81,9 @@ export const TopUsersApi = (userId) =>
 // 备受宠爱列表
 export const LovedUsersApi = (userId, page) => {
   return getApi(`/api/rankuser?rn=8&p=${page}`, userId)
+}
+
+// 搜索api
+export const SearchDiaryApi = (userId, kw, page) => {
+  return getApi(`/api/diary?p=${page}&rn=10&order_type=0&order=1&key=${kw}`, userId)
 }

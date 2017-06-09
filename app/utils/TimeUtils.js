@@ -9,6 +9,10 @@ export const getYYMM = (time) => {
   return date.year() + '年' + date.month() + '月'
 }
 
+export const getHHMM = (time) => {
+  let date = Moment(time)
+  return date.hour() + ':' + date.minute()
+}
 export const getDate = (time) => {
   let date = Moment(time).day
   switch (date) {

@@ -7,7 +7,8 @@ import collectionInitEpic from './collectionsEpic'
 import discoveryInitEpic from './discoveryEpic'
 import lovedInitEpic from './lovedEpic'
 import talksEpic from './talksEpic'
+import searchInitEpic from './searchEpic'
 export default combineEpics(
   loginEpic, homeInitEpic, recentInitEpic, hotDiaryInitEpic, collectionInitEpic,
-  discoveryInitEpic, lovedInitEpic, talksEpic
+  discoveryInitEpic, lovedInitEpic, talksEpic, searchInitEpic
 )
