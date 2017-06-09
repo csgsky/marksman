@@ -51,7 +51,7 @@ export default class Splash extends Component {
    })
    Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
      .subscribe(udid => {
-       console.warn('udid ====> ' + udid)
+      //  console.warn('udid ====> ' + udid)
      })
   }
   render () {

@@ -58,6 +58,7 @@ const FooterTab = TabNavigator(
     swipeEnabled: true,
     animationEnabled: true,
     lazy: true,
+    tabBarPosition: 'top',
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',

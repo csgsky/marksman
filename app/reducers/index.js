@@ -8,6 +8,7 @@ import collections from './collectionsReducer'
 import discovery from './discoveryReducer'
 import lovedList from './lovedReducer'
 import talkList from './topicReducer'
+import search from './searchReducer'
 export default combineReducers({
   homePage,
   login,
@@ -16,5 +17,6 @@ export default combineReducers({
   collections,
   discovery,
   lovedList,
-  talkList
+  talkList,
+  search
 })
