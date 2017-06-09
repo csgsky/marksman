@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, SectionList, FlatList} from 'react-native'
+import {Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
 import Separator from '../component/Separator'
 import * as actions from '../actions/discoverAction'
 import { bindActionCreators } from 'redux'
@@ -19,7 +19,7 @@ class DiscoveryFrament extends Component {
     this.props.actions.discoveryInit()
   }
   render () {
-    const {talks, ranks, banners} = this.props
+    const {talks, ranks, banners, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={styles.toolbar}>
@@ -34,14 +34,26 @@ class DiscoveryFrament extends Component {
             {data: talks, key: 'talks', renderItem: this.getTalksItem},
             {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem}
             ]}
+          refreshControl={
+            <RefreshControl
+              onRefresh={this.onRefresh}
+              color="#ccc"
+              refreshing={isRefreshing}
+            />
+          }  
         />
       </View>
     )
   }
 
+  onRefresh = () => {
+    this.props.actions.discoveryInit()
+  }
+
   getTalksItem = ({item}) => {
     return <TalksItem item={item}/>
   }
+
   getRanksItem = ({item}) => {
     const {navigation} = this.props
     return <FlatList
@@ -51,6 +63,7 @@ class DiscoveryFrament extends Component {
             renderItem={({item}) => <RecommendUserItem item={item}  navigation = {navigation}/>}
             />
   }
+
   getSectionView = ({section}) => {
     const {talks, ranks} = this.props
     if(section.key === 'talks' && talks.length > 0) {
@@ -59,6 +72,7 @@ class DiscoveryFrament extends Component {
       return this.getTopUsersSectionHeader()
     }
   }
+
   getHeaderView = () => {
         const {banners} = this.props
         if(banners.length > 0) {
@@ -78,7 +92,6 @@ class DiscoveryFrament extends Component {
        } else {
          return <View />
        }
-        
   }
 
   getTalksSectionHeader = () => {

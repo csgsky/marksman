@@ -5,7 +5,7 @@ import Rx from 'rxjs'
 export default class SearchTextInput extends Component {
   render () {
     const {
-      searchInputClearShow, searchTextChange, title, backPress, searchText, onSubmitEditing
+      searchInputClearShow, searchTextChange, title, backPress, searchText, onSubmitEditing, clearInput
     } = this.props
     return (
       <View
@@ -24,15 +24,23 @@ export default class SearchTextInput extends Component {
               returnKeyType="search"
               placeholder={title}
               onSubmitEditing={() => {
-                let value = stringTrim(searchText)
-                if (value && value.length > 0) {
-                  onSubmitEditing()
+                if (searchText) {
+                  let value = stringTrim(searchText)
+                  if (searchText && value && value.length > 0) {
+                    onSubmitEditing()
+                  } else {
+                    Rx.Observable.of('refresh')
+                      .delay(400)
+                      .subscribe(it => {
+                        this.refs.searchTextInput.focus()
+                      })
+                  }
                 } else {
                   Rx.Observable.of('refresh')
-                    .delay(400)
-                    .subscribe(it => {
-                      this.refs.searchTextInput.focus()
-                    })
+                      .delay(400)
+                      .subscribe(it => {
+                        this.refs.searchTextInput.focus()
+                      })
                 }
               }}
               onChangeText={(text) => searchTextChange(text)}
@@ -43,6 +51,7 @@ export default class SearchTextInput extends Component {
                 onPress={() => {
                   this.refs.searchTextInput.clear()
                   this.refs.searchTextInput.focus()
+                  clearInput()
                 }}
                 style={{
                   height: 30,
@@ -69,7 +78,7 @@ const styles = StyleSheet.create({
   toolbar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: 'white',
     height: 55
   },
   backView: {
@@ -100,6 +109,7 @@ const styles = StyleSheet.create({
     color: '#c37f2e',
     fontSize: 16,
     textAlign: 'left',
+    fontWeight: '600',
     lineHeight: 25
   }
 })
