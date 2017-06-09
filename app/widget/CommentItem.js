@@ -3,17 +3,18 @@ import {View, Text, Image, StyleSheet} from 'react-native'
 
 export default class CommentItem extends Component {
   render () {
+    const {like, comment} = this.props
     return <View style={styles.commentView}>
       <View style={styles.singleView}>
         <View style={{flexDirection: 'row'}}>
           <Image resizeMode ='contain' style={styles.img} source={require('../img/conment_vote.png')} />
-          <Text style={styles.text}>99</Text>
+          <Text style={styles.text}>{like.num}</Text>
         </View>
       </View>
       <View style={styles.singleView}>
         <View style={{flexDirection: 'row'}}>
           <Image resizeMode ='contain' style={styles.img} source={require('../img/comment.png')} />
-          <Text style={styles.text}>88</Text>
+          <Text style={styles.text}>{comment.num}</Text>
         </View>
       </View>
       <View style={styles.singleView}>
