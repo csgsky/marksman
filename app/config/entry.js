@@ -20,6 +20,7 @@ import CommonWebviewPage from '../page/webview/CommonWebviewPage'
 import TopicListPage from '../page/TopicListPage'
 import LovedListPage from '../page/LovedListPage'
 import PersonalPage from '../page/PersonalPage'
+import TrashPage from '../page/profile/Trash'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
 class Navigation extends Component {
@@ -58,6 +59,7 @@ const FooterTab = TabNavigator(
     swipeEnabled: true,
     animationEnabled: true,
     lazy: true,
+    tabBarPosition: 'top',
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
@@ -227,6 +229,13 @@ const Navigator = StackNavigator(
       mode: 'card',
       navigationOptions: {
         title: '个人主页'
+      }
+    },
+    TrashPage: {
+      screen: TrashPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '垃圾箱'
       }
     }
   },
