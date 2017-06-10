@@ -15,6 +15,7 @@ export default class ProfilePage extends Component {
   })
 
   render () {
+    const {navigation} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <Separator />
@@ -30,14 +31,14 @@ export default class ProfilePage extends Component {
               </View>
             </View>
           </View>
-          <ProfileItem value={consts.PROFILE_MINE_MESSAGE}/>
-          <ProfileItem value={consts.PROFILE_MINE_FOLLOW}/>
-          <ProfileItem value={consts.PROFILE_MINE_TRASH}/>
+          <ProfileItem navigation ={navigation} value={consts.PROFILE_MINE_MESSAGE}/>
+          <ProfileItem navigation ={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
+          <ProfileItem navigation ={navigation} value={consts.PROFILE_MINE_TRASH}/>
           <View style={{height: 20}}/>
-          <ProfileItem value={consts.PROFILE_RECOMMOND_F}/>
-          <ProfileItem value={consts.PROFILE_NOTIFICATION}/>
-          <ProfileItem value={consts.PROFILE_FEEDBACK}/>
-          <ProfileItem value={consts.PROFILE_ABOUT_US}/>
+          <ProfileItem navigation ={navigation} value={consts.PROFILE_RECOMMOND_F}/>
+          <ProfileItem navigation ={navigation} value={consts.PROFILE_NOTIFICATION}/>
+          <ProfileItem navigation ={navigation} value={consts.PROFILE_FEEDBACK}/>
+          <ProfileItem navigation ={navigation} value={consts.PROFILE_ABOUT_US}/>
       </View>
       </View>
       
