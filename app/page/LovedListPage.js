@@ -17,6 +17,7 @@ class LovedListPage extends Component {
           data={loved}
           renderItem={({item}) => <TopUserItem item={item} navigation = {navigation}/>}
           onEndReachedThreshold={0.1}
+          removeClippedSubviews={false}
           onEndReached={(e) => this.handleLoadingMore(e)}
           refreshControl={
             <RefreshControl
