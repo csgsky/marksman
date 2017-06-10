@@ -8,7 +8,7 @@ import * as consts from '../utils/const'
 import theme from '../config/theme'
 import Separator from '../component/Separator'
 import DiaryItem from '../component/item/DiaryItem'
-import ListSeperator from '../component/ListSeperator'
+import ListSeparator from '../component/ListSeparator'
 
 var ImagePicker = require('react-native-image-picker')
 // 加密使用
@@ -53,11 +53,11 @@ class HomeFragment extends Component {
     // 加密
     // var base64 = require('base-64')
     // var utf8 = require('utf8')
-    // var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    // var rawStr = '/ZTE/ZTE1.1.3/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     // var words = encodeURIComponent(rawStr)
     // var base64 = base64.encode(words)
     // var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-
+    // console.log('hmacSHA1 ==> ' + hmacSHA1)
     const {diarys, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -105,7 +105,7 @@ class HomeFragment extends Component {
   }
   
   getItemSeparator = () => {
-    return <ListSeperator />
+    return <ListSeparator />
   }
 
   onRefresh = () => {

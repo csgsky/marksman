@@ -4,6 +4,7 @@ import px2dp from '../utils/px2dp'
 
 const globalTextColor = '#4a4a4a'
 const globalSubTextColor = '#9b9b9b'
+const toolbarTitleColor = '#6a6a6a'
 module.exports = {
   screenWidth: Dimensions.get('window').width,
   screenHeight: Dimensions.get('window').height,
@@ -20,6 +21,7 @@ module.exports = {
   text: {
     globalTextColor: globalTextColor,
     globalSubTextColor: globalSubTextColor,
+    toolbarTitleColor: toolbarTitleColor,
     fontSize: px2dp(15)
   },
   scrollView: {
