@@ -5,7 +5,7 @@ import * as actions from '../actions/hotDiaryAction'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DiaryItem from '../component/item/DiaryItem'
-import ListSeperator from '../component/ListSeperator'
+import ListSeparator from '../component/ListSeparator'
 
 class HotDiary extends Component {
   componentDidMount () {
@@ -37,7 +37,7 @@ class HotDiary extends Component {
   }
 
   getItemSeparator = () => {
-    return <ListSeperator />
+    return <ListSeparator />
   }
 }
 
