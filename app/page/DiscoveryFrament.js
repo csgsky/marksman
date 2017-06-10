@@ -58,6 +58,7 @@ class DiscoveryFrament extends Component {
     const {navigation} = this.props
     return <FlatList
             horizontal={true}
+            removeClippedSubviews={false}
             data={item.data}
             showsHorizontalScrollIndicator={false}
             renderItem={({item}) => <RecommendUserItem item={item}  navigation = {navigation}/>}
