@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import * as actions from '../../actions/trashActions'
 import {bindActionCreators} from 'redux'
 import DiaryItem from '../../component/item/DiaryItem'
-import ListSeparator from '../../component/ListSeperator'
+import ListSeparator from '../../component/ListSeparator'
 import EmptyView from '../../component/EmptyView'
 // import theme from '../../config/theme'
 
