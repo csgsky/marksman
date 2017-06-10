@@ -87,3 +87,7 @@ export const LovedUsersApi = (userId, page) => {
 export const SearchDiaryApi = (userId, kw, page) => {
   return getApi(`/api/diary?p=${page}&rn=10&order_type=0&order=1&key=${kw}`, userId)
 }
+
+// 垃圾箱列表
+export const TrashApi = (userId) =>
+  getApi('/api/diary?p=0&rn=10&ordertype=1&status=0', userId)
