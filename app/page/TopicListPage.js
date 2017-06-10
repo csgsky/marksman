@@ -18,6 +18,7 @@ class TopicListPage extends Component {
           renderItem={({item,index}) => <TalksItem item={item} index = {index} navigation = {navigation}/>}
           onEndReachedThreshold={0.1}
           onEndReached={(e) => this.handleLoadingMore(e)}
+          removeClippedSubviews={false}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}

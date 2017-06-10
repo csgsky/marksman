@@ -23,6 +23,7 @@ class MeFragment extends Component {
           data={collections}
           renderItem={this.getItemCompt}
           ItemSeparatorComponent={this.getItemSeparator}
+          removeClippedSubviews={false}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}

@@ -19,6 +19,7 @@ class HotDiary extends Component {
         <FlatList
           data={diarys}
           renderItem={this.getItemCompt}
+          removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
           refreshControl={
             <RefreshControl
