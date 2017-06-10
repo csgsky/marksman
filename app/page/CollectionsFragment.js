@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import {Text, View, StyleSheet, FlatList, RefreshControl} from 'react-native'
 import CollectionItem from '../component/item/CollectionsItem'
 import Separator from '../component/Separator'
-import ListSeperator from '../component/ListSeperator'
+import ListSeparator from '../component/ListSeparator'
 import * as actions from '../actions/collectionsAction'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -41,7 +41,7 @@ class MeFragment extends Component {
   }
 
   getItemSeparator = () => {
-    return <ListSeperator />
+    return <ListSeparator />
   }
 }
 

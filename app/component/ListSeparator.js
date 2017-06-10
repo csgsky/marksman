@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {View, StyleSheet} from 'react-native'
 
-export default class ListSeperator extends Component {
+export default class ListSeparator extends Component {
   render () {
     return <View style={styles.separator}/>
   }

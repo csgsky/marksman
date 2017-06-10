@@ -1,7 +1,7 @@
 'use strict'
 import React, {Component} from 'react'
 
-import {NativeModules, StatusBar} from 'react-native'
+import {NativeModules, StatusBar, Button} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
@@ -133,7 +133,6 @@ const Tab = TabNavigator(
     swipeEnabled: false,
     animationEnabled: false,
     lazy: true,
-    lazyLoad: true,
     initialRouteName: 'Home',
     tabBarOptions: {
       activeTintColor: '#ffa3c4',
@@ -184,10 +183,7 @@ const Navigator = StackNavigator(
     },
     ProfilePage: {
       screen: ProfilePage,
-      mode: 'card',
-      navigationOptions: {
-        title: '我的'
-      }
+      headerMode: 'screen'
     },
     SettingPage: {
       screen: SettingPage,
