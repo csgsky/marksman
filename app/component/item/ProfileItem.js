@@ -34,8 +34,8 @@ export default class ProfileItem extends Component {
       default:
         return require('../../img/comment_share.png')
     }
-    
   }
+
 }
 
 const styles = StyleSheet.create({
