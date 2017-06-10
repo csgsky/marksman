@@ -5,6 +5,7 @@ import * as actions from '../../actions/trashActions'
 import {bindActionCreators} from 'redux'
 import DiaryItem from '../../component/item/DiaryItem'
 import ListSeparator from '../../component/ListSeperator'
+import EmptyView from '../../component/EmptyView'
 // import theme from '../../config/theme'
 
 class Trash extends Component {
@@ -16,7 +17,7 @@ class Trash extends Component {
     const {diaries, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <FlatList
+        {!!diaries.length && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
@@ -28,7 +29,8 @@ class Trash extends Component {
               refreshing={isRefreshing}
             />
           }
-        />
+        />}
+        {!diaries.length && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
       </View>
     )
   }
