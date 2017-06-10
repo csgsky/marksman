@@ -90,4 +90,4 @@ export const SearchDiaryApi = (userId, kw, page) => {
 
 // 垃圾箱列表
 export const TrashApi = (userId) =>
-  getApi('/api/diary?p=0&rn=10&ordertype=1&status=1', userId)
+  getApi('/api/diary?p=0&rn=10&ordertype=1&status=0', userId)
