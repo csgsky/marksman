@@ -77,6 +77,7 @@ export default class ProfileItem extends Component {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
+        this.props.navigation.navigate('TrashPage', {come4: 'profile'})
       } else {
         this.props.navigation.navigate('TrashPage', {come4: 'profile'})
       }
