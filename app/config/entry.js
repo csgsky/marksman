@@ -222,10 +222,7 @@ const Navigator = StackNavigator(
     },
     PersonalPage: {
       screen: PersonalPage,
-      mode: 'card',
-      navigationOptions: {
-        title: '个人主页'
-      }
+      mode: 'card'
     },
     TrashPage: {
       screen: TrashPage,

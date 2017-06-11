@@ -1,5 +1,7 @@
 export const TRASH_INIT = 'TRASH_INIT'
 export const TRASH_DATA = 'TRASH_DATA'
+export const TRASH_MORE = 'TRASH_MORE'
+export const TRASH_MORE_DATA = 'TRASH_MORE_DATA'
 
 export function trashInit () {
   return {
@@ -15,5 +17,23 @@ export function trashData (data) {
     type: TRASH_DATA,
     isRefreshing: false,
     diarys: data.diarys
+  }
+}
+
+export function trashMore (page) {
+  console.log('action ---> LOADING_MORE_TRASH')
+  return {
+    type: TRASH_MORE,
+    isLoadingMore: true,
+    page: page
+  }
+}
+
+export function trashMoreData (data) {
+  return {
+    type: TRASH_MORE_DATA,
+    isLoadingMore: false,
+    diaries: data.diarys,
+    hasMore: data.diarys.length >= 3
   }
 }
