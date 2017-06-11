@@ -89,5 +89,13 @@ export const SearchDiaryApi = (userId, kw, page) => {
 }
 
 // 垃圾箱列表
-export const TrashApi = (userId) =>
-  getApi('/api/diary?p=0&rn=10&ordertype=1&status=0', userId)
+export const TrashApi = (userId, page) =>
+  getApi(`/api/diary?p=${page}&rn=3&ordertype=0&status=1&private=1`, userId)
+
+// 用户个人信息
+export const PersonalInfoApi = (userId, id) =>
+  getApi(`/api/account/${id}`, userId)
+
+// 个人日记列表
+export const PersonalDiariesApi = (userId, page) =>
+  getApi(`/api/diary?p=${page}&rn=3&ordertype=0&status=1&private=1`, userId)

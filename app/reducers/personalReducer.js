@@ -1,38 +1,40 @@
-import * as types from '../actions/trashActions'
+import * as types from '../actions/personAction'
 
 const initState = {
   isRefreshing: false,
   diaries: [],
   isLoadingMore: false,
+  hasMore: true,
   page: 0,
-  hasMore: true
+  info: {}
 }
 
-export default function trash (state = initState, action = {}) {
+export default function personalData (state = initState, action = {}) {
   switch (action.type) {
-    case types.TRASH_INIT:
+    case types.PERSON_INIT:
       return {
         ...state,
         isRefreshing: true
       }
-    case types.TRASH_DATA:
+    case types.PERSON_DATA:
       return {
         ...state,
         isRefreshing: false,
-        diaries: action.diarys
+        diaries: action.person.diaries,
+        info: action.person.info
       }
-    case types.TRASH_MORE:
+    case types.personDiaryMore:
       return {
         ...state,
         isLoadingMore: true
       }
-    case types.TRASH_MORE_DATA:
+    case types.PERSON_DIARY_MORE_DATA:
       return {
         ...state,
         isLoadingMore: false,
         diaries: state.diaries.concat(action.diaries),
-        hasMore: action.diaries.length >= 3,
-        page: state.page + 1
+        page: state.page + 1,
+        hasMore: action.hasMore
       }
     default:
       return state

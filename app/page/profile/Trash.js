@@ -22,6 +22,8 @@ class Trash extends Component {
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
           ItemSeparatorComponent={() => <ListSeparator/>}
+          onEndReached={() => this.handleLoadingMore()}
+          onEndReachedThreshold={0.1}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}
@@ -37,12 +39,23 @@ class Trash extends Component {
   getItemCompt = ({item}) => {
     return <DiaryItem item={item} hasComment={false}/>
   }
+  handleLoadingMore = () => {
+    const {isLoadingMore, hasMore, page} = this.props
+    if (!isLoadingMore && hasMore) {
+      this.props.actions.trashMore(page)
+    } else {
+      console.warn('trash 没有了')
+    }
+  }
 }
 
 const mapStateToProps = ({trash}) => {
   return {
     isRefreshing: trash.isRefreshing,
-    diaries: trash.diaries
+    diaries: trash.diaries,
+    isLoadingMore: trash.isLoadingMore,
+    page: trash.page,
+    hasMore: trash.hasMore
   }
 }
 
