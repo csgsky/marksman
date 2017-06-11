@@ -6,7 +6,7 @@ class PersonalInfoView extends Component {
     const {info} = this.props
     return (
       <View style={styles.container}>
-        <Image source={{uri: info.avtar}} style={styles.img}/>
+        <Image source={this._getSource(info.avtar)} style={styles.img}/>
         <Text style={styles.nickname}>{info.nickname}</Text>
         <View style={styles.nums}>
           <Text style={styles.num}>公开日记 {info.diary_num} |</Text>
@@ -16,6 +16,10 @@ class PersonalInfoView extends Component {
         <Text style={styles.sign}>{info.sign}</Text>
       </View>
     )
+  }
+
+  _getSource = (img) => {
+    return img === '' ? require('../img/test_icon.jpeg') : {uri: img}
   }
 }
 
