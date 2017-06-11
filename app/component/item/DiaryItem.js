@@ -12,6 +12,7 @@ export default class DiaryItem extends Component {
     let hhmm = getHHMM(item.create_time)
     let content = item.content
     let img = item.img
+    let hasComment = this.props.hasComment
     return (
       <View>
         <TouchableOpacity style={{paddingLeft: 16, paddingRight: 16, paddingTop: 16}} activeOpacity = {0.3}>
@@ -24,9 +25,9 @@ export default class DiaryItem extends Component {
             <Text style={styles.hour_minute}>{hhmm}</Text>
           </View>
           {<Text style={styles.body} numberOfLines={6}>{content}</Text>}
-          {img !== '' && <Image style={styles.img} source={this.getSource(img)} />}
+          {img !== '' && <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]} source={this.getSource(img)} />}
         </TouchableOpacity>
-        {this.props.hasComment && <CommentItem comment={item.comment} like = {item.like}/>}
+        {hasComment && <CommentItem comment={item.comment} like = {item.like}/>}
       </View>
       
       

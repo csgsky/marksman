@@ -14,6 +14,7 @@ export default class ProfilePage extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
+
   render () {
     const {navigation} = this.props
     return (
