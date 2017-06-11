@@ -1,11 +1,11 @@
 import 'rxjs'
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/trashActions'
+import * as actions from '../actions/personAction'
 import { combineEpics } from 'redux-observable'
-import { TrashApi } from '../api/apis'
+import { PersonalDiariesApi, PersonalInfoApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
-function trashInitEpic (action$) {
-  return action$.ofType(actions.TRASH_INIT)
+function personInitEpic (action$) {
+  return action$.ofType(actions.PERSON_INIT)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
@@ -13,20 +13,17 @@ function trashInitEpic (action$) {
                   return {token}
                 }
               ).flatMap(
-                it => {
-                  if (it.token) {
-                    console.log('epic  --->  it token  ' + it.token)
-                    return Observable.from(TrashApi(it.token, 0))
-                  } else {
-                    return Observable.of(2)
-                  }
-                }
+                it => Observable.zip(
+                  Observable.from(PersonalInfoApi(it.token, action.id)),
+                  Observable.from(PersonalDiariesApi(it.token, 0)),
+                  (info, {diarys}) => ({info, diaries: diarys})
+                ).flatMap(it => Observable.of(it))
               ).map(it => {
-                if (it.return_code === 2) {
+                if (it.info.return_code === 2 || it.diaries.return_code === 2) {
                 } else {
-                  console.log('epic  ---> return_code ' + it.return_code)
-                  console.log('epic  ---> diary ' + it.diarys.length)
-                  return actions.trashData(it)
+                  console.log('epic  ---> personal info ' + it.info.return_code)
+                  console.log('epic  ---> personal diaries ' + it.diaries)
+                  return actions.personData(it)
                 }
               }
             ).catch(error => {
@@ -35,8 +32,8 @@ function trashInitEpic (action$) {
        )
 }
 
-function trashMoreEpic (action$) {
-  return action$.ofType(actions.TRASH_MORE)
+function personDiaryMoreEpic (action$) {
+  return action$.ofType(actions.PERSON_DIARY_MORE)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
@@ -47,7 +44,7 @@ function trashMoreEpic (action$) {
               ).flatMap(
                 it => {
                   if (it.token) {
-                    return Observable.from(TrashApi(it.token, it.page))
+                    return Observable.from(PersonalDiariesApi(it.token, it.page))
                   } else {
                     return Observable.of(2)
                   }
@@ -55,7 +52,7 @@ function trashMoreEpic (action$) {
               ).map(it => {
                 if (it.return_code === 2) {
                 } else {
-                  return actions.trashMoreData(it)
+                  return actions.personDiaryMoreData(it.diarys)
                 }
               }
             ).catch(error => {
@@ -64,4 +61,4 @@ function trashMoreEpic (action$) {
        )
 }
 
-export default combineEpics(trashInitEpic, trashMoreEpic)
+export default combineEpics(personInitEpic, personDiaryMoreEpic)
