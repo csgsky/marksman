@@ -13,7 +13,8 @@ export default class RecommendUserItem extends Component {
   }
 
   _routerToPersonalPage = () => {
-    this.props.navigation.navigate('PersonalPage',{message: '个人主页'})
+    let userId = this.props.item.user_id
+    this.props.navigation.navigate('PersonalPage',{message: '个人主页', id: userId})
   }
 }
 const styles = StyleSheet.create({

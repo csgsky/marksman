@@ -1,7 +1,7 @@
 'use strict'
 import React, {Component} from 'react'
 
-import {NativeModules, StatusBar, Button} from 'react-native'
+import {NativeModules, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
