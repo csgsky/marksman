@@ -27,14 +27,28 @@ export default class LabelPageTwo extends Component {
     )
   }
   _onPress = () => {
-    AsyncStorage.setItem('first', 'first').then(
-      () => {
-        this.props.navigation.dispatch(resetAction)
-      }
-  )  
-    // this.props.navigation.navigate('Login', {message: 'nextPage'})
+    this._saveUseInfo()
+  }
+
+  async _saveUseInfo () {
+    try {
+    // 保存 token
+    // 保存 userId
+    // 保存 一堆其他的信息
+      await AsyncStorage.setItem('token', 'a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+      await AsyncStorage.setItem('first', 'first').then(
+        () => {
+          this.props.navigation.dispatch(resetAction)
+        }
+      )
+      console.log('saveSuccess inner')
+    } catch (error) {
+      // console.log('error', error)
+    }
   }
 }
+
+
 const styles = StyleSheet.create({
   lable: {
     width: theme.screenWidth,
