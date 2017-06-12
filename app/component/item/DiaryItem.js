@@ -15,7 +15,7 @@ export default class DiaryItem extends Component {
     let hasComment = this.props.hasComment
     return (
       <View>
-        <TouchableOpacity style={{paddingLeft: 16, paddingRight: 16, paddingTop: 16}} activeOpacity = {0.3}>
+        <TouchableOpacity activeOpacity = {0.8} onPress={this.diaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: 16}}>
           <View style={styles.time}>
             <Text style={styles.day}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 4}}>
@@ -25,7 +25,10 @@ export default class DiaryItem extends Component {
             <Text style={styles.hour_minute}>{hhmm}</Text>
           </View>
           {<Text style={styles.body} numberOfLines={6}>{content}</Text>}
-          {img !== '' && <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]} source={this.getSource(img)} />}
+          {img !== '' && <TouchableOpacity onPress= {this.photoView} activeOpacity = {0.8}>
+                           <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]} 
+                                  source={this.getSource(img)}/>
+                                  </TouchableOpacity>}
         </TouchableOpacity>
         {hasComment && <CommentItem comment={item.comment} like = {item.like}/>}
       </View>
@@ -36,7 +39,16 @@ export default class DiaryItem extends Component {
 
   getSource = (img) => {
     return {uri: img}
-  } 
+  }
+
+  photoView = () => {
+    const {navigation, item} = this.props
+    navigation.navigate('LightBoxPage',{img: item.img})
+  }
+
+  diaryDetails = () => {
+    alert('diaryDetails')
+  }
 }
 
 const styles = StyleSheet.create({
