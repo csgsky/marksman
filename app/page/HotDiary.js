@@ -34,7 +34,8 @@ class HotDiary extends Component {
   }
 
   getItemCompt = ({item, index}) => {
-    return <DiaryItem item={item} hasComment= {true}/>
+    const {navigation} = this.props
+    return <DiaryItem item={item} navigation = {navigation} hasComment= {true}/>
   }
 
   getItemSeparator = () => {

@@ -1,5 +1,5 @@
 import React, {Component} from 'React'
-import {StyleSheet, View, Text} from 'react-native'
+import {StyleSheet, View, Text, BackAndroid} from 'react-native'
 import theme from '../config/theme'
 import * as actions from '../actions/searchAction'
 import { bindActionCreators } from 'redux'
@@ -10,7 +10,9 @@ import EmptyView from '../component/EmptyView'
 class SearchPage extends Component {
   componentDidMount () {
     this.props.actions.searchPageInit()
+    BackAndroid.addEventListener('hardwareBackPress', this._backPress)
   }
+
 
   render () {
     const {searchText, searchInputClearShow, empty} = this.props
@@ -27,8 +29,6 @@ class SearchPage extends Component {
       />
       {empty && <EmptyView message={'你还未写过相关的内容哦~'}/>}
     </View>
-    
-    
     
   }
 
