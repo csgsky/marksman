@@ -1,5 +1,6 @@
 export const appName = '浅言'
 export const USERNAME_PLACE_HOLDER = '请输入手机号码'
+export const PASSWORD_PLACE_HOLDER = '请输入您的密码'
 export const PASSWORD = '密码'
 export const FORGET_PASSWORD = '忘记密码'
 export const CONFIRM = '确认'

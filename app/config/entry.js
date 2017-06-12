@@ -15,11 +15,13 @@ import SearchPage from '../page/SearchPage'
 import SettingPage from '../page/SettingPage'
 import WriteDiaryPage from '../page/WriteDiaryPage'
 import HotDiary from '../page/HotDiary'
+import LightBoxPage from '../page/LightBoxPage'
 import RecentDiary from '../page/RecentDiary'
 import CommonWebviewPage from '../page/webview/CommonWebviewPage'
 import TopicListPage from '../page/TopicListPage'
 import LovedListPage from '../page/LovedListPage'
 import PersonalPage from '../page/PersonalPage'
+import RegisterPage from '../page/login/register'
 import TrashPage from '../page/profile/Trash'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
@@ -169,6 +171,12 @@ const Navigator = StackNavigator(
         header: null
       }
     },
+    LightBoxPage: {
+      screen: LightBoxPage,
+      navigationOptions: {
+        header: null
+      }
+    },
     Tab: {screen: Tab,
       navigationOptions: {
         header: null
@@ -223,6 +231,13 @@ const Navigator = StackNavigator(
     PersonalPage: {
       screen: PersonalPage,
       mode: 'card'
+    },
+    RegisterPage: {
+      screen: RegisterPage,
+      mode: 'card',
+      navigationOptions: {
+        header: null
+      }
     },
     TrashPage: {
       screen: TrashPage,

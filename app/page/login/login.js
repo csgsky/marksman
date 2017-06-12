@@ -19,7 +19,7 @@ class login extends Component {
       ]
     })
     this.props.navigation.dispatch(resetAction)
-    this.props.navigation.goBack()
+    // this.props.navigation.goBack()
   }
   render () {
     const {it} = this.props
@@ -62,7 +62,7 @@ class login extends Component {
   }
 
   _quickRegister = () => {
-    alert('注册')
+    this.props.navigation.navigate('RegisterPage', {message: '注册'})
   }
 
   _forgetPassword = () => {
