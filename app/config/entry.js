@@ -5,6 +5,7 @@ import {NativeModules, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
+import FeedbackPage from '../page/profile/Feedback'
 import Login from '../page/login/login'
 import TabBarItem from '../widget/TabBarItem'
 import LabelPage from '../page/splash/LabelPage'
@@ -229,6 +230,13 @@ const Navigator = StackNavigator(
       mode: 'card',
       navigationOptions: {
         title: '垃圾箱'
+      }
+    },
+    FeedbackPage: {
+      screen: FeedbackPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '反馈意见'
       }
     }
   },
