@@ -5,7 +5,7 @@ const userAgent = 'zy'
 const authorization = 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
-export function postApi (path, map) {
+export function postApi (path, map, userId) {
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -13,7 +13,7 @@ export function postApi (path, map) {
       'Accept': accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': authorization + authorization
+      'Authorization': authorization + userId
     },
     body: JSON.stringify(map)
   }).then((response) => {
@@ -99,3 +99,7 @@ export const PersonalInfoApi = (userId, id) =>
 // 个人日记列表
 export const PersonalDiariesApi = (userId, page) =>
   getApi(`/api/diary?p=${page}&rn=3&ordertype=0&status=1&private=1`, userId)
+
+// 反馈意见
+export const FeedbackApi = (data, userId) =>
+  postApi(`/api/feedback`, data, userId)
