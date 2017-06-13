@@ -11,6 +11,7 @@ import talkList from './topicReducer'
 import search from './searchReducer'
 import trash from './trashReducer'
 import personalData from './personalReducer'
+import feedback from './feedback'
 export default combineReducers({
   homePage,
   login,
@@ -22,5 +23,6 @@ export default combineReducers({
   talkList,
   search,
   trash,
-  personalData
+  personalData,
+  feedback
 })
