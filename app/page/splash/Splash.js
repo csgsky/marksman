@@ -28,22 +28,19 @@ export default class Splash extends Component {
     }
   }
   componentDidMount () {
-  //  AsyncStorage.setItem('token', 'a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+   AsyncStorage.setItem('token', 'a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
    const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
       this.setState({
         time: 3 - it
       })
       if ((it + 1) === 4) {
         AsyncStorage.getItem('first').then(
-          (result) => {
+          () => {
             this.props.navigation.dispatch(resetActionMain)
-            // if (result !== null) {
-            //   this.props.navigation.dispatch(resetActionMain)
-            // } else {
-            //   this.props.navigation.dispatch(resetAction)
-            // }
           }
-        )
+        ).catch((error) => {
+          alert('请重新获取')
+        })
       }
     })
    this.setState({

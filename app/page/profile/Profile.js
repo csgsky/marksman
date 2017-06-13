@@ -4,6 +4,8 @@ import theme from '../../config/theme'
 import Separator from '../../component/Separator'
 import ProfileItem from '../../component/item/ProfileItem'
 import * as consts from '../../utils/const'
+import PubSub from 'pubsub-js'
+import Rx from 'rxjs'
 export default class ProfilePage extends Component {
 
   static navigationOptions = ({navigation}) => ({
@@ -14,6 +16,12 @@ export default class ProfilePage extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
+  componentDidMount () {
+    PubSub.subscribe('refresh',function(come, data) {
+      // 重新获取数据
+      console.warn('ProfilePage Refresh ==>: ' + data)
+    })
+  }
 
   render () {
     const {navigation} = this.props

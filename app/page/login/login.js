@@ -62,7 +62,8 @@ class login extends Component {
   }
 
   _quickRegister = () => {
-    this.props.navigation.navigate('RegisterPage', {message: '注册'})
+    const key = this.props.navigation.state.key
+    this.props.navigation.navigate('RegisterPage', {key: key})
   }
 
   _forgetPassword = () => {

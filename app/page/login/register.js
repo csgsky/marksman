@@ -1,5 +1,5 @@
 import React, {Component} from 'React'
-import {StyleSheet, View, Text, Image, TextInput, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Text, Image, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
 import * as actions from '../../actions/registerAction'
@@ -7,6 +7,9 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Rx from 'rxjs'
 import { NavigationActions } from 'react-navigation'
+import PubSub from 'pubsub-js'
+// 加密使用
+var CryptoJS = require('crypto-js')
 const backAction = NavigationActions.back({
     key: 'ProfilePage'
 })
@@ -18,19 +21,39 @@ class Register extends Component {
     }
   }
   componentWillReceiveProps (nextProps) {
+    const {userId} = nextProps
+    if (userId !== this.props.userId) {
+      var base64 = require('base-64')
+      var utf8 = require('utf8')
+      var rawStr = '/ZTE/ZTE1.1.3/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
+      console.log('componentWillReceiveProps ===> ' + rawStr)
+      var words = encodeURIComponent(rawStr)
+      var base64 = base64.encode(words)
+      var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
+      console.log('hmacSHA1 ==> ' + hmacSHA1)
+      AsyncStorage.setItem('token', hmacSHA1).then(
+          () => {
+            PubSub.publish('refresh', hmacSHA1)
+            this.props.navigation.goBack(this.props.navigation.state.params.key)
+          }
+        )
+    }
+    // console.warn('componentWillReceiveProps ==> codeStatus  ' + codeStatus)
+    // console.warn('componentWillReceiveProps ==> isCounting  ' + isCounting)
+
     if (nextProps.counter === 0) {
       this.state.timeSubscribe.unsubscribe()
       this.props.actions.codeTimeOver()
     }
   }
   render () {
-    const {actions, username, password, code, counter, isCounting, btnCodeText} = this.props
+    const {actions, username, password, code, counter, isCounting, btnCodeText, securePassword} = this.props
     return (
       <View style={styles.view}>
          <Text style ={styles.title}>{consts.appName}</Text>
           <View style={styles.itemView}>
             <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Image style={styles.icon} source={require('../../img/comment_share.png')} />
+              <Image style={styles.icon} resizeMode = 'contain' source={require('../../img/tel.png')} />
             </View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
               <TextInput style ={styles.username}
@@ -47,13 +70,14 @@ class Register extends Component {
           <View style={styles.underLine}></View>
           <View style={[styles.itemView, {marginTop: 10}]}>
             <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Image style={styles.icon} source={require('../../img/comment_share.png')} />
+              <Image style={styles.icon} resizeMode = 'contain' source={require('../../img/password.png')} />
             </View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
               <TextInput style ={styles.username}
                          placeholder ={consts.PASSWORD_PLACE_HOLDER}
                          placeholderTextColor = '#8d8d8d'
                          underlineColorAndroid="transparent"
+                         secureTextEntry={securePassword}
                          onChangeText = {(password) => {
                            actions.passwordChange(password)
                          }}/>
@@ -62,7 +86,7 @@ class Register extends Component {
           <View style={styles.underLine}></View>
           <View style={[styles.itemView, {marginTop: 10}]}>
             <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Image style={styles.icon} source={require('../../img/comment_share.png')} />
+              <Image style={styles.icon} resizeMode = 'contain' source={require('../../img/vel.png')} />
             </View>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
               <TextInput style ={styles.username}
@@ -92,24 +116,30 @@ class Register extends Component {
   }
 
   _login = () => {
-    // const{correctUsername} = this.props
-    // if (correctUsername) {
-    //   alert('username')
-    // }
-    alert('username')
-    this.props.navigation.dispatch(backAction)
+    const{correctUsername, correctPassword, correctCode, actions, } = this.props
+    console.warn('correctUsername: ' + correctUsername + ' correctPassword: ' + correctPassword + ' correctCode' + correctCode)
+    this.props.navigation.goBack(this.props.navigation.state.params.key)
+    if (correctUsername && correctPassword && correctCode) {
+      const {username, password, code} = this.props
+      actions.register(username, password, code, 1, '淡淡的忧伤', 'csgsky', '1,3,4')
+    }
       
   }
 
   _getCode = () => {
     // alert('获取验证码')
-    const {getVerCode, codeCounter, isCounting} = this.props.actions
-    const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
-      codeCounter(it)
-    })
-    this.setState({
-     timeSubscribe: subscribe
-    })
+    const {actions, isCounting, correctUsername, username} = this.props
+    if(correctUsername) {
+      actions.getVerCode(username)
+      const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
+        actions.codeCounter(it)
+      })
+     this.setState({
+       timeSubscribe: subscribe
+     })
+    } else {
+      alert('请输入正确的手机号')
+    }
   }
 
 }
@@ -122,9 +152,12 @@ const mapStateToProps = (state) => {
     code: register.code,
     correctCode: register.correctCode,
     correctUsername: register.correctUsername,
+    correctPassword: register.correctPassword,
     counter: register.counter,
     btnCodeText: register.btnCodeText,
-    isCounting: register.isCounting
+    isCounting: register.isCounting,
+    securePassword: register.securePassword,
+    userId: register.userId
   }
 }
 
