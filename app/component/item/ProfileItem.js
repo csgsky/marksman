@@ -55,7 +55,7 @@ export default class ProfileItem extends Component {
         alert(consts.PROFILE_NOTIFICATION)
         break;
       case consts.PROFILE_FEEDBACK:
-        alert(consts.PROFILE_FEEDBACK)
+        that._routerFeedback()
         break;
       case consts.PROFILE_ABOUT_US:
         alert(consts.PROFILE_ABOUT_US)
@@ -90,6 +90,16 @@ export default class ProfileItem extends Component {
         this.props.navigation.navigate('Login', {come4: 'profile'})   
       } else {
         this.props.navigation.navigate('TrashPage', {come4: 'profile'})
+      }
+    })
+  }
+
+  _routerFeedback = () => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('FeedbackPage', {come4: 'profile'})   
+      } else {
+        this.props.navigation.navigate('FeedbackPage', {come4: 'profile'})
       }
     })
   }
