@@ -1,5 +1,4 @@
 import * as types from '../actions/registerAction'
-import Rx from 'rxjs'
 const initState = {
   username: '',
   password: '',
@@ -8,6 +7,7 @@ const initState = {
   correctPassword: false,
   correctCode: false,
   isCounting: false,
+  secureTextEntry: false,
   btnCodeText: '获取验证码'
 }
 
@@ -21,8 +21,6 @@ export default function register (state = initState, action = {}) {
         correctUsername: testMobile(action.username)
       }
     case types.REGISTER_PASSWORD_CHANGE:
-      console.warn('密码  ==> ' + action.password)
-      console.warn('是正确格式的密码吗？ ==> ' + testPassword(action.password))
       return {
         ...state,
         password: action.password,
@@ -33,6 +31,12 @@ export default function register (state = initState, action = {}) {
         ...state,
         code: action.code,
         correctCode: action.code.length === 6
+      }
+    case types.REGISTER_SUCCESS:
+      console.log('reducer userId => ' + action.userId)
+      return {
+        ...state,
+        userId: action.userId
       }
     case types.REGISTER_CODE_COUNTER:
       return {
@@ -46,6 +50,10 @@ export default function register (state = initState, action = {}) {
         ...state,
         btnCodeText: '重新获取',
         isCounting: false
+      }
+    case types.REGISTER_CODE_SUCCESS:
+      return {
+        ...state
       }
     default:
       return state

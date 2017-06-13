@@ -9,9 +9,13 @@ export const REGISTER_VER_CHANGE = 'REGISTER_VER_CHANGE'
 export const REGISTER_CODE_DATA = 'REGISTER_CODE_DATA'
 export const REGISTER_CODE_TIME_OVER = 'REGISTER_CODE_TIME_OVER'
 export const REGISTER_CODE_COUNTER = 'REGISTER_CODE_COUNTER'
-export function register (sex, sign, nickname, tags) {
+export function register (account, password, message, sex, sign, nickname, tags) {
+  console.log('action REGISTER ===> ')
   return {
     type: REGISTER,
+    account: account,
+    password: password,
+    message: message,
     sex: sex,
     sign: sign,
     nickname: nickname,
@@ -19,20 +23,32 @@ export function register (sex, sign, nickname, tags) {
   }
 }
 
-export function registerSuccess (it) {
+export function registerSuccess (userId) {
+  console.log('action REGISTER_SUCCESS userId ===> ' + userId)
   return {
     type: REGISTER_SUCCESS,
-    it: it
+    userId: userId
   }
 }
 
-export function getVerCode () {
+export function registerError (returnMsg) {
+  console.log('action REGISTER_Error ===> ' + returnMsg)
   return {
-    type: REGISTER_GET_CODE
+    type: REGISTER_ERROR,
+    returnMsg: returnMsg
+  }
+}
+
+export function getVerCode (account) {
+  console.log('action account REGISTER_GET_CODE ===> ' + account)
+  return {
+    type: REGISTER_GET_CODE,
+    account: account
   }
 }
 
 export function codeCounter (it) {
+  console.log('action REGISTER_CODE_COUNTER ===> ')
   return {
     type: REGISTER_CODE_COUNTER,
     it: it
@@ -40,18 +56,21 @@ export function codeCounter (it) {
 }
 
 export function codeTimeOver () {
+  console.log('action REGISTER_CODE_TIME_OVER ===> ')
   return {
     type: REGISTER_CODE_TIME_OVER
   }
 }
 
 export function codeData () {
+  console.log('action REGISTER_CODE_DATA ===> ')
   return {
     type: REGISTER_CODE_DATA
   }
 }
 
 export function codeSuccess () {
+  console.log('action codeSuccess ===> ')
   return {
     type: REGISTER_CODE_SUCCESS
   }

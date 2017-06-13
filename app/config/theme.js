@@ -1,6 +1,5 @@
 'use strict'
 import { Dimensions, Platform } from 'react-native'
-import px2dp from '../utils/px2dp'
 
 const globalTextColor = '#4a4a4a'
 const globalSubTextColor = '#9b9b9b'
@@ -13,19 +12,19 @@ module.exports = {
   grayColor: '#c4c4c4',
   btnActiveOpacity: 0.7,
   actionBar: {
-    height: (Platform.OS === 'android') ? px2dp(56) : px2dp(69),
+    height: 56,
     backgroundColor: (Platform.OS === 'ios') ? '#f8f8f8' : '#25282b',
-    fontSize: (Platform.OS === 'ios') ? px2dp(18) : 18,
-    fontColor: (Platform.OS === 'ios') ? '#313131' : 'white'
+    fontSize: 18,
+    fontColor: '#313131'
   },
   text: {
     globalTextColor: globalTextColor,
     globalSubTextColor: globalSubTextColor,
     toolbarTitleColor: toolbarTitleColor,
-    fontSize: px2dp(15)
+    fontSize: 16
   },
   scrollView: {
-    fontSize: px2dp(15),
+    fontSize: 16,
     underlineStyle: {
       backgroundColor: 'white'
     }
