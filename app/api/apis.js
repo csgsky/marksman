@@ -5,7 +5,7 @@ const userAgent = 'zy'
 const authorization = 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
-export function postApi (path, map) {
+export function postApi (path, map, userId) {
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -13,7 +13,7 @@ export function postApi (path, map) {
       'Accept': accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': authorization + authorization
+      'Authorization': authorization + userId
     },
     body: JSON.stringify(map)
   }).then((response) => {
@@ -41,15 +41,16 @@ export function getApi (path, userId) {
     }
   }).then((response) => {
     if (response.ok) {
-      console.log('GET ok')
+      console.warn('GET ok')
     } else {
-      console.log('GET error')
+      console.warn('GET error')
     }
     return response.json()
   }).then((responseJson) => {
     console.warn('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
+    console.warn('getApi error ==> ' + error)
     return error
   })
 }
@@ -99,3 +100,11 @@ export const PersonalInfoApi = (userId, id) =>
 // 个人日记列表
 export const PersonalDiariesApi = (userId, page) =>
   getApi(`/api/diary?p=${page}&rn=3&ordertype=0&status=1&private=1`, userId)
+
+// 获取验证码
+export const getVertiCodeApi = (userId, account) =>
+  getApi(`/api/addaccount/${account}`, userId)
+
+// 注册提交接口
+export const RegisterApi = (userId, map) =>
+  postApi(`/api/account`, map, userId)

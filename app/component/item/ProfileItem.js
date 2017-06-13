@@ -8,7 +8,7 @@ export default class ProfileItem extends Component {
     const {value, navigation} = this.props
     return <TouchableOpacity onPress={this._router}>
       <View style={styles.item}>
-        <Image style={styles.icon} source={this._getSource(value)} ></Image>
+        <Image style={styles.icon} resizeMode = 'contain' source={this._getSource(value)} ></Image>
         <Text style={styles.text}>{value}</Text>
       </View>
     </TouchableOpacity>
@@ -17,19 +17,19 @@ export default class ProfileItem extends Component {
   _getSource = (type) => {
     switch(type) {
       case consts.PROFILE_MINE_MESSAGE:
-        return require('../../img/conment_vote.png')
+        return require('../../img/msg.png')
       case consts.PROFILE_MINE_FOLLOW:
-        return require('../../img/comment_share.png')
+        return require('../../img/follow.png')
       case consts.PROFILE_MINE_TRASH:
-        return require('../../img/conment_vote.png')
+        return require('../../img/delete.png')
       case consts.PROFILE_RECOMMOND_F:
-        return require('../../img/comment_share.png')
+        return require('../../img/share.png')
       case consts.PROFILE_NOTIFICATION:
-        return require('../../img/conment_vote.png')
+        return require('../../img/notice.png')
       case consts.PROFILE_FEEDBACK:
-        return require('../../img/comment_share.png')
+        return require('../../img/write.png')
       case consts.PROFILE_ABOUT_US:
-        return require('../../img/conment_vote.png')
+        return require('../../img/me.png')
       default:
         return require('../../img/comment_share.png')
     }
