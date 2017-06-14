@@ -2,7 +2,6 @@
 const baseUrlWithoutToken = (path) => 'http://101.95.97.178:2003' + path
 const accept = 'application/com.droi.qy-v1.0-1+json'
 const userAgent = 'zy'
-const authorization = 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
@@ -13,7 +12,7 @@ export function postApi (path, map, userId) {
       'Accept': accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': authorization + userId
+      'Authorization': userId
     },
     body: JSON.stringify(map)
   }).then((response) => {
@@ -24,6 +23,7 @@ export function postApi (path, map, userId) {
     }
     return response.json()
   }).then((responseJson) => {
+    console.warn('post responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
     return error
@@ -31,13 +31,14 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
+  console.warn('getApi ==> userId ==> ' + userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
       'Accept': accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': authorization + userId
+      'Authorization': userId
     }
   }).then((response) => {
     if (response.ok) {
@@ -108,3 +109,7 @@ export const getVertiCodeApi = (userId, account) =>
 // 注册提交接口
 export const RegisterApi = (userId, map) =>
   postApi(`/api/account`, map, userId)
+
+// 登录接口
+export const LoginApi = (userId, map) =>
+  postApi(`/api/login`, map, userId)

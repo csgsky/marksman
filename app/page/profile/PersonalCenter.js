@@ -6,7 +6,7 @@ import ProfileItem from '../../component/item/ProfileItem'
 import * as consts from '../../utils/const'
 import PubSub from 'pubsub-js'
 import Rx from 'rxjs'
-export default class ProfilePage extends Component {
+export default class PersonalCenter extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '个人中心',

@@ -8,13 +8,15 @@ const initState = {
   correctCode: false,
   isCounting: false,
   secureTextEntry: false,
-  btnCodeText: '获取验证码'
+  btnCodeText: '获取验证码',
+  counter: 60
 }
 
 
 export default function register (state = initState, action = {}) {
   switch (action.type) {
     case types.REGISTER_NICKNAME_CHANGE:
+      console.log('correct username ==> ' + testMobile(action.username))
       return {
         ...state,
         username: action.username,
@@ -55,6 +57,8 @@ export default function register (state = initState, action = {}) {
       return {
         ...state
       }
+    case types.CLEAR_DATA:
+      return initState
     default:
       return state
   }

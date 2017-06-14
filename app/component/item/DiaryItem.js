@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage} from 'react-native'
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM} from '../../utils/TimeUtils'
 import CommentItem from '../../widget/CommentItem'
@@ -47,7 +47,18 @@ export default class DiaryItem extends Component {
   }
 
   diaryDetails = () => {
-    alert('diaryDetails')
+    const {navigation, item} = this.props
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false})
+      } else {
+        if (result === item.user_id) {
+          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: true})
+        } else {
+          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false})
+        }
+      }
+    })
   }
 }
 

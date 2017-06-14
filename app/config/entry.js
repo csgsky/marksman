@@ -5,12 +5,12 @@ import {NativeModules, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
-import Login from '../page/login/login'
+import Login from '../page/login/Login'
 import TabBarItem from '../widget/TabBarItem'
 import LabelPage from '../page/splash/LabelPage'
 import LabelPageTwo from '../page/splash/LabelPageTwo'
 import Splash from '../page/splash/Splash'
-import ProfilePage from '../page/profile/Profile'
+import PersonalCenter from '../page/profile/PersonalCenter'
 import SearchPage from '../page/SearchPage'
 import SettingPage from '../page/SettingPage'
 import WriteDiaryPage from '../page/WriteDiaryPage'
@@ -23,6 +23,7 @@ import LovedListPage from '../page/LovedListPage'
 import PersonalPage from '../page/PersonalPage'
 import RegisterPage from '../page/login/Register'
 import TrashPage from '../page/profile/Trash'
+import DiaryDetailPage from '../page/DiaryDetailPage'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
 class Navigation extends Component {
@@ -189,8 +190,8 @@ const Navigator = StackNavigator(
         header: null
       }
     },
-    ProfilePage: {
-      screen: ProfilePage,
+    PersonalCenter: {
+      screen: PersonalCenter,
       headerMode: 'screen'
     },
     SettingPage: {
@@ -244,6 +245,13 @@ const Navigator = StackNavigator(
       mode: 'card',
       navigationOptions: {
         title: '垃圾箱'
+      }
+    },
+    DiaryDetailPage: {
+      screen: DiaryDetailPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '日记详情页'
       }
     }
   },

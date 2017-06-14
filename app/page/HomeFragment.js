@@ -92,7 +92,7 @@ class HomeFragment extends Component {
   }
 
   _onRouterMine = () => {
-    this.props.navigation.navigate('ProfilePage', {message: '垃圾箱'})
+    this.props.navigation.navigate('PersonalCenter', {message: '个人中心'})
   }
   _onRouterSearch = () => {
     this.props.navigation.navigate('SearchPage',{message: '搜索'})

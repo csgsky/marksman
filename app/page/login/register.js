@@ -1,5 +1,5 @@
 import React, {Component} from 'React'
-import {StyleSheet, View, Text, Image, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
 import * as actions from '../../actions/registerAction'
@@ -20,26 +20,34 @@ class Register extends Component {
       timeSubscribe: ''
     }
   }
+
+  componentDidMount () {
+    console.warn('componentDidMount')
+    BackAndroid.addEventListener('hardwareBackPress', this._backPress)
+  }
   componentWillReceiveProps (nextProps) {
     const {userId} = nextProps
     if (userId !== this.props.userId) {
       var base64 = require('base-64')
       var utf8 = require('utf8')
-      var rawStr = '/ZTE/ZTE1.1.3/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
-      console.log('componentWillReceiveProps ===> ' + rawStr)
+      var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
       var words = encodeURIComponent(rawStr)
       var base64 = base64.encode(words)
       var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-      console.log('hmacSHA1 ==> ' + hmacSHA1)
-      AsyncStorage.setItem('token', hmacSHA1).then(
+      console.log('userId ==>: ' + userId)
+      console.log('hmacSHA1 ==>: ' + hmacSHA1)
+      console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
+      AsyncStorage.setItem('userId', userId + '')
+      AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
             PubSub.publish('refresh', hmacSHA1)
+            // this.props.actions.clearData()
             this.props.navigation.goBack(this.props.navigation.state.params.key)
           }
         )
     }
     // console.warn('componentWillReceiveProps ==> codeStatus  ' + codeStatus)
-    // console.warn('componentWillReceiveProps ==> isCounting  ' + isCounting)
+    console.warn('componentWillReceiveProps ==> counter  ' + nextProps.counter)
 
     if (nextProps.counter === 0) {
       this.state.timeSubscribe.unsubscribe()
@@ -116,7 +124,7 @@ class Register extends Component {
   }
 
   _login = () => {
-    const{correctUsername, correctPassword, correctCode, actions, } = this.props
+    const{correctUsername, correctPassword, correctCode, actions} = this.props
     console.warn('correctUsername: ' + correctUsername + ' correctPassword: ' + correctPassword + ' correctCode' + correctCode)
     this.props.navigation.goBack(this.props.navigation.state.params.key)
     if (correctUsername && correctPassword && correctCode) {
@@ -126,10 +134,17 @@ class Register extends Component {
       
   }
 
+  _backPress = () => {
+    console.warn('backPress')
+    if (typeof(this.state.timeSubscribe) === 'function') {
+      this.state.timeSubscribe.unsubscribe()
+    }
+    this.props.actions.clearData()
+  }
+
   _getCode = () => {
-    // alert('获取验证码')
     const {actions, isCounting, correctUsername, username} = this.props
-    if(correctUsername) {
+    if(correctUsername && !isCounting) {
       actions.getVerCode(username)
       const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
         actions.codeCounter(it)
