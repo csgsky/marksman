@@ -1,30 +1,28 @@
 import 'rxjs'
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/topicsAction'
+import * as actions from '../actions/topic'
 import { combineEpics } from 'redux-observable'
-import { TopicsListApi } from '../api/apis'
+import { TopicApi, CommentsApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
-function talksInitEpic (action$) {
-  return action$.ofType(actions.TOPICS_INIT)
+function topicInitEpic (action$) {
+  return action$.ofType(actions.TOPIC_INIT)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
-                Observable.of(action.page),
-                (token, page) => {
-                  return {token, page}
+                (token) => {
+                  return {token}
                 }
               ).flatMap(
-                it => {
-                  if (it.token) {
-                    return Observable.from(TopicsListApi(it.token, it.page))
-                  } else {
-                    return Observable.of(2)
-                  }
-                }
+                it => Observable.zip(
+                  Observable.from(TopicApi(action.params.topicId, it.token)),
+                  Observable.from(CommentsApi(action.params.topicId, action.params.ownerId, 0, it.token)),
+                  (topic, {comments}) => ({topic: topic.talk, comments})
+                ).flatMap(it => Observable.of(it))
               ).map(it => {
                 if (it.return_code === 2) {
                 } else {
-                  return actions.topicListData(it.talks)
+                  console.log('epic  ---> topic ' + it.topic)
+                  return actions.topicData(it)
                 }
               }
             ).catch(error => {
@@ -33,8 +31,8 @@ function talksInitEpic (action$) {
        )
 }
 
-function talksMoreEpic (action$) {
-  return action$.ofType(actions.TOPICS_MORE)
+function commentsMoreEpic (action$) {
+  return action$.ofType(actions.TOPIC_COMMENTS_LOAD_MORE)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
@@ -45,7 +43,7 @@ function talksMoreEpic (action$) {
               ).flatMap(
                 it => {
                   if (it.token) {
-                    return Observable.from(TopicsListApi(it.token, it.page))
+                    return Observable.from(CommentsApi(it.token, it.page))
                   } else {
                     return Observable.of(2)
                   }
@@ -53,7 +51,7 @@ function talksMoreEpic (action$) {
               ).map(it => {
                 if (it.return_code === 2) {
                 } else {
-                  return actions.topicListMoreData(it.talks)
+                  return actions.topicCommentsMoreData(it)
                 }
               }
             ).catch(error => {
@@ -62,4 +60,4 @@ function talksMoreEpic (action$) {
        )
 }
 
-export default combineEpics(talksInitEpic, talksMoreEpic)
+export default combineEpics(topicInitEpic, commentsMoreEpic)

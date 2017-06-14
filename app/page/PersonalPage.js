@@ -13,7 +13,7 @@ import CustomButton from '../component/Button'
 class PersonalPage extends Component {
 
   static navigationOptions = ({navigation}) => ({
-    headerStyle: {elevation: 0, backgroundColor: '#fff', borderBottomWidth: 0, shadowColor: '#fff'},
+    headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: <CustomButton title="关注"/>,
     headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })

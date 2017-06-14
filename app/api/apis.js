@@ -31,6 +31,7 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
+  console.log(path)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
@@ -103,3 +104,9 @@ export const PersonalDiariesApi = (userId, page) =>
 // 反馈意见
 export const FeedbackApi = (data, userId) =>
   postApi(`/api/feedback`, data, userId)
+
+export const TopicApi = (id, userId) =>
+  getApi(`/api/talk/${id}`, userId)
+
+export const CommentsApi = (topicId, ownerId, page, userId) =>
+  getApi(`/api/${topicId}/${ownerId}/comment?p=${page}&rn=2`, userId)
