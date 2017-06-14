@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity, Image} from 'react-native'
+import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native'
 import * as actions from '../actions/topic'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'

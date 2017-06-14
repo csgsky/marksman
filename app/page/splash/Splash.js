@@ -28,22 +28,27 @@ export default class Splash extends Component {
     }
   }
   componentDidMount () {
-  //  AsyncStorage.setItem('token', 'a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+   AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        // 游客状态
+        console.warn('splah ==> userId null')
+        AsyncStorage.setItem('token', 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+        // 网络请求，获取当前设备的信息，判断当前用户是否选过标签
+        // 若没有选过标签，进入标签选择页面，直接进入职业
+      }
+   })
    const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
       this.setState({
         time: 3 - it
       })
       if ((it + 1) === 4) {
         AsyncStorage.getItem('first').then(
-          (result) => {
+          () => {
             this.props.navigation.dispatch(resetActionMain)
-            // if (result !== null) {
-            //   this.props.navigation.dispatch(resetActionMain)
-            // } else {
-            //   this.props.navigation.dispatch(resetAction)
-            // }
           }
-        )
+        ).catch((error) => {
+          alert('请重新获取')
+        })
       }
     })
    this.setState({
