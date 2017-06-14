@@ -22,6 +22,7 @@ import TopicListPage from '../page/TopicListPage'
 import LovedListPage from '../page/LovedListPage'
 import PersonalPage from '../page/PersonalPage'
 import TrashPage from '../page/profile/Trash'
+import TopicPage from '../page/TopicPage'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
 class Navigation extends Component {
@@ -238,6 +239,10 @@ const Navigator = StackNavigator(
       navigationOptions: {
         title: '反馈意见'
       }
+    },
+    TopicPage: {
+      screen: TopicPage,
+      mode: 'card'
     }
   },
   { initialRouteName: 'Splash',

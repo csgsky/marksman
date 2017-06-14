@@ -10,25 +10,25 @@ const initState = {
 
 export default function talkList (state = initState, action = {}) {
   switch (action.type) {
-    case types.TOPIC_INIT:
+    case types.TOPICS_INIT:
       return {
         ...state,
         isRefreshing: action.isRefreshing,
         page: action.page
       }
-    case types.TOPIC_DATA:
+    case types.TOPICS_DATA:
       return {
         ...state,
         isRefreshing: action.isRefreshing,
         talks: action.talks,
         hasMore: action.hasMore
       }
-    case types.TOPIC_MORE:
+    case types.TOPICS_MORE:
       return {
         ...state,
         isLoadingMore: action.isLoadingMore
       }
-    case types.TOPIC_MORE_DATA:
+    case types.TOPICS_MORE_DATA:
       return {
         ...state,
         isLoadingMore: action.isLoadingMore,

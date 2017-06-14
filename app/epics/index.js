@@ -11,8 +11,9 @@ import searchInitEpic from './searchEpic'
 import trashEpic from './trashEpic'
 import personalEpic from './personEpic'
 import feedbackEpic from './feedbackEpic'
+import topicEpic from './topicEpic'
 export default combineEpics(
   loginEpic, homeInitEpic, recentInitEpic, hotDiaryInitEpic, collectionInitEpic,
   discoveryInitEpic, lovedInitEpic, talksEpic, searchInitEpic, trashEpic, personalEpic,
-  feedbackEpic
+  feedbackEpic, topicEpic
 )
