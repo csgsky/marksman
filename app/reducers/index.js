@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 
 import homePage from './homeReducer'
-import login from './login'
+import login from './loginReducer'
 import recentDiary from './recentDiaryReducer'
 import hotDiary from './hotDiaryReducer'
 import collections from './collectionsReducer'
@@ -13,6 +13,7 @@ import trash from './trashReducer'
 import personalData from './personalReducer'
 import feedback from './feedback'
 import topic from './topic'
+import register from './registerReducer'
 export default combineReducers({
   homePage,
   login,
@@ -25,6 +26,10 @@ export default combineReducers({
   search,
   trash,
   personalData,
+<<<<<<< HEAD
   feedback,
   topic
+=======
+  register
+>>>>>>> dev
 })
