@@ -12,6 +12,7 @@ import search from './searchReducer'
 import trash from './trashReducer'
 import personalData from './personalReducer'
 import feedback from './feedback'
+import topic from './topic'
 export default combineReducers({
   homePage,
   login,
@@ -24,5 +25,6 @@ export default combineReducers({
   search,
   trash,
   personalData,
-  feedback
+  feedback,
+  topic
 })
