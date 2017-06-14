@@ -1,0 +1,1 @@
+export const PERSONAL_INFO_INIT = 'PERSONAL_INFO_INIT'
