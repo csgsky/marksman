@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 
 import homePage from './homeReducer'
-import login from './login'
+import login from './loginReducer'
 import recentDiary from './recentDiaryReducer'
 import hotDiary from './hotDiaryReducer'
 import collections from './collectionsReducer'

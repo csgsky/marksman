@@ -1,34 +1,31 @@
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/loginActions'
-import {login} from '../utils/NetUtils'
 import { combineEpics } from 'redux-observable'
 import {AsyncStorage} from 'react-native'
+import {LoginApi} from '../api/apis'
 function loginEpic (action$) {
   return action$.ofType(actions.LOGIN)
             .mergeMap((action) =>
                 Observable.zip(
-                  Observable.of(action.sex),
-                  Observable.of(action.sign),
-                  Observable.of(action.nickname),
-                  Observable.of(action.tags),
-                  (sex, sign, nickname, tags) => {
-                    console.log('epic  --->  username  ' + sex)
-                    console.log('epic  --->  password  ' + sign)
-                    console.log('epic  --->  password  ' + nickname)
-                    console.log('epic  --->  password  ' + tags)
-                    return {sex, sign, nickname, tags}
+                  Observable.from(AsyncStorage.getItem('token')),
+                  Observable.of(action.account),
+                  Observable.of(action.password),
+                  (token, account, password) => {
+                    return {token, data: {account, password}}
                   }
                 ).flatMap(it => {
-                  return Observable.from(login(it))
+                  return Observable.from(LoginApi(it.token, it.data))
                 }
                 ).map(it => {
-                  if (it != null) {
-                    return actions.loginSuccess(it)
+                  if (it.return_code === 1) {
+                    return actions.loginSuccess(it, it.user_id)
                   } else {
-                    console.log('epic 异步有问题')
+                    return actions.loginError(it.return_msg)
                   }
                 }
-                )
+              ).catch(error => {
+                console.warn('epic error --> ' + error)
+              })
         )
 }
 
