@@ -92,18 +92,18 @@ class HomeFragment extends Component {
   }
 
   _onRouterMine = () => {
-    this.props.navigation.navigate('ProfilePage', {message: '垃圾箱'})
+    this.props.navigation.navigate('PersonalCenter', {message: '个人中心'})
   }
   _onRouterSearch = () => {
-    this.props.navigation.navigate('PersonalPage',{message: '个人主页', id: 2})
-    // this.props.navigation.navigate('PersonalPage',{message: '个人主页', id: 2})
+    this.props.navigation.navigate('SearchPage',{message: '搜索'})
   }
   _onRouterWrite = () => {
     this.props.navigation.navigate('WriteDiaryPage',{message: '写日记'})
   }
 
   getItemCompt = ({item, index}) => {
-    return <DiaryItem item={item} hasComment = {false}/>
+    const {navigation} = this.props
+    return <DiaryItem item={item} navigation={navigation} hasComment = {false}/>
   }
   
   getItemSeparator = () => {
