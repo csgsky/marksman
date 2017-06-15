@@ -26,10 +26,7 @@ export default combineReducers({
   search,
   trash,
   personalData,
-<<<<<<< HEAD
   feedback,
-  topic
-=======
+  topic,
   register
->>>>>>> dev
 })
