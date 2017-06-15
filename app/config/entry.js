@@ -5,7 +5,8 @@ import {NativeModules, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
-import Login from '../page/login/Login'
+import FeedbackPage from '../page/profile/Feedback'
+import Login from '../page/login/login'
 import TabBarItem from '../widget/TabBarItem'
 import LabelPage from '../page/splash/LabelPage'
 import LabelPageTwo from '../page/splash/LabelPageTwo'
@@ -21,8 +22,9 @@ import CommonWebviewPage from '../page/webview/CommonWebviewPage'
 import TopicListPage from '../page/TopicListPage'
 import LovedListPage from '../page/LovedListPage'
 import PersonalPage from '../page/PersonalPage'
-import RegisterPage from '../page/login/Register'
+import RegisterPage from '../page/login/register'
 import TrashPage from '../page/profile/Trash'
+import TopicPage from '../page/TopicPage'
 import DiaryDetailPage from '../page/DiaryDetailPage'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
@@ -246,6 +248,17 @@ const Navigator = StackNavigator(
       navigationOptions: {
         title: '垃圾箱'
       }
+    },
+    FeedbackPage: {
+      screen: FeedbackPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '反馈意见'
+      }
+    },
+    TopicPage: {
+      screen: TopicPage,
+      mode: 'card'
     },
     DiaryDetailPage: {
       screen: DiaryDetailPage,
