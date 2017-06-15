@@ -31,6 +31,7 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
+  console.log(path)
   console.warn('getApi ==> userId ==> ' + userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
@@ -101,6 +102,16 @@ export const PersonalInfoApi = (userId, id) =>
 // 个人日记列表
 export const PersonalDiariesApi = (userId, page) =>
   getApi(`/api/diary?p=${page}&rn=3&ordertype=0&status=1&private=1`, userId)
+
+// 反馈意见
+export const FeedbackApi = (data, userId) =>
+  postApi(`/api/feedback`, data, userId)
+
+export const TopicApi = (id, userId) =>
+  getApi(`/api/talk/${id}`, userId)
+
+export const CommentsApi = (topicId, ownerId, page, userId) =>
+  getApi(`/api/${topicId}/${ownerId}/comment?p=${page}&rn=2`, userId)
 
 // 获取验证码
 export const getVertiCodeApi = (userId, account) =>
