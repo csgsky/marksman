@@ -51,7 +51,7 @@ class DiscoveryFrament extends Component {
   }
 
   getTalksItem = ({item}) => {
-    return <TalksItem item={item}/>
+    return <TalksItem item={item} navigation={this.props.navigation}/>
   }
 
   getRanksItem = ({item}) => {
