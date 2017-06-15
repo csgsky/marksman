@@ -12,11 +12,7 @@ export function postApi (path, map, userId) {
       'Accept': accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-<<<<<<< HEAD
-      'Authorization': authorization + userId
-=======
       'Authorization': userId
->>>>>>> dev
     },
     body: JSON.stringify(map)
   }).then((response) => {
@@ -35,11 +31,8 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
-<<<<<<< HEAD
   console.log(path)
-=======
   console.warn('getApi ==> userId ==> ' + userId)
->>>>>>> dev
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
