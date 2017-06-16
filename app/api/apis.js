@@ -1,5 +1,5 @@
 
-const baseUrlWithoutToken = (path) => 'http://101.95.97.178:2003' + path
+const baseUrlWithoutToken = path => 'http://101.95.97.178:2003' + path
 const accept = 'application/com.droi.qy-v1.0-1+json'
 const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
