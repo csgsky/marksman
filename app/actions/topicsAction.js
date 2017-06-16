@@ -6,7 +6,7 @@ export function topicListInit (page) {
   return {
     type: TOPICS_INIT,
     isRefreshing: true,
-    page: page
+    page
   }
 }
 

@@ -1,15 +1,17 @@
 import React, {Component} from 'react'
 import {TouchableOpacity, StyleSheet, View, Text, Image} from 'react-native'
+import FollowImg from '../img/follow.png'
 
 class CustomButton extends Component {
   render () {
     const {title} = this.props
-    return <TouchableOpacity>
-      <View style={styles.container}>
-        <Image source={require('../img/follow.png')} style={styles.img}/>
-        <Text style={styles.text}>{title}</Text>
-      </View>
-    </TouchableOpacity>
+    return (
+      <TouchableOpacity>
+        <View style={styles.container}>
+          <Image source={FollowImg} style={styles.img}/>
+          <Text style={styles.text}>{title}</Text>
+        </View>
+      </TouchableOpacity>);
   }
 }
 

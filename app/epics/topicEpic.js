@@ -17,15 +17,15 @@ function topicInitEpic (action$) {
                   Observable.from(TopicApi(action.params.topicId, it.token)),
                   Observable.from(CommentsApi(action.params.topicId, action.params.ownerId, 0, it.token)),
                   (topic, {comments}) => ({topic: topic.talk, comments})
-                ).flatMap(it => Observable.of(it))
-              ).map(it => {
+                ).flatMap(data => Observable.of(data))
+              ).map((it) => {
                 if (it.return_code === 2) {
-                } else {
-                  console.log('epic  ---> topic ' + it.topic)
-                  return actions.topicData(it)
+                  return null
                 }
+                console.log('epic  ---> topic ' + it.topic)
+                return actions.topicData(it)
               }
-            ).catch(error => {
+            ).catch((error) => {
               console.log('epic error --> ' + error)
             })
        )
@@ -33,28 +33,25 @@ function topicInitEpic (action$) {
 
 function commentsMoreEpic (action$) {
   return action$.ofType(actions.TOPIC_COMMENTS_LOAD_MORE)
-            .mergeMap((action) =>
+            .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page + 1),
-                (token, page) => {
-                  return {token, page}
-                }
+                (token, page) => ({token, page})
               ).flatMap(
-                it => {
+                (it) => {
                   if (it.token) {
-                    return Observable.from(CommentsApi(it.token, it.page))
-                  } else {
-                    return Observable.of(2)
+                    return Observable.from(CommentsApi(action.topicId, action.ownderId, it.token, it.page))
                   }
+                  return Observable.of(2)
                 }
-              ).map(it => {
+              ).map((it) => {
                 if (it.return_code === 2) {
-                } else {
-                  return actions.topicCommentsMoreData(it)
+                  return null
                 }
+                return actions.topicCommentsMoreData(it)
               }
-            ).catch(error => {
+            ).catch((error) => {
               console.log('epic error --> ' + error)
             })
        )
