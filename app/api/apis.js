@@ -110,8 +110,8 @@ export const FeedbackApi = (data, userId) =>
 export const TopicApi = (id, userId) =>
   getApi(`/api/talk/${id}`, userId)
 
-export const CommentsApi = (topicId, ownerId, page, userId) =>
-  getApi(`/api/${topicId}/${ownerId}/comment?p=${page}&rn=2`, userId)
+export const CommentsApi = ({topicId, ownerId, page, userId}) =>
+  getApi(`/api/${topicId}/${ownerId}/comment?p=${page}&rn=4`, userId)
 
 // 获取验证码
 export const getVertiCodeApi = (userId, account) =>
