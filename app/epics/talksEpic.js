@@ -14,14 +14,14 @@ function talksInitEpic (action$) {
                   return {token, page}
                 }
               ).flatMap(
-                it => {
+                (it) => {
                   if (it.token) {
                     return Observable.from(TopicsListApi(it.token, it.page))
                   } else {
                     return Observable.of(2)
                   }
                 }
-              ).map(it => {
+              ).map((it) => {
                 if (it.return_code === 2) {
                 } else {
                   return actions.topicListData(it.talks)
