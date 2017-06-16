@@ -14,29 +14,46 @@ class Topic extends Component {
   })
   componentDidMount () {
     // const {topicId, ownerId} = this.props.navigation.state.params
-    this.props.topicInit({topicId: 2, ownerId: 2})
+    this.props.topicInit({topicId: 8, ownerId: 3})
+  }
+  onRefresh = () => {
+    this.props.topicInit({topicId: 8, ownerId: 3})
+  }
+  handleLoadingMore = () => {
+    const {isLoadingMore, hasMore, page} = this.props
+    if (!isLoadingMore && hasMore) {
+      this.props.topicCommentsLoadMore({topicId: 8, ownerId: 3, page})
+    }
+  }
+  _onPressFollow = () => {
+    alert('Followed')
   }
   renderHeader = (topic) => {
     return (
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{topic.name}</Text>
-          <Text style={styles.follow}>关注</Text>
+          <TouchableOpacity onPress={this._onPressFollow}>
+            <View style={styles.follow}>
+              <Text style={styles.followText}>关注</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <Text style={styles.counts}>{topic.comment.num}评论 | {topic.like.num}赞</Text>
         <Text style={styles.content}>{topic.content}</Text>
-        <Text style={styles.tag}>{topic.tag}</Text>
+        <View style={styles.tag}>
+          <Text style={styles.tagText}>{topic.tag}</Text>
+        </View>
       </View>
     )
   }
-
   render () {
-    const {topic, comments} = this.props;
+    const {topic, comments, isRefreshing} = this.props;
     return (
       <View style={styles.container}>
         {topic && topic.name && <FlatList
           data={comments}
-          renderItem={({item}) => (<CommentItem data={item}/>)}
+          renderItem={({item}) => (<CommentItem data={item} navigation={this.props.navigation}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader(topic)}
           ItemSeparatorComponent={() => <ListSeparator/>}
@@ -46,7 +63,7 @@ class Topic extends Component {
             <RefreshControl
               onRefresh={this.onRefresh}
               color="#ccc"
-              refreshing={false}
+              refreshing={isRefreshing}
             />
           }
         />}
@@ -86,29 +103,32 @@ const styles = {
     paddingBottom: 13
   },
   follow: {
-    fontSize: theme.text.mdFontSize,
     width: 75,
     height: 25,
     borderRadius: 2,
-    lineHeight: 22,
-    textAlign: 'center',
-    color: '#fff',
+    justifyContent: 'center',
     backgroundColor: 'rgba(133, 179, 104, 0.57)'
   },
+  followText: {
+    fontSize: theme.text.mdFontSize,
+    textAlign: 'center',
+    color: '#fff',
+  },
   tag: {
-    backgroundColor: 'rgba(245,165,35,0.52)',
-    paddingLeft: 6,
-    paddingRight: 6,
+    borderRadius: 2,
+    width: 58,
+    justifyContent: 'center',
+    height: 18,
+    backgroundColor: 'rgba(245,165,35,0.52)'
+  },
+  tagText: {
     color: '#fff',
     textAlign: 'center',
-    borderRadius: 2,
-    lineHeight: 18,
-    width: 58,
-    fontSize: theme.text.mdFontSize
+    fontSize: theme.text.mdFontSize,
   }
 }
 
-const mapStateToProps = ({topic}) => ({topic: topic.topic, comments: topic.comments})
+const mapStateToProps = ({topic}) => topic
 
 const mapDispatchToProps = (dispatch) => (bindActionCreators(actions, dispatch))
 
