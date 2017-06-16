@@ -1,12 +1,17 @@
 import React, {Component} from 'React'
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Text, Image, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
 import theme from '../../config/theme'
 import Separator from '../../component/Separator'
 import ProfileItem from '../../component/item/ProfileItem'
 import * as consts from '../../utils/const'
 import PubSub from 'pubsub-js'
 import Rx from 'rxjs'
-export default class PersonalCenter extends Component {
+
+import * as actions from '../../actions/personalCenterAction'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+class PersonalCenter extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '个人中心',
@@ -16,27 +21,69 @@ export default class PersonalCenter extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
+  constructor (props) {
+    super (props)
+    this.state = {
+      avtar: '',
+      nickname: '',
+      sign: ''
+    }
+  }
+
   componentDidMount () {
+    // this.initData()
+    this._setUserInfo()
+    that = this
     PubSub.subscribe('refresh',function(come, data) {
       // 重新获取数据
-      console.warn('ProfilePage Refresh ==>: ' + data)
+      that._setUserInfo()
     })
   }
 
+  initData() {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result != null) {
+        this.props.actions.personalInfoInit(result)
+      } else {
+        this.props.actions.unLoginInfoInit()
+      }
+   })
+  }
+
+    _setUserInfo = () => {
+      AsyncStorage.getItem('avtar').then((result) => {
+        this.setState({
+          avtar: result
+        })
+      })
+
+      AsyncStorage.getItem('nickname').then((result) => {
+        this.setState({
+          nickname: result
+        })
+      })
+
+      AsyncStorage.getItem('sign').then((result) => {
+        this.setState({
+          sign: result
+        })
+      })
+  }
+
   render () {
-    const {navigation} = this.props
+    const {navigation, info} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
         <Separator />
         <View style={styles.view}>
           <View style={styles.profile}>
-            <Image  style={styles.avatar} source={require('../../img/test_icon.jpeg')}/>
+            <Image  style={styles.avatar} source={this.getSource()}/>
             <View style={styles.desc}>
               <View style={styles.nicknameView}>
-                <Text style={styles.nickname}>好好先生</Text>
+                <Text style={styles.nickname}>{this.state.nickname}</Text>
               </View>
               <View style={styles.signatureView}>
-                <Text style={styles.signature}>这个人很神奇，什么都没留下...</Text>
+                <Text style={styles.signature}>{this.state.sign}</Text>
               </View>
             </View>
           </View>
@@ -49,9 +96,17 @@ export default class PersonalCenter extends Component {
           <ProfileItem navigation ={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation ={navigation} value={consts.PROFILE_ABOUT_US}/>
       </View>
-      </View>
-      
+      </ScrollView>
     )
+  }
+
+  getSource = () => {
+    if (this.state.avtar === '' || this.state.avtar === null) {
+      return require('../../img/default_vatar.png')
+    } else {
+      return {uri: this.state.avtar}
+    }
+    
   }
   
 }
@@ -100,3 +155,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
   }
 })
+
+const mapStateToProps = (state) => {
+  const {personalCenter} = state
+  return {
+    info: personalCenter.info
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PersonalCenter)

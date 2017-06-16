@@ -262,10 +262,7 @@ const Navigator = StackNavigator(
     },
     DiaryDetailPage: {
       screen: DiaryDetailPage,
-      mode: 'card',
-      navigationOptions: {
-        title: '日记详情页'
-      }
+      mode: 'card'
     }
   },
   { initialRouteName: 'Splash',
