@@ -2,6 +2,7 @@ import React, {Component} from 'React'
 import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 import Rx from 'rxjs'
+import consts from '../../utils/const'
 import { NavigationActions } from 'react-navigation'
 // import * as actions from '../../actions/loginActions'
 // import { bindActionCreators } from 'redux'
@@ -27,14 +28,30 @@ export default class Splash extends Component {
       timeSubscribe: ''
     }
   }
+
+  _saveUserInfo = async (info) => {
+    await AsyncStorage.setItem('userId', info.user_id + '')
+    await AsyncStorage.setItem('sex', info.sex + '')
+    await AsyncStorage.setItem('sign', info.sign + '')
+    await AsyncStorage.setItem('nickname', info.nickname + '')
+    await AsyncStorage.setItem('tags', info.tags + '')
+  }
+
   componentDidMount () {
    AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        // 游客状态
+        // 游客状态 ，根据 udid 获取用户信息
         console.warn('splah ==> userId null')
-        AsyncStorage.setItem('token', 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+        // 保存用户的基本数据
         // 网络请求，获取当前设备的信息，判断当前用户是否选过标签
         // 若没有选过标签，进入标签选择页面，直接进入职业
+         AsyncStorage.setItem('token', 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
+         AsyncStorage.setItem('sex', 1)
+         AsyncStorage.setItem('sign', '头上有个大月亮.........')
+         AsyncStorage.setItem('nickname', 'allenchen')
+         AsyncStorage.setItem('tags', '1,3,4,5')
+      } else {
+
       }
    })
    const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
@@ -42,22 +59,19 @@ export default class Splash extends Component {
         time: 3 - it
       })
       if ((it + 1) === 4) {
-        AsyncStorage.getItem('first').then(
-          () => {
-            this.props.navigation.dispatch(resetActionMain)
-          }
-        ).catch((error) => {
-          alert('请重新获取')
-        })
+        this.props.navigation.dispatch(resetActionMain)
       }
     })
+
    this.setState({
      timeSubscribe: subscribe
    })
-  //  Rx.Observable.fromPromise(NativeModules.SplashScreen.getIMSI())
-  //    .subscribe(imsi => {
-  //      console.warn('imsi ====> ' + imsi)
-  //    })
+
+   Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
+     .subscribe(imsi => {
+       console.warn('imsi =====>    ' + imsi)
+       AsyncStorage.setItem('devicedid', '460022402238613')
+     })
   }
   render () {
     return (
@@ -72,17 +86,7 @@ export default class Splash extends Component {
 
  _onPress = () => {
     this.state.timeSubscribe.unsubscribe()
-    AsyncStorage.getItem('first').then(
-          (result) => {
-            console.warn('first ===> '+ result)
-            this.props.navigation.dispatch(resetActionMain)
-            // if (result !== null) {
-            //   this.props.navigation.dispatch(resetActionMain)
-            // } else {
-            //   this.props.navigation.dispatch(resetAction)
-            // }
-          }
-        )
+    this.props.navigation.dispatch(resetActionMain)
   }
 
  componentWillUnmount() {
