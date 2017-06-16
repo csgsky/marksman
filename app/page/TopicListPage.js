@@ -15,7 +15,7 @@ class TopicListPage extends Component {
       <View style={styles.view}>
         <FlatList
           data={talks}
-          renderItem={({item,index}) => <TalksItem item={item} index = {index} navigation = {navigation}/>}
+          renderItem={({item, index}) => <TalksItem item={item} index = {index} navigation = {navigation}/>}
           onEndReachedThreshold={0.1}
           onEndReached={(e) => this.handleLoadingMore(e)}
           removeClippedSubviews={false}

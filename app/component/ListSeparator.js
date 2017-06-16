@@ -10,7 +10,7 @@ export default class ListSeparator extends Component {
 const styles = StyleSheet.create({
   separator: {
     marginLeft: 16,
-    height: 1,
+    height: 0.5,
     backgroundColor: '#f8f8f8'
   }
 })

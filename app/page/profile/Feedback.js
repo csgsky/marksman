@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
   },
   submit: {
     color: '#c37f2e',
-    marginRight: 18
+    marginRight: 18,
+    fontSize: 20
   },
   tips: {
     position: 'absolute',
