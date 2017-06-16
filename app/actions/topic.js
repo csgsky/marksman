@@ -35,7 +35,6 @@ export function topicCommentsLoadMore (page) {
   console.log('action ---> TOPIC_COMMENTS_LOAD_MORE')
   return {
     type: TOPIC_COMMENTS_LOAD_MORE,
-    isLoadingMore: true,
     page
   }
 }
