@@ -15,17 +15,17 @@ export default class DiaryItem extends Component {
     let hasComment = this.props.hasComment
     return (
       <View>
-        <TouchableOpacity activeOpacity = {0.8} onPress={this.diaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: 16}}>
+        <TouchableOpacity activeOpacity = {0.8} onPress={this.props.showRightTime && this.diaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
           <View style={styles.time}>
             <Text style={styles.day}>{day}</Text>
-            <View style={{flex: 1, flexDirection: 'column', marginLeft: 4}}>
+            <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
               <Text style={styles.week}>{week}</Text>
               <Text style={styles.year_month}>{yymm}</Text>
             </View>
-            <Text style={styles.hour_minute}>{hhmm}</Text>
+            {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
           </View>
           {<Text style={styles.body} numberOfLines={6}>{content}</Text>}
-          {img !== '' && <TouchableOpacity onPress= {this.photoView} activeOpacity = {0.8}>
+          {img !== '' && <TouchableOpacity onPress= {this.props.showRightTime && this.photoView} activeOpacity = {0.8}>
                            <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]} 
                                   source={this.getSource(img)}/>
                                   </TouchableOpacity>}
@@ -50,12 +50,12 @@ export default class DiaryItem extends Component {
     const {navigation, item} = this.props
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false})
+        navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false, item: item})
       } else {
         if (result === item.user_id) {
-          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: true})
+          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: true, item: item})
         } else {
-          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false})
+          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false, item: item})
         }
       }
     })
