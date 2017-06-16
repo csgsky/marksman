@@ -5,21 +5,34 @@ import LikeIcon from '../../img/like.png'
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 
 export default class CommentItem extends Component {
+  _onPressUserAvatar = () => {
+    alert('should navigate to user page')
+  }
+  _onPressLike = () => {
+    alert('liked')
+  }
+  _onPressComment = () => {
+    alert('show comment detail')
+  }
   render () {
     const {data} = this.props
     return (
-      <TouchableOpacity
+      <TouchableOpacity onPress={this._onPressComment}
         activeOpacity={0.3}>
         <View style={styles.item}>
           <View style={styles.header}>
-            <Image source={data.avtar ? {uri: data.avtar} : theme.imgs.DefaultUserAvatar} style={styles.img}/>
+            <TouchableOpacity onPress={this._onPressUserAvatar}>
+              <Image source={data.avtar ? {uri: data.avtar} : theme.imgs.DefaultUserAvatar} style={styles.img}/>
+            </TouchableOpacity>
             <View style={styles.infoContainer}>
               <Text style={styles.name}>{data.nickname}</Text>
               <Text style={styles.time}>{data.create_time}</Text>
             </View>
             <Image source={CommentIcon} style={styles.comment} resizeMode="contain"/>
-            <Image source={LikeIcon} style={styles.like} resizeMode="contain"/>
-            <Text style={styles.count}>{data.like.num}</Text>
+            <TouchableOpacity style={{flexDirection: 'row'}} onPress={this._onPressLike}>
+              <Image source={LikeIcon} style={styles.like} resizeMode="contain"/>
+              <Text style={styles.count}>{data.like.num}</Text>
+            </TouchableOpacity>
           </View>
           <Text style={styles.content}>{data.content}</Text>
           {data.recomments && data.recomments.length > 0  && <View style={styles.comments}>
@@ -88,6 +101,7 @@ const styles = StyleSheet.create({
   count: {
     fontSize: theme.text.xlgFontSize,
     color: theme.text.globalSubTextColor,
+    height: 15
   },
   comments: {
     flexDirection: 'row',
