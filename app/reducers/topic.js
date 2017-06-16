@@ -17,12 +17,24 @@ export default function topic (state = initState, action = {}) {
         isRefreshing: true
       }
     case types.TOPIC_DATA:
-      console.log(action.topic, action.comments)
       return {
         ...state,
         isRefreshing: false,
         topic: action.topic,
         comments: action.comments
+      }
+    case types.TOPIC_COMMENTS_LOAD_MORE:
+      return {
+        ...state,
+        isLoadingMore: true
+      }
+    case types.TOPIC_COMMENTS_MORE_DATA:
+      return {
+        ...state,
+        isLoadingMore: false,
+        hasMore: action.hasMore,
+        page: state.page + 1,
+        comments: state.comments.concat(action.comments)
       }
     default:
       return state

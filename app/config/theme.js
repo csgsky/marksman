@@ -1,5 +1,5 @@
-'use strict'
 import { Dimensions, Platform } from 'react-native'
+import DefaultUserAvatar from '../img/test_icon.jpeg'
 
 const globalTextColor = '#4a4a4a'
 const globalSubTextColor = '#9b9b9b'
@@ -10,6 +10,7 @@ module.exports = {
   themeColor: '#FF5000',
   pageBackgroundColor: '#f4f4f4',
   grayColor: '#c4c4c4',
+  linkColor: '#6082a7',
   btnActiveOpacity: 0.7,
   actionBar: {
     height: 56,
@@ -18,15 +19,25 @@ module.exports = {
     fontColor: '#313131'
   },
   text: {
-    globalTextColor: globalTextColor,
-    globalSubTextColor: globalSubTextColor,
-    toolbarTitleColor: toolbarTitleColor,
-    fontSize: 16
+    globalTextColor,
+    globalSubTextColor,
+    toolbarTitleColor,
+    xxlgFontSize: 16,
+    xlgFontSize: 14,
+    lgFontSize: 12,
+    mdFontSize: 11,
+    smFontSize: 10
+  },
+  border: {
+    color: '#dcdcdc'
   },
   scrollView: {
     fontSize: 16,
     underlineStyle: {
       backgroundColor: 'white'
     }
+  },
+  imgs: {
+    DefaultUserAvatar
   }
 }
