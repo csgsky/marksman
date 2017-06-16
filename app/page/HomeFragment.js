@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {Text, View, Image, TouchableOpacity, StyleSheet, FlatList, RefreshControl} from 'react-native'
+import {Text, View, Image, TouchableOpacity, StyleSheet, FlatList, RefreshControl, NativeModules} from 'react-native'
 import * as actions from '../actions/homeActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -9,7 +9,7 @@ import theme from '../config/theme'
 import Separator from '../component/Separator'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
-
+import Rx from 'rxjs'
 var ImagePicker = require('react-native-image-picker')
 // 加密使用
 var CryptoJS = require('crypto-js')
@@ -103,7 +103,7 @@ class HomeFragment extends Component {
 
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment = {false}/>
+    return <DiaryItem item={item} navigation={navigation} hasComment = {false} showRightTime = {true}/>
   }
   
   getItemSeparator = () => {
