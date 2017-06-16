@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   tip: {
     lineHeight: 14,
     color: '#9b9b9b',
-    fontSize: 10,
+    fontSize: 14,
   }
 })
 

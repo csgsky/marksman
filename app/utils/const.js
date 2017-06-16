@@ -1,3 +1,4 @@
+// 常用变量
 export const appName = '浅言'
 export const USERNAME_PLACE_HOLDER = '请输入手机号码'
 export const PASSWORD_PLACE_HOLDER = '请输入您的密码'
@@ -12,3 +13,8 @@ export const PROFILE_RECOMMOND_F = '推荐给好友'
 export const PROFILE_NOTIFICATION = '系统通知'
 export const PROFILE_FEEDBACK = '反馈问题'
 export const PROFILE_ABOUT_US = '关于我们'
+
+// AsyncStorage 变量
+export const TOKEN = 'token'
+export const USERID = 'userId'
+export const DEVICEID = 'devicedid'
