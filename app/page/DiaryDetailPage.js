@@ -1,9 +1,10 @@
-import React, {Component} from 'React'
+import React, {Component} from 'react'
 import {View, Text, TouchableOpacity, Image} from 'react-native'
 // import * as actions from '../../actions/loginActions'
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
 import theme from '../config/theme'
+
 export default class DiaryDetailPage extends Component {
 
   static navigationOptions = ({navigation}) => ({

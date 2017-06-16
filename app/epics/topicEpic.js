@@ -14,8 +14,8 @@ function topicInitEpic (action$) {
                 }
               ).flatMap(
                 it => Observable.zip(
-                  Observable.from(TopicApi(action.params.topicId, it.token)),
-                  Observable.from(CommentsApi(action.params.topicId, action.params.ownerId, 0, it.token)),
+                  Observable.from(TopicApi(action.topicId, it.token)),
+                  Observable.from(CommentsApi({topicId: action.topicId, ownerId: action.ownerId, page: 0, userId: it.token})),
                   (topic, {comments}) => ({topic: topic.talk, comments})
                 ).flatMap(data => Observable.of(data))
               ).map((it) => {
@@ -41,7 +41,7 @@ function commentsMoreEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(CommentsApi(action.topicId, action.ownderId, it.token, it.page))
+                    return Observable.from(CommentsApi({topicId: action.topicId, ownerId: action.ownerId, page: action.page + 1, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
@@ -49,7 +49,8 @@ function commentsMoreEpic (action$) {
                 if (it.return_code === 2) {
                   return null
                 }
-                return actions.topicCommentsMoreData(it)
+                console.log(it)
+                return actions.topicCommentsMoreData(it.comments)
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)

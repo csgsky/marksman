@@ -29,6 +29,7 @@ export default function topic (state = initState, action = {}) {
         isLoadingMore: true
       }
     case types.TOPIC_COMMENTS_MORE_DATA:
+      console.log('action ---> TOTOPIC_COMMENTS_MORE_DATA', action)
       return {
         ...state,
         isLoadingMore: false,
