@@ -14,6 +14,7 @@ import personalData from './personalReducer'
 import feedback from './feedback'
 import topic from './topic'
 import register from './registerReducer'
+
 export default combineReducers({
   homePage,
   login,
