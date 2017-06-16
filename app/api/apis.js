@@ -124,3 +124,10 @@ export const RegisterApi = (userId, map) =>
 // 登录接口
 export const LoginApi = (userId, map) =>
   postApi(`/api/login`, map, userId)
+
+// 个人信息获取接口
+export const getUserProfile = (token, userId) =>
+  getApi(`/api/account/${userId}`, token)
+// 未登录根据 deviceId 获取用户数据
+export const getUnloginInfo = (token, userId) =>
+ getApi(`/api/customer/${userId}`, token)
