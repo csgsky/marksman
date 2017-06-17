@@ -1,6 +1,7 @@
 package com.marksman.module;
 
 import android.provider.Settings;
+import android.util.Log;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -29,13 +30,13 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
     }
     // 获取 imsi
     @ReactMethod
-    public void getIMSI(Promise promise) {
+    public void getDeviceId(Promise promise) {
         try {
 
             String androidId = Settings.Secure.getString(
                     getCurrentActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+            Log.i("getIMSI"," androidId ===>  " + androidId);
             promise.resolve(androidId);
-
 
         } catch (Exception e) {
             e.printStackTrace();
