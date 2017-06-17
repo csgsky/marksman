@@ -1,7 +1,11 @@
 import * as types from '../actions/diaryDetailAction'
 
 const initState = {
-  isRefreshing: true
+  isRefreshing: true,
+  comments: [],
+  isLoadingMore: false,
+  page: 0,
+  hasMore: true
 }
 
 export default function diaryDetail (state = initState, action = {}) {
@@ -10,7 +14,14 @@ export default function diaryDetail (state = initState, action = {}) {
       console.warn('reducer  --->  DIARY_DETAIL_INIT')
       return {
         ...state,
-        isRefreshing: false
+        isRefreshing: true
+      }
+    case types.DIARY_COMMENT_DATA:
+      console.warn('reducer  --->  DIARY_DETAIL_INIT')
+      return {
+        ...state,
+        isRefreshing: false,
+        comments: action.comments
       }
     default:
       return state

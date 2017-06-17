@@ -50,12 +50,12 @@ export default class DiaryItem extends Component {
     const {navigation, item} = this.props
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false, item: item})
+        navigation.navigate('DiaryDetailPage', {me: false, item: item})
       } else {
         if (result === item.user_id) {
-          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: true, item: item})
+          navigation.navigate('DiaryDetailPage', {me: true, item: item})
         } else {
-          navigation.navigate('DiaryDetailPage',{diaryId: item.diary_id, me: false, item: item})
+          navigation.navigate('DiaryDetailPage', {me: false, item: item})
         }
       }
     })

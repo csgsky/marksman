@@ -14,8 +14,10 @@ import feedbackEpic from './feedbackEpic'
 import topicEpic from './topicEpic'
 import registerEpic from './registerEpic'
 import personalInfo from './personalCenterEpic'
+import diaryCommentEpic from './diaryDetailEpic'
+
 export default combineEpics(
   loginEpic, homeInitEpic, recentInitEpic, hotDiaryInitEpic, collectionInitEpic,
   discoveryInitEpic, lovedInitEpic, talksEpic, searchInitEpic, trashEpic, personalEpic,
-  feedbackEpic, topicEpic, registerEpic, personalInfo
+  feedbackEpic, topicEpic, registerEpic, personalInfo, diaryCommentEpic
 )
