@@ -1,27 +1,23 @@
 import {AsyncStorage} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/homeActions'
-import { MineDiaryApi } from '../api/apis'
+import * as actions from '../actions/diaryDetailAction'
+import { CommentsApi } from '../api/apis'
 
-function homeInitEpic (action$) {
-  return action$.ofType(actions.HOME_INIT)
-            .mergeMap((action) =>
+function diaryCommentInitEpic (action$) {
+  return action$.ofType(actions.DIARY_COMMENT_INIT)
+            .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 token => ({token})
               ).flatMap(
-                (it) => {
-                  if (it.token) {
-                    return Observable.from(MineDiaryApi(it.token))
-                  }
-                  return Observable.of(2)
-                }
+                it => Observable.from(CommentsApi({id: action.id, ownerId: action.ownerId, page: 0, userId: it.token}))
               ).map((it) => {
                 if (it.return_code === 2) {
                   return null
                 }
-                return actions.homeData(it)
+                console.log('epic  ---> topic ' + it.topic)
+                return actions.diaryCommentData(it)
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
@@ -29,4 +25,4 @@ function homeInitEpic (action$) {
        )
 }
 
-export default combineEpics(homeInitEpic)
+export default combineEpics(diaryCommentInitEpic)
