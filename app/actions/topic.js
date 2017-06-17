@@ -6,11 +6,11 @@ export const TOPIC_COMMENTS_MORE_DATA = 'TOPIC_COMMENTS_MORE_DATA'
 export const TOPIC_FOLLOW = 'TOPIC_FOLLOW'
 export const TOPIC_FOLLOW_SUCCESS = 'TOPIC_FOLLOW_SUCCESS'
 
-export function topicInit ({topicId, ownerId}) {
+export function topicInit ({id, ownerId}) {
   return {
     type: TOPIC_INIT,
     isRefreshing: true,
-    topicId,
+    id,
     ownerId
   }
 }
@@ -34,11 +34,11 @@ export function topicData (data) {
   }
 }
 
-export function topicCommentsLoadMore ({topicId, ownerId, page}) {
+export function topicCommentsLoadMore ({id, ownerId, page}) {
   console.log('action ---> TOPIC_COMMENTS_LOAD_MORE')
   return {
     type: TOPIC_COMMENTS_LOAD_MORE,
-    topicId,
+    id,
     ownerId,
     page
   }
