@@ -58,4 +58,29 @@ function commentsMoreEpic (action$) {
        )
 }
 
-export default combineEpics(topicInitEpic, commentsMoreEpic)
+function topicFollowEpic (action$) {
+  return action$.ofType(actions.TOPIC_FOLLOW)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.page + 1),
+                (token, page) => ({token, page})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(topicFollowEpic(action.id))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                if (it.return_code === 2) {
+                  return null
+                }
+                console.log(it.return_message)
+                return actions.topicFollowSuccess()
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
+
+export default combineEpics(topicInitEpic, commentsMoreEpic, topicFollowEpic)
