@@ -1,12 +1,15 @@
+import React, {Component} from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import React, {Component} from 'react'
 import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList} from 'react-native'
 import * as actions from '../actions/diaryDetailAction'
 import theme from '../config/theme'
+import CommentItem from '../component/item/CommentItem'
+import ListSeparator from '../component/ListSeparator'
 import DiaryItem from '../component/item/DiaryItem'
 import PublicStamp from '../img/public_stamp.png'
 import PrivateStamp from '../img/private_stamp.png'
+import DefaultUserAvatar from '../img/default_vatar.png'
 
 class DiaryDetailPage extends Component {
 
@@ -18,8 +21,8 @@ class DiaryDetailPage extends Component {
       <View style={{width: 50, height: 50, backgroundColor: 'red'}}/>
     </View>
       : <View style={{flexDirection: 'row', marginRight: 16}}>
-        <Text style={{alignSelf: 'center', fontSize: 14, marginRight: 11}}>我是真的想你</Text>
-        <Image style={{width: 40, height: 40}} resizeMode="contain" source={theme.imgs.DefaultUserAvatar}/>
+        <Text style={{alignSelf: 'center', fontSize: 14, marginRight: 11}}>{navigation.state.params.item.nickname}</Text>
+        <Image style={{width: 40, height: 40}} resizeMode="contain" source={DefaultUserAvatar}/>
       </View>,
     headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}>
       <Image resizeMode="contain"
@@ -30,14 +33,17 @@ class DiaryDetailPage extends Component {
   })
 
   componentDidMount () {
-    // let diaryId = this.props.navigation.state.params.diaryId;
-    this.props.actions.diaryCommentInit()
+    const id = this.props.navigation.state.item.diary_id
+    const userId = this.props.navigation.state.item.user_id
+    this.props.diaryCommentInit({id, userId})
   }
 
 
 
   onRefresh = () => {
-    console.warn('hahah ==> hehehe ===> hahah')
+    const id = this.props.navigation.state.item.diary_id
+    const userId = this.props.navigation.state.item.user_id
+    this.props.diaryCommentInit({id, userId})
   }
 
   getHeaderView = () =>
@@ -57,7 +63,7 @@ class DiaryDetailPage extends Component {
     } else if (this.props.navigation.state.params.item.ifprivate === 0) {
       return PrivateStamp
     }
-    return PublicStamp
+    return PrivateStamp
   }
 
   handleLoadingMore = () => {
@@ -66,18 +72,17 @@ class DiaryDetailPage extends Component {
 
 
   render () {
-    const {isRefreshing} = this.props
-    const data = [{key: '...............'}, {key: '!!!!!!!!!!!!!!'}, {key: '##############'}, {key: '$$$$$$$$$$$$$$$$$'},
-                {key: '...............q'}, {key: '!!!!!!!!!!!!!!w'}, {key: '##############w'}, {key: '$$$$$d$$$$$$$$$$$$'},
-                {key: '............h...'}, {key: '!!!!!!!!g!!!!!'}, {key: '#####f#########'}, {key: '$$$$$$$$ss$$$$$$$$$'}]
+    const {isRefreshing, comments} = this.props
+    console.log('comment render length ===> ' + comments.length)
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View>
           <FlatList
-            data={data}
-            renderItem={({item, index}) => <Text style={{height: 40}}>{item.key} + {index}</Text>}
+            data={comments}
+            renderItem={({item}) => (<CommentItem data={item} navigation={this.props.navigation}/>)}
             onEndReachedThreshold={0.1}
             ListHeaderComponent={this.getHeaderView}
+            ItemSeparatorComponent={() => <ListSeparator/>}
             onEndReached={this.handleLoadingMore}
             removeClippedSubviews={false}
             refreshControl={
@@ -92,12 +97,6 @@ class DiaryDetailPage extends Component {
       </View>
     )
   }
-
-
-
-
-
-
 }
 
 
@@ -110,16 +109,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state) => {
-  const {diaryDetail} = state
-  return {
-    isRefreshing: diaryDetail.isRefreshing
-  }
-}
+const mapStateToProps = ({diaryDetail}) => diaryDetail
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions, dispatch)
-})
-
+const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiaryDetailPage)

@@ -10,19 +10,19 @@ import * as actions from '../actions/topic'
 class Topic extends Component {
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
-    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
+    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()} }><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
   componentDidMount () {
     // const {topicId, ownerId} = this.props.navigation.state.params
-    this.props.topicInit({topicId: 8, ownerId: 3})
+    this.props.topicInit({id: 8, ownerId: 3})
   }
   onRefresh = () => {
-    this.props.topicInit({topicId: 8, ownerId: 3})
+    this.props.topicInit({id: 8, ownerId: 3})
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
     if (!isLoadingMore && hasMore) {
-      this.props.topicCommentsLoadMore({topicId: 8, ownerId: 3, page})
+      this.props.topicCommentsLoadMore({id: 8, ownerId: 3, page})
     }
   }
   _onPressFollow = () => {
@@ -130,6 +130,6 @@ const styles = {
 
 const mapStateToProps = ({topic}) => topic
 
-const mapDispatchToProps = (dispatch) => (bindActionCreators(actions, dispatch))
+const mapDispatchToProps = dispatch => (bindActionCreators(actions, dispatch))
 
 export default connect(mapStateToProps, mapDispatchToProps)(Topic)

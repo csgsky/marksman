@@ -1,20 +1,22 @@
-export const DIARY_DETAIL_INIT = 'DIARY_DETAIL_INIT'
-export const DIARY_DETAIL_DATA = 'DIARY_DETAIL_DATA'
+export const DIARY_COMMENT_INIT = 'DIARY_COMMENT_INIT'
+export const DIARY_COMMENT_DATA = 'DIARY_COMMENT_DATA'
 
 
-export function diaryCommentInit () {
-  console.warn('action  --->  COLLECTIONS_DATA')
+export function diaryCommentInit ({id, ownerId}) {
+  console.warn('action  --->  DIARY_COMMENT_INIT')
   return {
-    type: DIARY_DETAIL_INIT,
-    isRefreshing: true
+    type: DIARY_COMMENT_INIT,
+    isRefreshing: true,
+    id,
+    ownerId,
   }
 }
 
-export function diaryCommentData (comment) {
+export function diaryCommentData (data) {
   console.log('action  --->  COLLECTIONS_DATA')
   return {
-    type: DIARY_DETAIL_DATA,
+    type: DIARY_COMMENT_DATA,
     isRefreshing: false,
-    comment
+    comments: data.comments
   }
 }
