@@ -124,3 +124,17 @@ export const RegisterApi = (userId, map) =>
 // 登录接口
 export const LoginApi = (userId, map) =>
   postApi(`/api/login`, map, userId)
+
+// 话题关注接口
+export const FollowTopicApi = (topicId, userId) =>
+  postApi(`/api/talk/focus/${topicId}`, userId)
+
+// 话题取消关注接口
+
+// 关注用户接口
+export const FollowUserApi = (account, userId) =>
+  postApi(`/api/account/focus/${account}`, userId)
+
+// 点赞用户接口
+export const LikeApi = ({id, ownerId, userId}) =>
+  postApi(`/api/${id}/${ownerId}}/like`, userId)
