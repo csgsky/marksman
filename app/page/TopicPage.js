@@ -25,17 +25,19 @@ class Topic extends Component {
       this.props.topicCommentsLoadMore({topicId: 8, ownerId: 3, page})
     }
   }
-  _onPressFollow = () => {
-    alert('Followed')
+  _onPressFollow = (focused, id) => {
+    if (!focused) {
+      this.props.topicFollow(id)
+    }
   }
   renderHeader = (topic) => {
     return (
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{topic.name}</Text>
-          <TouchableOpacity onPress={this._onPressFollow}>
+          <TouchableOpacity onPress={() => this._onPressFollow(topic.my_focus, 8)}>
             <View style={styles.follow}>
-              <Text style={styles.followText}>关注</Text>
+              <Text style={styles.followText}>{topic.my_focus ? '取消关注' : '关注'}</Text>
             </View>
           </TouchableOpacity>
         </View>
