@@ -105,13 +105,14 @@ export const PersonalDiariesApi = (userId, page) =>
 
 // 反馈意见
 export const FeedbackApi = (data, userId) =>
-  postApi(`/api/feedback`, data, userId)
+  postApi('/api/feedback', data, userId)
 
 export const TopicApi = (id, userId) =>
   getApi(`/api/talk/${id}`, userId)
 
-export const CommentsApi = ({topicId, ownerId, page, userId}) =>
-  getApi(`/api/${topicId}/${ownerId}/comment?p=${page}&rn=4`, userId)
+// 评论列表
+export const CommentsApi = ({id, ownerId, page, userId}) =>
+  getApi(`/api/${id}/${ownerId}/comment?p=${page}&rn=10`, userId)
 
 // 获取验证码
 export const getVertiCodeApi = (userId, account) =>
