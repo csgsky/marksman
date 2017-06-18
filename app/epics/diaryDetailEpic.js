@@ -16,7 +16,7 @@ function diaryCommentInitEpic (action$) {
                 if (it.return_code === 2) {
                   return null
                 }
-                console.log('epic  ---> topic ' + it.topic)
+                // console.log('epic  ---> topic ' + it.topic)
                 return actions.diaryCommentData(it)
               }
             ).catch((error) => {

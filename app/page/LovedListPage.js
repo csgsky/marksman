@@ -1,24 +1,45 @@
-import React, {Component} from 'React'
-import {StyleSheet, View, Text, FlatList, RefreshControl} from 'react-native'
-import theme from '../config/theme'
-import * as actions from '../actions/lovedActions'
+import React, {Component} from 'react'
+import {StyleSheet, View, FlatList, RefreshControl} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import * as actions from '../actions/lovedActions'
 import TopUserItem from '../component/item/TopuserItem'
+
 class LovedListPage extends Component {
   componentDidMount () {
     this.props.actions.LovedListInit(0)
   }
+
+
+  onRefresh = () => {
+    this.props.actions.LovedListInit(0)
+  }
+
+  handleLoadingMore = () => {
+    const {isLoadingMore, hasMore, page} = this.props
+    if (!isLoadingMore && hasMore) {
+      this.props.actions.LovedListMore(page)
+    } else {
+      console.warn('loved 没有了')
+    }
+  }
+
   render () {
     const {isRefreshing, loved, navigation} = this.props
+    const {LovedFollowed} = this.props.actions
     return (
       <View style={styles.view}>
         <FlatList
           data={loved}
-          renderItem={({item}) => <TopUserItem item={item} navigation = {navigation}/>}
+          renderItem={({item, index}) =>
+            (<TopUserItem
+              item={item}
+              position={index}
+              LovedFollowed={LovedFollowed}
+              navigation={navigation}/>)}
           onEndReachedThreshold={0.1}
           removeClippedSubviews={false}
-          onEndReached={(e) => this.handleLoadingMore(e)}
+          onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}
@@ -31,18 +52,7 @@ class LovedListPage extends Component {
     )
   }
 
-  handleLoadingMore = (e) => {
-    const {isLoadingMore, hasMore, page} = this.props
-    if (!isLoadingMore && hasMore) {
-      this.props.actions.LovedListMore(page)
-    } else {
-      console.warn('loved 没有了')
-    }
-  }
 
-  onRefresh = () => {
-    this.props.actions.LovedListInit(0)
-  }
 }
 
 const mapStateToProps = (state) => {
@@ -56,7 +66,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 })
 
