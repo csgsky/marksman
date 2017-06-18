@@ -6,14 +6,7 @@ export default class TopUserItem extends Component {
 
   _onPressFollow = (myFocus, id, position) => {
     const {LovedFollowed} = this.props
-    if (myFocus === 0) {
-      // 关注
-      LovedFollowed(id, position, myFocus)
-      // alert('关注 => ' + focused + ' index ===> ' + position)
-    } else {
-      // 取消关注
-      LovedFollowed(id, position, myFocus)
-    }
+    LovedFollowed(id, position, myFocus)
   }
 
   _routerToPersonalPage = () => {

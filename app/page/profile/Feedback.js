@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import theme from '../../config/theme'
-import {connect} from 'react-redux'
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native'
 import * as actions from '../../actions/feedback'
 import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native'
 
 class Feedback extends Component {
   constructor (props) {
@@ -20,7 +20,7 @@ class Feedback extends Component {
   })
 
   componentDidMount () {
-    var that = this;
+    const that = this;
     this.props.navigation.setParams({
       handleSubmit: () => {
         if (that.state.text) {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   submit: {
     color: '#c37f2e',
     marginRight: 18,
-    fontSize: 20
+    fontSize: theme.text.xxlgFontSize
   },
   tips: {
     position: 'absolute',

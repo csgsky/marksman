@@ -26,6 +26,9 @@ import RegisterPage from '../page/login/register'
 import TrashPage from '../page/profile/Trash'
 import TopicPage from '../page/TopicPage'
 import DiaryDetailPage from '../page/DiaryDetailPage'
+import MyFollowUsers from '../page/profile/MyFollowUsers'
+import MyFollowTopics from '../page/profile/MyFollowTopics'
+
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
 class Navigation extends Component {
@@ -56,6 +59,38 @@ const FooterTab = TabNavigator(
       screen: HotDiary,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '热门'
+      })
+    }
+  },
+  {
+    tabBarComponent: TabBarTop,
+    swipeEnabled: true,
+    animationEnabled: true,
+    lazy: true,
+    tabBarPosition: 'top',
+    tabBarOptions: {
+      activeTintColor: 'black',
+      inactiveTintColor: '#9b9b9b',
+      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2},
+      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
+      labelStyle: {fontSize: 15},
+      tabStyle: {width: 65}
+    }
+  }
+)
+
+const MyFollowTab = TabNavigator(
+  {
+    Users: {
+      screen: MyFollowUsers,
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: '用户'
+      })
+    },
+    Hot: {
+      screen: MyFollowTopics,
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: '话题'
       })
     }
   },
@@ -263,6 +298,13 @@ const Navigator = StackNavigator(
     DiaryDetailPage: {
       screen: DiaryDetailPage,
       mode: 'card'
+    },
+    MyFollowPage: {
+      screen: MyFollowTab,
+      mode: 'card',
+      navigationOptions: {
+        header: null
+      }
     }
   },
   { initialRouteName: 'Splash',

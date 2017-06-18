@@ -4,7 +4,7 @@ import theme from '../../config/theme'
 
 export default class TalksItem extends Component {
   render () {
-    const {item, index, navigation} = this.props
+    const {item, index, navigation, type} = this.props
     let cover = item.icon_url
     let name = item.name
     let tag = item.tag
@@ -15,14 +15,25 @@ export default class TalksItem extends Component {
       <View style={styles.item}>
         <Image style={styles.img} source={require('../../img/splash.jpg')}></Image>
         <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
-        <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: 6}}>
-          <Text style={styles.title} numberOfLines={1}>{name}</Text>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingBottom: 6}}>
+            <Text style={styles.title} numberOfLines={1}>{name}</Text>
+          </View>
+          {type !== 'followed' && <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
+            <Text style={styles.tag}>{tag}</Text>
+            <Text style={styles.comment}>{comment}</Text>
+          </View>}
+          {type === 'followed' && <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{flex: 1}}>
+              <Text style={styles.comment}>{comment}</Text>
+              <Text style={styles.tag}>{tag}</Text>
+            </View>
+            <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => this._onPressFollow(item.diary_id, index, item.my_focus, 'topics')}>
+              <View style={styles.follow}>
+                <Text style={styles.followText}>{item.my_focus ? '取消关注' : '关注'}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>}
         </View>
-        <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
-          <Text style={styles.tag}>{tag}</Text>
-          <Text style={styles.comment}>{comment}</Text>
-        </View>
-      </View>
       </View>
     </TouchableOpacity>
   }
@@ -33,7 +44,11 @@ export default class TalksItem extends Component {
 
   getSource = (img) => {
     return {uri: img}
-  } 
+  }
+
+  _onPressFollow = (id, position, myFocus, type) => {
+    this.props.onPressFollow(id, position, myFocus, type)
+  }
 }
 
 const styles = StyleSheet.create({
@@ -57,5 +72,17 @@ const styles = StyleSheet.create({
     color: theme.text.globalSubTextColor,
     fontSize: 14,
     flex: 1
-  }
+  },
+  follow: {
+    width: 75,
+    height: 25,
+    borderRadius: 2,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(133, 179, 104, 0.57)'
+  },
+  followText: {
+    fontSize: theme.text.mdFontSize,
+    textAlign: 'center',
+    color: '#fff',
+  },
 })
