@@ -57,6 +57,34 @@ export function getApi (path, userId) {
   })
 }
 
+// get 请求
+export function deleteApi (path, userId) {
+  console.log(path)
+  console.warn('deleteApi ==> userId ==> ' + userId)
+  return fetch(baseUrlWithoutToken(path), {
+    method: 'DELETE',
+    headers: {
+      'Accept': accept,
+      'User-Agent': userAgent,
+      'Content-Type': contentType,
+      'Authorization': userId
+    }
+  }).then((response) => {
+    if (response.ok) {
+      console.warn('DELETE ok')
+    } else {
+      console.warn('DELETE error')
+    }
+    return response.json()
+  }).then((responseJson) => {
+    console.warn('responseJson ==> ' + responseJson.return_msg)
+    return responseJson
+  }).catch((error) => {
+    console.warn('deleteApi error ==> ' + error)
+    return error
+  })
+}
+
 // 首页日记
 export const MineDiaryApi = (userId) =>
   getApi('/api/diary?p=0&rn=10&ordertype=1&status=1', userId)
@@ -133,9 +161,11 @@ export const FollowTopicApi = (topicId, userId) =>
 // 话题取消关注接口
 
 // 关注用户接口
-export const FollowUserApi = (account, userId) =>
-  postApi(`/api/account/focus/${account}`, userId)
+export const FollowUserApi = (account, map, userId) =>
+  postApi(`/api/account/focus/${account}`, map, userId)
 
+export const UnFollowUserApi = (account, userId) =>
+  deleteApi(`/api/account/focus/${account}`, userId)
 // 点赞用户接口
 export const LikeApi = ({id, ownerId, userId}) =>
   postApi(`/api/${id}/${ownerId}}/like`, userId)
@@ -143,6 +173,7 @@ export const LikeApi = ({id, ownerId, userId}) =>
 // 个人信息获取接口
 export const getUserProfile = (token, userId) =>
   getApi(`/api/account/${userId}`, token)
+
 // 未登录根据 deviceId 获取用户数据
 export const getUnloginInfo = (token, userId) =>
  getApi(`/api/customer/${userId}`, token)
