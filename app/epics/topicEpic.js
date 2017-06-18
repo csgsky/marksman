@@ -2,7 +2,7 @@ import 'rxjs'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/topic'
 import { combineEpics } from 'redux-observable'
-import { TopicApi, CommentsApi, FollowTopicApi, LikeApi } from '../api/apis'
+import { TopicApi, CommentsApi, FollowTopicApi, LikeApi, UnfollowTopicApi, UnlikeApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
 function topicInitEpic (action$) {
   return action$.ofType(actions.TOPIC_INIT)
@@ -91,13 +91,13 @@ function topicUnfollowEpic (action$) {
                 (it) => {
                   if (it.token) {
                     // 此处调用unfollo topic api
-                    return Observable.of(1)
+                    return Observable.from(UnfollowTopicApi(action.id, it.token))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
-                console.log(it)
-                if (it === 1) {
+                console.log(it.return_code)
+                if (it.return_code === 1) {
                   return actions.topicUnfollowSuccess()
                 }
               }).catch((error) => {
@@ -114,14 +114,14 @@ function commentLikeEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(LikeApi({id: action.id, ownerId: action.ownerId, userId: it.token}))
+                    return Observable.from(LikeApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
                 console.log(it.return_msg)
                 if (it.return_code === 1) {
-                  return actions.topicCommentLikeSuccess()
+                  return actions.topicCommentLikeSuccess(action.index)
                 }
               }).catch((error) => {
                 console.log('epic error --->' + error)
@@ -138,14 +138,14 @@ function commentUnlikeEpic (action$) {
                 (it) => {
                   if (it.token) {
                     // 此处调用unfollo topic api
-                    return Observable.of(1)
+                    return Observable.from(UnlikeApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
                 console.log(it)
                 if (it === 1) {
-                  return actions.topicCommentUnlikeSuccess()
+                  return actions.topicCommentUnlikeSuccess(action.index)
                 }
               }).catch((error) => {
                 console.log('epic error --->' + error)

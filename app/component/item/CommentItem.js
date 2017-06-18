@@ -2,20 +2,24 @@ import React, {Component} from 'react'
 import theme from '../../config/theme'
 import CommentIcon from '../../img/comment.png'
 import LikeIcon from '../../img/like.png'
+import LikedIcon from '../../img/liked.png'
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 
 export default class CommentItem extends Component {
   _onPressUserAvatar = () => {
     alert('should navigate to user page')
   }
-  _onPressLike = () => {
-    alert('liked')
+  _onPressLike = ({id, ownerId, commentId, index, myLike}) => {
+    if (!myLike) {
+      this.props.commentLike({id, ownerId, commentId, index})
+    }
   }
   _onPressComment = () => {
     alert('show comment detail')
   }
+
   render () {
-    const {data} = this.props
+    const {data, index} = this.props
     return (
       <TouchableOpacity onPress={this._onPressComment}
         activeOpacity={0.3}>
@@ -29,9 +33,13 @@ export default class CommentItem extends Component {
               <Text style={styles.time}>{data.create_time}</Text>
             </View>
             <Image source={CommentIcon} style={styles.comment} resizeMode="contain"/>
-            <TouchableOpacity style={{flexDirection: 'row'}} onPress={this._onPressLike}>
-              <Image source={LikeIcon} style={styles.like} resizeMode="contain"/>
-              <Text style={styles.count}>{data.like.num}</Text>
+            <TouchableOpacity style={{flexDirection: 'row'}}
+              onPress={() => {
+                console.log(data)
+                this._onPressLike({id: data.diary_id, ownerId: data.owner_id, commentId: data.comment_id, index, myLike: data.my_like})
+              }}>
+              <Image source={data.my_like ? LikedIcon : LikeIcon} style={styles.like} resizeMode="contain"/>
+              <Text style={likeStyle(data.my_like)}>{data.like.num}</Text>
             </TouchableOpacity>
           </View>
           <Text style={styles.content}>{data.content}</Text>
@@ -52,6 +60,14 @@ export default class CommentItem extends Component {
   // getSource = (img) => {
   //   return {uri: img}
   // } 
+}
+
+const likeStyle = function(liked) {
+  return {
+    fontSize: theme.text.xlgFontSize,
+    color: liked ? theme.likedColor : theme.text.globalSubTextColor,
+    height: 15
+  }
 }
 
 const styles = StyleSheet.create({

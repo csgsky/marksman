@@ -29,7 +29,7 @@ export default function topic (state = initState, action = {}) {
         isLoadingMore: true
       }
     case types.TOPIC_COMMENTS_MORE_DATA:
-      console.log('action ---> TOTOPIC_COMMENTS_MORE_DATA', action)
+      console.log('epic ---> TOTOPIC_COMMENTS_MORE_DATA', action)
       return {
         ...state,
         isLoadingMore: false,
@@ -38,18 +38,36 @@ export default function topic (state = initState, action = {}) {
         comments: state.comments.concat(action.comments)
       }
     case types.TOPIC_FOLLOW_SUCCESS:
-      console.log('action ---> TOPIC__FOLLOW_SUCCESS')
+      console.log('epic ---> TOPIC__FOLLOW_SUCCESS')
       return {
         ...state,
         topic: {...state.topic, my_focus: 1}
       }
     case types.TOPIC_UNFOLLOW_SUCCESS:
-      console.log('action ---> TOPIC_UNFOLLOW_SUCCESS')
+      console.log('epic ---> TOPIC_UNFOLLOW_SUCCESS')
       return {
         ...state,
         topic: {...state.topic, my_focus: 0}
       }
+    case types.TOPIC_COMMENT_LIKE_SUCCESS:
+      console.log('epic ---> TOPIC_COMMENT_LIEK_SUCCESS')
+      return {
+        ...state,
+        comments: likeCommentSuccess(state.comments, action.index)
+      }
     default:
       return state
   }
+}
+
+function likeCommentSuccess(comments, index) {
+  const newComments = comments.slice(0)
+  if (newComments[index].my_like === 0) {
+    newComments[index].my_like = 1
+    newComments[index].like.num += 1
+  } else if (newComments[index].my_like === 1) {
+    console.warn('hahahahhahah ' + newComments[index].my_like)
+    newComments[index].my_like = 0
+  }
+  return newComments
 }
