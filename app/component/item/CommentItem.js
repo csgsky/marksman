@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
     fontSize: theme.text.xlgFontSize,
     color: theme.text.globalTextColor,
     marginTop: 13,
-    marginBottom: 11
+    marginBottom: 11,
+    lineHeight: 22
   },
   name: {
     fontSize: theme.text.xlgFontSize,
