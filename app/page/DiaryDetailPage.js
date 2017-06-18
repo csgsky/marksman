@@ -33,17 +33,19 @@ class DiaryDetailPage extends Component {
   })
 
   componentDidMount () {
-    const id = this.props.navigation.state.item.diary_id
-    const userId = this.props.navigation.state.item.user_id
-    this.props.diaryCommentInit({id, userId})
+    const id = this.props.navigation.state.params.item.diary_id
+    const ownerId = this.props.navigation.state.params.item.user_id
+    console.warn('id ==> ' + id)
+    console.warn('userId ==> ' + ownerId)
+    this.props.diaryCommentInit({id, ownerId})
   }
 
 
 
   onRefresh = () => {
-    const id = this.props.navigation.state.item.diary_id
-    const userId = this.props.navigation.state.item.user_id
-    this.props.diaryCommentInit({id, userId})
+    const id = this.props.navigation.state.params.item.diary_id
+    const ownerId = this.props.navigation.state.params.item.user_id
+    this.props.diaryCommentInit({id, ownerId})
   }
 
   getHeaderView = () =>
@@ -73,7 +75,7 @@ class DiaryDetailPage extends Component {
 
   render () {
     const {isRefreshing, comments} = this.props
-    console.log('comment render length ===> ' + comments.length)
+    // console.log('comment render length ===> ' + comments.length)
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View>

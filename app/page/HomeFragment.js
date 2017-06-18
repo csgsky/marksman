@@ -103,7 +103,7 @@ class HomeFragment extends Component {
 
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment = {false} showRightTime = {true}/>
+    return <DiaryItem item={item} navigation={navigation} hasComment={false} showRightTime={true} />
   }
   
   getItemSeparator = () => {
