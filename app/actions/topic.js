@@ -5,6 +5,12 @@ export const TOPIC_COMMENTS_LOAD_MORE = 'TOPIC_COMMENTS_LOAD_MORE'
 export const TOPIC_COMMENTS_MORE_DATA = 'TOPIC_COMMENTS_MORE_DATA'
 export const TOPIC_FOLLOW = 'TOPIC_FOLLOW'
 export const TOPIC_FOLLOW_SUCCESS = 'TOPIC_FOLLOW_SUCCESS'
+export const TOPIC_UNFOLLOW = 'TOPIC_UNFOLLOW'
+export const TOPIC_UNFOLLOW_SUCCESS = 'TOPIC_UNFOLLOW_SUCCESS'
+export const TOPIC_COMMENT_LIKE = 'TOPIC_COMMENT_LIKE'
+export const TOPIC_COMMENT_LIKE_SUCCESS = 'TOPIC_COMMENT_LIKE_SUCCESS'
+export const TOPIC_COMMENT_UNLIKE = 'TOPIC_COMMENT_UNLIKE'
+export const TOPIC_COMMENT_UNLIKE_SUCCESS = 'TOPIC_UNLIKE_SUCCESS'
 
 export function topicInit ({id, ownerId}) {
   return {
@@ -65,6 +71,53 @@ export function topicFollow (id) {
 export function topicFollowSuccess () {
   console.log('action ---> TOPIC_FOLLOW_SUCCESS')
   return {
-    topic: TOPIC_FOLLOW_SUCCESS
+    type: TOPIC_FOLLOW_SUCCESS
+  }
+}
+
+export function topicUnfollow (id) {
+  console.log('action ---> TOPIC_UNFOLLOW')
+  return {
+    type: TOPIC_UNFOLLOW,
+    id
+  }
+}
+
+export function topicUnfollowSuccess () {
+  console.log('action ---> TOPIC_UNFOLLOW_SUCCESS')
+  return {
+    type: TOPIC_UNFOLLOW_SUCCESS
+  }
+}
+
+export function topicCommentLike ({id, ownerId, index}) {
+  return {
+    type: TOPIC_COMMENT_LIKE,
+    id,
+    ownerId,
+    index
+  }
+}
+
+export function topicCommentLikeSuccess (index) {
+  return {
+    type: TOPIC_COMMENT_LIKE_SUCCESS,
+    index
+  }
+}
+
+export function topicCommentUnlike ({id, ownerId, index}) {
+  return {
+    type: TOPIC_COMMENT_UNLIKE,
+    id,
+    ownerId,
+    index
+  }
+}
+
+export function topicCommentUnlikeSuccess (index) {
+  return {
+    type: TOPIC_COMMENT_UNLIKE_SUCCESS,
+    index
   }
 }

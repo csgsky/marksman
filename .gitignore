@@ -21,6 +21,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+*.jsbundle
+/release_ios
 
 # Android/IntelliJ
 #
