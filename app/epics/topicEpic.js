@@ -2,7 +2,7 @@ import 'rxjs'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/topic'
 import { combineEpics } from 'redux-observable'
-import { TopicApi, CommentsApi } from '../api/apis'
+import { TopicApi, CommentsApi, FollowTopicApi, LikeApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
 function topicInitEpic (action$) {
   return action$.ofType(actions.TOPIC_INIT)
@@ -63,24 +63,93 @@ function topicFollowEpic (action$) {
             .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
-                Observable.of(action.page + 1),
-                (token, page) => ({token, page})
+                token => ({token})
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(topicFollowEpic(action.id))
+                    return Observable.from(FollowTopicApi(action.id, it.token))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
-                if (it.return_code === 2) {
-                  return null
+                console.log(it.return_msg)
+                if (it.return_code === 1) {
+                  return actions.topicFollowSuccess()
                 }
-                console.log(it.return_message)
-                return actions.topicFollowSuccess()
               }).catch((error) => {
                 console.log('epic error --->' + error)
               }))
 }
 
-export default combineEpics(topicInitEpic, commentsMoreEpic, topicFollowEpic)
+function topicUnfollowEpic (action$) {
+  return action$.ofType(actions.TOPIC_UNFOLLOW)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    // 此处调用unfollo topic api
+                    return Observable.of(1)
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                console.log(it)
+                if (it === 1) {
+                  return actions.topicUnfollowSuccess()
+                }
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
+
+function commentLikeEpic (action$) {
+  return action$.ofType(actions.TOPIC_COMMENT_LIKE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(LikeApi({id: action.id, ownerId: action.ownerId, userId: it.token}))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                console.log(it.return_msg)
+                if (it.return_code === 1) {
+                  return actions.topicCommentLikeSuccess()
+                }
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
+
+function commentUnlikeEpic (action$) {
+  return action$.ofType(actions.TOPIC_COMMENT_UNLIKE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    // 此处调用unfollo topic api
+                    return Observable.of(1)
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                console.log(it)
+                if (it === 1) {
+                  return actions.topicCommentUnlikeSuccess()
+                }
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
+
+export default combineEpics(topicInitEpic, commentsMoreEpic, topicFollowEpic, topicUnfollowEpic, commentLikeEpic, commentUnlikeEpic)
