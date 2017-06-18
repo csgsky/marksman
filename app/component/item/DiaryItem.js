@@ -88,11 +88,11 @@ const styles = StyleSheet.create({
     color: theme.text.globalTextColor,
     fontSize: 15,
     marginTop: 8,
-    lineHeight: 24
+    lineHeight: 24,
+    marginBottom: 15
   },
   img: {
     width: theme.screenWidth - 32,
-    height: theme.screenWidth - 200,
-    marginTop: 15
+    height: theme.screenWidth - 200
   }
 })
