@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import theme from '../config/theme'
 import ListSeparator from '../component/ListSeparator'
 import CommentItem from '../component/item/CommentItem'
-import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl} from 'react-native'
+import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage} from 'react-native'
 import * as actions from '../actions/topic'
 
 class Topic extends Component {
@@ -14,28 +14,34 @@ class Topic extends Component {
   })
   componentDidMount () {
     // const {topicId, ownerId} = this.props.navigation.state.params
-    this.props.topicInit({id: 8, ownerId: 3})
+    this.props.topicInit({id: 5, ownerId: 3})
   }
   onRefresh = () => {
-    this.props.topicInit({id: 8, ownerId: 3})
+    this.props.topicInit({id: 5, ownerId: 3})
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
     if (!isLoadingMore && hasMore) {
-      this.props.topicCommentsLoadMore({id: 8, ownerId: 3, page})
+      this.props.topicCommentsLoadMore({id: 5, ownerId: 3, page})
     }
   }
   _onPressFollow = (focused, id) => {
-    if (!focused) {
-      this.props.topicFollow(id)
-    }
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'topic'})
+      } else if (!focused) {
+        this.props.topicFollow(id)
+      }
+      this.props.topicUnfollow(id)
+    })
   }
   renderHeader = (topic) => {
+    console.log({focus: topic.my_focus})
     return (
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{topic.name}</Text>
-          <TouchableOpacity onPress={() => this._onPressFollow(topic.my_focus, 8)}>
+          <TouchableOpacity onPress={() => this._onPressFollow(topic.my_focus, 5)}>
             <View style={styles.follow}>
               <Text style={styles.followText}>{topic.my_focus ? '取消关注' : '关注'}</Text>
             </View>

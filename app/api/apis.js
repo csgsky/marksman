@@ -5,6 +5,9 @@ const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
+  console.log(path)
+  console.log(map)
+  console.log(userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -128,17 +131,17 @@ export const LoginApi = (userId, map) =>
 
 // 话题关注接口
 export const FollowTopicApi = (topicId, userId) =>
-  postApi(`/api/talk/focus/${topicId}`, userId)
+  postApi(`/api/talk/focus/${topicId}`, {}, userId)
 
 // 话题取消关注接口
 
 // 关注用户接口
 export const FollowUserApi = (account, userId) =>
-  postApi(`/api/account/focus/${account}`, userId)
+  postApi(`/api/account/focus/${account}`, {}, userId)
 
 // 点赞用户接口
 export const LikeApi = ({id, ownerId, userId}) =>
-  postApi(`/api/${id}/${ownerId}}/like`, userId)
+  postApi(`/api/${id}/${ownerId}}/like`, {}, userId)
 
 // 个人信息获取接口
 export const getUserProfile = (token, userId) =>

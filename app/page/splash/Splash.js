@@ -46,7 +46,7 @@ export default class Splash extends Component {
         // 网络请求，获取当前设备的信息，判断当前用户是否选过标签
         // 若没有选过标签，进入标签选择页面，直接进入职业
          AsyncStorage.setItem('token', 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
-         AsyncStorage.setItem('sex', 1)
+         AsyncStorage.setItem('sex', '1')
          AsyncStorage.setItem('sign', '头上有个大月亮.........')
          AsyncStorage.setItem('nickname', 'allenchen')
          AsyncStorage.setItem('tags', '1,3,4,5')
@@ -67,11 +67,11 @@ export default class Splash extends Component {
      timeSubscribe: subscribe
    })
 
-   Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
-     .subscribe(imsi => {
-       console.warn('imsi =====>    ' + imsi)
-       AsyncStorage.setItem('devicedid', '460022402238613')
-     })
+  //  Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
+  //    .subscribe(imsi => {
+  //      console.warn('imsi =====>    ' + imsi)
+  //      AsyncStorage.setItem('devicedid', '460022402238613')
+  //    })
   }
   render () {
     return (
