@@ -162,16 +162,21 @@ export const FollowTopicApi = (topicId, userId) =>
   postApi(`/api/talk/focus/${topicId}`, {}, userId)
 
 // 话题取消关注接口
+export const UnfollowTopicApi = (topicId, userId) =>
+  deleteApi(`/api/talk/focus/${topicId}`, userId)
 
 // 关注用户接口
 export const FollowUserApi = (account, map = {}, userId) =>
   postApi(`/api/account/focus/${account}`, map, userId)
-
+// 取消关注用户接口
 export const UnFollowUserApi = (account, userId) =>
   deleteApi(`/api/account/focus/${account}`, userId)
 // 点赞用户接口
-export const LikeApi = ({id, ownerId, userId}) =>
-  postApi(`/api/${id}/${ownerId}}/like`, {}, userId)
+export const LikeApi = ({id, ownerId, commentId, userId}) =>
+  postApi(`/api/${id}/${ownerId}/${commentId}/like`, {}, userId)
+
+export const UnlikeApi = ({id, ownerId, commentId, userId}) =>
+  deleteApi(`/api/${id}/${ownerId}/${commentId}/like`, userId)
 
 // 个人信息获取接口
 export const getUserProfile = (token, userId) =>

@@ -14,15 +14,15 @@ class Topic extends Component {
   })
   componentDidMount () {
     // const {topicId, ownerId} = this.props.navigation.state.params
-    this.props.topicInit({id: 5, ownerId: 3})
+    this.props.topicInit({id: 8, ownerId: 3})
   }
   onRefresh = () => {
-    this.props.topicInit({id: 5, ownerId: 3})
+    this.props.topicInit({id: 8, ownerId: 3})
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
     if (!isLoadingMore && hasMore) {
-      this.props.topicCommentsLoadMore({id: 5, ownerId: 3, page})
+      this.props.topicCommentsLoadMore({id: 8, ownerId: 3, page})
     }
   }
   _onPressFollow = (focused, id) => {
@@ -41,7 +41,7 @@ class Topic extends Component {
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{topic.name}</Text>
-          <TouchableOpacity onPress={() => this._onPressFollow(topic.my_focus, 5)}>
+          <TouchableOpacity onPress={() => this._onPressFollow(topic.my_focus, 8)}>
             <View style={styles.follow}>
               <Text style={styles.followText}>{topic.my_focus ? '取消关注' : '关注'}</Text>
             </View>
@@ -61,7 +61,12 @@ class Topic extends Component {
       <View style={styles.container}>
         {topic && topic.name && <FlatList
           data={comments}
-          renderItem={({item}) => (<CommentItem data={item} navigation={this.props.navigation}/>)}
+          renderItem={({item, index}) => (
+            <CommentItem data={item}
+              navigation={this.props.navigation}
+              index={index}
+              commentLike={this.props.topicCommentLike}
+              commentUnlike={this.props.topicCommentUnlike}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader(topic)}
           ItemSeparatorComponent={() => <ListSeparator/>}

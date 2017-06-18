@@ -12,6 +12,7 @@ module.exports = {
   pageBackgroundColor: '#f4f4f4',
   grayColor: '#c4c4c4',
   linkColor: '#6082a7',
+  likedColor: '#d14428',
   btnActiveOpacity: 0.7,
   actionBar: {
     height: 56,
