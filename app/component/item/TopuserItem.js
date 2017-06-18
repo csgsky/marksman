@@ -1,15 +1,33 @@
 import React, {Component} from 'react'
-import {View, Text, Image, TouchableOpacity, Button, StyleSheet} from 'react-native'
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import theme from '../../config/theme'
+
 export default class TopUserItem extends Component {
+
+  _onPressFollow = (myFocus, id, position) => {
+    const {LovedFollowed} = this.props
+    if (myFocus === 0) {
+      // 关注
+      LovedFollowed(id, position, myFocus)
+      // alert('关注 => ' + focused + ' index ===> ' + position)
+    } else {
+      // 取消关注
+      LovedFollowed(id, position, myFocus)
+    }
+  }
+
+  _routerToPersonalPage = () => {
+    this.props.navigation.navigate('PersonalPage', {message: '个人主页'})
+  }
+
   render () {
-    const {item} = this.props
-    let desc = '公开日记 ' + item.diary_num + ' 粉丝 ' + item.focus_num + ' 收获点赞 ' + item.like_num
+    const {item, position} = this.props
+    const desc = '公开日记 ' + item.diary_num + ' 粉丝 ' + item.focus_num + ' 收获点赞 ' + item.like_num
     return <View onPress={this._routerToPersonalPage}>
       <View style={styles.item}>
         <View style={styles.itemT}>
           <TouchableOpacity onPress={this._routerToPersonalPage}>
-            <Image style= {styles.img} source={require('../../img/test_icon.jpeg')}></Image>
+            <Image style={styles.img} source={require('../../img/test_icon.jpeg')} />
           </TouchableOpacity>
           <View style={{flex: 1, paddingLeft: 6}}>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
@@ -19,26 +37,17 @@ export default class TopUserItem extends Component {
               <Text style={styles.desc}>{desc}</Text>
             </View>
           </View>
-          <View style={{height: 20, width: 76, marginTop: 8}}>
-            <Button
-              onPress={this._focus}
-              title="关注"
-              color='rgba(133,179,104,1)'
-            />
-          </View>
+          <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => this._onPressFollow(item.my_focus, item.user_id, position)}>
+            <View style={styles.follow}>
+              <Text style={styles.followText}>{item.my_focus ? '取消关注' : '关注'}</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-        <Text style={styles.sign} numberOfLines = {1}>{item.sign}</Text>
+        <Text style={styles.sign} numberOfLines={1}>{item.sign}</Text>
       </View>
     </View>
   }
 
-  _routerToPersonalPage = () => {
-    this.props.navigation.navigate('PersonalPage',{message: '个人主页'})
-  }
-
-  _focus = () => {
-    alert('关注')
-  }
 }
 const styles = StyleSheet.create({
   item: {
@@ -69,5 +78,17 @@ const styles = StyleSheet.create({
     color: theme.text.globalSubTextColor,
     fontSize: 12,
     marginTop: 8
-  }
+  },
+  follow: {
+    width: 75,
+    height: 25,
+    borderRadius: 2,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(133, 179, 104, 0.57)'
+  },
+  followText: {
+    fontSize: theme.text.mdFontSize,
+    textAlign: 'center',
+    color: '#fff',
+  },
 })
