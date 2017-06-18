@@ -1,33 +1,30 @@
-import 'rxjs'
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/lovedActions'
-import { combineEpics } from 'redux-observable'
-import { LovedUsersApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
+import { combineEpics } from 'redux-observable'
+import { LovedUsersApi, FollowUserApi, UnFollowUserApi} from '../api/apis'
+import * as actions from '../actions/lovedActions'
+
 function lovedInitEpic (action$) {
   return action$.ofType(actions.LOVED_INIT)
-            .mergeMap((action) =>
+            .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => {
-                  return {token, page}
-                }
+                (token, page) => ({token, page})
               ).flatMap(
-                it => {
+                (it) => {
                   if (it.token) {
                     return Observable.from(LovedUsersApi(it.token, it.page))
-                  } else {
-                    return Observable.of(2)
                   }
+                  return Observable.of(2)
                 }
-              ).map(it => {
+              ).map((it) => {
                 if (it.return_code === 2) {
-                } else {
-                  return actions.LovedListData(it.ranks)
+                  return null
                 }
+                return actions.LovedListData(it.ranks)
               }
-            ).catch(error => {
+            ).catch((error) => {
               console.log('epic error --> ' + error)
             })
        )
@@ -35,31 +32,61 @@ function lovedInitEpic (action$) {
 
 function lovedMoreEpic (action$) {
   return action$.ofType(actions.LOVED_MORE)
-            .mergeMap((action) =>
+            .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page + 1),
-                (token, page) => {
-                  return {token, page}
-                }
+                (token, page) => ({token, page})
+                
               ).flatMap(
-                it => {
+                (it) => {
                   if (it.token) {
                     return Observable.from(LovedUsersApi(it.token, it.page))
-                  } else {
-                    return Observable.of(2)
                   }
+                  return Observable.of(2)
                 }
-              ).map(it => {
+              ).map((it) => {
                 if (it.return_code === 2) {
-                } else {
-                  return actions.LovedListMoreData(it.ranks)
+                  return null
                 }
+                return actions.LovedListMoreData(it.ranks)
               }
-            ).catch(error => {
+            ).catch((error) => {
               console.log('epic error --> ' + error)
             })
        )
 }
 
-export default combineEpics(lovedInitEpic, lovedMoreEpic)
+function lovedFollowedEpic(action$) {
+  return action$.ofType(actions.LOVED_FOLLOWED)
+    .mergeMap(action =>
+      Observable.zip(
+         Observable.from(AsyncStorage.getItem('token')),
+         Observable.of(action.followedId),
+         (token, followedId) => ({token, followedId})
+      ).flatMap((it) => {
+        if (it.token) {
+          if (action.myFocus === 0) {
+            return Observable.from(FollowUserApi(it.followedId, null, it.token))
+          } else if (action.myFocus === 1) {
+            return Observable.from(UnFollowUserApi(it.followedId, it.token))
+          }
+        }
+        return Observable.of(2)
+      }).map((it) => {
+        if (it.return_code === 1) {
+          console.warn('lovedFollowedEpic ==> ' + action.position)
+          if (action.myFocus === 0) {
+            return actions.LovedFollowSuccess(action.position)
+          } else if(action.myFocus === 1) {
+            return actions.LovedUnFollowSuccess(action.position)
+          }
+        }
+        return null
+      }).catch((error) => {
+        console.log(error)
+      })
+    )
+}
+
+export default combineEpics(lovedInitEpic, lovedMoreEpic, lovedFollowedEpic)
