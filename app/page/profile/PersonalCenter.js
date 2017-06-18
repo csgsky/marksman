@@ -1,15 +1,15 @@
-import React, {Component} from 'React'
+import React, {Component} from 'react'
 import {StyleSheet, View, Text, Image, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import PubSub from 'pubsub-js'
+import * as actions from '../../actions/personalCenterAction'
 import theme from '../../config/theme'
 import Separator from '../../component/Separator'
 import ProfileItem from '../../component/item/ProfileItem'
 import * as consts from '../../utils/const'
-import PubSub from 'pubsub-js'
-import Rx from 'rxjs'
+import DefaultUserAvatar from '../../img/default_vatar.png'
 
-import * as actions from '../../actions/personalCenterAction'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 
 class PersonalCenter extends Component {
 
@@ -17,12 +17,12 @@ class PersonalCenter extends Component {
     title: '个人中心',
     headerStyle: {elevation: 0},
     headerRight: <View />,
-    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
+    headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
   constructor (props) {
-    super (props)
+    super(props)
     this.state = {
       avtar: '',
       nickname: '',
@@ -33,11 +33,21 @@ class PersonalCenter extends Component {
   componentDidMount () {
     // this.initData()
     this._setUserInfo()
-    that = this
-    PubSub.subscribe('refresh',function(come, data) {
+    const that = this
+    PubSub.subscribe('refresh', (come, data) => {
       // 重新获取数据
+      console.warn('PersonalCenter componentDidMount refresh ==>  ' + data)
       that._setUserInfo()
     })
+  }
+
+
+
+  getSource = () => {
+    if (this.state.avtar === '' || this.state.avtar === null) {
+      return DefaultUserAvatar
+    }
+    return {uri: this.state.avtar}
   }
 
   initData() {
@@ -47,37 +57,37 @@ class PersonalCenter extends Component {
       } else {
         this.props.actions.unLoginInfoInit()
       }
-   })
+    })
   }
 
-    _setUserInfo = () => {
-      AsyncStorage.getItem('avtar').then((result) => {
-        this.setState({
-          avtar: result
-        })
+  _setUserInfo = () => {
+    AsyncStorage.getItem('avtar').then((result) => {
+      this.setState({
+        avtar: result
       })
+    })
 
-      AsyncStorage.getItem('nickname').then((result) => {
-        this.setState({
-          nickname: result
-        })
+    AsyncStorage.getItem('nickname').then((result) => {
+      this.setState({
+        nickname: result
       })
+    })
 
-      AsyncStorage.getItem('sign').then((result) => {
-        this.setState({
-          sign: result
-        })
+    AsyncStorage.getItem('sign').then((result) => {
+      this.setState({
+        sign: result
       })
+    })
   }
 
   render () {
-    const {navigation, info} = this.props
+    const {navigation} = this.props
     return (
       <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
         <Separator />
         <View style={styles.view}>
           <View style={styles.profile}>
-            <Image  style={styles.avatar} source={this.getSource()}/>
+            <Image style={styles.avatar} source={this.getSource()}/>
             <View style={styles.desc}>
               <View style={styles.nicknameView}>
                 <Text style={styles.nickname}>{this.state.nickname}</Text>
@@ -87,28 +97,19 @@ class PersonalCenter extends Component {
               </View>
             </View>
           </View>
-          <ProfileItem navigation ={navigation} value={consts.PROFILE_MINE_MESSAGE}/>
-          <ProfileItem navigation ={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
-          <ProfileItem navigation ={navigation} value={consts.PROFILE_MINE_TRASH}/>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_MESSAGE}/>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
           <View style={{height: 20}}/>
-          <ProfileItem navigation ={navigation} value={consts.PROFILE_RECOMMOND_F}/>
-          <ProfileItem navigation ={navigation} value={consts.PROFILE_NOTIFICATION}/>
-          <ProfileItem navigation ={navigation} value={consts.PROFILE_FEEDBACK}/>
-          <ProfileItem navigation ={navigation} value={consts.PROFILE_ABOUT_US}/>
-      </View>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_RECOMMOND_F}/>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_NOTIFICATION}/>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
+        </View>
       </ScrollView>
     )
   }
 
-  getSource = () => {
-    if (this.state.avtar === '' || this.state.avtar === null) {
-      return require('../../img/default_vatar.png')
-    } else {
-      return {uri: this.state.avtar}
-    }
-    
-  }
-  
 }
 
 const styles = StyleSheet.create({
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 10,
     paddingTop: 2,
-    paddingBottom: 2, 
+    paddingBottom: 2,
     flexDirection: 'column'
   },
   nicknameView: {
@@ -163,7 +164,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 })
 
