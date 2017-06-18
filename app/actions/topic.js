@@ -90,32 +90,38 @@ export function topicUnfollowSuccess () {
   }
 }
 
-export function topicCommentLike ({id, ownerId, index}) {
+export function topicCommentLike ({id, ownerId, commentId, index}) {
+  console.log('action ---> TOPIC_COMMENT_LIKE', {id, ownerId, commentId, index})
   return {
     type: TOPIC_COMMENT_LIKE,
     id,
     ownerId,
+    commentId,
     index
   }
 }
 
 export function topicCommentLikeSuccess (index) {
+  console.log('action ---> TOPIC_COMMENT_LIKE_SUCCESS')
   return {
     type: TOPIC_COMMENT_LIKE_SUCCESS,
     index
   }
 }
 
-export function topicCommentUnlike ({id, ownerId, index}) {
+export function topicCommentUnlike ({id, ownerId, commentId, index}) {
+  console.log('action ---> TOPIC_COMMENT_UNLIKE', {id, ownerId, commentId, index})
   return {
     type: TOPIC_COMMENT_UNLIKE,
     id,
     ownerId,
+    commentId,
     index
   }
 }
 
 export function topicCommentUnlikeSuccess (index) {
+  console.log('action ---> TOPIC_COMMENT_UNLIKE_SUCCESS')
   return {
     type: TOPIC_COMMENT_UNLIKE_SUCCESS,
     index
