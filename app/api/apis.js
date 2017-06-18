@@ -174,7 +174,7 @@ export const UnFollowUserApi = (account, userId) =>
 // 点赞用户接口
 export const LikeApi = ({id, ownerId, commentId, userId}) =>
   postApi(`/api/${id}/${ownerId}/${commentId}/like`, {}, userId)
-
+// 暂无取消点赞功能
 export const UnlikeApi = ({id, ownerId, commentId, userId}) =>
   deleteApi(`/api/${id}/${ownerId}/${commentId}/like`, userId)
 
@@ -184,5 +184,11 @@ export const getUserProfile = (token, userId) =>
 
 // 未登录根据 deviceId 获取用户数据
 export const getUnloginInfo = (token, userId) =>
- getApi(`/api/customer/${userId}`, token)
+  getApi(`/api/customer/${userId}`, token)
 
+// 获取关注人员列表
+export const MyFollowUsersApi = (userId, page) =>
+  getApi(`/api/account/focus?p=${page}&rn=5`, userId)
+
+export const MyFollowTopicsApi = (userId, page) =>
+  getApi(`/api/account/talk?p=${page}&rn=10`, userId)

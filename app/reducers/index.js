@@ -16,6 +16,8 @@ import topic from './topic'
 import register from './registerReducer'
 import personalCenter from './personalCenterReducer'
 import diaryDetail from './diaryDetailReducer'
+import myFollow from './myFollow'
+
 export default combineReducers({
   homePage,
   login,
@@ -32,5 +34,6 @@ export default combineReducers({
   topic,
   register,
   personalCenter,
-  diaryDetail
+  diaryDetail,
+  myFollow
 })
