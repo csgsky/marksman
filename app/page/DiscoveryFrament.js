@@ -30,6 +30,7 @@ class DiscoveryFrament extends Component {
           ListHeaderComponent={this.getHeaderView}
           renderSectionHeader={this.getSectionView}
           removeClippedSubviews={false}
+          stickySectionHeadersEnabled={false}
           sections={[
             {data: talks, key: 'talks', renderItem: this.getTalksItem},
             {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem}
