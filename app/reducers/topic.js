@@ -37,6 +37,18 @@ export default function topic (state = initState, action = {}) {
         page: state.page + 1,
         comments: state.comments.concat(action.comments)
       }
+    case types.TOPIC_FOLLOW_SUCCESS:
+      console.log('action ---> TOPIC__FOLLOW_SUCCESS')
+      return {
+        ...state,
+        topic: {...state.topic, my_focus: 1}
+      }
+    case types.TOPIC_UNFOLLOW_SUCCESS:
+      console.log('action ---> TOPIC_UNFOLLOW_SUCCESS')
+      return {
+        ...state,
+        topic: {...state.topic, my_focus: 0}
+      }
     default:
       return state
   }
