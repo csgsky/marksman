@@ -89,16 +89,16 @@ export function deleteApi (path, userId) {
 }
 
 // 首页日记
-export const MineDiaryApi = (userId) =>
-  getApi('/api/diary?p=0&rn=10&ordertype=1&status=1', userId)
+export const MineDiaryApi = (userId, page) =>
+  getApi(`/api/diary?rn=6&ordertype=1&status=1&p=${page}`, userId)
 
 // 足迹、热门
-export const FooterRecentDiaryApi = (userId) =>
-  getApi('/api/diary?p=0&rn=10&ordertype=0&status=1&private=1', userId)
+export const FooterRecentDiaryApi = (userId, page) =>
+  getApi(`/api/diary?rn=6&ordertype=0&status=1&private=1&p=${page}`, userId)
 
 // 足迹、最新
-export const FooterHotDiaryApi = (userId) =>
-  getApi('/api/diary?p=0&rn=10&ordertype=0&status=1&private=1', userId)
+export const FooterHotDiaryApi = (userId, page) =>
+  getApi(`/api/diary?rn=6&ordertype=0&status=1&private=1&p=${page}`, userId)
 
 // 文集
 export const CollectionsApi = (userId) =>
