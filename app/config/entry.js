@@ -28,6 +28,7 @@ import TopicPage from '../page/TopicPage'
 import DiaryDetailPage from '../page/DiaryDetailPage'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
+
 class Navigation extends Component {
   constructor () {
     super()

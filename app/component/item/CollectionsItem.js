@@ -6,11 +6,11 @@ export default class CollectionItem extends Component {
     const {item,navigation} = this.props
     let kh = '第 ' + item.kh + ' 期'
     return <TouchableOpacity style= {styles.item} activeOpacity={0.3} onPress={this._onRouterWrite}>
-      <Image style={styles.cover} source={require('../../img/splash.jpg')}></Image>
+      <Image style={styles.cover} source={require('../../img/splash.png')}></Image>
       <View style={styles.info}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.issn}>{kh}</Text>
-        <Text style={styles.desc} numberOfLines = {2}>{item.descn}</Text>
+        <Text style={styles.desc} numberOfLines={2}>{item.descn}</Text>
       </View>
     </TouchableOpacity>
   }
