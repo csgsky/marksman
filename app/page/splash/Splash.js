@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { NavigationActions } from 'react-navigation'
 import Rx from 'rxjs'
-import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules} from 'react-native'
+import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules, Platform} from 'react-native'
 import theme from '../../config/theme'
 import {getUnloginInfo} from '../../api/apis'
 
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   skipText: {
     position: 'absolute',
-    top: 20,
+    top: Platform.OS === 'ios' ? 40 : 20,
     right: 20,
     height: 26,
     borderRadius: 13,
