@@ -42,10 +42,10 @@ function registerEpic (action$) {
                 Observable.of(action.account),
                 Observable.of(action.password),
                 Observable.of(action.message),
-                Observable.of(action.sex),
-                Observable.of(action.sign),
-                Observable.of(action.nickname),
-                Observable.of(action.tags),
+                Observable.from(AsyncStorage.getItem('sex')),
+                Observable.from(AsyncStorage.getItem('sign')),
+                Observable.from(AsyncStorage.getItem('nickname')),
+                Observable.from(AsyncStorage.getItem('tags')),
                 (token, account, password, message, sex, sign, nickname, tags) => {
                   return {token, data: {account, password, message, sex, sign, nickname, tags}}
                 }
