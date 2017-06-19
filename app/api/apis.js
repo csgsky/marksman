@@ -182,13 +182,17 @@ export const UnlikeApi = ({id, ownerId, commentId, userId}) =>
 export const getUserProfile = (token, userId) =>
   getApi(`/api/account/${userId}`, token)
 
-// 未登录根据 deviceId 获取用户数据
-export const getUnloginInfo = (token, userId) =>
-  getApi(`/api/customer/${userId}`, token)
-
 // 获取关注人员列表
 export const MyFollowUsersApi = (userId, page) =>
   getApi(`/api/account/focus?p=${page}&rn=5`, userId)
 
 export const MyFollowTopicsApi = (userId, page) =>
   getApi(`/api/talk/focus?p=${page}&rn=5`, userId)
+
+export const getUnloginInfo = (devicedId, userId) =>
+ getApi(`/api/customer/${devicedId}`, userId)
+
+// 游客注册接口
+export const CustomerRegisterApi = (map, userId) =>
+  postApi(`/api/customer`, map, userId)
+
