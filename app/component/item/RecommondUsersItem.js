@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   img: {
     width: (theme.screenWidth / 3) - 32,
     height: (theme.screenWidth / 3) - 32,
-    borderRadius: theme.screenWidth / 6
+    borderRadius: ((theme.screenWidth / 3) - 32) / 2
   },
   name: {
     marginTop: 12,

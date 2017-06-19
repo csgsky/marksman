@@ -17,24 +17,26 @@ class CustomButton extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 9,
-    lineHeight: 14,
+    fontSize: 11,
     color: '#9b9b9b',
     flex: 1,
     textAlign: 'center'
   },
   img: {
     width: 12,
-    height: 12
+    height: 12,
+    marginLeft: 9
   },
   container: {
     borderWidth: 1,
     borderColor: '#9b9b9b',
-    borderRadius: 8,
+    borderRadius: 10,
     flexDirection: 'row',
-    width: 55,
-    height: 16,
-    marginRight: 13
+    width: 65,
+    height: 20,
+    marginRight: 13,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
 
