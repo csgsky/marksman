@@ -21,7 +21,7 @@ export default class LabelPage extends Component {
       defaultTextColor: '#86b368',
       selectedBgColor: '#86b368',
       selectedTextColor: 'white',
-      tagsValues: ['宠物花草', '健康养生', '摄影旅行', '食物烹饪', '公益环保', '科学自然', '摄影旅行', '食物烹饪', '公益环保', '任性，就不告诉你~'],
+      tagsValues: ['宠物花草', '健康养生', '摄影旅行', '食物烹饪', '公益环保', '科学自然', '写写代码', '王者荣耀', '读书写字', '任性，就不告诉你~'],
       tagsState: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       sex: [1, 0]
     }
@@ -127,7 +127,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'column',
     padding: 10,
-    top: 150,
+    backgroundColor: 'white',
+    top: 160,
     left: 16,
     right: 16,
     bottom: 0
