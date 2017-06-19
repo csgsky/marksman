@@ -31,6 +31,7 @@ import MyFollowTopics from '../page/profile/MyFollowTopics'
 
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
+
 class Navigation extends Component {
   constructor () {
     super()
