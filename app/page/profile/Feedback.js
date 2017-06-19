@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   submit: {
     color: '#c37f2e',
     marginRight: 18,
-    fontSize: 20
+    fontSize: 18
   },
   tips: {
     position: 'absolute',
