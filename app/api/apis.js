@@ -191,4 +191,4 @@ export const MyFollowUsersApi = (userId, page) =>
   getApi(`/api/account/focus?p=${page}&rn=5`, userId)
 
 export const MyFollowTopicsApi = (userId, page) =>
-  getApi(`/api/account/talk?p=${page}&rn=10`, userId)
+  getApi(`/api/talk/focus?p=${page}&rn=5`, userId)

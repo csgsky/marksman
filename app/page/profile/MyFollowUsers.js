@@ -2,21 +2,21 @@ import React, {PureComponent} from 'react'
 import {View, Text, FlatList, RefreshControl} from 'react-native'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as actions from '../../actions/myFollow'
+import * as actions from '../../actions/myFollowUsersAction'
 import UserItem from '../../component/item/TopuserItem'
 import theme from '../../config/theme'
 import ListSeparator from '../../component/ListSeparator'
 
 class MyFollowUsers extends PureComponent {
   componentDidMount() {
-    this.props.myFollowInit({type: 'users'})
+    this.props.myFollowUsersInit()
   }
   onRefresh = () => {
-    this.props.myFollowInit({type: 'users'})
+    this.props.myFollowUsersInit()
   }
   handleLoadingMore = () => {
     if (this.props.hasMore && !this.props.isLoadingMore) {
-      this.props.myFollowLoadMore({page: this.props.page, type: 'users'})
+      this.props.myFollowUsersLoadMore({page: this.props.page})
     }
   }
   renderHeader = () => (<View style={{
@@ -39,7 +39,7 @@ class MyFollowUsers extends PureComponent {
         <FlatList
           data={users}
           renderItem={({item, index}) => (
-            <UserItem item={item} position={index} LovedFollowed={this.props.myFollowFollow}/>)}
+            <UserItem item={item} position={index} LovedFollowed={this.props.myFollowUsersFollow}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader()}
           ItemSeparatorComponent={() => <ListSeparator/>}
@@ -58,7 +58,7 @@ class MyFollowUsers extends PureComponent {
   }
 }
 
-const mapStateToProps = ({myFollow}) => myFollow
+const mapStateToProps = ({myFollowUsers}) => myFollowUsers
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyFollowUsers)
