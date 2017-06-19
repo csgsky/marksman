@@ -8,6 +8,7 @@ import NickNameBg from '../../img/nickname_bg.png'
 import SignBg from '../../img/sign_bg.png'
 import selected from '../../img/splash_selected.png'
 import {CustomerRegisterApi} from '../../api/apis'
+var dismissKeyboard = require('dismissKeyboard')
 // import * as actions from '../../actions/loginActions'
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
@@ -51,7 +52,10 @@ export default class LabelPageTwo extends Component {
                     )
       }
     })
-    
+  }
+
+  closeKeyBoard = () => {
+    dismissKeyboard()
   }
 
   _saveUseInfo = async () => {
@@ -63,14 +67,14 @@ export default class LabelPageTwo extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <TouchableOpacity style={{flex: 1}} activeOpacity={1} onPress={this.closeKeyBoard}>
         <View style ={{flex: 1, position: 'absolute'}}>
           <Image style={{flex: 1, width: theme.screenWidth, height: theme.screenHeight}}
             esizeMode="stretch"
             source={WriteNickASign} />
         </View>
-        <View style={styles.view}>
-          <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>请写下你的昵称：</Text>
+        <TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.closeKeyBoard}>
+          <Text style={{fontSize: 16, marginLeft: 8, color: '#757575', backgroundColor: 'transparent'}}>请写下你的昵称：</Text>
           <View style={styles.nicknameView}>
             <Image style={{width: 280, height: 60}}
               resizeMode="contain"
@@ -107,10 +111,11 @@ export default class LabelPageTwo extends Component {
               source={selected}
               resizeMode="stretch"/>
           </TouchableOpacity>
-        </View>
-      </View>
+        </TouchableOpacity>
+      </TouchableOpacity>
     )
   }
+
 }
 
 const styles = StyleSheet.create({
@@ -119,6 +124,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     padding: 16,
     flexDirection: 'column',
+    backgroundColor: 'white',
     top: 160,
     left: 16,
     right: 16,
