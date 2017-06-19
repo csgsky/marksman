@@ -13,7 +13,7 @@ export default class TalksItem extends Component {
       activeOpacity = {0.3}
       onPress={() => this._onPress(item.talk_id, item.user_id)}>
       <View style={styles.item}>
-        <Image style={styles.img} source={require('../../img/splash.jpg')}></Image>
+        <Image style={styles.img} source={require('../../img/splash.png')}></Image>
         <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingBottom: 6}}>
             <Text style={styles.title} numberOfLines={1}>{name}</Text>

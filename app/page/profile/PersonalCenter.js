@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Rx from 'rxjs'
 import {StyleSheet, View, Text, Image, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -36,8 +37,11 @@ class PersonalCenter extends Component {
     const that = this
     PubSub.subscribe('refresh', (come, data) => {
       // 重新获取数据
-      console.warn('PersonalCenter componentDidMount refresh ==>  ' + data)
-      that._setUserInfo()
+      Rx.Observable.of('refresh')
+                      .delay(800)
+                      .subscribe((it) => {
+                        that._setUserInfo()
+                      })
     })
   }
 
@@ -62,18 +66,21 @@ class PersonalCenter extends Component {
 
   _setUserInfo = () => {
     AsyncStorage.getItem('avtar').then((result) => {
+      console.warn('_setUserInfo avtar => ' + result)
       this.setState({
         avtar: result
       })
     })
 
     AsyncStorage.getItem('nickname').then((result) => {
+      console.warn('_setUserInfo nickname => ' + result)
       this.setState({
         nickname: result
       })
     })
 
     AsyncStorage.getItem('sign').then((result) => {
+      console.warn('_setUserInfo sign => ' + result)
       this.setState({
         sign: result
       })
