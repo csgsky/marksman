@@ -15,7 +15,7 @@ class DiaryDetailPage extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '',
-    headerStyle: {elevation: 0},
+    headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: navigation.state.params.me ? <View style={{flexDirection: 'row'}}>
       <View style={{width: 50, height: 50, backgroundColor: 'red'}}/>
       <View style={{width: 50, height: 50, backgroundColor: 'red'}}/>
