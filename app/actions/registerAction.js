@@ -10,17 +10,13 @@ export const REGISTER_CODE_DATA = 'REGISTER_CODE_DATA'
 export const REGISTER_CODE_TIME_OVER = 'REGISTER_CODE_TIME_OVER'
 export const REGISTER_CODE_COUNTER = 'REGISTER_CODE_COUNTER'
 export const CLEAR_DATA = 'CLEAR_DATA'
-export function register (account, password, message, sex, sign, nickname, tags) {
+export function register (account, password, message) {
   console.log('action REGISTER ===> ')
   return {
     type: REGISTER,
-    account: account,
-    password: password,
-    message: message,
-    sex: sex,
-    sign: sign,
-    nickname: nickname,
-    tags: tags
+    account,
+    password,
+    message
   }
 }
 
@@ -28,15 +24,15 @@ export function registerSuccess (userId) {
   console.log('action REGISTER_SUCCESS userId ===> ' + userId)
   return {
     type: REGISTER_SUCCESS,
-    userId: userId
+    userId
   }
 }
 
 export function registerError (returnMsg) {
-  console.log('action REGISTER_Error ===> ' + returnMsg)
+  alert(returnMsg)
   return {
     type: REGISTER_ERROR,
-    returnMsg: returnMsg
+    returnMsg
   }
 }
 
@@ -44,7 +40,7 @@ export function getVerCode (account) {
   console.log('action account REGISTER_GET_CODE ===> ' + account)
   return {
     type: REGISTER_GET_CODE,
-    account: account
+    account
   }
 }
 
@@ -52,7 +48,7 @@ export function codeCounter (it) {
   console.log('action REGISTER_CODE_COUNTER ===> ')
   return {
     type: REGISTER_CODE_COUNTER,
-    it: it
+    it
   }
 }
 
@@ -80,21 +76,21 @@ export function codeSuccess () {
 export function nicknameChange (username) {
   return {
     type: REGISTER_NICKNAME_CHANGE,
-    username: username
+    username
   }
 }
 
 export function passwordChange (password) {
   return {
     type: REGISTER_PASSWORD_CHANGE,
-    password: password
+    password
   }
 }
 
 export function verCodeChange (code) {
   return {
     type: REGISTER_VER_CHANGE,
-    code: code
+    code
   }
 }
 
