@@ -100,7 +100,7 @@ export default class Splash extends Component {
 
 
   _generateAuth = () => {
-    var rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '12/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    var rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '123/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     var words = encodeURIComponent(rawStr)
     var base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
@@ -122,7 +122,7 @@ export default class Splash extends Component {
   }
 
   _getUnLoginUserInfo = (authorization) => {
-    Rx.Observable.from(getUnloginInfo('c759665107ad7e5212', authorization)).subscribe(
+    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '123', authorization)).subscribe(
                       (it) => {
                         this.setState({customer: it.customer})
                         if (it.customer) {
@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingTop: 4,
     paddingLeft: 12,
-    paddingRight: 10
+    paddingRight: 10,
+    backgroundColor: 'transparent'
   }
 })
