@@ -175,6 +175,9 @@ export const getUserProfile = (token, userId) =>
   getApi(`/api/account/${userId}`, token)
 
 // 未登录根据 deviceId 获取用户数据
-export const getUnloginInfo = (token, userId) =>
- getApi(`/api/customer/${userId}`, token)
+export const getUnloginInfo = (devicedId, userId) =>
+ getApi(`/api/customer/${devicedId}`, userId)
 
+// 游客注册接口
+export const CustomerRegisterApi = (map, userId) =>
+  postApi(`/api/customer`, map, userId)
