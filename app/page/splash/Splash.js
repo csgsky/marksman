@@ -1,97 +1,176 @@
-import React, {Component} from 'React'
+import React, {Component} from 'react'
+import { NavigationActions } from 'react-navigation'
+import Rx from 'rxjs'
 import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules} from 'react-native'
 import theme from '../../config/theme'
-import Rx from 'rxjs'
-import consts from '../../utils/const'
-import { NavigationActions } from 'react-navigation'
+import {getUnloginInfo} from '../../api/apis'
+
+
+const CryptoJS = require('crypto-js')
+// import consts from '../../utils/const'
+
 // import * as actions from '../../actions/loginActions'
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
+
 const resetActionMain = NavigationActions.reset({
   index: 0,
   actions: [
     NavigationActions.navigate({routeName: 'Tab'})
   ]
 })
-const resetAction = NavigationActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({routeName: 'LabelPage'})
-  ]
-})
 export default class Splash extends Component {
 
   constructor (props) {
-    super (props)
+    super(props)
     this.state = {
       time: 3,
-      timeSubscribe: ''
+      timeSubscribe: '',
+      hasdeviceUser: false,
+      devicedid: '',
+      newOne: false,
+      customer: ''
     }
   }
 
-  _saveUserInfo = async (info) => {
-    await AsyncStorage.setItem('userId', info.user_id + '')
-    await AsyncStorage.setItem('sex', info.sex + '')
-    await AsyncStorage.setItem('sign', info.sign + '')
-    await AsyncStorage.setItem('nickname', info.nickname + '')
-    await AsyncStorage.setItem('tags', info.tags + '')
-  }
-
   componentDidMount () {
-   AsyncStorage.getItem('userId').then((result) => {
-      if (result === null) {
-        // 游客状态 ，根据 udid 获取用户信息
-        console.warn('splah ==> userId null')
-        // 保存用户的基本数据
-        // 网络请求，获取当前设备的信息，判断当前用户是否选过标签
-        // 若没有选过标签，进入标签选择页面，直接进入职业
-         AsyncStorage.setItem('token', 'param=/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null/a9a392bb28f550366c1c55f59b35aac0f94ff1eb')
-         AsyncStorage.setItem('sex', '1')
-         AsyncStorage.setItem('sign', '头上有个大月亮.........')
-         AsyncStorage.setItem('nickname', 'allenchen')
-         AsyncStorage.setItem('tags', '1,3,4,5')
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result !== null) {
+        // 登录状态
+        console.warn('splah ==> userId not null')
+        this.setState({
+          hasdeviceUser: true
+        })
       } else {
-
+        console.warn('user id null ')
+        // 未登录状态
+        Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
+          .subscribe((imsi) => {
+            console.warn('imsi =====>    ' + imsi)
+            this.setState({
+              devicedid: imsi
+            })
+            AsyncStorage.getItem('devicedid').then((devicedid) => {
+              // 未登录状态但已经有用户信息
+              if (devicedid != null) {
+                this.setState({
+                  hasdeviceUser: true
+                })
+              } else {
+                // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
+                const authorization = this._generateAuth()
+                // console.warn('authorization  ==> ' + this._generateAuth())
+                AsyncStorage.setItem('token', authorization)
+                  .then(() => {
+                    this._getUnLoginUserInfo(authorization)
+                  })
+                // AsyncStorage.setItem('sex', 1)
+                // AsyncStorage.setItem('sign', '头上有个大月亮.........')
+                // AsyncStorage.setItem('nickname', 'allenchen')
+                // AsyncStorage.setItem('tags', '1,3,4,5')
+              }
+            })
+           // AsyncStorage.setItem('devicedid', '460022402238613')
+          })
       }
-   })
-   const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
+    })
+
+    // 倒计时
+    const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
       this.setState({
         time: 3 - it
       })
-      if ((it + 1) === 4) {
+      if ((it + 1) === 4 && this.state.hasdeviceUser) {
         this.props.navigation.dispatch(resetActionMain)
       }
     })
 
-   this.setState({
-     timeSubscribe: subscribe
-   })
-
-  //  Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
-  //    .subscribe(imsi => {
-  //      console.warn('imsi =====>    ' + imsi)
-  //      AsyncStorage.setItem('devicedid', '460022402238613')
-  //    })
+    this.setState({
+      timeSubscribe: subscribe
+    })
   }
+
+
+// const resetAction = NavigationActions.reset({
+//   index: 0,
+//   actions: [
+//     NavigationActions.navigate({routeName: 'LabelPage'})
+//   ]
+// })
+
+
+  _generateAuth = () => {
+    var rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '12/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    var words = encodeURIComponent(rawStr)
+    var base64 = require('base-64').encode(words)
+    const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
+    this.setState({
+      authorization
+    })
+    return authorization
+  }
+
+  componentWillUnmount() {
+    this.state.timeSubscribe.unsubscribe()
+  }
+
+  _saveUserInfo = async (customer) => {
+    await AsyncStorage.setItem('sex', customer.sex + '')
+    await AsyncStorage.setItem('sign', customer.sign + '')
+    await AsyncStorage.setItem('nickname', customer.nickname + '')
+    await AsyncStorage.setItem('tags', customer.tags + '')
+  }
+
+  _getUnLoginUserInfo = (authorization) => {
+    Rx.Observable.from(getUnloginInfo('c759665107ad7e5212', authorization)).subscribe(
+                      (it) => {
+                        this.setState({customer: it.customer})
+                        if (it.customer) {
+                          console.warn('未登录，但是有信息，保存信息，直接到主页')
+                          this.setState({
+                            hasdeviceUser: true,
+                            newOne: false
+                          })
+                        } else {
+                          console.warn('未登录，并且没有信息，跳到 label 页面')
+                          this.setState({
+                            hasdeviceUser: true,
+                            newOne: true
+                          })
+                        }
+                      }
+                    )
+  }
+  _onPress = () => {
+    if (this.state.hasdeviceUser && this.state.newOne) {
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({routeName: 'LabelPage'})
+        ]
+      })
+      this.props.navigation.dispatch(resetAction)
+    } else if (this.state.hasdeviceUser && !this.state.newOne) {
+      this._saveUserInfo(this.state.customer)
+      this.props.navigation.dispatch(resetActionMain)
+    } else {
+      // 重新获取设备绑定的信息
+      this._getUnLoginUserInfo(this.state.authorization)
+    }
+    // this.state.timeSubscribe.unsubscribe()
+    // this.props.navigation.dispatch(resetActionMain)
+  }
+
   render () {
     return (
       <View>
         <View style={styles.lable}>
-          <Image style= {styles.lable} source={require('../../img/splash.jpg')}></Image>
+          <Image style={styles.lable} source={require('../../img/splash.png')} />
         </View>
         <Text style={styles.skipText} onPress={this._onPress}>跳过 {this.state.time}</Text>
       </View>
     )
   }
-
- _onPress = () => {
-    this.state.timeSubscribe.unsubscribe()
-    this.props.navigation.dispatch(resetActionMain)
-  }
-
- componentWillUnmount() {
-   this.state.timeSubscribe.unsubscribe()
- }
 
 }
 const styles = StyleSheet.create({
