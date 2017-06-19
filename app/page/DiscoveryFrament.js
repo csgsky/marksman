@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
+import {Text, View, StyleSheet, Image, Dimensions, Platform, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
 import Separator from '../component/Separator'
 import * as actions from '../actions/discoverAction'
 import { bindActionCreators } from 'redux'
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   toolbar: {
     flexDirection: 'row',
     height: 52,
-    marginTop: 20,
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
     backgroundColor: 'white'
   },
   titleView: {
@@ -167,9 +167,6 @@ const styles = StyleSheet.create({
     height: 55,
     paddingLeft: 16,
     paddingRight: 16
-  },
-  wrapper: {
-    
   },
   slide: {
     flex: 1,
