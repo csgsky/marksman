@@ -75,12 +75,12 @@ export default class LabelPageTwo extends Component {
         </View>
         <TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.closeKeyBoard}>
           <Text style={{fontSize: 16, marginLeft: 8, color: '#757575', backgroundColor: 'transparent'}}>请写下你的昵称：</Text>
-          <View style={styles.nicknameView}>
-            <Image style={{width: 280, height: 60}}
-              resizeMode="contain"
-              source={NickNameBg} />
-            <TextInput style={styles.nickname}
+          <Image style={{width: 280, height: 60, marginTop: 30}}
+            resizeMode="contain"
+            source={NickNameBg}>
+            <TextInput style={{height: 45, marginLeft: 21}}
               placeholder={'请写下你的昵称'}
+              autoFocus
               placeholderTextColor='#a0be8a'
               underlineColorAndroid="transparent"
               maxLength={11}
@@ -89,7 +89,7 @@ export default class LabelPageTwo extends Component {
                   nickname
                 })
               }}/>
-          </View>
+            </Image>
           <View style={styles.signView}>
             <Image
               style={{width: 300, height: 130}}
@@ -135,11 +135,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     marginTop: 20
-  },
-  nickname: {
-    position: 'absolute',
-    left: 20,
-    right: 10
   },
   signView: {
     height: 130,
