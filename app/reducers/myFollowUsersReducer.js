@@ -1,50 +1,46 @@
-import * as types from '../actions/myFollow'
+import * as types from '../actions/myFollowUsersAction'
 
 const initState = {
   isRefreshing: false,
   users: [],
-  topics: [],
   isLoadingMore: false,
   page: 0,
   hasMore: true
 }
 
-export default function myFollow (state = initState, action = {}) {
+export default function myFollowUsers (state = initState, action = {}) {
   switch (action.type) {
-    case types.MY_FOLLOW_INIT:
+    case types.MY_FOLLOW_USERS_INIT:
       return {
         ...state,
         isRefreshing: true
       }
-    case types.MY_FOLLOW_INIT_SUCCESS:
-      console.log('reducer ---> MY_FOLLOW_INIT_SUCCESS')
+    case types.MY_FOLLOW_USERS_INIT_SUCCESS:
+      console.log('reducer ---> MY_FOLLOW_USERS_INIT_SUCCESS')
       console.log(action.payload)
       return {
         ...state,
         isRefreshing: false,
-        users: action.payload.users || [],
-        topics: action.payload.topics || []
+        users: action.payload.users,
       }
-    case types.MY_FOLLOW_LOAD_MORE:
+    case types.MY_FOLLOW_USERS_LOAD_MORE:
       return {
         ...state,
         isLoadingMore: true
       }
-    case types.MY_FOLLOW_MORE_SUCCESS:
+    case types.MY_FOLLOW_USERS_MORE_SUCCESS:
       return {
         ...state,
         isLoadingMore: false,
         users: state.users.concat(action.payload.users || []),
-        topics: state.topics.concat(action.payload.topics || []),
-        hasMore: action.payload[action.payload.type].length >= 5,
+        hasMore: action.payload.users.length >= 5,
         page: state.page + 1
       }
-    case types.MY_FOLLOW_FOLLOW_SUCCESS:
-      console.warn('reducer MY_FOLLOW_UNFOLLOW_SUCCESS ==> action.position ' + action.payload.position)
+    case types.MY_FOLLOW_USERS_FOLLOW_SUCCESS:
+      console.warn('reducer MY_FOLLOW_FOLLOW_SUCCESS ==> action.position ' + action.payload.position)
       return {
         ...state,
         users: updateFollow(state.users, action.payload.position),
-        topics: updateFollow(state.topics, action.payload.position)
       }
     default:
       return state
