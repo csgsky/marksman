@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs/Rx'
 import { combineEpics } from 'redux-observable'
 import {AsyncStorage} from 'react-native'
-import { MyFollowUsersApi, UnFollowUserApi, FollowUserApi, TopicsListApi, FollowTopicApi, UnfollowTopicApi } from '../api/apis'
-import * as actions from '../actions/myFollow'
+import { MyFollowTopicsApi, FollowTopicApi, UnfollowTopicApi } from '../api/apis'
+import * as actions from '../actions/myFollowTopicsAction'
 
-function myFollowInitEpic (action$) {
-  return action$.ofType(actions.MY_FOLLOW_INIT)
+function myFollowTopicsInitEpic (action$) {
+  return action$.ofType(actions.MY_FOLLOW_TOPICS_INIT)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
@@ -15,18 +15,14 @@ function myFollowInitEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    console.log('epic  --->  it token  ' + it.token)
-                    if (action.payload.type === 'users') {
-                      return Observable.from(MyFollowUsersApi(it.token, 0))
-                    }
-                    return Observable.from(TopicsListApi(it.token, 0))
+                    return Observable.from(MyFollowTopicsApi(it.token, 0))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
                 if (it.return_code === 1) {
-                  console.log('epic  ---> MY_FOLLOW_INIT_SUCCESS ' + it.return_code)
-                  return actions.myFollowInitSuccess({users: it.users, topics: it.talks || []})
+                  console.log('epic  ---> MY_FOLLOW_TOPICS_INIT_SUCCESS ' + it.return_code)
+                  return actions.myFollowTopicsInitSuccess({topics: it.talks})
                 }
                 return undefined
               }
@@ -36,8 +32,8 @@ function myFollowInitEpic (action$) {
        )
 }
 
-function myFollowMoreEpic (action$) {
-  return action$.ofType(actions.MY_FOLLOW_LOAD_MORE)
+function myFollowTopicsMoreEpic (action$) {
+  return action$.ofType(actions.MY_FOLLOW_TOPICS_LOAD_MORE)
             .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
@@ -46,15 +42,15 @@ function myFollowMoreEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(MyFollowUsersApi(it.token, it.page))
+                    return Observable.from(MyFollowTopicsApi(it.token, it.page))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
-                console.log('epic ---> MY_FOLLOW_MORE_SUCCESS')
+                console.log('epic ---> MY_FOLLOW_TOPICS_MORE_SUCCESS')
                 console.log(it)
                 if (it.return_code === 1) {
-                  return actions.myFollowMoreSuccess({users: it.users || [], topics: it.talks || [], type: action.payload.type})
+                  return actions.myFollowTopicsMoreSuccess({topics: it.talks})
                 }
                 return undefined
               }
@@ -64,8 +60,8 @@ function myFollowMoreEpic (action$) {
        )
 }
 
-function myFollowFollowEpic(action$) {
-  return action$.ofType(actions.MY_FOLLOW_FOLLOW)
+function myFollowTopicsFollowEpic(action$) {
+  return action$.ofType(actions.MY_FOLLOW_TOPICS_FOLLOW)
     .mergeMap(action =>
       Observable.zip(
          Observable.from(AsyncStorage.getItem('token')),
@@ -74,21 +70,15 @@ function myFollowFollowEpic(action$) {
         console.log(action.payload)
         if (it.token) {
           if (action.payload.myFocus) {
-            if (action.payload.type === 'topics') {
-              return Observable.from(UnfollowTopicApi(action.payload.id, it.token))
-            }
-            return Observable.from(UnFollowUserApi(action.payload.id, it.token))
+            return Observable.from(UnfollowTopicApi(action.payload.id, it.token))
           }
-          if (action.payload.type === 'users') {
-            return Observable.from(FollowTopicApi(action.payload.id, it.token))
-          }
-          return Observable.from(FollowUserApi(action.payload.id, null, it.token))
+          return Observable.from(FollowTopicApi(action.payload.id, it.token))
         }
         return Observable.of(2)
       }).map((it) => {
         if (it.return_code === 1) {
           console.warn('my follow follow epic ==> ' + action.payload.position)
-          return actions.myFollowFollowSuccess({position: action.payload.position, type: action.payload.type})
+          return actions.myFollowTopicsFollowSuccess({position: action.payload.position})
         }
         return null
       }).catch((error) => {
@@ -97,4 +87,4 @@ function myFollowFollowEpic(action$) {
     )
 }
 
-export default combineEpics(myFollowMoreEpic, myFollowInitEpic, myFollowFollowEpic)
+export default combineEpics(myFollowTopicsInitEpic, myFollowTopicsMoreEpic, myFollowTopicsFollowEpic)

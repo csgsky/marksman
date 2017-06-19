@@ -2,21 +2,21 @@ import React, {PureComponent} from 'react'
 import {View, Text, FlatList, RefreshControl} from 'react-native'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import * as actions from '../../actions/myFollow'
+import * as actions from '../../actions/myFollowTopicsAction'
 import TopicItem from '../../component/item/TalksItem'
 import theme from '../../config/theme'
 
 class MyFollowTopics extends PureComponent {
   componentDidMount() {
     console.log('did mount')
-    this.props.myFollowInit({type: 'topics'})
+    this.props.myFollowTopicsInit()
   }
   onRefresh = () => {
-    this.props.myFollowInit({type: 'topics'})
+    this.props.myFollowTopicsInit()
   }
   handleLoadingMore = () => {
     if (this.props.hasMore && !this.props.isLoadingMore) {
-      this.props.myFollowLoadMore({page: this.props.page, type: 'topics'})
+      this.props.myFollowTopicsLoadMore({page: this.props.page})
     }
   }
   renderHeader = () => (<View style={{
@@ -39,7 +39,7 @@ class MyFollowTopics extends PureComponent {
         <FlatList
           data={topics}
           renderItem={({item, index}) => (
-            <TopicItem item={item} index={index} LovedFollowed={this.props.myFollowFollow} type="followed" onPressFollow={this.props.myFollowFollow}/>)}
+            <TopicItem item={item} index={index} type="followed" onPressFollow={this.props.myFollowTopicsFollow}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader()}
           onEndReached={() => this.handleLoadingMore()}
@@ -57,7 +57,7 @@ class MyFollowTopics extends PureComponent {
   }
 }
 
-const mapStateToProps = ({myFollow}) => myFollow
+const mapStateToProps = ({myFollowTopics}) => myFollowTopics
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyFollowTopics)
