@@ -70,7 +70,7 @@ export default class LabelPageTwo extends Component {
             source={WriteNickASign} />
         </View>
         <View style={styles.view}>
-          <Text style={{fontSize: 16, color: '#757575'}}>请写下你的昵称：</Text>
+          <Text style={{fontSize: 16, marginLeft: 8, color: '#757575'}}>请写下你的昵称：</Text>
           <View style={styles.nicknameView}>
             <Image style={{width: 280, height: 60}}
               resizeMode="contain"
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     padding: 16,
     flexDirection: 'column',
+    backgroundColor: 'white',
     top: 160,
     left: 16,
     right: 16,
