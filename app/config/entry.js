@@ -72,7 +72,7 @@ const FooterTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2},
+      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2, paddingTop: 20},
       indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
       labelStyle: {fontSize: 15},
       tabStyle: {width: 65}
@@ -104,7 +104,7 @@ const MyFollowTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2},
+      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2, paddingTop: 20},
       indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
       labelStyle: {fontSize: 15},
       tabStyle: {width: 65}
@@ -257,14 +257,16 @@ const Navigator = StackNavigator(
       screen: TopicListPage,
       mode: 'card',
       navigationOptions: {
-        title: '精选话题'
+        title: '精选话题',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
       }
     },
     LovedListPage: {
       screen: LovedListPage,
       mode: 'card',
       navigationOptions: {
-        title: '备受宠爱'
+        title: '备受宠爱',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
       }
     },
     PersonalPage: {
@@ -282,7 +284,8 @@ const Navigator = StackNavigator(
       screen: TrashPage,
       mode: 'card',
       navigationOptions: {
-        title: '垃圾箱'
+        title: '垃圾箱',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
       }
     },
     FeedbackPage: {

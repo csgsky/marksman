@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   toolbar: {
     flexDirection: 'row',
     height: 52,
+    marginTop: 20,
     backgroundColor: 'white'
   },
   titleView: {

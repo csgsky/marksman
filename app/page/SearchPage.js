@@ -17,7 +17,7 @@ class SearchPage extends Component {
   render () {
     const {searchText, searchInputClearShow, empty} = this.props
     console.warn('render ==> empty ==>  ' + empty)
-    return <View style={{flex: 1}}>
+    return <View style={{flex: 1, marginTop: 2}}>
       <SearchTextInput
         searchTextChange = {this._onSearchTextChange}
         backPress = {this._backPress}

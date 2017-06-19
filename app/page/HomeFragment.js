@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {Text, View, Image, TouchableOpacity, StyleSheet, FlatList, RefreshControl, NativeModules} from 'react-native'
+import {Text, View, Image, TouchableOpacity, StyleSheet, FlatList, RefreshControl, NativeModules, StatusBar} from 'react-native'
 import * as actions from '../actions/homeActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   toolbar: {
     flexDirection: 'row',
     height: 52,
+    marginTop: 20,
     backgroundColor: 'white'
   },
   titleView: {
