@@ -48,7 +48,7 @@ export default class Splash extends Component {
           .subscribe((imsi) => {
             console.warn('imsi =====>    ' + imsi)
             this.setState({
-              devicedid: imsi
+              devicedid: imsi.split('-').join('')
             })
             AsyncStorage.getItem('devicedid').then((devicedid) => {
               // 未登录状态但已经有用户信息
