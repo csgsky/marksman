@@ -1,7 +1,7 @@
 'use strict'
 import React, {Component} from 'react'
 
-import {NativeModules, StatusBar} from 'react-native'
+import {NativeModules, Platform, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
@@ -72,7 +72,7 @@ const FooterTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2, paddingTop: 20},
+      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2, paddingTop: Platform.OS === 'ios' ? 20 : 0},
       indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
       labelStyle: {fontSize: 15},
       tabStyle: {width: 65}
