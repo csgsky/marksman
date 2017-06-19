@@ -16,7 +16,7 @@ class PersonalCenter extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '个人中心',
-    headerStyle: {elevation: 0},
+    headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: <View />,
     headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}

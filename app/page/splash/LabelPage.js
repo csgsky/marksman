@@ -83,7 +83,7 @@ export default class LabelPage extends Component {
           resizeMode="cover"
           source={chooseTagBg} />
         <View style={styles.tagView}>
-          <Text style={{fontSize: 16, color: '#757575'}}>留下你身边的元素</Text>
+          <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>留下你身边的元素</Text>
           <View style={{flexDirection: 'row', marginTop: 15}}>
             {this._getTagView(0, this.state.tagsValues[0], this.state.tagsState[0])}
             {this._getTagView(1, this.state.tagsValues[1], this.state.tagsState[1])}
@@ -102,7 +102,7 @@ export default class LabelPage extends Component {
           <View style={{flexDirection: 'row', marginTop: 15}}>
             {this._getTagView(9, this.state.tagsValues[9], this.state.tagsState[9])}
           </View>
-          <Text style={{fontSize: 16, color: '#757575', marginTop: 15}}>选择你的性别：</Text>
+          <Text style={{fontSize: 16, color: '#757575', marginTop: 15, backgroundColor: 'transparent'}}>选择你的性别：</Text>
           <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 15}}>
             <TouchableOpacity activeOpacity={1} onPress={this._onPressSex.bind(this, 0)} style={{width: 24, height: 46, marginRight: 25}}>
               <Image source={this.state.sex[0] === 1 ? boyPre : boy}/>

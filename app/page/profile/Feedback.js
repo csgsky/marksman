@@ -69,17 +69,17 @@ const styles = StyleSheet.create({
     flex: 1
   },
   input: {
-    height: 348,
+    height: 478,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    paddingTop: 32,
-    paddingLeft: 17,
-    paddingRight: 17,
+    paddingTop: 35,
+    paddingLeft: 20,
+    paddingRight: 20,
     paddingBottom: 32,
     color: '#a3a3a3',
     textAlignVertical: 'top',
-    fontSize: 12,
-    lineHeight: 20
+    fontSize: 16,
+    lineHeight: 22
   },
   submit: {
     color: '#c37f2e',
@@ -87,14 +87,13 @@ const styles = StyleSheet.create({
     fontSize: theme.text.xxlgFontSize
   },
   tips: {
-    position: 'absolute',
-    bottom: 33,
-    left: 14,
+    marginTop: 35,
+    marginLeft: 21
   },
   tip: {
     lineHeight: 14,
     color: '#9b9b9b',
-    fontSize: 14,
+    fontSize: 12,
   }
 })
 
