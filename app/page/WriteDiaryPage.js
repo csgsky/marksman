@@ -1,6 +1,8 @@
-import React, {Component} from 'React'
+import React, {Component} from 'react'
 import {StyleSheet, View, Text} from 'react-native'
-import theme from '../config/theme'
+
+// import theme from '../config/theme'
+import LoadingMore from '../component/LoadingMore'
 // import * as actions from '../../actions/loginActions'
 // import { bindActionCreators } from 'redux'
 // import { connect } from 'react-redux'
@@ -8,17 +10,12 @@ import theme from '../config/theme'
 export default class WriteDiaryPage extends Component {
   render () {
     return (
-      <View>
-        <View style={styles.lable}>
-          <Text style={{color: 'red'}}>写日记</Text>
-        </View>
+      <View style={{flex: 1}}>
+        <LoadingMore />
       </View>
     )
   }
 }
 const styles = StyleSheet.create({
-  lable: {
-    width: theme.screenWidth,
-    height: theme.screenWidth
-  }
+
 })
