@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, Image, TouchableOpacity, StyleSheet, FlatList, RefreshControl} from 'react-native'
+import {Text, View, Image, TouchableOpacity, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
 import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   toolbar: {
     flexDirection: 'row',
     height: 52,
-    marginTop: 20,
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
     backgroundColor: 'white'
   },
   titleView: {
