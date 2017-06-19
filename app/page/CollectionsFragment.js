@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, FlatList, RefreshControl} from 'react-native'
+import {Text, View, StyleSheet, FlatList, Platform, RefreshControl} from 'react-native'
 import CollectionItem from '../component/item/CollectionsItem'
 import Separator from '../component/Separator'
 import ListSeparator from '../component/ListSeparator'
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   toolbar: {
     flexDirection: 'row',
     height: 52,
-    marginTop: 20,
+    marginTop: Platform.OS === 'ios' ? 20 : 0,
     backgroundColor: 'white'
   },
   titleView: {
