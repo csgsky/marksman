@@ -1,5 +1,5 @@
 import React, {Component} from 'React'
-import {StyleSheet, View, Text, BackAndroid} from 'react-native'
+import {StyleSheet, View, Text, BackAndroid, Platform} from 'react-native'
 import theme from '../config/theme'
 import * as actions from '../actions/searchAction'
 import { bindActionCreators } from 'redux'
@@ -17,7 +17,7 @@ class SearchPage extends Component {
   render () {
     const {searchText, searchInputClearShow, empty} = this.props
     console.warn('render ==> empty ==>  ' + empty)
-    return <View style={{flex: 1, marginTop: 2}}>
+    return <View style={{flex: 1, marginTop: (Platform.OS === 'ios') ? 20 : 0}}>
       <SearchTextInput
         searchTextChange = {this._onSearchTextChange}
         backPress = {this._backPress}
