@@ -16,6 +16,7 @@ RCT_REMAP_METHOD(getDeviceId,
                  rejecter:(RCTPromiseRejectBlock)reject)
 {
   NSString *deviceUUID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+//  NSString *deviceUUID = @"2345689056789fghjvbnm";
   if (deviceUUID) {
     resolve(deviceUUID);
   } else {
