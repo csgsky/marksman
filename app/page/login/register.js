@@ -137,7 +137,9 @@ class Register extends Component {
   }
 
   componentWillUnmount() {
-    this.state.timeSubscribe.unsubscribe()
+    if (typeof (this.state.timeSubscribe) === 'function') {
+      this.state.timeSubscribe.unsubscribe()
+    }
     this.props.actions.codeTimeOver()
   }
 
