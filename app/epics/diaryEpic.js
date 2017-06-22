@@ -1,7 +1,7 @@
 import {AsyncStorage} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/diaryDetailAction'
+import * as actions from '../actions/diaryAction'
 import { CommentsApi } from '../api/apis'
 
 function diaryCommentInitEpic (action$) {
