@@ -2,17 +2,8 @@ import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, AsyncStorage, StyleSheet} from 'react-native'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
-import Rx from 'rxjs'
+
 export default class ProfileItem extends Component {
-  render () {
-    const {value, navigation} = this.props
-    return <TouchableOpacity onPress={this._router}>
-      <View style={styles.item}>
-        <Image style={styles.icon} resizeMode = 'contain' source={this._getSource(value)} ></Image>
-        <Text style={styles.text}>{value}</Text>
-      </View>
-    </TouchableOpacity>
-  }
 
   _getSource = (type) => {
     switch(type) {
@@ -86,7 +77,7 @@ export default class ProfileItem extends Component {
   _routerMineTrash = () => {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        this.props.navigation.navigate('Login', {come4: 'profile'})   
+        this.props.navigation.navigate('Login', {come4: 'profile'})
       } else {
         this.props.navigation.navigate('TrashPage', {come4: 'profile'})
       }
@@ -102,9 +93,16 @@ export default class ProfileItem extends Component {
       }
     })
   }
+  render () {
+    const {value} = this.props
+    return (<TouchableOpacity onPress={this._router}>
+      <View style={styles.item}>
+        <Image style={styles.icon} resizeMode="contain" source={this._getSource(value)} />
+        <Text style={styles.text}>{value}</Text>
+      </View>
+    </TouchableOpacity>)
+  }
 }
-
-
 
 const styles = StyleSheet.create({
   item: {

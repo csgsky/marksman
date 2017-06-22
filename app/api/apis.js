@@ -92,13 +92,13 @@ export function deleteApi (path, userId) {
 export const MineDiaryApi = (userId, page) =>
   getApi(`/api/diary?rn=6&ordertype=1&status=1&p=${page}`, userId)
 
-// 足迹、热门
+// 足迹、最新
 export const FooterRecentDiaryApi = (userId, page) =>
   getApi(`/api/diary?rn=6&ordertype=0&status=1&private=1&p=${page}`, userId)
 
-// 足迹、最新
+// 足迹、热门
 export const FooterHotDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=6&ordertype=0&status=1&private=1&p=${page}`, userId)
+  getApi(`/api/diary?rn=6&ordertype=2&status=1&private=1&p=${page}`, userId)
 
 // 文集
 export const CollectionsApi = (userId) =>
