@@ -10,6 +10,7 @@ import * as actions from '../../actions/registerAction'
 
 // 加密使用
 var CryptoJS = require('crypto-js')
+
 class Register extends Component {
   constructor (props) {
     super(props)
@@ -24,21 +25,22 @@ class Register extends Component {
   }
   componentWillReceiveProps (nextProps) {
     const {userId} = nextProps
-    if (userId !== this.props.userId) {
+    if (userId !== this.props.userId && userId !== '') {
+      console.warn('componentWillReceiveProps ==> counter + 生成新的 token ')
       var base64 = require('base-64')
       var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
       var words = encodeURIComponent(rawStr)
       var base64 = base64.encode(words)
       var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-      console.log('userId ==>: ' + userId)
-      console.log('hmacSHA1 ==>: ' + hmacSHA1)
-      console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
+      // console.log('userId ==>: ' + userId)
+      // console.log('hmacSHA1 ==>: ' + hmacSHA1)
+      // console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
       AsyncStorage.setItem('userId', userId + '')
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
             PubSub.publish('refresh', hmacSHA1)
-            // this.props.actions.clearData()
+            this.props.actions.clearData()
             this.props.navigation.goBack(this.props.navigation.state.params.key)
           }
         )
@@ -53,42 +55,42 @@ class Register extends Component {
   }
 
   render () {
-    const {actions, username, password, code, counter, isCounting, btnCodeText, securePassword} = this.props
+    const {actions, isCounting, btnCodeText, securePassword} = this.props
     return (
       <View style={styles.view}>
-         <Text style ={styles.title}>{consts.appName}</Text>
-          <View style={styles.itemView}>
-            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Image style={styles.icon} resizeMode = 'contain' source={require('../../img/tel.png')} />
-            </View>
-            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-              <TextInput style ={styles.username}
-                placeholder ={consts.USERNAME_PLACE_HOLDER}
-                placeholderTextColor = '#8d8d8d'
-                underlineColorAndroid="transparent"
-                maxLength = {11}
-                keyboardType="numeric"
-                onChangeText={(username) => {
-                  actions.nicknameChange(username)
-                }}/>
-            </View>
+        <Text style={styles.title}>{consts.appName}</Text>
+        <View style={styles.itemView}>
+          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+            <Image style={styles.icon} resizeMode='contain' source={require('../../img/tel.png')} />
           </View>
-          <View style={styles.underLine}></View>
-          <View style={[styles.itemView, {marginTop: 10}]}>
-            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
-            </View>
-            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-              <TextInput style={styles.username}
-                placeholder={consts.PASSWORD_PLACE_HOLDER}
-                placeholderTextColor='#8d8d8d'
-                underlineColorAndroid="transparent"
-                secureTextEntry={securePassword}
-                onChangeText={(password) => {
-                  actions.passwordChange(password)
-                }}/>
-            </View>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+            <TextInput style ={styles.username}
+              placeholder ={consts.USERNAME_PLACE_HOLDER}
+              placeholderTextColor="#8d8d8d"
+              underlineColorAndroid="transparent"
+              maxLength={11}
+              keyboardType="numeric"
+              onChangeText={(username) => {
+                actions.nicknameChange(username)
+              }}/>
           </View>
+        </View>
+        <View style={styles.underLine} />
+        <View style={[styles.itemView, {marginTop: 10}]}>
+          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+            <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
+          </View>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+            <TextInput style={styles.username}
+              placeholder={consts.PASSWORD_PLACE_HOLDER}
+              placeholderTextColor='#8d8d8d'
+              underlineColorAndroid="transparent"
+              secureTextEntry={securePassword}
+              onChangeText={(password) => {
+                actions.passwordChange(password)
+              }}/>
+          </View>
+        </View>
         <View style={styles.underLine} />
         <View style={[styles.itemView, {marginTop: 10}]}>
           <View style={{flexDirection: 'column', justifyContent: 'center'}}>
@@ -96,7 +98,7 @@ class Register extends Component {
           </View>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <TextInput style={styles.username}
-              placeholderTextColor='#8d8d8d'
+              placeholderTextColor="#8d8d8d"
               underlineColorAndroid="transparent"
               maxLength={6}
               keyboardType="numeric"
@@ -104,7 +106,7 @@ class Register extends Component {
                 actions.verCodeChange(code)
               }}/>
           </View>
-          <TouchableOpacity activeOpacity = {1} style={[styles.vertiView, {borderColor: '#8d8d8d'}]} onPress = {!isCounting && this._getCode}>
+          <TouchableOpacity activeOpacity = {1} style={[styles.vertiView, {borderColor: '#8d8d8d'}]} onPress={!isCounting && this._getCode}>
             <Text>{btnCodeText}</Text>
           </TouchableOpacity>
         </View>
@@ -141,6 +143,7 @@ class Register extends Component {
       this.state.timeSubscribe.unsubscribe()
     }
     this.props.actions.codeTimeOver()
+    this.props.actions.clearData()
   }
 
   _login = () => {
@@ -150,7 +153,7 @@ class Register extends Component {
     if (correctUsername && correctPassword && correctCode) {
       const {username, password, code} = this.props
       this.props.actions.register(username, password, code)
-    } 
+    }
   }
 
   _backPress = () => {

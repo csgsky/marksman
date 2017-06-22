@@ -13,22 +13,22 @@ export function initPage () {
 export function usernameChagnge (account) {
   return {
     type: ACCOUNT_CHANGE,
-    account: account
+    account
   }
 }
 
 export function passwordChange (password) {
   return {
     type: PASSWORD_CHANGE,
-    password: password
+    password
   }
 }
 
 export function login (account, password) {
   return {
     type: LOGIN,
-    account: account,
-    password: password
+    account,
+    password
   }
 }
 
@@ -36,8 +36,8 @@ export function loginSuccess (info, userId) {
   console.warn('action ====> loginSuccess ' + userId)
   return {
     type: LOGIN_SUCCESS,
-    info: info,
-    userId: userId
+    info,
+    userId
   }
 }
 
@@ -45,6 +45,6 @@ export function loginError (errorMsg) {
   console.warn('action ====> loginError: ' + errorMsg)
   return {
     type: LOGIN_ERROR,
-    errorMsg: errorMsg
+    errorMsg
   }
 }

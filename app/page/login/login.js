@@ -1,19 +1,17 @@
-import React, {Component} from 'React'
+import React, {Component} from 'react'
 import {StyleSheet, View, Text, TextInput, Image, BackAndroid, TouchableOpacity, AsyncStorage} from 'react-native'
-import theme from '../../config/theme'
-import * as actions from '../../actions/loginActions'
+import PubSub from 'pubsub-js'
+import CryptoJS from 'crypto-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { NavigationActions } from 'react-navigation'
+import theme from '../../config/theme'
+import * as actions from '../../actions/loginActions'
 import * as consts from '../../utils/const'
-import PubSub from 'pubsub-js'
+
 // 加密使用
-var CryptoJS = require('crypto-js')
 var dismissKeyboard = require('dismissKeyboard')
+
 class Login extends Component {
-  constructor (props) {
-    super(props)
-  }
 
   componentDidMount () {
     console.warn('componentDidMount')
@@ -22,21 +20,22 @@ class Login extends Component {
 
   componentWillReceiveProps (nextProps) {
     const {userId, info} = nextProps
-    if (userId !== this.props.userId) {
+    if (userId !== this.props.userId && userId !== '') {
+      console.log('componentWillReceiveProps ==>: 登录去吧，宝宝们')
       var base64 = require('base-64')
       var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
       var words = encodeURIComponent(rawStr)
       var base64 = base64.encode(words)
       var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-      console.log('userId ==>: ' + userId)
-      console.log('hmacSHA1 ==>: ' + hmacSHA1)
-      console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
+      // console.log('userId ==>: ' + userId)
+      // console.log('hmacSHA1 ==>: ' + hmacSHA1)
+      // console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
       this._saveUserInfo(info)
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
             PubSub.publish('refresh', hmacSHA1)
-            this.props.navigation.goBack()
+            // this.props.navigation.goBack()
           }
         )
     }
@@ -51,53 +50,51 @@ class Login extends Component {
   }
 
   render () {
-    const {account, password, correctAccount, correctPassword} = this.props
-    console.warn('account ==> ' + account)
     return (
-        <View style={styles.view}>
-          <Text style ={styles.title}>{consts.appName}</Text>
-          <View style={styles.itemView}>
-            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Image style={styles.icon} resizeMode = 'contain' source={require('../../img/tel.png')} />
-            </View>
-            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-              <TextInput style ={styles.username}
-                         placeholder ={consts.USERNAME_PLACE_HOLDER}
-                         placeholderTextColor = '#8d8d8d'
-                         underlineColorAndroid="transparent"
-                         maxLength = {11}
-                         keyboardType="numeric"
-                         onChangeText = {(account) => {
-                           this.props.actions.usernameChagnge(account)
-                         }}/>
-            </View>
+      <View style={styles.view}>
+        <Text style ={styles.title}>{consts.appName}</Text>
+        <View style={styles.itemView}>
+          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+            <Image style={styles.icon} resizeMode="contain" source={require('../../img/tel.png')} />
           </View>
-          <View style={styles.underLine}></View>
-          <View style={[styles.itemView, {marginTop: 10}]}>
-            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-              <Image style={styles.icon} resizeMode = 'contain' source={require('../../img/password.png')} />
-            </View>
-            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-              <TextInput style ={styles.username}
-                         placeholder ={consts.PASSWORD_PLACE_HOLDER}
-                         placeholderTextColor = '#8d8d8d'
-                         underlineColorAndroid="transparent"
-                         secureTextEntry={false}
-                         onChangeText = {(password) => {
-                           this.props.actions.passwordChange(password)
-                         }}/>
-            </View>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+            <TextInput style ={styles.username}
+              placeholder={consts.USERNAME_PLACE_HOLDER}
+              placeholderTextColor='#8d8d8d'
+              underlineColorAndroid="transparent"
+              maxLength={11}
+              keyboardType="numeric"
+              onChangeText={(account) => {
+                this.props.actions.usernameChagnge(account)
+              }}/>
           </View>
-          <View style={styles.underLine}></View>
-          <TouchableOpacity onPress={this._login}>
-            <View style={styles.confirm}>
+        </View>
+        <View style={styles.underLine} />
+        <View style={[styles.itemView, {marginTop: 10}]}>
+          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+            <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
+          </View>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+            <TextInput style={styles.username}
+              placeholder={consts.PASSWORD_PLACE_HOLDER}
+              placeholderTextColor='#8d8d8d'
+              underlineColorAndroid="transparent"
+              secureTextEntry={false}
+              onChangeText = {(password) => {
+                this.props.actions.passwordChange(password)
+              }}/>
+          </View>
+        </View>
+        <View style={styles.underLine} />
+        <TouchableOpacity onPress={this._login}>
+          <View style={styles.confirm}>
             <Text style={styles.login}>{consts.CONFIRM}</Text>
           </View>
-          </TouchableOpacity>
-          <Text style={styles.register} onPress={this._quickRegister}>{consts.QUICK_REGISTER}</Text>
-          <View style={styles.forgetView}>
-            <Text onPress={this._forgetPassword} style={styles.forget}>{consts.FORGET_PASSWORD}</Text>
-          </View>
+        </TouchableOpacity>
+        <Text style={styles.register} onPress={this._quickRegister}>{consts.QUICK_REGISTER}</Text>
+        <View style={styles.forgetView}>
+          <Text onPress={this._forgetPassword} style={styles.forget}>{consts.FORGET_PASSWORD}</Text>
+        </View>
       </View>
     )
   }
@@ -106,18 +103,20 @@ class Login extends Component {
     const {account, password, correctAccount, correctPassword} = this.props
     dismissKeyboard()
     if (correctAccount && correctPassword) {
-      this.props.actions.login(account, password)
+      // this.props.actions.login(account, password)
+      console.log(this.props.navigation)
+      console.log(this.props.navigation.state)
+      // this.props.navigation.goBack()
     } else if (!correctAccount) {
       alert('请输入正确格式的手机号')
     } else if (!correctPassword) {
-      alert('请输入正确格式的验证码')
+      alert('请输入正确格式的密码')
     }
-    
   }
 
   _quickRegister = () => {
     const key = this.props.navigation.state.key
-    this.props.navigation.navigate('RegisterPage', {key: key})
+    this.props.navigation.navigate('RegisterPage', {key})
   }
 
   _forgetPassword = () => {
@@ -138,7 +137,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 })
 

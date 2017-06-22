@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, Image, TouchableOpacity, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
+import {Text, View, Image, TouchableOpacity, AsyncStorage, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
 import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -106,7 +106,13 @@ class HomeFragment extends Component {
   }
 
   _onRouterMine = () => {
-    this.props.navigation.navigate('PersonalCenter', {message: '个人中心'})
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result != null) {
+        this.props.navigation.navigate('PersonalCenter', {isLogin: true})
+      } else {
+        this.props.navigation.navigate('PersonalCenter', {isLogin: false})
+      }
+    })
   }
 
   openImagePicker () {
