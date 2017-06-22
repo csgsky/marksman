@@ -26,71 +26,22 @@ export default class Splash extends Component {
     this.state = {
       time: 3,
       timeSubscribe: '',
-      hasdeviceUser: false,
-      devicedid: '',
+      devicedid: null,
       newOne: false,
-      customer: ''
+      customer: null,
+      success: false
     }
   }
 
   componentDidMount () {
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result !== null) {
-        // 登录状态
-        console.warn('splah ==> userId not null')
-        this.setState({
-          hasdeviceUser: true
-        })
-      } else {
-        console.warn('user id null ')
-        // 未登录状态
-        Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
-          .subscribe((imsi) => {
-            console.warn('imsi =====>    ' + imsi)
-            this.setState({
-              devicedid: imsi.split('-').join('')
-            })
-            AsyncStorage.getItem('devicedid').then((devicedid) => {
-              // 未登录状态但已经有用户信息
-              if (devicedid != null) {
-                this.setState({
-                  hasdeviceUser: true
-                })
-              } else {
-                // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
-                const authorization = this._generateAuth()
-                // console.warn('authorization  ==> ' + this._generateAuth())
-                AsyncStorage.setItem('token', authorization)
-                  .then(() => {
-                    this._getUnLoginUserInfo(authorization)
-                  })
-              }
-            })
-          })
-      }
-    })
-
+    this._getDeviceUserInfo()
     // 倒计时
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
       this.setState({
         time: 3 - it
       })
-      if ((it + 1) === 4 && this.state.hasdeviceUser) {
-        if (this.state.hasdeviceUser && this.state.newOne) {
-          const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate({routeName: 'LabelPage'})
-            ]
-          })
-          this.props.navigation.dispatch(resetAction)
-        } else if (this.state.hasdeviceUser && !this.state.newOne) {
-          this._saveUserInfo(this.state.customer)
-          this.props.navigation.dispatch(resetActionMain)
-        } else {
-          // 重新获取设备绑定的信息
-          this._getUnLoginUserInfo(this.state.authorization)
-        }
+      if ((it + 1) === 4) {
+        this._splashRouter()
       }
     })
 
@@ -107,20 +58,54 @@ export default class Splash extends Component {
 //   ]
 // })
 
-
-  _generateAuth = () => {
-    var rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '1216522/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
-    var words = encodeURIComponent(rawStr)
-    var base64 = require('base-64').encode(words)
-    const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-    this.setState({
-      authorization
-    })
-    return authorization
-  }
-
   componentWillUnmount() {
     this.state.timeSubscribe.unsubscribe()
+  }
+
+  _getDeviceUserInfo = () => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result !== null) {
+        // 登录状态
+        console.warn('splah ==> userId not null')
+        this.setState({
+          success: true
+        })
+      } else {
+        console.warn('user id null ')
+        // 未登录状态
+        Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
+          .subscribe((imsi) => {
+            console.warn('imsi =====>    ' + imsi)
+            this.setState({
+              devicedid: imsi.split('-').join('')
+            })
+            AsyncStorage.getItem('devicedid').then((devicedid) => {
+              // 未登录状态但已经有用户信息
+              if (devicedid != null) {
+                this.setState({
+                  success: true
+                })
+              } else {
+                // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
+                const authorization = this._generateAuth()
+                // console.warn('authorization  ==> ' + this._generateAuth())
+                AsyncStorage.setItem('token', authorization)
+                  .then(() => {
+                    this._getUnLoginUserInfo(authorization)
+                  })
+              }
+            })
+          })
+      }
+    })
+  }
+
+  _generateAuth = () => {
+    const rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '12342/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    const words = encodeURIComponent(rawStr)
+    const base64 = require('base-64').encode(words)
+    const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
+    return authorization
   }
 
   _saveUserInfo = async (customer) => {
@@ -131,19 +116,17 @@ export default class Splash extends Component {
   }
 
   _getUnLoginUserInfo = (authorization) => {
-    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '1216522', authorization)).subscribe(
+    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '12342', authorization)).subscribe(
                       (it) => {
-                        this.setState({customer: it.customer})
+                        this.setState({customer: it.customer, success: true})
                         if (it.customer) {
                           console.warn('未登录，但是有信息，保存信息，直接到主页')
                           this.setState({
-                            hasdeviceUser: true,
-                            newOne: false
+                            newOne: false,
                           })
                         } else {
                           console.warn('未登录，并且没有信息，跳到 label 页面')
                           this.setState({
-                            hasdeviceUser: true,
                             newOne: true
                           })
                         }
@@ -151,23 +134,26 @@ export default class Splash extends Component {
                     )
   }
   _onPress = () => {
-    if (this.state.hasdeviceUser && this.state.newOne) {
-      const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({routeName: 'LabelPage'})
-        ]
-      })
-      this.props.navigation.dispatch(resetAction)
-    } else if (this.state.hasdeviceUser && !this.state.newOne) {
-      this._saveUserInfo(this.state.customer)
-      this.props.navigation.dispatch(resetActionMain)
+    this._splashRouter()
+  }
+  _splashRouter = () => {
+    if (this.state.success) {
+      if (!this.state.newOne) {
+        this._saveUserInfo(this.state.customer)
+        this.props.navigation.dispatch(resetActionMain)
+      } else if (this.state.newOne) {
+        const resetAction = NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({routeName: 'LabelPage'})
+          ]
+        })
+        this.props.navigation.dispatch(resetAction)
+      }
     } else {
       // 重新获取设备绑定的信息
-      this._getUnLoginUserInfo(this.state.authorization)
+      this._getDeviceUserInfo()
     }
-    // this.state.timeSubscribe.unsubscribe()
-    // this.props.navigation.dispatch(resetActionMain)
   }
 
   render () {
