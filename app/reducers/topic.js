@@ -2,7 +2,6 @@ import * as types from '../actions/topic'
 
 const initState = {
   isRefreshing: false,
-  topic: {},
   comments: [],
   isLoadingMore: false,
   page: 0,
@@ -54,6 +53,12 @@ export default function topic (state = initState, action = {}) {
       return {
         ...state,
         comments: likeCommentSuccess(state.comments, action.index)
+      }
+    case types.TOPIC_LIKE_SUCCESS:
+      console.log('epic ---> TOPIC_LIKE_SUCCESS')
+      return {
+        ...state,
+        topic: {...state.topic, my_like: 1, like: {num: state.topic.like.num + 1}}
       }
     default:
       return state

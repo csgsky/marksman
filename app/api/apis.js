@@ -171,12 +171,16 @@ export const FollowUserApi = (account, map = {}, userId) =>
 // 取消关注用户接口
 export const UnFollowUserApi = (account, userId) =>
   deleteApi(`/api/account/focus/${account}`, userId)
-// 点赞用户接口
-export const LikeApi = ({id, ownerId, commentId, userId}) =>
+// 点赞评论接口
+export const LikeCommentApi = ({id, ownerId, commentId, userId}) =>
   postApi(`/api/${id}/${ownerId}/${commentId}/like`, {}, userId)
 // 暂无取消点赞功能
-export const UnlikeApi = ({id, ownerId, commentId, userId}) =>
+export const UnlikeCommentApi = ({id, ownerId, commentId, userId}) =>
   deleteApi(`/api/${id}/${ownerId}/${commentId}/like`, userId)
+
+// 点赞话题接口
+export const LikeTopicApi = ({id, ownerId, userId}) =>
+  postApi(`/api/${id}/${ownerId}/like`, {}, userId)
 
 // 个人信息获取接口
 export const getUserProfile = (token, userId) =>

@@ -2,7 +2,7 @@ import 'rxjs'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/topic'
 import { combineEpics } from 'redux-observable'
-import { TopicApi, CommentsApi, FollowTopicApi, LikeApi, UnfollowTopicApi, UnlikeApi } from '../api/apis'
+import { TopicApi, CommentsApi, FollowTopicApi, LikeCommentApi, UnfollowTopicApi, UnlikeCommentApi, LikeTopicApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
 function topicInitEpic (action$) {
   return action$.ofType(actions.TOPIC_INIT)
@@ -22,7 +22,7 @@ function topicInitEpic (action$) {
                 if (it.return_code === 2) {
                   return null
                 }
-                console.log('epic  ---> topic ' + it.topic)
+                console.log(it.topic)
                 return actions.topicData(it)
               }
             ).catch((error) => {
@@ -114,7 +114,7 @@ function commentLikeEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(LikeApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
+                    return Observable.from(LikeCommentApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
@@ -138,7 +138,7 @@ function commentUnlikeEpic (action$) {
                 (it) => {
                   if (it.token) {
                     // 此处调用unfollo topic api
-                    return Observable.from(UnlikeApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
+                    return Observable.from(UnlikeCommentApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
@@ -152,4 +152,27 @@ function commentUnlikeEpic (action$) {
               }))
 }
 
-export default combineEpics(topicInitEpic, commentsMoreEpic, topicFollowEpic, topicUnfollowEpic, commentLikeEpic, commentUnlikeEpic)
+function topicLikeEpic (action$) {
+  return action$.ofType(actions.TOPIC_LIKE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(LikeTopicApi({id: action.payload.id, ownerId: action.payload.ownerId, userId: it.token}))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                console.log(it.return_msg)
+                if (it.return_code === 1) {
+                  return actions.topicLikeSuccess()
+                }
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
+
+export default combineEpics(topicInitEpic, commentsMoreEpic, topicFollowEpic, topicUnfollowEpic, commentLikeEpic, commentUnlikeEpic, topicLikeEpic)
