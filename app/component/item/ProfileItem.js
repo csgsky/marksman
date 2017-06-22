@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, AsyncStorage, StyleSheet} from 'react-native'
+import { NavigationActions } from 'react-navigation'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
 
@@ -49,7 +50,7 @@ export default class ProfileItem extends Component {
         that._routerFeedback()
         break;
       case consts.PROFILE_ABOUT_US:
-        alert(consts.PROFILE_ABOUT_US)
+        this._routerAboutUs()
         break;
     }
   }
@@ -92,6 +93,16 @@ export default class ProfileItem extends Component {
         this.props.navigation.navigate('FeedbackPage', {come4: 'profile'})
       }
     })
+  }
+
+  _routerAboutUs = () => {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({routeName: 'Login', come4: 'signOut'})
+      ]
+    })
+    this.props.navigation.dispatch(resetAction)
   }
   render () {
     const {value} = this.props

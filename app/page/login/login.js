@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet, View, Text, TextInput, Image, BackAndroid, TouchableOpacity, AsyncStorage} from 'react-native'
 import PubSub from 'pubsub-js'
 import CryptoJS from 'crypto-js'
+import { NavigationActions } from 'react-navigation'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import theme from '../../config/theme'
@@ -35,7 +36,17 @@ class Login extends Component {
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
             PubSub.publish('refresh', hmacSHA1)
-            // this.props.navigation.goBack()
+            console.log('come4 =====> ' + this.props.navigation.state.come4)
+            if (this.props.navigation.state.come4 === 'signOut') {
+              const resetAction = NavigationActions.reset({
+                index: 0,
+                actions: [
+                  NavigationActions.navigate({routeName: 'Tab', come4: 'login'})
+                ]
+              })
+              this.props.navigation.dispatch(resetAction)
+            }
+            this.props.navigation.goBack()
           }
         )
     }
@@ -103,10 +114,7 @@ class Login extends Component {
     const {account, password, correctAccount, correctPassword} = this.props
     dismissKeyboard()
     if (correctAccount && correctPassword) {
-      // this.props.actions.login(account, password)
-      console.log(this.props.navigation)
-      console.log(this.props.navigation.state)
-      // this.props.navigation.goBack()
+      this.props.actions.login(account, password)
     } else if (!correctAccount) {
       alert('请输入正确格式的手机号')
     } else if (!correctPassword) {
