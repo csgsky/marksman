@@ -1,9 +1,9 @@
-import 'rxjs'
-import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/topic'
-import { combineEpics } from 'redux-observable'
-import { TopicApi, CommentsApi, FollowTopicApi, LikeApi, UnfollowTopicApi, UnlikeApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
+import { Observable } from 'rxjs/Rx'
+import { combineEpics } from 'redux-observable'
+import * as actions from '../actions/topic'
+import { TopicApi, CommentsApi, FollowTopicApi, LikeApi, UnfollowTopicApi, UnlikeApi } from '../api/apis'
+
 function topicInitEpic (action$) {
   return action$.ofType(actions.TOPIC_INIT)
             .mergeMap((action) =>

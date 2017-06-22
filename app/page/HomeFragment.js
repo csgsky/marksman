@@ -102,7 +102,7 @@ class HomeFragment extends Component {
   }
 
   _onRouterWrite = () => {
-    this.props.navigation.navigate('WriteDiaryPage', {message: '写日记'})
+    this.props.navigation.navigate('WriteDiaryPage', {diary: '写日记lallala'})
   }
 
   _onRouterMine = () => {

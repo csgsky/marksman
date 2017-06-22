@@ -241,10 +241,7 @@ const Navigator = StackNavigator(
     },
     WriteDiaryPage: {
       screen: WriteDiaryPage,
-      mode: 'card',
-      navigationOptions: {
-        title: '写日记'
-      }
+      mode: 'card'
     },
     CommonWebviewPage: {
       screen: CommonWebviewPage,
