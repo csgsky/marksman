@@ -11,6 +11,8 @@ export const TOPIC_COMMENT_LIKE = 'TOPIC_COMMENT_LIKE'
 export const TOPIC_COMMENT_LIKE_SUCCESS = 'TOPIC_COMMENT_LIKE_SUCCESS'
 export const TOPIC_COMMENT_UNLIKE = 'TOPIC_COMMENT_UNLIKE'
 export const TOPIC_COMMENT_UNLIKE_SUCCESS = 'TOPIC_UNLIKE_SUCCESS'
+export const TOPIC_LIKE = 'TOPIC_LIKE'
+export const TOPIC_LIKE_SUCCESS = 'TOPIC_LIKE_SUCCESS'
 
 export function topicInit ({id, ownerId}) {
   return {
@@ -125,5 +127,21 @@ export function topicCommentUnlikeSuccess (index) {
   return {
     type: TOPIC_COMMENT_UNLIKE_SUCCESS,
     index
+  }
+}
+
+export function topicLike (payload) {
+  console.log('action ---> TOPIC_LIKE')
+  return {
+    type: TOPIC_LIKE,
+    payload
+  }
+}
+
+export function topicLikeSuccess (payload) {
+  console.log('action ---> TOPIC_LIKE_SUCCESS')
+  return {
+    type: TOPIC_LIKE_SUCCESS,
+    payload
   }
 }
