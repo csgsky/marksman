@@ -23,7 +23,7 @@ class HotDiary extends Component {
 
   getItemCompt = ({item}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment={false} showRightTime />
+    return <DiaryItem item={item} navigation={navigation} hasComment showRightTime />
   }
 
   handleLoadingMore = () => {

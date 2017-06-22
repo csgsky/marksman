@@ -3,19 +3,20 @@ import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage} from 'rea
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM} from '../../utils/TimeUtils'
 import CommentItem from '../../widget/CommentItem'
+
 export default class DiaryItem extends Component {
   render () {
     const { item } = this.props
-    let day = getDay(item.create_time)
-    let week = getDate(item.create_time)
-    let yymm = getYYMM(item.create_time)
-    let hhmm = getHHMM(item.create_time)
-    let content = item.content
-    let img = item.img
-    let hasComment = this.props.hasComment
+    const day = getDay(item.create_time)
+    const week = getDate(item.create_time)
+    const yymm = getYYMM(item.create_time)
+    const hhmm = getHHMM(item.create_time)
+    const content = item.content
+    const img = item.img
+    const hasComment = this.props.hasComment
     return (
       <View>
-        <TouchableOpacity activeOpacity = {0.8} onPress={this.props.showRightTime && this.diaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
+        <TouchableOpacity activeOpacity={0.8} onPress={this.props.showRightTime && this.diaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
           <View style={styles.time}>
             <Text style={styles.day}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
@@ -25,15 +26,13 @@ export default class DiaryItem extends Component {
             {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
           </View>
           {<Text style={styles.body} numberOfLines={6}>{content}</Text>}
-          {img !== '' && <TouchableOpacity onPress= {this.props.showRightTime && this.photoView} activeOpacity = {0.8}>
-                           <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]} 
-                                  source={this.getSource(img)}/>
-                                  </TouchableOpacity>}
+          {img !== '' && <TouchableOpacity onPress={this.props.showRightTime && this.photoView} activeOpacity = {0.8}>
+            <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]}
+              source={this.getSource(img)}/>
+            </TouchableOpacity>}
         </TouchableOpacity>
-        {hasComment && <CommentItem comment={item.comment} like = {item.like}/>}
+        {hasComment && <CommentItem comment={item.comment} like={item.like}/>}
       </View>
-      
-      
     )
   }
 
@@ -43,7 +42,7 @@ export default class DiaryItem extends Component {
 
   photoView = () => {
     const {navigation, item} = this.props
-    navigation.navigate('LightBoxPage',{img: item.img})
+    navigation.navigate('LightBoxPage', {img: item.img})
   }
 
   diaryDetails = () => {
