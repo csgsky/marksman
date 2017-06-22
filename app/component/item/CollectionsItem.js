@@ -21,7 +21,7 @@ export default class CollectionItem extends Component {
 
   _onRouterWrite = () => {
     const {item} = this.props
-    this.props.navigation.navigate('CommonWebviewPage',{url: 'http://iranshao.com/', name: item.name})
+    this.props.navigation.navigate('CommonWebviewPage', {url: 'http://iranshao.com/', name: item.name})
   }
 }
 

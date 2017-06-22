@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, Image, TextInput, AsyncStorage, NativeModules, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Text, Image, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
 import Rx from 'rxjs'
 import { NavigationActions } from 'react-navigation'
 import theme from '../../config/theme'
@@ -8,6 +8,7 @@ import NickNameBg from '../../img/nickname_bg.png'
 import SignBg from '../../img/sign_bg.png'
 import selected from '../../img/splash_selected.png'
 import {CustomerRegisterApi} from '../../api/apis'
+
 var dismissKeyboard = require('dismissKeyboard')
 // import * as actions from '../../actions/loginActions'
 // import { bindActionCreators } from 'redux'
@@ -30,10 +31,10 @@ export default class LabelPageTwo extends Component {
   _onPressNext = () => {
     // this._saveUseInfo()
     if (this.state.nickname !== null && this.state.sign !== null) {
-      console.warn('tags: ' + this.props.navigation.state.params.tags)
+      // console.warn('tags: ' + this.props.navigation.state.params.tags)
       this._registerCustomUser()
     }
-    
+
     // alert('nickName ==> ' + this.state.nickname + ' sign ==> ' + this.state.sign)
   }
 

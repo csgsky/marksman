@@ -1,12 +1,22 @@
 import React, {Component} from 'react'
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, Image, TouchableOpacity, StyleSheet, AsyncStorage} from 'react-native'
+import Rx from 'rxjs'
 import theme from '../../config/theme'
+import {loginDialog} from '../../utils/viewHelper'
 
 export default class TopUserItem extends Component {
 
   _onPressFollow = (myFocus, id, position) => {
     const {LovedFollowed} = this.props
-    LovedFollowed(id, position, myFocus)
+    Rx.Observable.from(AsyncStorage.getItem('userId')).subscribe(
+      (it) => {
+        if (it === null) {
+          this.props.navigation.navigate('Login', {come4: 'profile'})
+        } else {
+          LovedFollowed(id, position, myFocus)
+        }
+      }
+    )
   }
 
   _routerToPersonalPage = () => {
