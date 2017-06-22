@@ -9,7 +9,8 @@ const initState = {
   isCounting: false,
   secureTextEntry: false,
   btnCodeText: '获取验证码',
-  counter: 60
+  counter: 60,
+  userId: ''
 }
 
 
