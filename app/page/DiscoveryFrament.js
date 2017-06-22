@@ -1,25 +1,21 @@
-'use strict'
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, Image, Dimensions, Platform, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
-import Separator from '../component/Separator'
-import * as actions from '../actions/discoverAction'
+import {Text, View, Image, StyleSheet, Platform, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
 import { bindActionCreators } from 'redux'
+import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux'
 import theme from '../config/theme'
-import Swiper from 'react-native-swiper'
-import TalksItem from '../component/item/TalksItem'
-import RecommendUserItem from '../component/item/RecommondUsersItem'
-let deviceWidth = Dimensions.get('window').width
-class DiscoveryFrament extends Component {
 
-  constructor (props) {
-    super (props)
-  }
+import TalksItem from '../component/item/TalksItem'
+import Separator from '../component/Separator'
+import * as actions from '../actions/discoverAction'
+import RecommendUserItem from '../component/item/RecommondUsersItem'
+
+class DiscoveryFrament extends Component {
   componentDidMount () {
     this.props.actions.discoveryInit()
   }
   render () {
-    const {talks, ranks, banners, isRefreshing} = this.props
+    const {talks, ranks, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={styles.toolbar}>
@@ -34,14 +30,14 @@ class DiscoveryFrament extends Component {
           sections={[
             {data: talks, key: 'talks', renderItem: this.getTalksItem},
             {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem}
-            ]}
+          ]}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}
               color="#ccc"
               refreshing={isRefreshing}
             />
-          }  
+          }
         />
       </View>
     )
@@ -57,75 +53,83 @@ class DiscoveryFrament extends Component {
 
   getRanksItem = ({item}) => {
     const {navigation} = this.props
-    return <FlatList
-            horizontal={true}
-            removeClippedSubviews={false}
-            data={item.data}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({item}) => <RecommendUserItem item={item}  navigation = {navigation}/>}
-            />
+    return (<FlatList
+      horizontal
+      removeClippedSubviews={false}
+      data={item.data}
+      showsHorizontalScrollIndicator={false}
+      renderItem={({item}) => <RecommendUserItem item={item} navigation={navigation}/>}
+    />)
   }
 
   getSectionView = ({section}) => {
     const {talks, ranks} = this.props
-    if(section.key === 'talks' && talks.length > 0) {
+    if (section.key === 'talks' && talks.length > 0) {
       return this.getTalksSectionHeader()
-    } else if(section.key === 'ranks' && ranks.length > 0){
+    } else if (section.key === 'ranks' && ranks.length > 0) {
       return this.getTopUsersSectionHeader()
     }
   }
 
   getHeaderView = () => {
-        const {banners} = this.props
-        if(banners.length > 0) {
-          return <Swiper style={styles.wrapper}
-                       height={170}
-                       activeDot={<View style={
+    const {banners} = this.props
+    if (banners.length > 0) {
+      return (<Swiper style={styles.wrapper}
+        height={170}
+        activeDot={<View style={
                               styles.activeDot}/>}
-                       dot={<View style={styles.dot}/>}
-                       showsButtons={false}
-                       autoplay
-                       autoplayTimeout={5}>
-                      {
-                        banners.map((item, i) => <View key={i} style={styles.slide}>
-                          {/*<Image source={{uri: item.img_url}} style={styles.image}/>*/}
-                        </View>)}
-              </Swiper>
-       } else {
-         return <View />
-       }
+        dot={<View style={styles.dot}/>}
+        showsButtons={false}
+        autoplay
+        autoplayTimeout={5}>
+        {
+          banners.map((item, i) => <TouchableOpacity key={i} style={styles.slide} onPress={this._bannerRouter.bind(this, i)}>
+            <Image resizeMode="stretch" source={{uri: item.img_url}} style={styles.image}/>
+          </TouchableOpacity>)}
+      </Swiper>)
+    }
+    return <View />
   }
 
-  getTalksSectionHeader = () => {
-    return <View style={styles.talksSection}>
-      <View style={{width: 3, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}}></View>
-      <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
-        <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>浅言浅语</Text>
-      </View>
-      <TouchableOpacity style={{flexDirection: 'column', justifyContent: 'center'}} onPress={this._routerToTopicList}>
-        <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多</Text>
-      </TouchableOpacity>
+  getTalksSectionHeader = () => (<View style={styles.talksSection}>
+    <View style={{width: 3, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}} />
+    <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
+      <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>浅言浅语</Text>
     </View>
-  }
+    <TouchableOpacity style={{flexDirection: 'column', justifyContent: 'center'}} onPress={this._routerToTopicList}>
+      <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多</Text>
+    </TouchableOpacity>
+  </View>)
 
-  getTopUsersSectionHeader = () => {
-    return <View style={styles.talksSection}>
-      <View style={{width: 3, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}}></View>
-      <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
-        <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>备受宠爱</Text>
-      </View>
-      <TouchableOpacity style={{flexDirection: 'column', justifyContent: 'center'}} onPress={this._routerToLovedList}>
-        <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多</Text>
-      </TouchableOpacity>
+  getTopUsersSectionHeader = () => (<View style={styles.talksSection}>
+    <View style={{width: 3, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}} />
+    <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
+      <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>备受宠爱</Text>
     </View>
-  }
-  
+    <TouchableOpacity style={{flexDirection: 'column', justifyContent: 'center'}} onPress={this._routerToLovedList}>
+      <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多</Text>
+    </TouchableOpacity>
+  </View>)
+
   _routerToTopicList = () => {
-      this.props.navigation.navigate('TopicListPage',{message: '精选话题'})
+    this.props.navigation.navigate('TopicListPage', {message: '精选话题'})
   }
 
   _routerToLovedList = () => {
-      this.props.navigation.navigate('LovedListPage',{message: '备受宠爱'})
+    this.props.navigation.navigate('LovedListPage', {message: '备受宠爱'})
+  }
+
+  _bannerRouter = (index) => {
+    const {banners} = this.props
+    if (banners[index].type === 0) {
+      this.props.navigation.navigate('CommonWebviewPage', {url: banners[index].link, name: ''})
+      // navigation.navigate('DiaryDetailPage', {me: false, item: item})
+    } else if (banners[index].type === 1) {
+      alert('1')
+    } else if (banners[index].type === 2) {
+      alert('2')
+    }
+    // this.props.navigation
   }
 }
 
@@ -139,7 +143,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch)
 })
 
@@ -175,8 +179,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#92BBD9'
   },
   image: {
-    width: deviceWidth,
-    height: 160
+    width: theme.screenWidth,
+    height: 170
   },
   activeDot: {
     backgroundColor: 'blue',
