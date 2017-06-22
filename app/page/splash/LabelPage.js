@@ -67,14 +67,15 @@ export default class LabelPage extends Component {
   }
 
   _onPressNext = () => {
-    let tags = ''
+    const tags = []
     this.state.tagsState.forEach((value, index) => {
       if (value === 1) {
-        tags += index + ','
+        tags.push(index)
       }
     })
+
     const sex = this.state.sex[0] === 1 ? 1 : 2
-    this.props.navigation.navigate('LabelPageTwo', {tags: tags.slice(0, tags.length - 1), sex})
+    this.props.navigation.navigate('LabelPageTwo', {tags: tags.toString(), sex})
   }
   render () {
     return (
