@@ -89,7 +89,7 @@ class PersonalCenter extends Component {
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({routeName: 'Login'})
+        NavigationActions.navigate({routeName: 'Login', come4: 'signOut'})
       ]
     })
     this.props.navigation.dispatch(resetAction)
