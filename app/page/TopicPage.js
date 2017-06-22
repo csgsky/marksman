@@ -39,14 +39,16 @@ class Topic extends Component {
       this.props.topicUnfollow(id)
     })
   }
-  _onPressLike = (id, ownerId) => {
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result === null) {
-        this.props.navigation.navigate('Login', {come4: 'topic'})
-      } else {
-        this.props.topicLike({id, ownerId})
-      }
-    })
+  _onPressLike = (id, ownerId, myLike) => {
+    if (!myLike) {
+      AsyncStorage.getItem('userId').then((result) => {
+        if (result === null) {
+          this.props.navigation.navigate('Login', {come4: 'topic'})
+        } else {
+          this.props.topicLike({id, ownerId})
+        }
+      })
+    }
   }
   renderHeader = (topic) => {
     console.log({focus: topic.my_focus})
@@ -96,7 +98,7 @@ class Topic extends Component {
         />}
         {topic && <CommentBar
           myLike={topic.my_like}
-          likeAction={() => this._onPressLike(topic.talk_id, topic.user_id)}
+          likeAction={() => this._onPressLike(topic.talk_id, topic.user_id, topic.my_like)}
           likeNum={topic.like.num}
           commentsNum={topic.comment.num}/>}
       </View>
