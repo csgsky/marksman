@@ -42,7 +42,7 @@ export function loginSuccess (info, userId) {
 }
 
 export function loginError (errorMsg) {
-  console.warn('action ====> loginError: ' + errorMsg)
+  alert('用户名或密码错误！')
   return {
     type: LOGIN_ERROR,
     errorMsg
