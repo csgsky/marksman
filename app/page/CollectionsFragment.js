@@ -1,22 +1,31 @@
-'use strict'
 import React, {Component} from 'react'
 import {Text, View, StyleSheet, FlatList, Platform, RefreshControl} from 'react-native'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import CollectionItem from '../component/item/CollectionsItem'
 import Separator from '../component/Separator'
 import ListSeparator from '../component/ListSeparator'
 import * as actions from '../actions/collectionsAction'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+
+
 class MeFragment extends Component {
   componentDidMount () {
     this.props.actions.collectionsInit()
   }
-  render () {
-    const {collections, isRefreshing, navigation} = this.props
+
+  getItemSeparator = () => <ListSeparator />
+
+  getItemCompt = ({item}) => {
+    const {navigation} = this.props
+    return <CollectionItem item={item} navigation={navigation}/>
+  }
+
+  render() {
+    const {collections, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={styles.toolbar}>
-          <View style={styles.titleView}><Text style = {styles.title}>文集</Text></View>
+          <View style={styles.titleView}><Text style={styles.title}>文集</Text></View>
         </View>
         <Separator/>
         <FlatList
@@ -36,14 +45,7 @@ class MeFragment extends Component {
     )
   }
 
-    getItemCompt = ({item, index}) => {
-      const {navigation}= this.props
-    return <CollectionItem item={item} navigation={navigation}/>
-  }
 
-  getItemSeparator = () => {
-    return <ListSeparator />
-  }
 }
 
 const mapStateToProps = (state) => {

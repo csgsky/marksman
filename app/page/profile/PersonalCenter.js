@@ -3,6 +3,7 @@ import Rx from 'rxjs'
 import {StyleSheet, View, Text, Image, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { NavigationActions } from 'react-navigation'
 import PubSub from 'pubsub-js'
 import * as actions from '../../actions/personalCenterAction'
 import theme from '../../config/theme'
@@ -45,8 +46,6 @@ class PersonalCenter extends Component {
     })
   }
 
-
-
   getSource = () => {
     if (this.state.avtar === '' || this.state.avtar === null) {
       return DefaultUserAvatar
@@ -86,6 +85,16 @@ class PersonalCenter extends Component {
       })
     })
   }
+  _loginOut = () => {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({routeName: 'Login'})
+      ]
+    })
+    this.props.navigation.dispatch(resetAction)
+    // this.props.navigation.navigate('Login', {message: 'hah'})
+  }
 
   render () {
     const {navigation} = this.props
@@ -112,6 +121,9 @@ class PersonalCenter extends Component {
           <ProfileItem navigation={navigation} value={consts.PROFILE_NOTIFICATION}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
+          {this.props.navigation.state.params.isLogin && <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>
+            <Text style={{fontSize: theme.text.xxlgFontSize, color: theme.text.globalTextColor}}>退出账号</Text>
+          </TouchableOpacity>}
         </View>
       </ScrollView>
     )
@@ -161,6 +173,13 @@ const styles = StyleSheet.create({
   signature: {
     color: theme.text.globalSubTextColor,
     fontSize: 15,
+  },
+  loginOut: {
+    height: 40,
+    marginTop: 20,
+    backgroundColor: '#eaeaea',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
