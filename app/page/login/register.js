@@ -64,8 +64,8 @@ class Register extends Component {
             <Image style={styles.icon} resizeMode='contain' source={require('../../img/tel.png')} />
           </View>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput style ={styles.username}
-              placeholder ={consts.USERNAME_PLACE_HOLDER}
+            <TextInput style={styles.username}
+              placeholder={consts.USERNAME_PLACE_HOLDER}
               placeholderTextColor="#8d8d8d"
               underlineColorAndroid="transparent"
               maxLength={11}
