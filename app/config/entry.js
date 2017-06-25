@@ -28,6 +28,8 @@ import TopicPage from '../page/TopicPage'
 import DiaryDetailPage from '../page/DiaryDetailPage'
 import MyFollowUsers from '../page/profile/MyFollowUsers'
 import MyFollowTopics from '../page/profile/MyFollowTopics'
+import CommentEditPage from '../page/CommentEditPage'
+import CommentsListPage from '../page/CommentsList'
 
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
@@ -309,6 +311,14 @@ const Navigator = StackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    CommentEditPage: {
+      screen: CommentEditPage,
+      mode: 'card'
+    },
+    CommentsListPage: {
+      screen: CommentsListPage,
+      mode: 'card'
     }
   },
   { initialRouteName: 'Splash',

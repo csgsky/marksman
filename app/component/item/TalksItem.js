@@ -5,13 +5,14 @@ import theme from '../../config/theme'
 export default class TalksItem extends Component {
   render () {
     const {item, index, navigation, type} = this.props
+    console.log(this.props)
     let cover = item.icon_url
     let name = item.name
     let tag = item.tag
     let comment = `${item.views}浏览 | ${item.comment.num}评论 ` 
     return <TouchableOpacity style={{paddingLeft: 16, paddingRight: 16, paddingBottom: 16, paddingTop: index === 0 ? 16 : 0}}
       activeOpacity = {0.3}
-      onPress={() => this._onPress(item.talk_id, item.user_id)}>
+      onPress={() => this._onPress(item.talk_id, item.user_id, item.diary_id)}>
       <View style={styles.item}>
         <Image style={styles.img} source={require('../../img/splash.png')}></Image>
         <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
@@ -38,8 +39,9 @@ export default class TalksItem extends Component {
     </TouchableOpacity>
   }
 
-  _onPress = (topicId, ownerId) => {
-    this.props.navigation.navigate('TopicPage', {topicId, ownerId})
+  _onPress = (topicId, ownerId, diaryId) => {
+    console.log({topicId, ownerId})
+    this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
   }
 
   getSource = (img) => {

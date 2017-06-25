@@ -14,12 +14,13 @@ export const TOPIC_COMMENT_UNLIKE_SUCCESS = 'TOPIC_UNLIKE_SUCCESS'
 export const TOPIC_LIKE = 'TOPIC_LIKE'
 export const TOPIC_LIKE_SUCCESS = 'TOPIC_LIKE_SUCCESS'
 
-export function topicInit ({id, ownerId}) {
+export function topicInit ({topicId, ownerId, diaryId}) {
   return {
     type: TOPIC_INIT,
     isRefreshing: true,
-    id,
-    ownerId
+    topicId,
+    ownerId,
+    diaryId
   }
 }
 
@@ -42,13 +43,13 @@ export function topicData (data) {
   }
 }
 
-export function topicCommentsLoadMore ({id, ownerId, page}) {
+export function topicCommentsLoadMore ({ownerId, page, diaryId}) {
   console.log('action ---> TOPIC_COMMENTS_LOAD_MORE')
   return {
     type: TOPIC_COMMENTS_LOAD_MORE,
-    id,
     ownerId,
-    page
+    page,
+    diaryId
   }
 }
 
@@ -62,11 +63,11 @@ export function topicCommentsMoreData (data) {
   }
 }
 
-export function topicFollow (id) {
+export function topicFollow (diaryId) {
   console.log('action ---> TOPIC_FOLLOW')
   return {
     type: TOPIC_FOLLOW,
-    id
+    diaryId
   }
 }
 
@@ -77,11 +78,11 @@ export function topicFollowSuccess () {
   }
 }
 
-export function topicUnfollow (id) {
+export function topicUnfollow (diaryId) {
   console.log('action ---> TOPIC_UNFOLLOW')
   return {
     type: TOPIC_UNFOLLOW,
-    id
+    diaryId
   }
 }
 
@@ -92,11 +93,11 @@ export function topicUnfollowSuccess () {
   }
 }
 
-export function topicCommentLike ({id, ownerId, commentId, index}) {
-  console.log('action ---> TOPIC_COMMENT_LIKE', {id, ownerId, commentId, index})
+export function topicCommentLike ({diaryId, ownerId, commentId, index}) {
+  console.log('action ---> TOPIC_COMMENT_LIKE', {diaryId, ownerId, commentId, index})
   return {
     type: TOPIC_COMMENT_LIKE,
-    id,
+    diaryId,
     ownerId,
     commentId,
     index
@@ -111,11 +112,11 @@ export function topicCommentLikeSuccess (index) {
   }
 }
 
-export function topicCommentUnlike ({id, ownerId, commentId, index}) {
-  console.log('action ---> TOPIC_COMMENT_UNLIKE', {id, ownerId, commentId, index})
+export function topicCommentUnlike ({diaryId, ownerId, commentId, index}) {
+  console.log('action ---> TOPIC_COMMENT_UNLIKE', {diaryId, ownerId, commentId, index})
   return {
     type: TOPIC_COMMENT_UNLIKE,
-    id,
+    diaryId,
     ownerId,
     commentId,
     index
