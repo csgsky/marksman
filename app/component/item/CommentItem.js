@@ -9,19 +9,11 @@ export default class CommentItem extends Component {
   _onPressUserAvatar = () => {
     alert('should navigate to user page')
   }
-  _onPressLike = ({id, ownerId, commentId, index, myLike}) => {
-    if (!myLike) {
-      this.props.commentLike({id, ownerId, commentId, index})
-    }
-  }
-  _onPressComment = () => {
-    alert('show comment detail')
-  }
 
   render () {
-    const {data, index} = this.props
+    const {data, index, type, onPressCommentItem, onPressLike} = this.props
     return (
-      <TouchableOpacity onPress={this._onPressComment}
+      <TouchableOpacity onPress={onPressCommentItem}
         activeOpacity={0.3}>
         <View style={styles.item}>
           <View style={styles.header}>
@@ -36,14 +28,19 @@ export default class CommentItem extends Component {
             <TouchableOpacity style={{flexDirection: 'row'}}
               onPress={() => {
                 console.log(data)
-                this._onPressLike({id: data.diary_id, ownerId: data.owner_id, commentId: data.comment_id, index, myLike: data.my_like})
+                onPressLike({diaryId: data.diary_id, ownerId: data.owner_id, commentId: data.comment_id, index, myLike: data.my_like})
               }}>
               <Image source={data.my_like ? LikedIcon : LikeIcon} style={styles.like} resizeMode="contain"/>
-              <Text style={likeStyle(data.my_like)}>{data.like.num}</Text>
+              <Text style={likeStyle(data.my_like)}>{data.like ? data.like.num : 0}</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.content}>{data.content}</Text>
-          {data.recomments && data.recomments.length > 0  && <View style={styles.comments}>
+          <Text style={styles.content}>
+            {type === 'commentsList' && index !== 0 && '回复'}
+            {type === 'commentsList' && index !== 0 && <Text style={styles.recvName}>@{data.recv_name}：</Text>}
+            {data.content}
+          </Text>
+          {!!data.img && <Image source={{uri: data.img}} style={{width: 110, height: 110, marginBottom: 20}}/>}
+          {type !== 'commentsList' && !!data.recomments && data.recomments.length > 0 && <View style={styles.comments}>
             <Text style={styles.link}>{data.recomments[0].nickname}</Text>
             <Text style={styles.subText}>等人 </Text>
             <Text style={styles.link}>共{data.recomments.length}条回复 </Text>
@@ -94,7 +91,11 @@ const styles = StyleSheet.create({
     color: theme.text.globalTextColor,
     marginTop: 13,
     marginBottom: 11,
-    lineHeight: 22
+    lineHeight: 22,
+    flexDirection: 'row'
+  },
+  recvName: {
+    color: theme.linkColor
   },
   name: {
     fontSize: theme.text.xlgFontSize,
