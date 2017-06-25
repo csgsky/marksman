@@ -7,7 +7,7 @@ import CommentItem from '../component/item/CommentItem'
 import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage} from 'react-native'
 import * as actions from '../actions/topic'
 import CommentBar from '../component/CommentBar'
-
+import PubSub from 'pubsub-js'
 
 class Topic extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -15,18 +15,20 @@ class Topic extends Component {
     headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()} }><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
   componentDidMount () {
-    const {topicId, ownerId} = this.props.navigation.state.params
-    this.props.topicInit({id: topicId, ownerId})
+    const {topicId, ownerId, diaryId} = this.props.navigation.state.params
+    this.props.topicInit({topicId, ownerId, diaryId})
+    PubSub.subscribe('commentsRefresh', this.onRefresh)
+    PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
   }
   onRefresh = () => {
-    const {topicId, ownerId} = this.props.navigation.state.params
-    this.props.topicInit({id: topicId, ownerId})
+    const {topicId, ownerId, diaryId} = this.props.navigation.state.params
+    this.props.topicInit({topicId, ownerId, diaryId})
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
-    const {topicId, ownerId} = this.props.navigation.state.params
+    const {ownerId, diaryId} = this.props.navigation.state.params
     if (!isLoadingMore && hasMore) {
-      this.props.topicCommentsLoadMore({id: topicId, ownerId, page})
+      this.props.topicCommentsLoadMore({diaryId, ownerId, page})
     }
   }
   _onPressFollow = (focused, id) => {
@@ -39,16 +41,37 @@ class Topic extends Component {
       this.props.topicUnfollow(id)
     })
   }
-  _onPressLike = (id, ownerId, myLike) => {
+  _onPressLike = (diaryId, ownerId, myLike) => {
     if (!myLike) {
       AsyncStorage.getItem('userId').then((result) => {
         if (result === null) {
           this.props.navigation.navigate('Login', {come4: 'topic'})
         } else {
-          this.props.topicLike({id, ownerId})
+          this.props.topicLike({diaryId, ownerId})
         }
       })
     }
+  }
+  _onPressComment = (topic) => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'topic'})
+      } else {
+        this.props.navigation.navigate('CommentEditPage', {com4: 'topic', diaryId: topic.diary_id, ownerId: topic.user_id})
+      }
+    })
+  }
+  _onPressCommentItem = (item) => {
+    this.props.navigation.navigate('CommentsListPage', {com4: 'comment', item})
+  }
+  _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'topic'})
+      } else if (!myLike) {
+        this.props.topicCommentLike({diaryId, ownerId, commentId, index})
+      }
+    })
   }
   renderHeader = (topic) => {
     console.log({focus: topic.my_focus})
@@ -81,8 +104,8 @@ class Topic extends Component {
             <CommentItem data={item}
               navigation={this.props.navigation}
               index={index}
-              commentLike={this.props.topicCommentLike}
-              commentUnlike={this.props.topicCommentUnlike}/>)}
+              onPressCommentItem={() => { this._onPressCommentItem(item) }}
+              onPressLike={this._onPressCommentLike}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader(topic)}
           ItemSeparatorComponent={() => <ListSeparator/>}
@@ -98,8 +121,9 @@ class Topic extends Component {
         />}
         {topic && <CommentBar
           myLike={topic.my_like}
-          likeAction={() => this._onPressLike(topic.talk_id, topic.user_id, topic.my_like)}
+          likeAction={() => this._onPressLike(topic.diary_id, topic.user_id, topic.my_like)}
           likeNum={topic.like.num}
+          commentAction={() => this._onPressComment(topic)}
           commentsNum={topic.comment.num}/>}
       </View>
     )

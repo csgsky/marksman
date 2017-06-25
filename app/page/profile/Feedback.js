@@ -6,18 +6,19 @@ import {connect} from 'react-redux'
 import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native'
 
 class Feedback extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      text: ''
-    }
-  }
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: <TouchableOpacity onPress={() => navigation.state.params.handleSubmit()}><Text style={styles.submit}>提交</Text></TouchableOpacity>,
     headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      text: ''
+    }
+  }
 
   componentDidMount () {
     const that = this;

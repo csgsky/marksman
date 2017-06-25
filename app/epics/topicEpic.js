@@ -14,8 +14,8 @@ function topicInitEpic (action$) {
                 }
               ).flatMap(
                 it => Observable.zip(
-                  Observable.from(TopicApi(action.id, it.token)),
-                  Observable.from(CommentsApi({id: action.id, ownerId: action.ownerId, page: 0, userId: it.token})),
+                  Observable.from(TopicApi(action.topicId, it.token)),
+                  Observable.from(CommentsApi({id: action.diaryId, ownerId: action.ownerId, page: 0, userId: it.token})),
                   (topic, {comments}) => ({topic: topic.talk, comments})
                 ).flatMap(data => Observable.of(data))
               ).map((it) => {
@@ -41,7 +41,7 @@ function commentsMoreEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(CommentsApi({id: action.id, ownerId: action.ownerId, page: action.page + 1, userId: it.token}))
+                    return Observable.from(CommentsApi({id: action.diaryId, ownerId: action.ownerId, page: action.page + 1, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
@@ -67,7 +67,7 @@ function topicFollowEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(FollowTopicApi(action.id, it.token))
+                    return Observable.from(FollowTopicApi(action.diaryId, it.token))
                   }
                   return Observable.of(2)
                 }
@@ -91,7 +91,7 @@ function topicUnfollowEpic (action$) {
                 (it) => {
                   if (it.token) {
                     // 此处调用unfollo topic api
-                    return Observable.from(UnfollowTopicApi(action.id, it.token))
+                    return Observable.from(UnfollowTopicApi(action.diaryId, it.token))
                   }
                   return Observable.of(2)
                 }
@@ -114,7 +114,7 @@ function commentLikeEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(LikeCommentApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
+                    return Observable.from(LikeCommentApi({diaryId: action.diaryId, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
@@ -138,7 +138,7 @@ function commentUnlikeEpic (action$) {
                 (it) => {
                   if (it.token) {
                     // 此处调用unfollo topic api
-                    return Observable.from(UnlikeCommentApi({id: action.id, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
+                    return Observable.from(UnlikeCommentApi({id: action.diaryId, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
