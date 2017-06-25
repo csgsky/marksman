@@ -1,4 +1,4 @@
-package com.marksman.module;
+package com.zhy.qianyan.module;
 
 import android.provider.Settings;
 import android.util.Log;
@@ -7,7 +7,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.marksman.utils.SplashScreen;
+import com.zhy.qianyan.utils.SplashScreen;
 
 /**
  * Created by allen on 17/4/10.
