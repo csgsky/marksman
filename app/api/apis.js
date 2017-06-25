@@ -172,11 +172,11 @@ export const FollowUserApi = (account, map = {}, userId) =>
 export const UnFollowUserApi = (account, userId) =>
   deleteApi(`/api/account/focus/${account}`, userId)
 // 点赞评论接口
-export const LikeCommentApi = ({id, ownerId, commentId, userId}) =>
-  postApi(`/api/${id}/${ownerId}/${commentId}/like`, {}, userId)
+export const LikeCommentApi = ({diaryId, ownerId, commentId, userId}) =>
+  postApi(`/api/${diaryId}/${ownerId}/${commentId}/like`, {}, userId)
 // 暂无取消点赞功能
-export const UnlikeCommentApi = ({id, ownerId, commentId, userId}) =>
-  deleteApi(`/api/${id}/${ownerId}/${commentId}/like`, userId)
+export const UnlikeCommentApi = ({diaryId, ownerId, commentId, userId}) =>
+  deleteApi(`/api/${diaryId}/${ownerId}/${commentId}/like`, userId)
 
 // 点赞话题接口
 export const LikeTopicApi = ({id, ownerId, userId}) =>
@@ -200,3 +200,14 @@ export const getUnloginInfo = (devicedId, userId) =>
 export const CustomerRegisterApi = (map, userId) =>
   postApi(`/api/customer`, map, userId)
 
+// 提交评论Api
+export const PostCommentApi = ({diaryId, ownerId, data, userId}) =>
+  postApi(`/api/${diaryId}/${ownerId}/comment`, data, userId)
+
+// 提交评论的评论Api
+export const PostCommentCommentApi = ({diaryId, ownerId, commentId, data, userId}) =>
+  postApi(`/api/${diaryId}/${ownerId}/${commentId}/comment`, data, userId)
+
+// 获取评论的评论
+export const CommentCommentsApi = ({diaryId, ownerId, commentId, page, userId}) =>
+  getApi(`/api/${diaryId}/${ownerId}/${commentId}/comment?p=${page}&rn=10`, userId)
