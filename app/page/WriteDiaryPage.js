@@ -7,6 +7,12 @@ import { connect } from 'react-redux'
 import * as actions from '../actions/diaryAction'
 import theme from '../config/theme'
 import {getDay, getYYMM, getDate} from '../utils/TimeUtils'
+import ColorPicker from '../widget/ColorPicker'
+import MoodSad from '../img/mood_sad.png'
+import MoodHappy from '../img/mood_happy.png'
+import Album from '../img/album.png'
+import LockClose from '../img/lock_close.png'
+import LockOpen from '../img/lock_open.png'
 
 var dismissKeyboard = require('dismissKeyboard')
 
@@ -59,13 +65,20 @@ class WriteDiaryPage extends Component {
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <ScrollView style={styles.view}>
-          <TouchableOpacity onPress={this._closeKeyBoard} style={{height: 60, width: theme.screenWidth}}>
+          <TouchableOpacity onPress={this._closeKeyBoard} activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
             <View style={styles.time}>
               <Text style={styles.day}>{getDay(Moment().format())}</Text>
               <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
                 <Text style={styles.week}>{getDate(Moment().format())}</Text>
                 <Text style={styles.year_month}>{getYYMM(Moment().format())}</Text>
               </View>
+              <TouchableOpacity style={{width: 60, height: 60, flexDirection: 'column'}}>
+                <Image
+                  source={LockClose}
+                  resizeMode="contain"
+                  style={{width: 23, height: 23}}/>
+                <Text style={{fontSize: theme.text.xlgFontSize, color: theme.text.globalSubTextColor}}>公开</Text>
+              </TouchableOpacity>
             </View>
           </TouchableOpacity>
           <TextInput
@@ -83,13 +96,32 @@ class WriteDiaryPage extends Component {
             }}
             onFocus={this._dismissPhoto}
             style={[styles.input, {height: Math.max(35, this.state.height)}]}
-            value={this.state.text}
-            />
+            value={this.state.text} />
         </ScrollView>
         <View>
-          <View style={{height: 40, width: theme.screenWidth, backgroundColor: 'blue'}}>
-            <TouchableOpacity style={{width: 40, height: 40, backgroundColor: 'yellow'}} onPress={this._showPhoto}/>
+          <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
+          <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center'}}>
+            <Image
+              source={MoodSad}
+              resizeMode="contain"
+              style={{width: 20, height: 20, marginLeft: 17, marginRight: 12}}/>
+            <ColorPicker
+              style={{width: 200, height: 20}}
+              defaultColor="#ffa3fd"
+              onColorChange={this._onColorChanged}
+            />
+            <Image
+              source={MoodHappy}
+              resizeMode="contain"
+              style={{width: 20, height: 20, marginLeft: 12}}/>
+            <TouchableOpacity style={{width: 40, height: 40, marginLeft: 20, alignItems: 'center', justifyContent: 'center'}} onPress={this._showPhoto}>
+              <Image
+                source={Album}
+                resizeMode="contain"
+                style={{width: 20, height: 20, marginLeft: 12}}/>
+            </TouchableOpacity>
           </View>
+          <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
           {this.state.showPhoto && <View style={{height: 160, width: theme.screenWidth, backgroundColor: 'white'}} />}
         </View>
       </View>
@@ -124,7 +156,8 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   time: {
-    flexDirection: 'row'
+    flex: 1,
+    flexDirection: 'row',
   },
   day: {
     color: '#f48cc3',

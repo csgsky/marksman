@@ -1,9 +1,8 @@
-package com.marksman.utils;
+package com.zhy.qianyan.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
-
-import com.marksman.R;
+import com.zhy.qianyan.R;
 
 import java.lang.ref.WeakReference;
 
