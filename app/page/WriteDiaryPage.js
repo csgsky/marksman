@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import Rx from 'rxjs'
 import Moment from 'moment'
 import { connect } from 'react-redux'
+import ImagePicker from 'react-native-image-picker'
 import * as actions from '../actions/diaryAction'
 import theme from '../config/theme'
 import {getDay, getYYMM, getDate} from '../utils/TimeUtils'
@@ -14,7 +15,29 @@ import Album from '../img/album.png'
 import LockClose from '../img/lock_close.png'
 import LockOpen from '../img/lock_open.png'
 
-var dismissKeyboard = require('dismissKeyboard')
+const dismissKeyboard = require('dismissKeyboard')
+
+const options = {
+  title: '图片选择',
+  cancelButtonTitle: '取消',
+  takePhotoButtonTitle: '拍照',
+  chooseFromLibraryButtonTitle: '图片库',
+  mediaType: 'photo',
+  videoQuality: 'high',
+  durationLimit: 10,
+  maxWidth: theme.screenWidth,
+  maxHeight: (theme.screenWidth * 4) / 5,
+  aspectX: 2,
+  aspectY: 1,
+  quality: 0.8,
+  angle: 0,
+  allowsEditing: true,
+  noData: false,
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+}
 
 class WriteDiaryPage extends Component {
 
@@ -26,10 +49,11 @@ class WriteDiaryPage extends Component {
   })
   constructor(props) {
     super(props);
-    this.state = {text: '', height: 0, showPhoto: false};
+    this.state = {text: '', height: 0, showPhoto: false, avatarSource: null};
   }
   componentDidMount() {
-    this.props.writeDiaryInit(this.props.navigation.state.params.diary)
+    const diary = this.props.navigation.state.params.diary
+    this.props.writeDiaryInit({diary})
     this.props.navigation.setParams({
       handleSubmit: () => {
         alert('保存日记')
@@ -49,6 +73,25 @@ class WriteDiaryPage extends Component {
         })
       }
     )
+    this.openImagePicker()
+  }
+
+  openImagePicker () {
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton)
+      } else {
+        const source = { uri: response.uri }
+        console.log('base64: ', response.data)
+        this.setState({
+          avatarSource: source
+        })
+      }
+    })
   }
 
   _dismissPhoto = () => {
@@ -58,6 +101,11 @@ class WriteDiaryPage extends Component {
       })
     }
   }
+
+  _onColorChanged = (color) => {
+    this.props.writeDiaryColorChange({color})
+  }
+
   render () {
     // console.warn(getDay(Moment().format()))
     // console.warn(getYYMM(Moment().format()))
@@ -67,7 +115,7 @@ class WriteDiaryPage extends Component {
         <ScrollView style={styles.view}>
           <TouchableOpacity onPress={this._closeKeyBoard} activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
             <View style={styles.time}>
-              <Text style={styles.day}>{getDay(Moment().format())}</Text>
+              <Text style={[styles.day, {color: this.props.color}]}>{getDay(Moment().format())}</Text>
               <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
                 <Text style={styles.week}>{getDate(Moment().format())}</Text>
                 <Text style={styles.year_month}>{getYYMM(Moment().format())}</Text>
@@ -99,10 +147,13 @@ class WriteDiaryPage extends Component {
             value={this.state.text} />
         </ScrollView>
         <View>
+          <View style={{backgroundColor: '#e0e0e0', width: 50, height: 50, marginLeft: 16}}>
+            <Image source={this.state.avatarSource} style={{width: 50, height: 50}}/>
+          </View>
           <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
           <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center'}}>
             <Image
-              source={MoodSad}
+              source={MoodHappy}
               resizeMode="contain"
               style={{width: 20, height: 20, marginLeft: 17, marginRight: 12}}/>
             <ColorPicker
@@ -111,7 +162,7 @@ class WriteDiaryPage extends Component {
               onColorChange={this._onColorChanged}
             />
             <Image
-              source={MoodHappy}
+              source={MoodSad}
               resizeMode="contain"
               style={{width: 20, height: 20, marginLeft: 12}}/>
             <TouchableOpacity style={{width: 40, height: 40, marginLeft: 20, alignItems: 'center', justifyContent: 'center'}} onPress={this._showPhoto}>
@@ -160,7 +211,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   day: {
-    color: '#f48cc3',
     fontSize: 40
   },
   week: {

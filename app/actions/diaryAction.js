@@ -1,7 +1,7 @@
 export const DIARY_COMMENT_INIT = 'DIARY_COMMENT_INIT'
 export const DIARY_COMMENT_DATA = 'DIARY_COMMENT_DATA'
 export const WRITE_DIARY_INIT = 'WRITE_DIARY_INIT'
-
+export const WRITE_DIARY_COLOR_CHANGE = 'WRITE_DIARY_COLOR_CHANGE'
 export function diaryCommentInit ({id, ownerId}) {
   console.warn('action  --->  DIARY_COMMENT_INIT')
   return {
@@ -25,6 +25,14 @@ export function writeDiaryInit (payload) {
   console.log('action  --->  WRITE_DIARY_INIT')
   return {
     type: WRITE_DIARY_INIT,
+    payload
+  }
+}
+
+export function writeDiaryColorChange (payload) {
+  console.log('action  --->  WRITE_DIARY_INIT')
+  return {
+    type: WRITE_DIARY_COLOR_CHANGE,
     payload
   }
 }
