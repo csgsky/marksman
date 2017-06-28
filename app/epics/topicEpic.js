@@ -160,7 +160,7 @@ function topicLikeEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(LikeTopicApi({id: action.payload.id, ownerId: action.payload.ownerId, userId: it.token}))
+                    return Observable.from(LikeTopicApi({id: action.payload.diaryId, ownerId: action.payload.ownerId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }

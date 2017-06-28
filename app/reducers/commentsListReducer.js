@@ -8,7 +8,8 @@ const initialState = {
   page: 0,
   isPostingComment: false,
   success: false,
-  count: NaN
+  count: NaN,
+  comments: []
 }
 
 export default function commentsList(state = initialState, action = {}) {
