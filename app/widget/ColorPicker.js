@@ -30,8 +30,17 @@ export default class ColorPicker extends Component {
   _onColorChange(color) {
     this.setState({ color })
     if (this.props.onColorChange) {
-      this.props.onColorChange(tinycolor(color).toHexString())
+      this.props.onColorChange(tinycolor(color).toHexString(), this._getFeel(color.h))
     }
+  }
+
+  _getFeel (h) {
+    if (Math.round(((338 - h) / 9) + 1) > 10) {
+      return 10
+    } else if (Math.round(((338 - h) / 9) + 1) < 0) {
+      return 0
+    }
+    return Math.round(((338 - h) / 9) + 1)
   }
 
   _onLayout(l) {
