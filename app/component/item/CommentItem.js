@@ -43,7 +43,7 @@ export default class CommentItem extends Component {
           {type !== 'commentsList' && !!data.recomments && data.recomments.length > 0 && <View style={styles.comments}>
             <Text style={styles.link}>{data.recomments[0].nickname}</Text>
             <Text style={styles.subText}>等人 </Text>
-            <Text style={styles.link}>共{data.recomments.length}条回复 </Text>
+            <Text style={styles.link}>共{data.count}条回复 </Text>
           </View>}
         </View>
       </TouchableOpacity>
