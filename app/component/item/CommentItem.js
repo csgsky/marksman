@@ -25,14 +25,13 @@ export default class CommentItem extends Component {
               <Text style={styles.time}>{data.create_time}</Text>
             </View>
             <Image source={CommentIcon} style={styles.comment} resizeMode="contain"/>
-            <TouchableOpacity style={{flexDirection: 'row'}}
+            {!(type === 'commentsList' && index !== 0) && <TouchableOpacity style={{flexDirection: 'row'}}
               onPress={() => {
-                console.log(data)
                 onPressLike({diaryId: data.diary_id, ownerId: data.owner_id, commentId: data.comment_id, index, myLike: data.my_like})
               }}>
               <Image source={data.my_like ? LikedIcon : LikeIcon} style={styles.like} resizeMode="contain"/>
               <Text style={likeStyle(data.my_like)}>{data.like ? data.like.num : 0}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
           <Text style={styles.content}>
             {type === 'commentsList' && index !== 0 && '回复'}
