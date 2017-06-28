@@ -87,6 +87,7 @@ class CommentEditor extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {success} = this.props
     const newSuccess = nextProps.success
+    console.log({success, newSuccess})
     if (success !== newSuccess && newSuccess === true) {
       this.props.navigation.goBack()
     }
