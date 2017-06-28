@@ -35,7 +35,24 @@ export default function hotDiary (state = initState, action = {}) {
         hasMoreData: action.hasMoreData,
         page: state.page + 1
       }
+    case types.HOTDIARY_LIKE_SUCCESS:
+      return {
+        ...state,
+        diarys: likeSuccess(state.diarys, action.payload.index)
+      }
     default:
       return state
   }
+}
+
+function likeSuccess(data, index) {
+  const newData = data.slice(0)
+  if (newData[index].my_like === 0) {
+    newData[index].my_like = 1
+    newData[index].like.num += 1
+  } else if (newData[index].my_like === 1) {
+    console.warn('hahahahhahah ' + newData[index].my_like)
+    newData[index].my_like = 0
+  }
+  return newData
 }

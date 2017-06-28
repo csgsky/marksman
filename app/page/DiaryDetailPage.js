@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList} from 'react-native'
+import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList, AsyncStorage} from 'react-native'
 import * as actions from '../actions/diaryDetailAction'
 import theme from '../config/theme'
 import CommentItem from '../component/item/CommentItem'
@@ -10,6 +10,8 @@ import DiaryItem from '../component/item/DiaryItem'
 import PublicStamp from '../img/public_stamp.png'
 import PrivateStamp from '../img/private_stamp.png'
 import DefaultUserAvatar from '../img/default_vatar.png'
+import CommentBar from '../component/CommentBar'
+import PubSub from 'pubsub-js'
 
 class DiaryDetailPage extends Component {
 
@@ -32,19 +34,38 @@ class DiaryDetailPage extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
-  componentDidMount () {
-    const id = this.props.navigation.state.params.item.diary_id
-    const ownerId = this.props.navigation.state.params.item.user_id
-    console.warn('id ==> ' + id)
-    console.warn('userId ==> ' + ownerId)
-    this.props.diaryCommentInit({id, ownerId})
+  constructor(props) {
+    super(props)
+    this.state = {
+      diary: undefined
+    }
   }
 
+  componentWillMount() {
+    this.setState({
+      diary: this.props.navigation.state.params.item
+    })
+  }
 
-
+  componentDidMount () {
+    const id = this.state.diary.diary_id;
+    const ownerId = this.state.diary.user_id
+    this.props.diaryCommentInit({id, ownerId})
+    PubSub.subscribe('commentsRefresh', this.onRefresh)
+    PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
+  }
+  componentWillReceiveProps(nextProps) {
+    const {likeSuccess} = this.props;
+    const newLikeSuccess = nextProps.likeSuccess;
+    if (likeSuccess !== newLikeSuccess && newLikeSuccess) {
+      this.setState({
+        diary: {...this.state.diary, my_like: 1, like: {num: this.state.diary.like.num + 1}}
+      })
+    }
+  }
   onRefresh = () => {
-    const id = this.props.navigation.state.params.item.diary_id
-    const ownerId = this.props.navigation.state.params.item.user_id
+    const id = this.state.diary.diary_id
+    const ownerId = this.state.diary.user_id
     this.props.diaryCommentInit({id, ownerId})
   }
 
@@ -60,9 +81,9 @@ class DiaryDetailPage extends Component {
     </View>)
 
   getDiaryTpye = () => {
-    if (this.props.navigation.state.params.item.ifprivate === 1) {
+    if (this.state.diary.ifprivate === 1) {
       return PublicStamp
-    } else if (this.props.navigation.state.params.item.ifprivate === 0) {
+    } else if (this.state.diary.ifprivate === 0) {
       return PrivateStamp
     }
     return PrivateStamp
@@ -71,31 +92,73 @@ class DiaryDetailPage extends Component {
   handleLoadingMore = () => {
     console.warn('加载更多。。。。。。 ')
   }
-
+  _onPressLike = (diaryId, ownerId, myLike) => {
+    if (!myLike) {
+      AsyncStorage.getItem('userId').then((result) => {
+        if (result === null) {
+          this.props.navigation.navigate('Login', {come4: 'diary'})
+        } else {
+          this.props.diaryLike({id: diaryId, ownerId})
+        }
+      })
+    }
+  }
+  _onPressComment = (diary) => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'diary'})
+      } else {
+        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id})
+      }
+    })
+  }
+  _onPressCommentItem = (item) => {
+    this.props.navigation.navigate('CommentsListPage', {com4: 'diary', item})
+  }
+  _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'diary'})
+      } else if (!myLike) {
+        this.props.diaryCommentLike({diaryId, ownerId, commentId, index})
+      }
+    })
+  }
 
   render () {
     const {isRefreshing, comments} = this.props
+    const diary = this.state.diary
+    console.log(comments)
     // console.log('comment render length ===> ' + comments.length)
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <View>
-          <FlatList
-            data={comments}
-            renderItem={({item}) => (<CommentItem data={item} navigation={this.props.navigation}/>)}
-            onEndReachedThreshold={0.1}
-            ListHeaderComponent={this.getHeaderView}
-            ItemSeparatorComponent={() => <ListSeparator/>}
-            onEndReached={this.handleLoadingMore}
-            removeClippedSubviews={false}
-            refreshControl={
-              <RefreshControl
-                onRefresh={this.onRefresh}
-                color="#ccc"
-                refreshing={isRefreshing}
-              />
-            }
+        <FlatList
+          data={comments}
+          renderItem={({item, index}) => (
+            <CommentItem data={item}
+              navigation={this.props.navigation}
+              index={index}
+              onPressCommentItem={() => { this._onPressCommentItem(item) }}
+              onPressLike={this._onPressCommentLike}/>)}
+          onEndReachedThreshold={0.1}
+          ListHeaderComponent={this.getHeaderView}
+          ItemSeparatorComponent={() => <ListSeparator/>}
+          onEndReached={this.handleLoadingMore}
+          removeClippedSubviews={false}
+          refreshControl={
+            <RefreshControl
+              onRefresh={this.onRefresh}
+              color="#ccc"
+              refreshing={isRefreshing}
+            />
+          }
         />
-        </View>
+        <CommentBar
+          myLike={diary.my_like}
+          likeAction={() => this._onPressLike(diary.diary_id, diary.user_id, diary.my_like)}
+          likeNum={diary.like.num}
+          commentAction={() => this._onPressComment(diary)}
+          commentsNum={diary.comment.num}/>
       </View>
     )
   }

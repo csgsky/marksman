@@ -2,7 +2,7 @@ import {AsyncStorage} from 'react-native'
 import { Observable } from 'rxjs/Rx'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/hotDiaryAction'
-import { FooterHotDiaryApi } from '../api/apis'
+import { FooterHotDiaryApi, LikeTopicApi } from '../api/apis'
 
 function hotDiaryInitEpic (action$) {
   return action$.ofType(actions.HOTDIARY_INIT)
@@ -60,4 +60,27 @@ function hotDiaryMoreEpic (action$) {
        )
 }
 
-export default combineEpics(hotDiaryInitEpic, hotDiaryMoreEpic)
+function diaryLikeEpic (action$) {
+  return action$.ofType(actions.HOTDIARY_LIKE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(LikeTopicApi({id: action.payload.id, ownerId: action.payload.ownerId, userId: it.token}))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                console.log(it.return_msg)
+                if (it.return_code === 1) {
+                  return actions.hotDiaryLikeSuccess({index: action.payload.index})
+                }
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
+
+export default combineEpics(hotDiaryInitEpic, hotDiaryMoreEpic, diaryLikeEpic)
