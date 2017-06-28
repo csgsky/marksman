@@ -3,27 +3,34 @@ import {View, Text, Image, TouchableOpacity, AsyncStorage, StyleSheet} from 'rea
 import { NavigationActions } from 'react-navigation'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
+import Msg from '../../img/msg.png'
+import Follow from '../../img/follow.png'
+import Delete from '../../img/delete.png'
+import Share from '../../img/share.png'
+import Notice from '../../img/notice.png'
+import Write from '../../img/write.png'
+import Me from '../../img/me.png'
 
 export default class ProfileItem extends Component {
 
   _getSource = (type) => {
-    switch(type) {
+    switch (type) {
       case consts.PROFILE_MINE_MESSAGE:
-        return require('../../img/msg.png')
+        return Msg
       case consts.PROFILE_MINE_FOLLOW:
-        return require('../../img/follow.png')
+        return Follow
       case consts.PROFILE_MINE_TRASH:
-        return require('../../img/delete.png')
+        return Delete
       case consts.PROFILE_RECOMMOND_F:
-        return require('../../img/share.png')
+        return Share
       case consts.PROFILE_NOTIFICATION:
-        return require('../../img/notice.png')
+        return Notice
       case consts.PROFILE_FEEDBACK:
-        return require('../../img/write.png')
+        return Write
       case consts.PROFILE_ABOUT_US:
-        return require('../../img/me.png')
+        return Me
       default:
-        return require('../../img/comment_share.png')
+        return Write
     }
   }
 
@@ -32,7 +39,7 @@ export default class ProfileItem extends Component {
     const {value, navigation} = this.props
     switch(value) {
       case consts.PROFILE_MINE_MESSAGE:
-        that._routerMineMessage()
+        that._routerMineNews()
         break;
       case consts.PROFILE_MINE_FOLLOW:
         that._routerMineFollow()
@@ -55,12 +62,12 @@ export default class ProfileItem extends Component {
     }
   }
 
-  _routerMineMessage =  () => {
+  _routerMineNews = () => {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
       } else {
-        alert('my message')
+        this.props.navigation.navigate('NewsCenterPage', {come4: 'profile'})
       }
     })
   }

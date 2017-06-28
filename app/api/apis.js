@@ -194,5 +194,10 @@ export const getUnloginInfo = (devicedId, userId) =>
 
 // 游客注册接口
 export const CustomerRegisterApi = (map, userId) =>
-  postApi(`/api/customer`, map, userId)
+  postApi('/api/customer', map, userId)
 
+// 日记提交接口
+export const PostDiaryApi = (map, userId) => {
+  console.warn('feelcolor: ' + map.feelcolor)
+  return postApi('/api/diary', map, userId)
+}

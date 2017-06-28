@@ -40,8 +40,6 @@ class DiaryDetailPage extends Component {
     this.props.diaryCommentInit({id, ownerId})
   }
 
-
-
   onRefresh = () => {
     const id = this.props.navigation.state.params.item.diary_id
     const ownerId = this.props.navigation.state.params.item.user_id
