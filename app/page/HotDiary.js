@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, FlatList, RefreshControl} from 'react-native'
+import {View, FlatList, RefreshControl, AsyncStorage} from 'react-native'
 import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -20,10 +20,23 @@ class HotDiary extends Component {
   onRefresh = () => {
     this.props.actions.hotDiaryInit(0)
   }
+  _likeDiary = (diaryId, ownerId, myLike, index) => {
+    console.log({diaryId, ownerId, myLike, index})
+    if (myLike) {
+      return
+    }
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'recentDiary'})
+      } else {
+        this.props.actions.rencentDiaryLike({diaryId, ownerId, index})
+      }
+    })
+  }
 
-  getItemCompt = ({item}) => {
+  getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment showRightTime />
+    return <DiaryItem item={item} navigation={navigation} hasComment showRightTime likeDiary={this._likeDiary} index={index}/>
   }
 
   handleLoadingMore = () => {

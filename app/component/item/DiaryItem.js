@@ -2,11 +2,11 @@ import React, {Component} from 'react'
 import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage} from 'react-native'
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM} from '../../utils/TimeUtils'
-import CommentItem from '../../widget/CommentItem'
+import CommentBar from '../CommentBar'
 
 export default class DiaryItem extends Component {
   render () {
-    const { item } = this.props
+    const { item, index } = this.props
     const day = getDay(item.create_time)
     const week = getDate(item.create_time)
     const yymm = getYYMM(item.create_time)
@@ -16,7 +16,7 @@ export default class DiaryItem extends Component {
     const hasComment = this.props.hasComment
     return (
       <View>
-        <TouchableOpacity activeOpacity={0.8} onPress={this.props.showRightTime && this.diaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
+        <TouchableOpacity activeOpacity={0.8} onPress={this.props.showRightTime && this.routeDiaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
           <View style={styles.time}>
             <Text style={styles.day}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
@@ -31,7 +31,13 @@ export default class DiaryItem extends Component {
               source={this.getSource(img)}/>
             </TouchableOpacity>}
         </TouchableOpacity>
-        {hasComment && <CommentItem comment={item.comment} like={item.like}/>}
+        {hasComment &&
+          <CommentBar
+            myLike={item.my_like}
+            likeNum={item.like.num}
+            likeAction={() => { this.props.likeDiary(item.diary_id, item.user_id, item.my_like, index) }}
+            commentAction={() => this.routeDiaryDetails()}
+            commentsNum={item.comment.num}/>}
       </View>
     )
   }
@@ -45,7 +51,7 @@ export default class DiaryItem extends Component {
     navigation.navigate('LightBoxPage', {img: item.img})
   }
 
-  diaryDetails = () => {
+  routeDiaryDetails = () => {
     const {navigation, item} = this.props
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
