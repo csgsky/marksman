@@ -30,6 +30,7 @@ function commentPostEpic (action$) {
                   console.log('epic  ---> commentpostsuccess ')
                   console.log(it)
                   PubSub.publish('commentsRefresh')
+                  PubSub.publish('refreshDetailPage')
                   return actions.commentPostSuccess()
                 }
               }

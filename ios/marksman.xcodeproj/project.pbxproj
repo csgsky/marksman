@@ -38,7 +38,7 @@
 		C8EF7EF71EF7B86800F57334 /* SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EF7EF61EF7B86800F57334 /* SplashScreen.m */; };
 		C8EF7F5B1EF7E7E100F57334 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C8EF7F591EF7E7E100F57334 /* assets */; };
 		C8EF7F5C1EF7E7E100F57334 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C8EF7F5A1EF7E7E100F57334 /* main.jsbundle */; };
-		4B6D3538314240CCBCF773FD /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC0389D240EA47C88D6A5A6D /* libRNImagePicker.a */; };
+		F44E198DBD7F4C60846615C1 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E50998641F4E41B0B7A6ACCA /* libRNImagePicker.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -269,12 +269,7 @@
 		C8EF7F111EF7B89300F57334 /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SplashScreen.h; path = marksman/SplashScreen.h; sourceTree = "<group>"; };
 		C8EF7F591EF7E7E100F57334 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		C8EF7F5A1EF7E7E100F57334 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-<<<<<<< HEAD
 		E50998641F4E41B0B7A6ACCA /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
-=======
-		F827CA1E412F49598B28162E /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		BC0389D240EA47C88D6A5A6D /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
->>>>>>> dev
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,11 +296,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-<<<<<<< HEAD
 				F44E198DBD7F4C60846615C1 /* libRNImagePicker.a in Frameworks */,
-=======
-				4B6D3538314240CCBCF773FD /* libRNImagePicker.a in Frameworks */,
->>>>>>> dev
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,11 +464,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-<<<<<<< HEAD
 				16ABB1347F194A35BC456186 /* RNImagePicker.xcodeproj */,
-=======
-				F827CA1E412F49598B28162E /* RNImagePicker.xcodeproj */,
->>>>>>> dev
 			);
 			name = Libraries;
 			sourceTree = "<group>";
