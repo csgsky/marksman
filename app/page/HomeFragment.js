@@ -15,6 +15,7 @@ import Pen from '../img/pen.png'
 import LoadingMore from '../component/LoadingMore'
 import NoMoreData from '../component/NoMoreData'
 
+
 var ImagePicker = require('react-native-image-picker')
 // // 加密使用
 // var CryptoJS = require('crypto-js')

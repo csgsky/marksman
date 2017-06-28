@@ -3,6 +3,18 @@ import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage} from 'rea
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM} from '../../utils/TimeUtils'
 import CommentItem from '../../widget/CommentItem'
+import One from '../../img/diary_material_one.jpeg'
+import Two from '../../img/diary_material_two.jpg'
+import Three from '../../img/diary_material_three.jpg'
+import Four from '../../img/diary_material_four.jpeg'
+import Five from '../../img/diary_material_five.jpeg'
+import Six from '../../img/diary_material_six.jpeg'
+import Seven from '../../img/diary_material_seven.jpeg'
+import Eight from '../../img/diary_material_eight.jpeg'
+import Nine from '../../img/diary_material_nine.jpeg'
+import Ten from '../../img/diary_material_ten.jpeg'
+// import chips
+import getSource from '../../utils/viewHelper'
 
 export default class DiaryItem extends Component {
   render () {
@@ -18,7 +30,7 @@ export default class DiaryItem extends Component {
       <View>
         <TouchableOpacity activeOpacity={0.8} onPress={this.props.showRightTime && this.diaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
           <View style={styles.time}>
-            <Text style={styles.day}>{day}</Text>
+            <Text style={[styles.day, {color: item.feelcolor}]}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
               <Text style={styles.week}>{week}</Text>
               <Text style={styles.year_month}>{yymm}</Text>
@@ -26,7 +38,7 @@ export default class DiaryItem extends Component {
             {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
           </View>
           {<Text style={styles.body} numberOfLines={6}>{content}</Text>}
-          {img !== '' && <TouchableOpacity onPress={this.props.showRightTime && this.photoView} activeOpacity = {0.8}>
+          {img !== '' && <TouchableOpacity onPress={this.props.showRightTime && this.photoView} activeOpacity={0.8}>
             <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]}
               source={this.getSource(img)}/>
             </TouchableOpacity>}
@@ -37,6 +49,27 @@ export default class DiaryItem extends Component {
   }
 
   getSource = (img) => {
+    if (img === '0') {
+      return One
+    } else if (img === '1') {
+      return Two
+    } else if (img === '2') {
+      return Three
+    } else if (img === '3') {
+      return Four
+    } else if (img === '4') {
+      return Five
+    } else if (img === '5') {
+      return Six
+    } else if (img === '6') {
+      return Seven
+    } else if (img === '7') {
+      return Eight
+    } else if (img === '8') {
+      return Nine
+    } else if (img === '9') {
+      return Ten
+    }
     return {uri: img}
   }
 
@@ -49,12 +82,12 @@ export default class DiaryItem extends Component {
     const {navigation, item} = this.props
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        navigation.navigate('DiaryDetailPage', {me: false, item: item})
+        navigation.navigate('DiaryDetailPage', {me: false, item})
       } else {
         if (result === item.user_id) {
-          navigation.navigate('DiaryDetailPage', {me: true, item: item})
+          navigation.navigate('DiaryDetailPage', {me: true, item})
         } else {
-          navigation.navigate('DiaryDetailPage', {me: false, item: item})
+          navigation.navigate('DiaryDetailPage', {me: false, item})
         }
       }
     })
@@ -66,7 +99,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   day: {
-    color: '#f48cc3',
     fontSize: 40
   },
   week: {

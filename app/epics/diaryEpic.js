@@ -2,7 +2,7 @@ import {AsyncStorage} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/diaryAction'
-import { CommentsApi } from '../api/apis'
+import { CommentsApi, PostDiaryApi} from '../api/apis'
 
 function diaryCommentInitEpic (action$) {
   return action$.ofType(actions.DIARY_COMMENT_INIT)
@@ -25,4 +25,27 @@ function diaryCommentInitEpic (action$) {
        )
 }
 
-export default combineEpics(diaryCommentInitEpic)
+function postWriteDiary (action$) {
+  return action$.ofType(actions.WRITE_DIARY_POST_DIARY)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.payload),
+                (token, payload) => ({token, payload})
+              ).flatMap(
+                it => Observable.from(PostDiaryApi(it.payload, it.token))
+              ).map((it) => {
+                if (it.return_code === 2) {
+                  return null
+                } else if (it.return_code === 1) {
+                  return actions.postDiarySuccess()
+                }
+                return null
+              }
+            ).catch((error) => {
+              console.log('epic error --> ' + error)
+            })
+       )
+}
+
+export default combineEpics(diaryCommentInitEpic, postWriteDiary)
