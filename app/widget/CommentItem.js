@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {View, Text, Image, StyleSheet} from 'react-native'
+import LikeIcon from '../img/like.png'
+import LikedIcon from '../img/liked.png'
 
 export default class CommentItem extends Component {
   render () {
@@ -7,7 +9,7 @@ export default class CommentItem extends Component {
     return <View style={styles.commentView}>
       <View style={styles.singleView}>
         <View style={{flexDirection: 'row'}}>
-          <Image resizeMode ='contain' style={styles.img} source={require('../img/conment_vote.png')} />
+          <Image resizeMode ='contain' style={styles.img} source={LikeIcon} />
           <Text style={styles.text}>{like.num}</Text>
         </View>
       </View>

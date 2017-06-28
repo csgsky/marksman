@@ -23,24 +23,27 @@ class CommentListPage extends PureComponent {
       recvName: '',
       diaryId: undefined,
       commentId: undefined,
-      ownerId: undefined,
+      diaryOwnerId: undefined,
+      commentOwnerId: undefined,
       pid: undefined
     }
   }
   componentWillMount() {
     const mainComment = this.props.navigation.state.params.item
+    console.log({mainComment})
     this.setState({
       diaryId: mainComment.diary_id,
-      ownerId: mainComment.owner_id,
+      commentOwnerId: mainComment.user_id,
+      diaryOwnerId: mainComment.owner_id,
       commentId: mainComment.comment_id,
-      pid: mainComment.pid,
-      recvName: mainComment.nickname
+      recvName: mainComment.nickname,
+      pid: mainComment.user_id
     })
   }
   componentDidMount() {
-    const {diaryId, ownerId, commentId} = this.state;
+    const {diaryId, diaryOwnerId, commentId} = this.state;
     const mainComment = this.props.navigation.state.params.item
-    this.props.commentsListInit({diaryId, ownerId, commentId, mainComment})
+    this.props.commentsListInit({diaryId, ownerId: diaryOwnerId, commentId, mainComment})
     PubSub.subscribe('commentsRefresh', this.onRefresh)
   }
   componentWillReceiveProps(nextProps) {
@@ -54,15 +57,20 @@ class CommentListPage extends PureComponent {
     this.props.clearCommentsList()
   }
   onRefresh = () => {
-    const {diaryId, ownerId, commentId} = this.state;
+    const {diaryId, diaryOwnerId, commentId} = this.state;
+    const {isRefreshing} = this.props;
+    console.log('refreshing', {diaryId, ownerId: diaryOwnerId, commentId, isRefreshing})
+    if (isRefreshing) {
+      return
+    }
     const mainComment = this.props.navigation.state.params.item
-    this.props.commentsListInit({diaryId, ownerId, commentId, mainComment})
+    this.props.commentsListInit({diaryId, ownerId: diaryOwnerId, commentId, mainComment})
   }
   handleLoadingMore = () => {
     const {hasMore, isLoadingMore, page} = this.props;
     if (hasMore && !isLoadingMore) {
-      const {diaryId, ownerId, commentId} = this.state;
-      this.props.commentsListMore({diaryId, ownerId, commentId, page: page + 1})
+      const {diaryId, diaryOwnerId, commentId} = this.state;
+      this.props.commentsListMore({diaryId, ownerId: diaryOwnerId, commentId, page: page + 1})
     }
   }
   _onPressCommentItem = (item) => {
@@ -70,7 +78,7 @@ class CommentListPage extends PureComponent {
     if (isPostingComment) {
       return
     }
-    this.setState({recvName: item.nickname, diaryId: item.diary_id, ownerId: item.owner_id, commentId: item.comment_id, pid: item.pid})
+    this.setState({recvName: item.nickname, pid: item.user_id})
   }
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
     AsyncStorage.getItem('userId').then((result) => {
@@ -82,11 +90,11 @@ class CommentListPage extends PureComponent {
     })
   }
   _onSubmit = () => {
-    const {diaryId, ownerId, commentId, comment, pid} = this.state
+    const {diaryId, commentOwnerId, commentId, comment, pid} = this.state
     this.setState({
       comment: ''
     })
-    console.log({diaryId, ownerId, commentId, comment, pid})
+    console.log({diaryId, commentOwnerId, commentId, comment, pid})
     dismissKeyboard()
     if (!comment) {
       return
@@ -97,7 +105,7 @@ class CommentListPage extends PureComponent {
     if (pid) {
       data.pid = pid
     }
-    this.props.commentPost({diaryId, ownerId, commentId, data})
+    this.props.commentPost({diaryId, ownerId: commentOwnerId, commentId, data})
   }
   render() {
     const {comments, navigation, isRefreshing} = this.props

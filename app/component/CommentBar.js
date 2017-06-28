@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import theme from '../config/theme'
-import Like from '../img/conment_vote.png'
+import Like from '../img/like.png'
 import Liked from '../img/liked.png'
 import Comment from '../img/comment.png'
 import Share from '../img/comment_share.png'
@@ -37,9 +37,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 44,
-    flexDirection: 'row',
-    borderTopWidth: 1,
-    borderTopColor: theme.border.color
+    flexDirection: 'row'
   },
   cell: {
     flex: 1,

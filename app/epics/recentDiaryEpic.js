@@ -2,7 +2,7 @@ import {AsyncStorage} from 'react-native'
 import { Observable } from 'rxjs/Rx'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/recentDiaryAction'
-import { FooterRecentDiaryApi } from '../api/apis'
+import { FooterRecentDiaryApi, LikeTopicApi } from '../api/apis'
 
 function recentInitEpic (action$) {
   return action$.ofType(actions.RECENTDIARY_INIT)
@@ -57,5 +57,28 @@ function recentMoreEpic (action$) {
        )
 }
 
+function diaryLikeEpic (action$) {
+  return action$.ofType(actions.RECENTDIARY_LIKE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(LikeTopicApi({id: action.payload.diaryId, ownerId: action.payload.ownerId, userId: it.token}))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                console.log(it.return_msg)
+                if (it.return_code === 1) {
+                  return actions.recentDiaryLikeSuccess({index: action.payload.index})
+                }
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
 
-export default combineEpics(recentInitEpic, recentMoreEpic)
+
+export default combineEpics(recentInitEpic, recentMoreEpic, diaryLikeEpic)
