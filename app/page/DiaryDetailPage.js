@@ -1,13 +1,8 @@
 import React, {Component} from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-<<<<<<< HEAD
 import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList, AsyncStorage} from 'react-native'
 import * as actions from '../actions/diaryDetailAction'
-=======
-import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList} from 'react-native'
-import * as actions from '../actions/diaryAction'
->>>>>>> dev
 import theme from '../config/theme'
 import CommentItem from '../component/item/CommentItem'
 import ListSeparator from '../component/ListSeparator'
