@@ -4,7 +4,6 @@ import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/homeActions'
-
 import * as consts from '../utils/const'
 import theme from '../config/theme'
 import Separator from '../component/Separator'
@@ -15,6 +14,7 @@ import Search from '../img/search.png'
 import Pen from '../img/pen.png'
 import LoadingMore from '../component/LoadingMore'
 import NoMoreData from '../component/NoMoreData'
+
 
 var ImagePicker = require('react-native-image-picker')
 // // 加密使用
@@ -28,28 +28,28 @@ var ImagePicker = require('react-native-image-picker')
     // var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
     // console.log('hmacSHA1 ==> ' + hmacSHA1)
 
-// var options = {
-//   title: '图片选择',
-//   cancelButtonTitle: '取消',
-//   takePhotoButtonTitle: '拍照',
-//   chooseFromLibraryButtonTitle: '图片库',
-//   cameraType: 'back',
-//   mediaType: 'photo',
-//   videoQuality: 'high',
-//   durationLimit: 10,
-//   maxWidth: 600,
-//   maxHeight: 600,
-//   aspectX: 2,
-//   aspectY: 1,
-//   quality: 0.8,
-//   angle: 0,
-//   allowsEditing: true,
-//   noData: false,
-//   storageOptions: {
-//     skipBackup: true,
-//     path: 'images'
-//   }
-// }
+var options = {
+  title: '图片选择',
+  cancelButtonTitle: '取消',
+  takePhotoButtonTitle: '拍照',
+  chooseFromLibraryButtonTitle: '图片库',
+  cameraType: 'back',
+  mediaType: 'photo',
+  videoQuality: 'high',
+  durationLimit: 10,
+  maxWidth: 600,
+  maxHeight: 600,
+  aspectX: 2,
+  aspectY: 1,
+  quality: 0.8,
+  angle: 0,
+  allowsEditing: true,
+  noData: false,
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+}
 class HomeFragment extends Component {
   constructor (props) {
     super(props)
@@ -75,9 +75,6 @@ class HomeFragment extends Component {
 
   getFooterCompt = () => {
     const {diarys, hasMoreData, isLoadingMore} = this.props
-    console.warn('getFooterCompt diary length ==> ' + diarys.length)
-    console.warn('getFooterCompt diary hasMoreData ==> ' + hasMoreData)
-    console.warn('getFooterCompt diary isLoadingMore ==> ' + isLoadingMore)
     if (diarys.length > 0 && hasMoreData && isLoadingMore) {
       return <LoadingMore />
     } else if (diarys.length > 0 && !hasMoreData) {
@@ -102,7 +99,7 @@ class HomeFragment extends Component {
   }
 
   _onRouterWrite = () => {
-    this.props.navigation.navigate('WriteDiaryPage', {message: '写日记'})
+    this.props.navigation.navigate('WriteDiaryPage', {diary: null})
   }
 
   _onRouterMine = () => {
@@ -116,21 +113,21 @@ class HomeFragment extends Component {
   }
 
   openImagePicker () {
-    // ImagePicker.showImagePicker(options, (response) => {
-    //   if (response.didCancel) {
-    //     console.log('User cancelled image picker')
-    //   } else if (response.error) {
-    //     console.log('ImagePicker Error: ', response.error)
-    //   } else if (response.customButton) {
-    //     console.log('User tapped custom button: ', response.customButton)
-    //   } else {
-    //     const source = { uri: response.uri }
-    //     this.setState({
-    //       value: response.data,
-    //       avatarSource: source
-    //     })
-    //   }
-    // })
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton)
+      } else {
+        const source = { uri: response.uri }
+        this.setState({
+          value: response.data,
+          avatarSource: source
+        })
+      }
+    })
   }
   render () {
     const {diarys, isRefreshing} = this.props

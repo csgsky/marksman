@@ -8,11 +8,12 @@
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
+    "eslint-plugin-json": "^1.2.0",
     "moment": "^2.18.1",
     "pubsub-js": "^1.5.7",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
-    "react-native-color-picker": "^0.2.1",
+    "react-native-image-crop-picker": "^0.14.0",
     "react-native-image-picker": "^0.26.3",
     "react-native-lightbox": "^0.6.0",
     "react-native-swiper": "^1.5.4",
@@ -22,7 +23,8 @@
     "redux-actions": "1.2.1",
     "redux-devtools-extension": "^2.13.0",
     "redux-observable": "^0.13.0",
-    "rxjs": "^5.2.0"
+    "rxjs": "^5.2.0",
+    "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

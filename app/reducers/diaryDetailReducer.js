@@ -1,4 +1,4 @@
-import * as types from '../actions/diaryDetailAction'
+import * as types from '../actions/diaryAction'
 
 const initState = {
   isRefreshing: true,

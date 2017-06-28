@@ -5,10 +5,12 @@ import {NativeModules, Platform, StatusBar} from 'react-native'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
+import CropImagePage from '../page/CropImagePage'
 import FeedbackPage from '../page/profile/Feedback'
 import Login from '../page/login/login'
 import TabBarItem from '../widget/TabBarItem'
 import LabelPage from '../page/splash/LabelPage'
+import NewsCenterPage from '../page/NewsCenterPage'
 import LabelPageTwo from '../page/splash/LabelPageTwo'
 import Splash from '../page/splash/Splash'
 import PersonalCenter from '../page/profile/PersonalCenter'
@@ -243,10 +245,7 @@ const Navigator = StackNavigator(
     },
     WriteDiaryPage: {
       screen: WriteDiaryPage,
-      mode: 'card',
-      navigationOptions: {
-        title: '写日记'
-      }
+      mode: 'card'
     },
     CommonWebviewPage: {
       screen: CommonWebviewPage,
@@ -319,6 +318,20 @@ const Navigator = StackNavigator(
     CommentsListPage: {
       screen: CommentsListPage,
       mode: 'card'
+    },
+    CropImagePage: {
+      screen: CropImagePage,
+      mode: 'card',
+      navigationOptions: {
+        header: null
+      }
+    },
+    NewsCenterPage: {
+      screen: NewsCenterPage,
+      mode: 'card',
+      navigationOptions: {
+        header: null
+      }
     }
   },
   { initialRouteName: 'Splash',
