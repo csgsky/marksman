@@ -198,7 +198,7 @@ export const getUnloginInfo = (devicedId, userId) =>
 
 // 游客注册接口
 export const CustomerRegisterApi = (map, userId) =>
-  postApi(`/api/customer`, map, userId)
+  postApi('/api/customer', map, userId)
 
 // 提交评论Api
 export const PostCommentApi = ({diaryId, ownerId, data, userId}) =>
@@ -211,3 +211,9 @@ export const PostCommentCommentApi = ({diaryId, ownerId, commentId, data, userId
 // 获取评论的评论
 export const CommentCommentsApi = ({diaryId, ownerId, commentId, page, userId}) =>
   getApi(`/api/${diaryId}/${ownerId}/${commentId}/comment?p=${page}&rn=10`, userId)
+
+// 日记提交接口
+export const PostDiaryApi = (map, userId) => {
+  console.warn('feelcolor: ' + map.feelcolor)
+  return postApi('/api/diary', map, userId)
+}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import {View, TextInput, TouchableOpacity, Image, StyleSheet, Text} from 'react-native'
-import {stringTrim} from '../utils/viewHelper'
 import Rx from 'rxjs'
+import {stringTrim} from '../utils/viewHelper'
+
 export default class SearchTextInput extends Component {
   render () {
     const {
