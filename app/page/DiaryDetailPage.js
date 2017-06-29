@@ -117,7 +117,7 @@ class DiaryDetailPage extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'diary'})
       } else {
-        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id})
+        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id, nickname: diary.user.nickname})
       }
     })
   }
