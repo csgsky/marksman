@@ -33,12 +33,12 @@ class CommentEditor extends PureComponent {
       return
     }
     const options = {
-      title: 'Select Avatar',
+      title: '选择图片',
       storageOptions: {
         skipBackup: true,
         path: 'images'
       }
-    };
+    }
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);
 
@@ -49,9 +49,6 @@ class CommentEditor extends PureComponent {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        // let source = { uri: response.uri };
-
-        // You can also display the image using data:
         const source = { uri: 'data:image/jpg;base64,' + response.data };
 
         this.setState({
