@@ -1,14 +1,15 @@
 import React, {PureComponent} from 'react'
-import {View, FlatList, RefreshControl, TextInput, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, AsyncStorage } from 'react-native'
+import {View, FlatList, RefreshControl, Platform, TextInput, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, AsyncStorage } from 'react-native'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import PubSub from 'pubsub-js'
 import * as actions from '../actions/commentListActions'
+import dismissKeyboard from 'dismissKeyboard'
 import {commentPost, clearCommentPost} from '../actions/commentEditorAction'
 import theme from '../config/theme'
 import CommentItem from '../component/item/CommentItem'
 import ListSeparator from '../component/ListSeparator'
-import dismissKeyboard from 'dismissKeyboard'
-import PubSub from 'pubsub-js'
+import AutoInputText from '../widget/AutoGrowingTextInput'
 
 class CommentListPage extends PureComponent {
   static navigationOptions = ({navigation}) => ({
@@ -135,11 +136,12 @@ class CommentListPage extends PureComponent {
             }
         />}
         </View>
-        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-64}>
+        {Platform.OS === 'ios' && <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-64}>
           <View style={{borderTopWidth: 1, borderColor: theme.border.color, alignItems: 'center', flexDirection: 'row', backgroundColor: '#fff'}}>
-            <TextInput style={styles.input}
+            <AutoInputText style={styles.input}
               onChangeText={(text) => { this.setState({comment: text}) }}
               multiline
+              underlineColorAndroid="transparent"
               value={this.state.comment}
               placeholderTextColor="#a3a3a3"
               placeholder={`回复${this.state.recvName}：`}/>
@@ -147,7 +149,19 @@ class CommentListPage extends PureComponent {
               <Text style={styles.submit}>发送</Text>
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView>}
+        {Platform.OS === 'android' && <View style={{borderTopWidth: 1, borderColor: theme.border.color, alignItems: 'center', flexDirection: 'row', backgroundColor: '#fff'}}>
+          <AutoInputText style={styles.input}
+            onChangeText={(text) => { this.setState({comment: text}) }}
+            multiline
+            underlineColorAndroid="transparent"
+            value={this.state.comment}
+            placeholderTextColor="#a3a3a3"
+            placeholder={`回复${this.state.recvName}：`}/>
+          <TouchableOpacity onPress={() => this._onSubmit()}>
+            <Text style={styles.submit}>发送</Text>
+          </TouchableOpacity>
+          </View>}
       </View>
     )
   }

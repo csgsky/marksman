@@ -1,14 +1,24 @@
 import React, {Component} from 'react'
-import {View, FlatList, RefreshControl} from 'react-native'
+import {View, FlatList, RefreshControl, TouchableOpacity, Image} from 'react-native'
 import {connect} from 'react-redux'
-import * as actions from '../../actions/trashActions'
 import {bindActionCreators} from 'redux'
+import * as actions from '../../actions/trashActions'
+
 import DiaryItem from '../../component/item/DiaryItem'
 import ListSeparator from '../../component/ListSeparator'
 import EmptyView from '../../component/EmptyView'
-// import theme from '../../config/theme'
+import theme from '../../config/theme'
 
 class Trash extends Component {
+
+  static navigationOptions = ({navigation}) => ({
+    title: '垃圾箱',
+    headerStyle: {elevation: 0, backgroundColor: '#fff'},
+    headerRight: <View />,
+    headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={theme.imgs.PageBack} /></TouchableOpacity>,
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+  })
+
   componentDidMount () {
     this.props.actions.trashInit()
   }
