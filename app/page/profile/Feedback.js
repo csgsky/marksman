@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native'
+import {bindActionCreators} from 'redux'
+import Toast from 'react-native-root-toast'
+import {connect} from 'react-redux'
 import theme from '../../config/theme'
 import * as actions from '../../actions/feedback'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native'
 
 class Feedback extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -36,6 +37,26 @@ class Feedback extends Component {
     const {success} = nextProps;
     if (oldSuccess !== success && success) {
       this.props.navigation.goBack()
+      Toast.show('反馈成功', {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+        onShow: () => {
+        // calls on toast\`s appear animation start
+        },
+        onShown: () => {
+        // calls on toast\`s appear animation end.
+        },
+        onHide: () => {
+        // calls on toast\`s hide animation start.
+        },
+        onHidden: () => {
+        // calls on toast\`s hide animation end.
+        }
+      })
     }
   }
 
@@ -70,7 +91,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   input: {
-    height: 478,
+    height: 420,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
     paddingTop: 35,
@@ -88,11 +109,11 @@ const styles = StyleSheet.create({
     fontSize: theme.text.xxlgFontSize
   },
   tips: {
-    marginTop: 35,
-    marginLeft: 21
+    marginTop: 8,
+    marginLeft: 16
   },
   tip: {
-    lineHeight: 14,
+    lineHeight: 20,
     color: '#9b9b9b',
     fontSize: 12,
   }
