@@ -24,7 +24,8 @@ class CommentEditor extends PureComponent {
       text: '',
       image: undefined,
       data: undefined,
-      suffix: undefined
+      suffix: undefined,
+      nickname: ''
     }
   }
 
@@ -58,6 +59,12 @@ class CommentEditor extends PureComponent {
         });
       }
     });
+  }
+  componentWillMount() {
+    const {nickname} = this.props.navigation.state.params;
+    this.setState({
+      nickname
+    })
   }
 
   componentDidMount() {
@@ -105,7 +112,7 @@ class CommentEditor extends PureComponent {
           value={this.state.text}
           placeholderTextColor="#a3a3a3"
           underlineColorAndroid="transparent"
-          placeholder="回复楼主：@倾城与"/>
+          placeholder={`回复楼主：@${this.state.nickname}`}/>
         <TouchableOpacity onPress={() => this.chooseImge()} style={{flexDirection: 'row'}}>
           <Image source={this.state.image || DefaultImg} style={{width: 70, height: 70, marginLeft: 20}}/>
           {this.state.image && <TouchableOpacity onPress={() => { this.setState({image: undefined}) }}>

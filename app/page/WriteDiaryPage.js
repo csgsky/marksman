@@ -218,7 +218,7 @@ class WriteDiaryPage extends Component {
             style={[styles.input, {height: Math.max(35, this.state.height)}]}
             value={this.state.text} />
         </ScrollView>
-        {Platform.OS === 'ios' && <KeyboardAvoidingView>
+        {Platform.OS === 'ios' && <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-64}>
           <View>
             {this.props.source && <View style={styles.imageView}>
               <Image source={this.props.source} style={{width: 80, height: 40}}/>
