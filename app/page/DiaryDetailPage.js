@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
+import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList, AsyncStorage} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList, AsyncStorage} from 'react-native'
+import PubSub from 'pubsub-js'
 import * as actions from '../actions/diaryDetailAction'
 import theme from '../config/theme'
 import CommentItem from '../component/item/CommentItem'
@@ -11,7 +12,7 @@ import PublicStamp from '../img/public_stamp.png'
 import PrivateStamp from '../img/private_stamp.png'
 import DefaultUserAvatar from '../img/default_vatar.png'
 import CommentBar from '../component/CommentBar'
-import PubSub from 'pubsub-js'
+
 
 class DiaryDetailPage extends Component {
 
@@ -95,8 +96,9 @@ class DiaryDetailPage extends Component {
   }
 
   handleLoadingMore = () => {
-    console.warn('加载更多。。。。。。 ')
+
   }
+
   _onPressLike = (diaryId, ownerId, myLike) => {
     if (!myLike) {
       AsyncStorage.getItem('userId').then((result) => {
@@ -108,6 +110,7 @@ class DiaryDetailPage extends Component {
       })
     }
   }
+
   _onPressComment = (diary) => {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
@@ -168,8 +171,6 @@ class DiaryDetailPage extends Component {
     )
   }
 }
-
-
 
 const styles = StyleSheet.create({
   stamp: {

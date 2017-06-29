@@ -99,7 +99,13 @@ class HomeFragment extends Component {
   }
 
   _onRouterWrite = () => {
-    this.props.navigation.navigate('WriteDiaryPage', {diary: null})
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'profile'})
+      } else {
+        this.props.navigation.navigate('WriteDiaryPage', {diary: null})
+      }
+    })
   }
 
   _onRouterMine = () => {
@@ -112,23 +118,6 @@ class HomeFragment extends Component {
     })
   }
 
-  openImagePicker () {
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker')
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
-      } else {
-        const source = { uri: response.uri }
-        this.setState({
-          value: response.data,
-          avatarSource: source
-        })
-      }
-    })
-  }
   render () {
     const {diarys, isRefreshing} = this.props
     // // console.warn('diary length ==> ' + diarys.length)
