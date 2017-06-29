@@ -54,17 +54,18 @@ export default class PhotoPickerModal extends Component {
               <Text style={{fontSize: theme.text.xxlgFontSize}}>从手机相册选择</Text>
             </TouchableOpacity>
             <View style={{height: 0.5, backgroundColor: '#f8f8f8'}} />
+            {this.props.selectMaterial &&
             <TouchableOpacity activeOpacity={1} style={styles.launchCameraItem}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>素材库</Text>
-            </TouchableOpacity>
-            <FlatList
+            </TouchableOpacity>}
+            {this.props.selectMaterial && <FlatList
               style={{backgroundColor: 'white'}}
               horizontal
               removeClippedSubviews={false}
               data={this.state.material}
               showsHorizontalScrollIndicator={false}
               renderItem={this.renderMaterialItem}
-            />
+            />}
             <TouchableOpacity style={styles.cancelItem} onPress={this.props.hide}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>取消</Text>
             </TouchableOpacity>
