@@ -68,6 +68,7 @@ class DiaryDetailPage extends Component {
   componentWillUnmount() {
     PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
+    this.props.clearDiary()
   }
   onRefresh = () => {
     const id = this.state.diary.diary_id
