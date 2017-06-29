@@ -48,7 +48,7 @@ function diaryLikeEpic (action$) {
               }))
 }
 
-function commentLikeEpic (action$) {
+function diaryCommentLikeEpic (action$) {
   return action$.ofType(actions.DIARY_COMMENT_LIKE)
             .mergeMap(action =>
               Observable.zip(
@@ -56,6 +56,7 @@ function commentLikeEpic (action$) {
                 token => ({token})
               ).flatMap(
                 (it) => {
+                  console.log({token: it.token})
                   if (it.token) {
                     const {diaryId, ownerId, commentId} = action.payload
                     return Observable.from(LikeCommentApi({diaryId, ownerId, commentId, userId: it.token}))
@@ -72,4 +73,4 @@ function commentLikeEpic (action$) {
               }))
 }
 
-export default combineEpics(diaryCommentInitEpic, diaryLikeEpic, commentLikeEpic)
+export default combineEpics(diaryCommentInitEpic, diaryLikeEpic, diaryCommentLikeEpic)

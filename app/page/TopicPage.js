@@ -17,7 +17,7 @@ class Topic extends Component {
   componentDidMount () {
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params
     this.props.topicInit({topicId, ownerId, diaryId})
-    PubSub.subscribe('commentsRefresh', this.onRefresh)
+    PubSub.subscribe('refreshDetailPage', this.onRefresh)
     PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
   }
   onRefresh = () => {
@@ -96,6 +96,7 @@ class Topic extends Component {
   }
   render () {
     const {topic, comments, isRefreshing} = this.props;
+    console.log({topic})
     return (
       <View style={styles.container}>
         {topic && topic.name && <FlatList
