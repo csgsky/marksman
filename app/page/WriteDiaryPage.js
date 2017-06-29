@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, ScrollView, TouchableOpacity, TextInput, Image} from 'react-native'
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView} from 'react-native'
 import { bindActionCreators } from 'redux'
 import Rx from 'rxjs'
 import Moment from 'moment'
@@ -218,19 +218,52 @@ class WriteDiaryPage extends Component {
             style={[styles.input, {height: Math.max(35, this.state.height)}]}
             value={this.state.text} />
         </ScrollView>
-        <View>
-          {this.props.source && <View style={styles.imageView}>
-            <Image source={this.props.source} style={{width: 80, height: 40}}/>
-            <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
-              <Image style={{width: 15, height: 15}} source={DeletePhoto} resizeMode="contain"/>
-            </TouchableOpacity>
-            </View>}
+        {Platform.OS === 'ios' && <KeyboardAvoidingView>
+          <View>
+            {this.props.source && <View style={styles.imageView}>
+              <Image source={this.props.source} style={{width: 80, height: 40}}/>
+              <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
+                <Image style={{width: 15, height: 15}} source={DeletePhoto} resizeMode="contain"/>
+              </TouchableOpacity>
+              </View>}
+            <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
+            <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center'}}>
+              <Image
+                source={MoodHappy}
+                resizeMode="contain"
+                style={{width: 20, height: 20, marginLeft: 16, marginRight: 16}}/>
+              <ColorPicker
+                style={{width: 200, height: 20}}
+                defaultColor="#ffa3c5"
+                onColorChange={this._onColorChanged}
+              />
+              <Image
+                source={MoodSad}
+                resizeMode="contain"
+                style={{width: 20, height: 20, marginLeft: 16}}/>
+              <TouchableOpacity style={{flex: 1, flexDirection: 'row', marginRight: 16, justifyContent: 'flex-end'}} onPress={() => this.showDialog()}>
+                <Image
+                  source={Album}
+                  resizeMode="contain"
+                  style={{width: 20, height: 20, marginLeft: 12}}/>
+              </TouchableOpacity>
+            </View>
+            <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
+          </View>
+        </KeyboardAvoidingView>}
+        {Platform.OS === 'android' && <View>
+            {this.props.source && <View style={styles.imageView}>
+              <Image source={this.props.source} style={{width: 80, height: 40}}/>
+              <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
+                <Image style={{width: 15, height: 15}} source={DeletePhoto} resizeMode="contain"/>
+              </TouchableOpacity>
+              </View>}
           <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
           <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center'}}>
             <Image
               source={MoodHappy}
               resizeMode="contain"
-              style={{width: 20, height: 20, marginLeft: 17, marginRight: 12}}/>
+              style={{width: 20, height: 20, marginLeft: 16, marginRight: 16}}/>
             <ColorPicker
               style={{width: 200, height: 20}}
               defaultColor="#ffa3c5"
@@ -239,8 +272,8 @@ class WriteDiaryPage extends Component {
             <Image
               source={MoodSad}
               resizeMode="contain"
-              style={{width: 20, height: 20, marginLeft: 12}}/>
-            <TouchableOpacity style={{width: 40, height: 40, marginLeft: 5, alignItems: 'center', justifyContent: 'center'}} onPress={() => this.showDialog()}>
+              style={{width: 20, height: 20, marginLeft: 16}}/>
+            <TouchableOpacity style={{flex: 1, flexDirection: 'row', marginRight: 16, justifyContent: 'flex-end'}} onPress={() => this.showDialog()}>
               <Image
                 source={Album}
                 resizeMode="contain"
@@ -248,7 +281,8 @@ class WriteDiaryPage extends Component {
             </TouchableOpacity>
           </View>
           <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
-        </View>
+          </View>
+        }
       </View>
     )
   }
