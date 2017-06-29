@@ -2,6 +2,7 @@
 import React, {Component} from 'react'
 
 import {NativeModules, Platform, StatusBar} from 'react-native'
+import AboutUsPage from '../page/profile/AboutUs'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
@@ -283,11 +284,7 @@ const Navigator = StackNavigator(
     },
     TrashPage: {
       screen: TrashPage,
-      mode: 'card',
-      navigationOptions: {
-        title: '垃圾箱',
-        headerStyle: {elevation: 0, backgroundColor: '#fff'}
-      }
+      mode: 'card'
     },
     FeedbackPage: {
       screen: FeedbackPage,
@@ -328,10 +325,11 @@ const Navigator = StackNavigator(
     },
     NewsCenterPage: {
       screen: NewsCenterPage,
-      mode: 'card',
-      navigationOptions: {
-        header: null
-      }
+      mode: 'card'
+    },
+    AboutUsPage: {
+      screen: AboutUsPage,
+      mode: 'card'
     }
   },
   { initialRouteName: 'Splash',
@@ -344,5 +342,3 @@ const Navigator = StackNavigator(
 )
 
 export default Navigation
-
-
