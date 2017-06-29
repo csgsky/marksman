@@ -52,17 +52,23 @@ class DiaryDetailPage extends Component {
     const id = this.state.diary.diary_id;
     const ownerId = this.state.diary.user_id
     this.props.diaryCommentInit({id, ownerId})
-    // PubSub.subscribe('commentsRefresh', this.onRefresh)
-    // PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
+    PubSub.subscribe('refreshDetailPage', () => this.props.diaryCommentInit({id, ownerId}))
+    PubSub.subscribe('commentsLikeRefresh', () => this.props.diaryCommentInit({id, ownerId}))
   }
   componentWillReceiveProps(nextProps) {
     const {likeSuccess} = this.props;
     const newLikeSuccess = nextProps.likeSuccess;
+    console.log({likeSuccess, newLikeSuccess})
     if (likeSuccess !== newLikeSuccess && newLikeSuccess) {
       this.setState({
         diary: {...this.state.diary, my_like: 1, like: {num: this.state.diary.like.num + 1}}
       })
     }
+  }
+  componentWillUnmount() {
+    PubSub.unsubscribe('refreshDetailPage')
+    PubSub.unsubscribe('commentsLikeRefresh')
+    this.props.clearDiary()
   }
   onRefresh = () => {
     const id = this.state.diary.diary_id
@@ -76,7 +82,7 @@ class DiaryDetailPage extends Component {
         <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye()}/>
       </View>
       <DiaryItem
-        item={this.props.navigation.state.params.item}
+        item={this.state.diary}
         hasComment={false}
         showRightTime={false} />
     </View>)
@@ -111,7 +117,7 @@ class DiaryDetailPage extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'diary'})
       } else {
-        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id})
+        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id, nickname: diary.user.nickname})
       }
     })
   }
