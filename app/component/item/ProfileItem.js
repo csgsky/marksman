@@ -93,23 +93,11 @@ export default class ProfileItem extends Component {
   }
 
   _routerFeedback = () => {
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result === null) {
-        this.props.navigation.navigate('FeedbackPage', {come4: 'profile'})   
-      } else {
-        this.props.navigation.navigate('FeedbackPage', {come4: 'profile'})
-      }
-    })
+    this.props.navigation.navigate('FeedbackPage', {come4: 'profile'})
   }
 
   _routerAboutUs = () => {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({routeName: 'Login', come4: 'signOut'})
-      ]
-    })
-    this.props.navigation.dispatch(resetAction)
+    this.props.navigation.navigate('AboutUsPage')
   }
   render () {
     const {value} = this.props
