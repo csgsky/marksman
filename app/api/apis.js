@@ -119,7 +119,7 @@ export const LovedUsersApi = (userId, page) => {
 
 // 搜索api
 export const SearchDiaryApi = (userId, kw, page) => {
-  return getApi(`/api/diary?p=${page}&rn=10&order_type=0&order=1&key=${kw}`, userId)
+  return getApi(`/api/diary?p=${page}&rn=10&order_type=0&order=1&status=1&key=${kw}`, userId)
 }
 
 // 垃圾箱列表
