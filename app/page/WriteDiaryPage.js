@@ -105,7 +105,11 @@ class WriteDiaryPage extends Component {
   }
 
   launchCamera () {
+    const that = this;
     ImagePicker.launchCamera(options, (response) => {
+      that.setState({
+        showModal: false
+      })
       if (response.didCancel) {
         console.log('User cancelled image picker')
       } else if (response.error) {
@@ -117,15 +121,17 @@ class WriteDiaryPage extends Component {
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
       }
-    })
-    this.setState({
-      showModal: false
     })
   }
 
 
   launchImageLibrary () {
+    console.log('launchImageLib')
+    const that = this;
     ImagePicker.launchImageLibrary(options, (response) => {
+      that.setState({
+        showModal: false
+      })
       if (response.didCancel) {
         console.log('User cancelled image picker')
       } else if (response.error) {
@@ -137,10 +143,6 @@ class WriteDiaryPage extends Component {
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
       }
-    })
-
-    this.setState({
-      showModal: false
     })
   }
 
