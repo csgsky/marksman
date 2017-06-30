@@ -14,6 +14,7 @@ import Search from '../img/search.png'
 import Pen from '../img/pen.png'
 import LoadingMore from '../component/LoadingMore'
 import NoMoreData from '../component/NoMoreData'
+import PubSub from 'pubsub-js'
 
 
 var ImagePicker = require('react-native-image-picker')
@@ -60,6 +61,7 @@ class HomeFragment extends Component {
   }
   componentDidMount () {
     this.props.actions.homeInit(0)
+    PubSub.subscribe('refreshDiaryList', this.onRefresh)
   }
 
   onRefresh = () => {
