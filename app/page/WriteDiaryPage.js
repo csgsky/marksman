@@ -76,14 +76,12 @@ class WriteDiaryPage extends Component {
 
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, color} = this.props
-    console.warn('content ===> ' + content)
     if (materialPosition > 0) {
-      console.warn('imgPosition ===> ' + materialPosition)
       postDiary({content, img: materialPosition + '', ifprivate, feel, feelcolor: color})
     } else if (imgBase64 !== null) {
       postDiary({content, img_byte: imgBase64, ifprivate, feel, feelcolor: color})
     } else if (materialPosition < 0 && imgBase64 === null && (content === null || content === '')) {
-      alert('不能为空 ' + color)
+      // alert('不能为空 ' + color)
     } else {
       postDiary({content, ifprivate, feel, feelcolor: color})
     }
@@ -111,11 +109,11 @@ class WriteDiaryPage extends Component {
         showModal: false
       })
       if (response.didCancel) {
-        console.log('User cancelled image picker')
+        // console.log('User cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
+        // console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
+        // console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: response.uri }
         const imgBase64 = response.data
@@ -133,11 +131,11 @@ class WriteDiaryPage extends Component {
         showModal: false
       })
       if (response.didCancel) {
-        console.log('User cancelled image picker')
+        // console.log('User cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
+        // console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
+        // console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: response.uri }
         const imgBase64 = response.data

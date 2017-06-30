@@ -45,7 +45,6 @@ export default class LabelPageTwo extends Component {
         Rx.Observable.from(CustomerRegisterApi(map, result)).subscribe(
                       (it) => {
                         if (it.return_code === 1) {
-                          console.warn('bingo')
                           this._saveUseInfo()
                           this.props.navigation.dispatch(resetAction)
                         }
@@ -79,10 +78,10 @@ export default class LabelPageTwo extends Component {
           <Image style={{width: 280, height: 60, marginTop: 30}}
             resizeMode="contain"
             source={NickNameBg}>
-            <TextInput style={{height: 45, marginLeft: 21}}
+            <TextInput style={{fontSize: 14, height: 45, marginLeft: 21}}
               placeholder={'请写下你的昵称'}
               autoFocus
-              placeholderTextColor='#a0be8a'
+              placeholderTextColor="#a0be8a"
               underlineColorAndroid="transparent"
               maxLength={11}
               onChangeText={(nickname) => {
@@ -147,6 +146,7 @@ const styles = StyleSheet.create({
     left: 20,
     right: 60,
     top: 20,
+    fontSize: 14,
     textAlignVertical: 'top'
   }
 })

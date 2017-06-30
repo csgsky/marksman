@@ -12,7 +12,7 @@ import PubSub from 'pubsub-js'
 class Topic extends Component {
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
-    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()} }><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
+    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
   componentDidMount () {
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params
