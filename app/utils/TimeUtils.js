@@ -12,7 +12,7 @@ export const getYYMM = (time) => {
 
 export const getHHMM = (time) => {
   const date = Moment(time)
-  return date.hour() + ':' + date.minute()
+  return date.hour() + ':' + (date.minute() === 0 ? '00' : date.minute())
 }
 export const getDate = (time) => {
   const date = Moment(time).day()
