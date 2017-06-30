@@ -7,7 +7,31 @@ import theme from '../config/theme'
 import DefaultImg from '../img/default_vatar.png'
 import Close from '../img/close.png'
 import * as actions from '../actions/commentEditorAction'
+import PhotoPickerModal from '../widget/PhotoPickerModal'
 
+const dismissKeyboard = require('dismissKeyboard')
+
+const options = {
+  title: '图片选择',
+  cancelButtonTitle: '取消',
+  takePhotoButtonTitle: '拍照',
+  chooseFromLibraryButtonTitle: '图片库',
+  mediaType: 'photo',
+  videoQuality: 'high',
+  durationLimit: 10,
+  maxWidth: theme.screenWidth,
+  maxHeight: theme.screenHeight,
+  quality: 1,
+  aspectX: 2,
+  aspectY: 1,
+  angle: 0,
+  allowsEditing: true,
+  noData: false,
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+}
 class CommentEditor extends PureComponent {
 
   static navigationOptions = ({navigation}) => ({
@@ -25,41 +49,42 @@ class CommentEditor extends PureComponent {
       image: undefined,
       data: undefined,
       suffix: undefined,
-      nickname: ''
+      nickname: '',
+      showModal: false
     }
   }
 
-  chooseImge = () => {
-    if (this.state.image) {
-      return
-    }
-    const options = {
-      title: '选择图片',
-      storageOptions: {
-        skipBackup: true,
-        path: 'images'
-      }
-    }
-    ImagePicker.showImagePicker(options, (response) => {
-      console.log('Response = ', response);
+  // chooseImge = () => {
+  //   if (this.state.image) {
+  //     return
+  //   }
+  //   const options = {
+  //     title: '选择图片',
+  //     storageOptions: {
+  //       skipBackup: true,
+  //       path: 'images'
+  //     }
+  //   }
+  //   ImagePicker.showImagePicker(options, (response) => {
+  //     console.log('Response = ', response);
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = { uri: 'data:image/jpg;base64,' + response.data };
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.error) {
+  //       console.log('ImagePicker Error: ', response.error);
+  //     } else if (response.customButton) {
+  //       console.log('User tapped custom button: ', response.customButton);
+  //     } else {
+  //       const source = { uri: 'data:image/jpg;base64,' + response.data };
 
-        this.setState({
-          image: source,
-          data: response.data,
-          suffix: response.fileName.split('.')[1]
-        });
-      }
-    });
-  }
+  //       this.setState({
+  //         image: source,
+  //         data: response.data,
+  //         suffix: response.fileName.split('.')[1]
+  //       });
+  //     }
+  //   });
+  // }
   componentWillMount() {
     const {nickname} = this.props.navigation.state.params;
     this.setState({
@@ -100,10 +125,96 @@ class CommentEditor extends PureComponent {
   componentWillUnmount() {
     this.props.clearCommentPost()
   }
+  _closeKeyBoard = () => {
+    dismissKeyboard()
+  }
 
+  _showPhoto = () => {
+    this._closeKeyBoard()
+    Rx.Observable.of('showPhoto').delay(100).subscribe(
+      it => {
+        this.setState({
+          showPhoto: !this.state.showPhoto
+        })
+      }
+    )
+  }
+
+  launchCamera () {
+    const that = this;
+    ImagePicker.launchCamera(options, (response) => {
+      that.setState({
+        showModal: false
+      })
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton)
+      } else {
+        const source = { uri: 'data:image/jpg;base64,' + response.data };
+
+        this.setState({
+          image: source,
+          data: response.data,
+          suffix: response.fileName.split('.')[1]
+        });
+      }
+    })
+  }
+
+
+  launchImageLibrary () {
+    console.log('launchImageLib')
+    const that = this;
+    ImagePicker.launchImageLibrary(options, (response) => {
+      that.setState({
+        showModal: false
+      })
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton)
+      } else {
+        const source = { uri: 'data:image/jpg;base64,' + response.data };
+        this.setState({
+          image: source,
+          data: response.data,
+          suffix: response.fileName.split('.')[1]
+        });
+      }
+    })
+  }
+
+  _onColorChanged = (color, feel) => {
+    this.props.writeDiaryColorChange({color, feel})
+  }
+
+  showDialog() {
+    this._closeKeyBoard()
+    this.setState({
+      showModal: true
+    })
+  }
+
+  hideDialog() {
+    this._closeKeyBoard()
+    this.setState({
+      showModal: false
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
+        <PhotoPickerModal
+          _dialogVisible={this.state.showModal}
+          hide={() => this.hideDialog()}
+          launchCamera={() => this.launchCamera()}
+          launchImageLibrary={() => this.launchImageLibrary()}
+          />
         <TextInput
           style={styles.input}
           multiline
@@ -113,7 +224,7 @@ class CommentEditor extends PureComponent {
           placeholderTextColor="#a3a3a3"
           underlineColorAndroid="transparent"
           placeholder={`回复楼主：@${this.state.nickname}`}/>
-        <TouchableOpacity onPress={() => this.chooseImge()} style={{flexDirection: 'row'}}>
+        <TouchableOpacity onPress={() => this.showDialog()} style={{flexDirection: 'row'}}>
           <Image source={this.state.image || DefaultImg} style={{width: 70, height: 70, marginLeft: 20}}/>
           {this.state.image && <TouchableOpacity onPress={() => { this.setState({image: undefined}) }}>
             <Image source={Close} style={{width: 17, height: 17, marginLeft: -17}}/>
