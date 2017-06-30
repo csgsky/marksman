@@ -129,7 +129,7 @@ export const SearchDiaryApi = (userId, kw, page) => {
 
 // 垃圾箱列表
 export const TrashApi = (userId, page) =>
-  getApi(`/api/diary?p=${page}&rn=3&ordertype=0&status=1&private=1`, userId)
+  getApi(`/api/diary?p=${page}&rn=3&ordertype=0&status=0`, userId)
 
 // 用户个人信息
 export const PersonalInfoApi = (userId, id) =>

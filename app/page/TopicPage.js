@@ -8,6 +8,8 @@ import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStor
 import * as actions from '../actions/topic'
 import CommentBar from '../component/CommentBar'
 import PubSub from 'pubsub-js'
+import EmptyView from '../component/CommentEmptyView'
+import Separator from '../component/Separator'
 
 class Topic extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -73,24 +75,28 @@ class Topic extends Component {
       }
     })
   }
-  renderHeader = (topic) => {
+  renderHeader = (topic, comments) => {
     console.log({focus: topic.my_focus})
     const {topicId} = this.props.navigation.state.params
     return (
-      <View style={styles.header}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{topic.name}</Text>
-          <TouchableOpacity onPress={() => this._onPressFollow(topic.my_focus, topicId)}>
-            <View style={styles.follow}>
-              <Text style={styles.followText}>{topic.my_focus ? '取消关注' : '关注'}</Text>
-            </View>
-          </TouchableOpacity>
+      <View>
+        <View style={styles.header}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{topic.name}</Text>
+            <TouchableOpacity onPress={() => this._onPressFollow(topic.my_focus, topicId)}>
+              <View style={styles.follow}>
+                <Text style={styles.followText}>{topic.my_focus ? '取消关注' : '关注'}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.counts}>{topic.comment.num}评论 | {topic.like.num}赞</Text>
+          <Text style={styles.content}>{topic.content}</Text>
+          <View style={styles.tag}>
+            <Text style={styles.tagText}>{topic.tag}</Text>
+          </View>
         </View>
-        <Text style={styles.counts}>{topic.comment.num}评论 | {topic.like.num}赞</Text>
-        <Text style={styles.content}>{topic.content}</Text>
-        <View style={styles.tag}>
-          <Text style={styles.tagText}>{topic.tag}</Text>
-        </View>
+        <Separator />
+        {comments && comments.length === 0 && <EmptyView message={'快来发表你的评论吧~'}/>}
       </View>
     )
   }
@@ -108,7 +114,7 @@ class Topic extends Component {
               onPressCommentItem={() => { this._onPressCommentItem(item) }}
               onPressLike={this._onPressCommentLike}/>)}
           removeClippedSubviews={false}
-          ListHeaderComponent={() => this.renderHeader(topic)}
+          ListHeaderComponent={() => this.renderHeader(topic, comments)}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={() => this.handleLoadingMore()}
           onEndReachedThreshold={0.1}
@@ -137,9 +143,8 @@ const styles = {
     backgroundColor: '#fff'
   },
   header: {
-    padding: 12,
-    borderBottomColor: theme.border.color,
-    borderBottomWidth: 0.5
+    padding: 16,
+    paddingBottom: 0
   },
   counts: {
     color: '#9b9b9b',
@@ -178,7 +183,8 @@ const styles = {
     width: 58,
     justifyContent: 'center',
     height: 18,
-    backgroundColor: 'rgba(245,165,35,0.52)'
+    backgroundColor: 'rgba(245,165,35,0.52)',
+    marginBottom: 12
   },
   tagText: {
     color: '#fff',
