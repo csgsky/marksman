@@ -21,6 +21,7 @@ import Nine from '../img/diary_material_nine.jpeg'
 import Ten from '../img/diary_material_ten.jpeg'
 import ChooseUp from '../img/choose_up.png'
 import Choose from '../img/choose.png'
+
 export default class PhotoPickerModal extends Component {
   constructor(props) {
     super(props)

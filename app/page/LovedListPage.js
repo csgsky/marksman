@@ -1,11 +1,21 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, FlatList, RefreshControl} from 'react-native'
+import {StyleSheet, View, FlatList, RefreshControl, TouchableOpacity, Image} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/lovedActions'
 import TopUserItem from '../component/item/TopuserItem'
+import theme from '../config/theme'
 
 class LovedListPage extends Component {
+
+  static navigationOptions = ({navigation}) => ({
+    title: '精选话题',
+    headerStyle: {elevation: 0, backgroundColor: '#fff'},
+    headerRight: <View />,
+    headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+  })
+
   componentDidMount () {
     this.props.actions.LovedListInit(0)
   }
