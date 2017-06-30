@@ -1,35 +1,16 @@
-import React, {Component} from 'React'
-import {StyleSheet, View, Text, BackAndroid, Platform} from 'react-native'
-import theme from '../config/theme'
-import * as actions from '../actions/searchAction'
+import React, {Component} from 'react'
+import {StyleSheet, View, BackAndroid, Platform} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Swiper from 'react-native-swiper';
+import * as actions from '../actions/searchAction'
+
 import SearchTextInput from '../widget/SearchInput'
 import EmptyView from '../component/EmptyView'
+
 class SearchPage extends Component {
   componentDidMount () {
     this.props.actions.searchPageInit()
     BackAndroid.addEventListener('hardwareBackPress', this._backPress)
-  }
-
-
-  render () {
-    const {searchText, searchInputClearShow, empty} = this.props
-    console.warn('render ==> empty ==>  ' + empty)
-    return <View style={{flex: 1, paddingTop: (Platform.OS === 'ios') ? 20 : 0}}>
-      <SearchTextInput
-        searchTextChange = {this._onSearchTextChange}
-        backPress = {this._backPress}
-        searchText={searchText}
-        onSubmitEditing={this._onSubmitEditing}
-        searchInputClearShow={searchInputClearShow}
-        clearInput = {this._clearInput}
-        title={'请输入您想要搜索的内容'}
-      />
-      {empty && <EmptyView message={'你还未写过相关的内容哦~'}/>}
-    </View>
-    
   }
 
   _backPress = () => {
@@ -50,13 +31,26 @@ class SearchPage extends Component {
     this.props.actions.clearInput()
   }
 
-  // _onPress = () => {
-  //   this.props.navigation.navigate('SettingPage',{message: '设置'})
-  // }
+
+  render () {
+    const {searchText, searchInputClearShow, empty} = this.props
+    return (<View style={{flex: 1, paddingTop: (Platform.OS === 'ios') ? 20 : 0}}>
+      <SearchTextInput
+        searchTextChange={this._onSearchTextChange}
+        backPress={this._backPress}
+        searchText={searchText}
+        onSubmitEditing={this._onSubmitEditing}
+        searchInputClearShow={searchInputClearShow}
+        clearInput={this._clearInput}
+        title={'请输入您想要搜索的内容'}
+      />
+      {empty && <EmptyView message={'你还未写过相关的内容哦~'}/>}
+    </View>)
+  }
 }
 
 const styles = StyleSheet.create({
-  
+
 })
 
 const mapStateToProps = (state) => {
