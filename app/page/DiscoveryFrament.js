@@ -28,8 +28,8 @@ class DiscoveryFrament extends Component {
           removeClippedSubviews={false}
           stickySectionHeadersEnabled={false}
           sections={[
-            {data: talks, key: 'talks', renderItem: this.getTalksItem},
-            {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem}
+            {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem},
+            {data: talks, key: 'talks', renderItem: this.getTalksItem}
           ]}
           refreshControl={
             <RefreshControl

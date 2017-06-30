@@ -19,32 +19,29 @@ export default class NewsCenterPage extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
-  _onPress = (type) => {
-    alert(type)
-  }
-
   render () {
     return (<View style={{backgroundColor: 'white'}}>
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this._onPress('话题')}>
+      <Separator />
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('TopicNewsPage')}>
         <Image source={TopicIcon} style={styles.icon}/>
         <Text style={styles.type}>话题</Text>
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this._onPress('用户')}>
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('UserNewsPage')}>
         <Image source={UserIcon} style={styles.icon}/>
         <Text style={styles.type}>用户</Text>
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this._onPress('评论')}>
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('CommentNewsPage')}>
         <Image source={CommentIcon} style={styles.icon}/>
         <Text style={styles.type}>评论</Text>
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this._onPress('通知')}>
-        <Image source={CommentIcon} style={styles.icon}/>
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('NotificationPage')}>
+        <Image source={NoticeIcon} style={styles.icon}/>
         <Text style={styles.type}>通知</Text>
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
@@ -52,7 +49,6 @@ export default class NewsCenterPage extends Component {
     </View>)
   }
 
-  
 }
 
 const styles = StyleSheet.create({

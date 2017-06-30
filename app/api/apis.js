@@ -89,8 +89,13 @@ export function deleteApi (path, userId) {
 }
 
 // 首页日记
-export const MineDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=6&ordertype=1&status=1&p=${page}`, userId)
+export const MineDiaryApi = (token, page, userId) => {
+  if (userId !== null) {
+    return getApi(`/api/diary?rn=6&ordertype=1&status=1&p=${page}&user_id=${userId}`, token)
+  } else {
+    return getApi(`/api/diary?rn=6&ordertype=1&status=1&p=${page}`, token)
+  }
+}
 
 // 足迹、最新
 export const FooterRecentDiaryApi = (userId, page) =>
@@ -213,7 +218,6 @@ export const CommentCommentsApi = ({diaryId, ownerId, commentId, page, userId}) 
   getApi(`/api/${diaryId}/${ownerId}/${commentId}/comment?p=${page}&rn=10`, userId)
 
 // 日记提交接口
-export const PostDiaryApi = (map, userId) => {
-  console.warn('feelcolor: ' + map.feelcolor)
-  return postApi('/api/diary', map, userId)
-}
+export const PostDiaryApi = (map, userId) =>
+  postApi('/api/diary', map, userId)
+
