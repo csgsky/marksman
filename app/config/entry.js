@@ -2,6 +2,7 @@
 import React, {Component} from 'react'
 
 import {NativeModules, Platform, StatusBar} from 'react-native'
+import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import AboutUsPage from '../page/profile/AboutUs'
 import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
@@ -33,8 +34,11 @@ import MyFollowUsers from '../page/profile/MyFollowUsers'
 import MyFollowTopics from '../page/profile/MyFollowTopics'
 import CommentEditPage from '../page/CommentEditPage'
 import CommentsListPage from '../page/CommentsList'
+import CommentNewsPage from '../page/news/CommentNewsPage'
+import NotificationPage from '../page/news/NotificationPage'
+import TopicNewsPage from '../page/news/TopicNewsPage'
+import UserNewsPage from '../page/news/UserNewsPage'
 
-import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import theme from '../config/theme'
 
 class Navigation extends Component {
@@ -330,6 +334,38 @@ const Navigator = StackNavigator(
     AboutUsPage: {
       screen: AboutUsPage,
       mode: 'card'
+    },
+    TopicNewsPage: {
+      screen: TopicNewsPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '话题',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
+      }
+    },
+    NotificationPage: {
+      screen: NotificationPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '通知',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
+      }
+    },
+    UserNewsPage: {
+      screen: UserNewsPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '用户',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
+      }
+    },
+    CommentNewsPage: {
+      screen: CommentNewsPage,
+      mode: 'card',
+      navigationOptions: {
+        title: '评论',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
+      }
     }
   },
   { initialRouteName: 'Splash',

@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
 import {View, StyleSheet, Image, Text} from 'react-native'
-import theme from '../config/theme'
+import SearchEmpty from '../img/search_empty.png'
 
 export default class EmptyView extends Component {
+
   render () {
     const {message} = this.props
     return (
       <View style={styles.view}>
         <View style={styles.emptyView}>
-          <Image style={styles.emptyImg} resizeMode="contain" source={require('../img/search_empty.png')} />
+          <Image style={styles.emptyImg} resizeMode="contain" source={SearchEmpty} />
           <Text style={styles.emptyText}>{message}</Text>
         </View>
       </View>

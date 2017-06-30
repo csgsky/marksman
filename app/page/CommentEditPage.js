@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
 import theme from '../config/theme'
-import DefaultImg from '../img/default_vatar.png'
-import Close from '../img/close.png'
+import DefaultImg from '../img/reply_photo_placeholder.png'
+import Close from '../img/photo_delete.png'
 import * as actions from '../actions/commentEditorAction'
 import PhotoPickerModal from '../widget/PhotoPickerModal'
 
@@ -216,9 +216,9 @@ class CommentEditor extends PureComponent {
           underlineColorAndroid="transparent"
           placeholder={placeholder}/>
         <TouchableOpacity onPress={() => this.showDialog()} style={{flexDirection: 'row'}}>
-          <Image source={this.state.image || DefaultImg} style={{width: 70, height: 70, marginLeft: 20}}/>
-          {this.state.image && <TouchableOpacity onPress={() => { this.setState({image: undefined}) }}>
-            <Image source={Close} style={{width: 17, height: 17, marginLeft: -17}}/>
+          <Image source={this.state.image || DefaultImg} style={{width: 70, height: 70, marginLeft: 16}}/>
+          {this.state.image && <TouchableOpacity style={styles.delete} onPress={() => { this.setState({image: undefined}) }}>
+            <Image source={Close} style={{width: 16, height: 16}} resizeMode="contain"/>
           </TouchableOpacity>}
         </TouchableOpacity>
       </View>
@@ -233,9 +233,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 218,
-    paddingTop: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingTop: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
     paddingBottom: 15,
     color: '#a3a3a3',
     textAlignVertical: 'top',
@@ -247,6 +247,13 @@ const styles = StyleSheet.create({
     marginRight: 18,
     fontSize: theme.text.xxlgFontSize
   },
+  delete: {
+    position: 'absolute',
+    left: 70,
+    top: 0,
+    width: 16,
+    height: 16
+  }
 })
 
 export default connect(({commentEditor}) => commentEditor, dispatch => bindActionCreators(actions, dispatch))(CommentEditor);
