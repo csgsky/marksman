@@ -48,7 +48,6 @@ class CommentEditor extends PureComponent {
       text: '',
       image: undefined,
       data: undefined,
-      suffix: undefined,
       nickname: '',
       showModal: false
     }
@@ -101,7 +100,6 @@ class CommentEditor extends PureComponent {
         const data = {
           content: that.state.text,
           img_byte: that.state.data,
-          img_suffix: that.state.suffix,
         }
         if (pid) {
           data.pid = pid
@@ -148,7 +146,6 @@ class CommentEditor extends PureComponent {
         this.setState({
           image: source,
           data: response.data,
-          suffix: response.fileName.split('.')[1]
         });
       }
     })
@@ -173,7 +170,6 @@ class CommentEditor extends PureComponent {
         this.setState({
           image: source,
           data: response.data,
-          suffix: response.fileName.split('.')[1]
         });
       }
     })
