@@ -10,11 +10,12 @@ function homeInitEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => ({token, page})
+                Observable.from(AsyncStorage.getItem('userId')),
+                (token, page, userId) => ({token, page, userId})
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(MineDiaryApi(it.token, it.page))
+                    return Observable.from(MineDiaryApi(it.token, it.page, it.userId))
                   }
                   return Observable.of(2)
                 }
@@ -36,11 +37,12 @@ function homeMoreEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => ({token, page})
+                Observable.from(AsyncStorage.getItem('userId')),
+                (token, page, userId) => ({token, page, userId})
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(MineDiaryApi(it.token, it.page))
+                    return Observable.from(MineDiaryApi(it.token, it.page, it.userId))
                   }
                   return Observable.of(2)
                 }

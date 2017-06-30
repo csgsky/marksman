@@ -10,6 +10,8 @@ import Share from '../../img/share.png'
 import Notice from '../../img/notice.png'
 import Write from '../../img/write.png'
 import Me from '../../img/me.png'
+import Reminder from '../../component/Reminder'
+import Next from '../../img/next.png'
 
 export default class ProfileItem extends Component {
 
@@ -34,10 +36,10 @@ export default class ProfileItem extends Component {
     }
   }
 
-  _router =  () => {
+  _router = () => {
     const that = this
-    const {value, navigation} = this.props
-    switch(value) {
+    const {value} = this.props
+    switch (value) {
       case consts.PROFILE_MINE_MESSAGE:
         that._routerMineNews()
         break;
@@ -59,6 +61,8 @@ export default class ProfileItem extends Component {
       case consts.PROFILE_ABOUT_US:
         this._routerAboutUs()
         break;
+      default:
+        this._routerAboutUs()
     }
   }
 
@@ -105,6 +109,8 @@ export default class ProfileItem extends Component {
       <View style={styles.item}>
         <Image style={styles.icon} resizeMode="contain" source={this._getSource(value)} />
         <Text style={styles.text}>{value}</Text>
+        {this.props.reminder && <Reminder />}
+        <Image style={styles.next} source={Next} />
       </View>
     </TouchableOpacity>)
   }
@@ -122,9 +128,15 @@ const styles = StyleSheet.create({
     height: 18
   },
   text: {
+    flex: 1,
     fontSize: 18,
     marginLeft: 18,
     color: theme.text.globalTextColor
+  },
+  next: {
+    width: 8,
+    height: 14,
+    marginRight: 16,
+    marginLeft: 14,
   }
 })
-

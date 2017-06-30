@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import theme from '../../config/theme'
+
 export default class CollectionItem extends Component {
   render () {
-    const {item,navigation} = this.props
-    let kh = '第 ' + item.kh + ' 期'
-    return <TouchableOpacity style= {styles.item} activeOpacity={0.3} onPress={this._onRouterWrite}>
-      <Image style={styles.cover} source={require('../../img/splash.png')}></Image>
+    const {item} = this.props
+    const kh = '第 ' + item.kh + ' 期'
+    return <TouchableOpacity style = {styles.item} activeOpacity={0.3} onPress={this._onRouterWrite}>
+      <Image style={styles.cover} source={{uri: item.cover_url}}></Image>
       <View style={styles.info}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.issn}>{kh}</Text>
