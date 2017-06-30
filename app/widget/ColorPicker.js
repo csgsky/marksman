@@ -10,7 +10,7 @@ export default class ColorPicker extends Component {
   constructor(props, ctx) {
     super(props, ctx)
     this.state = {
-      color: { h: 250, s: 0.36, v: 1 },
+      color: { h: 250, s: 0.34, v: 1 },
       pickerSize: null,
       pickerWidth: null,
       pickerHeight: null
@@ -21,13 +21,7 @@ export default class ColorPicker extends Component {
     this._onLayout = this._onLayout.bind(this)
   }
 
-  _getColor() {
-    const passedColor = typeof this.props.color === 'string'
-      ? tinycolor(this.props.color).toHsv()
-      : this.props.color
-    return passedColor || this.state.color
-  }
-  _onColorChange(color) {
+  _onColorChange (color) {
     this.setState({ color })
     if (this.props.onColorChange) {
       this.props.onColorChange(tinycolor(color).toHexString(), this._getFeel(color.h))
@@ -62,9 +56,8 @@ export default class ColorPicker extends Component {
   _computeHValue(x, y) {
     if (x < 0) {
       return 338
-    } else {
-      return Math.round(338 - (x / this.state.pickerWidth) * 88)
     }
+    return Math.round(338 - (x / this.state.pickerWidth) * 88)
   }
 
   _hValueToLength (h, style) {
@@ -75,10 +68,6 @@ export default class ColorPicker extends Component {
       return style.width - style.height
     }
     return Math.round(left)
-  }
-
-  getColor() {
-    return tinycolor(this._getColor()).toHexString()
   }
 
   componentWillMount() {
@@ -93,6 +82,17 @@ export default class ColorPicker extends Component {
       onStart: handleColorChange,
       onMove: handleColorChange,
     })
+  }
+
+  getColor() {
+    return tinycolor(this._getColor()).toHexString()
+  }
+
+  _getColor() {
+    const passedColor = typeof this.props.color === 'string'
+      ? tinycolor(this.props.color).toHsv()
+      : this.props.color
+    return passedColor || this.state.color
   }
 
   render() {

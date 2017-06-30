@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {View, StyleSheet, Text} from 'react-native'
+import theme from '../config/theme'
 
 export default class NoMoreData extends Component {
   render () {
     return (
       <View style={styles.view}>
-        <View style={styles.emptyView}>
-          <Text style={styles.text}>还想看？老娘是随便让你看的？！......</Text>
-        </View>
+        <Text style={styles.text}>主子，我也是有底线~~</Text>
       </View>
     )
   }
@@ -15,18 +14,15 @@ export default class NoMoreData extends Component {
 
 const styles = StyleSheet.create({
   view: {
-    height: 50,
-    backgroundColor: 'white',
+    height: 75,
+    backgroundColor: '#EEEEEE',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  emptyView: {
-    flexDirection: 'column'
-  },
   text: {
     fontSize: 15,
-    color: 'black',
+    color: theme.text.globalSubTextColor,
     alignSelf: 'center'
   }
 })

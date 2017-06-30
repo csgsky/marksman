@@ -12,7 +12,8 @@ import PublicStamp from '../img/public_stamp.png'
 import PrivateStamp from '../img/private_stamp.png'
 import DefaultUserAvatar from '../img/default_vatar.png'
 import CommentBar from '../component/CommentBar'
-
+import EmptyView from '../component/CommentEmptyView'
+import Separator from '../component/Separator'
 
 class DiaryDetailPage extends Component {
 
@@ -76,8 +77,9 @@ class DiaryDetailPage extends Component {
     this.props.diaryCommentInit({id, ownerId})
   }
 
-  getHeaderView = () =>
-    (<View style={{flexDirection: 'column'}}>
+  getHeaderView = () => {
+    const {comments} = this.props
+    return (<View style={{flexDirection: 'column'}}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
         <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye()}/>
       </View>
@@ -85,7 +87,10 @@ class DiaryDetailPage extends Component {
         item={this.state.diary}
         hasComment={false}
         showRightTime={false} />
+      <Separator />
+      {comments && comments.length === 0 && <EmptyView message={'快来发表你的评论吧~'}/>}
     </View>)
+  }
 
   getDiaryTpye = () => {
     if (this.state.diary.ifprivate === 1) {
@@ -121,9 +126,11 @@ class DiaryDetailPage extends Component {
       }
     })
   }
+
   _onPressCommentItem = (item) => {
     this.props.navigation.navigate('CommentsListPage', {com4: 'diary', item})
   }
+
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {

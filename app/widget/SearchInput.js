@@ -12,65 +12,65 @@ export default class SearchTextInput extends Component {
       <View
         style={styles.toolbar}>
         <View style={styles.backView}>
-            <Image style={{height: 16, width: 16, marginLeft: 10}}
-                    source={require('../img/search@3x.png')}/>
-            <TextInput
-              ref="searchTextInput"
-              style={styles.textInput}
-              underlineColorAndroid="transparent"
-              textAlignVertical="top"
-              placeholderTextColor="#ababab"
-              multiline={false}
-              autoFocus={true}
-              returnKeyType="search"
-              placeholder={title}
-              onSubmitEditing={() => {
-                if (searchText) {
-                  let value = stringTrim(searchText)
-                  if (searchText && value && value.length > 0) {
-                    onSubmitEditing()
-                  } else {
-                    Rx.Observable.of('refresh')
-                      .delay(400)
-                      .subscribe(it => {
-                        this.refs.searchTextInput.focus()
-                      })
-                  }
+          <Image style={{height: 16, width: 16, marginLeft: 10}}
+            source={require('../img/search@3x.png')}/>
+          <TextInput
+            ref="searchTextInput"
+            style={styles.textInput}
+            underlineColorAndroid="transparent"
+            textAlignVertical="top"
+            placeholderTextColor="#ababab"
+            multiline={false}
+            autoFocus
+            returnKeyType="search"
+            placeholder={title}
+            onSubmitEditing={() => {
+              if (searchText) {
+                const value = stringTrim(searchText)
+                if (searchText && value && value.length > 0) {
+                  onSubmitEditing()
                 } else {
                   Rx.Observable.of('refresh')
-                      .delay(400)
-                      .subscribe(it => {
-                        this.refs.searchTextInput.focus()
-                      })
+                    .delay(400)
+                    .subscribe(it => {
+                      this.refs.searchTextInput.focus()
+                    })
                 }
+              } else {
+                Rx.Observable.of('refresh')
+                    .delay(400)
+                    .subscribe(it => {
+                      this.refs.searchTextInput.focus()
+                    })
+              }
+            }}
+            onChangeText={(text) => searchTextChange(text)}
+          />
+          {searchInputClearShow
+          ? <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                this.refs.searchTextInput.clear()
+                this.refs.searchTextInput.focus()
+                clearInput()
               }}
-              onChangeText={(text) => searchTextChange(text)}
-            />
-            {searchInputClearShow
-            ? <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  this.refs.searchTextInput.clear()
-                  this.refs.searchTextInput.focus()
-                  clearInput()
-                }}
-                style={{
-                  height: 30,
-                  width: 30,
-                  alignSelf: 'center',
-                  alignItems: 'center'
-                }}>
-                <Image style={{height: 16, width: 16, marginTop: 7}}
-                    source={require('../img/clear_search@3x.png')}/>
-            </TouchableOpacity>
-            : null}
-          </View>
-          <TouchableOpacity activeOpacity={0.8}
+              style={{
+                height: 30,
+                width: 30,
+                alignSelf: 'center',
+                alignItems: 'center'
+              }}>
+              <Image style={{height: 16, width: 16, marginTop: 7}}
+                  source={require('../img/clear_search@3x.png')}/>
+          </TouchableOpacity>
+          : null}
+        </View>
+        <TouchableOpacity activeOpacity={0.8}
                           onPress={backPress}
                           style={styles.cancelStyle}>
-          <Text style={styles.cancelText}>{'取消'}</Text>
-        </TouchableOpacity>
-      </View>
+        <Text style={styles.cancelText}>{'取消'}</Text>
+      </TouchableOpacity>
+    </View>
     )
   }
 }
