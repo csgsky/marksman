@@ -57,7 +57,7 @@ class Topic extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'topic'})
       } else {
-        this.props.navigation.navigate('CommentEditPage', {com4: 'topic', diaryId: topic.diary_id, ownerId: topic.user_id})
+        this.props.navigation.navigate('CommentEditPage', {com4: 'topic', diaryId: topic.diary_id, ownerId: topic.user_id, type: 'topic'})
       }
     })
   }

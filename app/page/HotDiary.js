@@ -8,10 +8,12 @@ import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import LoadingMore from '../component/LoadingMore'
 import NoMoreData from '../component/NoMoreData'
+import PubSub from 'pubsub-js'
 
 class HotDiary extends Component {
   componentDidMount () {
     this.props.actions.hotDiaryInit(0)
+    PubSub.subscribe('refreshDiaryList', this.onRefresh)
   }
 
 

@@ -86,9 +86,10 @@ class CommentEditor extends PureComponent {
   //   });
   // }
   componentWillMount() {
-    const {nickname} = this.props.navigation.state.params;
+    const {nickname, type} = this.props.navigation.state.params;
     this.setState({
-      nickname
+      nickname,
+      type
     })
   }
 
@@ -127,17 +128,6 @@ class CommentEditor extends PureComponent {
   }
   _closeKeyBoard = () => {
     dismissKeyboard()
-  }
-
-  _showPhoto = () => {
-    this._closeKeyBoard()
-    Rx.Observable.of('showPhoto').delay(100).subscribe(
-      it => {
-        this.setState({
-          showPhoto: !this.state.showPhoto
-        })
-      }
-    )
   }
 
   launchCamera () {
@@ -207,6 +197,7 @@ class CommentEditor extends PureComponent {
     })
   }
   render() {
+    const placeholder = this.state.type === 'topic' ? '回复话题' : `回复楼主：@${this.state.nickname}`;
     return (
       <View style={styles.container}>
         <PhotoPickerModal
@@ -223,7 +214,7 @@ class CommentEditor extends PureComponent {
           value={this.state.text}
           placeholderTextColor="#a3a3a3"
           underlineColorAndroid="transparent"
-          placeholder={`回复楼主：@${this.state.nickname}`}/>
+          placeholder={placeholder}/>
         <TouchableOpacity onPress={() => this.showDialog()} style={{flexDirection: 'row'}}>
           <Image source={this.state.image || DefaultImg} style={{width: 70, height: 70, marginLeft: 20}}/>
           {this.state.image && <TouchableOpacity onPress={() => { this.setState({image: undefined}) }}>

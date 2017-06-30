@@ -1,4 +1,5 @@
 import * as types from '../actions/diaryDetailAction'
+import {COMMENT_POST_SUCCESS} from '../actions/commentEditorAction'
 
 const initState = {
   isRefreshing: true,
@@ -6,7 +7,8 @@ const initState = {
   isLoadingMore: false,
   page: 0,
   hasMore: true,
-  likeSuccess: false
+  likeSuccess: false,
+  commentSuccess: false
 }
 
 export default function diaryDetail (state = initState, action = {}) {
@@ -38,6 +40,11 @@ export default function diaryDetail (state = initState, action = {}) {
       }
     case types.CLEAR_DIARY:
       return initState
+    case COMMENT_POST_SUCCESS:
+      return {
+        ...state,
+        commentSuccess: true
+      }
     default:
       return state
   }

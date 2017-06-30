@@ -31,6 +31,7 @@ function commentPostEpic (action$) {
                   console.log(it)
                   PubSub.publish('commentsRefresh')
                   PubSub.publish('refreshDetailPage')
+                  PubSub.publish('refreshDiaryList')
                   return actions.commentPostSuccess()
                 }
               }

@@ -2,6 +2,7 @@ import {AsyncStorage} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/diaryDetailAction'
+import PubSub from 'pubsub-js'
 import { CommentsApi, LikeTopicApi, LikeCommentApi } from '../api/apis'
 
 function diaryCommentInitEpic (action$) {
@@ -41,6 +42,7 @@ function diaryLikeEpic (action$) {
               ).map((it) => {
                 console.log(it.return_msg)
                 if (it.return_code === 1) {
+                  PubSub.publish('refreshDiaryList')
                   return actions.diaryLikeSuccess()
                 }
               }).catch((error) => {
