@@ -56,12 +56,18 @@ class DiaryDetailPage extends Component {
     PubSub.subscribe('commentsLikeRefresh', () => this.props.diaryCommentInit({id, ownerId}))
   }
   componentWillReceiveProps(nextProps) {
-    const {likeSuccess} = this.props;
+    const {likeSuccess, commentSuccess} = this.props;
     const newLikeSuccess = nextProps.likeSuccess;
+    const newCommentSuccess = nextProps.commentSuccess;
     console.log({likeSuccess, newLikeSuccess})
     if (likeSuccess !== newLikeSuccess && newLikeSuccess) {
       this.setState({
         diary: {...this.state.diary, my_like: 1, like: {num: this.state.diary.like.num + 1}}
+      })
+    }
+    if (commentSuccess !== newCommentSuccess && newCommentSuccess) {
+      this.setState({
+        diary: {...this.state.diary, comment: {num: this.state.diary.comment.num + 1}}
       })
     }
   }
@@ -117,7 +123,7 @@ class DiaryDetailPage extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'diary'})
       } else {
-        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id, nickname: diary.user.nickname})
+        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id, nickname: diary.user.nickname, type: 'diary'})
       }
     })
   }
