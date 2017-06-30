@@ -66,7 +66,7 @@ export default class Splash extends Component {
     AsyncStorage.getItem('userId').then((result) => {
       if (result !== null) {
         // 登录状态
-        console.warn('splah ==> userId not null')
+        console.warn('splah ==> userId not null ==> ' + result)
         this.setState({
           success: true
         })

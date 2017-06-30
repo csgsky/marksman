@@ -12,7 +12,6 @@ import ProfileItem from '../../component/item/ProfileItem'
 import * as consts from '../../utils/const'
 import DefaultUserAvatar from '../../img/default_vatar.png'
 
-
 class PersonalCenter extends Component {
 
   static navigationOptions = ({navigation}) => ({
@@ -28,7 +27,9 @@ class PersonalCenter extends Component {
     this.state = {
       avtar: '',
       nickname: '',
-      sign: ''
+      sign: '',
+      messageReminder: true,
+      systemReminder: true
     }
   }
 
@@ -37,7 +38,6 @@ class PersonalCenter extends Component {
     this._setUserInfo()
     const that = this
     PubSub.subscribe('refresh', (come, data) => {
-      // 重新获取数据
       Rx.Observable.of('refresh')
                       .delay(800)
                       .subscribe((it) => {
@@ -65,27 +65,33 @@ class PersonalCenter extends Component {
 
   _setUserInfo = () => {
     AsyncStorage.getItem('avtar').then((result) => {
-      console.warn('_setUserInfo avtar => ' + result)
+      // console.warn('_setUserInfo avtar => ' + result)
       this.setState({
         avtar: result
       })
     })
 
     AsyncStorage.getItem('nickname').then((result) => {
-      console.warn('_setUserInfo nickname => ' + result)
+      // console.warn('_setUserInfo nickname => ' + result)
       this.setState({
         nickname: result
       })
     })
 
     AsyncStorage.getItem('sign').then((result) => {
-      console.warn('_setUserInfo sign => ' + result)
+      // console.warn('_setUserInfo sign => ' + result)
       this.setState({
         sign: result
       })
     })
   }
+
+  _clearUserInfo = async () => {
+    await AsyncStorage.removeItem('userId')
+  }
+
   _loginOut = () => {
+    this._clearUserInfo()
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
@@ -113,16 +119,16 @@ class PersonalCenter extends Component {
               </View>
             </View>
           </View>
-          <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_MESSAGE}/>
+          <ProfileItem navigation={navigation} reminder={this.state.messageReminder} value={consts.PROFILE_MINE_MESSAGE}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
           <View style={{height: 20}}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_RECOMMOND_F}/>
-          <ProfileItem navigation={navigation} value={consts.PROFILE_NOTIFICATION}/>
+          <ProfileItem navigation={navigation} reminder={this.state.systemReminder} value={consts.PROFILE_NOTIFICATION}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
           {this.props.navigation.state.params.isLogin && <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>
-            <Text style={{fontSize: theme.text.xxlgFontSize, color: theme.text.globalTextColor}}>退出账号</Text>
+            <Text style={{fontSize: theme.text.xxlgFontSize, color: 'white'}}>退出账号</Text>
           </TouchableOpacity>}
         </View>
       </ScrollView>
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
   loginOut: {
     height: 40,
     marginTop: 20,
-    backgroundColor: '#eaeaea',
+    backgroundColor: '#f4b66c',
     alignItems: 'center',
     justifyContent: 'center'
   }
