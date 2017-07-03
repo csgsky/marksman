@@ -2,6 +2,8 @@ export const PERSON_INIT = 'PERSON_INIT'
 export const PERSON_DATA = 'PERSON_DATA'
 export const PERSON_DIARY_MORE = 'PERSON_DIARY_MORE'
 export const PERSON_DIARY_MORE_DATA = 'PERSON_DIARY_MORE_DATA'
+export const PERSON_FOLLOW = 'PERSON_FOLLOW'
+export const PERSON_FOLLOW_SUCCESS = 'PERSON_FOLLOW_SUCCESS'
 
 export function personInit (id) {
   return {
@@ -35,5 +37,20 @@ export function personDiaryMoreData (data) {
     isLoadingMore: false,
     diaries: data,
     hasMore: data.length >= 3
+  }
+}
+
+export function personFollow(payload) {
+  console.log('action ---> PERSON_FOLLOW')
+  return {
+    type: PERSON_FOLLOW,
+    payload
+  }
+}
+
+export function personFollowSuccess() {
+  console.log('action ---> PERSON_FOLLOW_SUCCESS')
+  return {
+    type: PERSON_FOLLOW_SUCCESS
   }
 }
