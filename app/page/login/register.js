@@ -7,6 +7,8 @@ import Rx from 'rxjs'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
 import * as actions from '../../actions/registerAction'
+import PasswordVisible from '../../img/password_visible.png'
+import PasswordInvisible from '../../img/password_invisible.png'
 
 // 加密使用
 var CryptoJS = require('crypto-js')
@@ -56,6 +58,7 @@ class Register extends Component {
 
   render () {
     const {actions, isCounting, btnCodeText, securePassword} = this.props
+    console.warn('render ==> securePassword ', securePassword)
     return (
       <View style={styles.view}>
         <Text style={styles.title}>{consts.appName}</Text>
@@ -78,18 +81,24 @@ class Register extends Component {
         <View style={styles.underLine} />
         <View style={[styles.itemView, {marginTop: 10}]}>
           <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-            <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
+            <Image style={styles.icon} resizeMode="contain" source={require('../../img/password.png')} />
           </View>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <TextInput style={styles.username}
               placeholder={consts.PASSWORD_PLACE_HOLDER}
-              placeholderTextColor='#8d8d8d'
+              placeholderTextColor="#8d8d8d"
               underlineColorAndroid="transparent"
               secureTextEntry={securePassword}
               onChangeText={(password) => {
                 actions.passwordChange(password)
               }}/>
           </View>
+          <TouchableOpacity
+            style={{flexDirection: 'column', justifyContent: 'center'}}
+            onPress={actions.changeSecure}
+            >
+            <Image source={securePassword ? PasswordInvisible : PasswordVisible} style={{width: 25, height: 12}}/>
+          </TouchableOpacity>
         </View>
         <View style={styles.underLine} />
         <View style={[styles.itemView, {marginTop: 10}]}>
