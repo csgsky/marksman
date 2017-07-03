@@ -5,7 +5,8 @@ export const DIARY_COMMENT_LIKE = 'DIARY_COMMENT_LIKE'
 export const DIARY_LIKE_SUCCESS = 'DIARY_LIKE_SUCCESS'
 export const DIARY_COMMENT_LIKE_SUCCESS = 'DIARY_COMMENT_LIKE_SUCCESS'
 export const CLEAR_DIARY = 'CLEAR_DIARY'
-
+export const DIARY_DETAIL_DELETE_DIARY = 'DIARY_DETAIL_DELETE_DIARY'
+export const DIARY_DETAIL_DELETE_DIARY_SUCCESS = 'DIARY_DETAIL_DELETE_DIARY_SUCCESS'
 
 export function diaryCommentInit ({id, ownerId}) {
   console.warn('action  --->  DIARY_COMMENT_INIT')
@@ -59,5 +60,19 @@ export function diaryCommentLikeSuccess(payload) {
 export function clearDiary() {
   return {
     type: CLEAR_DIARY
+  }
+}
+
+export function deleteDiary (payload) {
+  return {
+    type: DIARY_DETAIL_DELETE_DIARY,
+    payload
+  }
+}
+
+export function deleteDiarySuccess () {
+  console.warn('action delete success')
+  return {
+    type: DIARY_DETAIL_DELETE_DIARY_SUCCESS
   }
 }

@@ -53,7 +53,7 @@ class Login extends Component {
   }
 
   _saveUserInfo = async (info) => {
-    await AsyncStorage.setItem('userId', info.user_id + '')
+    await AsyncStorage.setItem('userId', info.user_id)
     await AsyncStorage.setItem('sex', info.sex + '')
     await AsyncStorage.setItem('sign', info.sign + '')
     await AsyncStorage.setItem('nickname', info.nickname + '')
@@ -69,9 +69,9 @@ class Login extends Component {
             <Image style={styles.icon} resizeMode="contain" source={require('../../img/tel.png')} />
           </View>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput style ={styles.username}
+            <TextInput style={styles.username}
               placeholder={consts.USERNAME_PLACE_HOLDER}
-              placeholderTextColor='#8d8d8d'
+              placeholderTextColor="#8d8d8d"
               underlineColorAndroid="transparent"
               maxLength={11}
               keyboardType="numeric"

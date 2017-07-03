@@ -42,7 +42,7 @@ class Trash extends Component {
             />
           }
         />}
-        {!diaries.length && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
+        {!isRefreshing && diaries.length === 0 && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
       </View>
     )
   }
