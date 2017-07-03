@@ -166,8 +166,8 @@ export const UnfollowTopicApi = (topicId, userId) =>
   deleteApi(`/api/talk/focus/${topicId}`, userId, null)
 
 // 关注用户接口
-export const FollowUserApi = (account, map = {}, userId) =>
-  postApi(`/api/account/focus/${account}`, map, userId)
+export const FollowUserApi = (account, userId) =>
+  postApi(`/api/account/focus/${account}`, {}, userId)
 // 取消关注用户接口
 export const UnFollowUserApi = (account, userId) =>
   deleteApi(`/api/account/focus/${account}`, userId, null)
