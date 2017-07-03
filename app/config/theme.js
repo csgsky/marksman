@@ -31,7 +31,7 @@ module.exports = {
     smFontSize: 10
   },
   border: {
-    color: '#dcdcdc'
+    color: '#f8f8f8'
   },
   scrollView: {
     fontSize: 16,

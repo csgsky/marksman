@@ -7,6 +7,9 @@ export const SEARCH_PAGE_CLEAR_INPUT = 'SEARCH_PAGE_CLEAR_INPUT'
 export const SEARCH_PAGE_SEARCH_INIT = 'SEARCH_PAGE_SEARCH_INIT'
 export const SEARCH_PAGE_SEARCH_DATA = 'SEARCH_PAGE_SEARCH_DATA'
 export const SEARCH_RESULT_EMPTY = 'SEARCH_RESULT_EMPTY'
+export const SEARCH_LOADING_MORE = 'SEARCH_LOADING_MORE'
+export const SEARCH_LOADING_MORE_DATA = 'SEARCH_LOADING_MORE_DATA'
+
 export function searchPageInit () {
   return {
     type: SEARCH_PAGE_INIT
@@ -35,7 +38,7 @@ export function clearInput () {
 export function searchDiary (kw) {
   return {
     type: SEARCH_PAGE_SEARCH_INIT,
-    kw: kw
+    kw
   }
 }
 
@@ -50,6 +53,21 @@ export function searchDiaryData (diarys) {
   console.warn('searchDiaryData ===> ' + diarys.length)
   return {
     type: SEARCH_PAGE_SEARCH_DATA,
-    diarys: diarys
+    diarys
+  }
+}
+
+export function searchLoadingMore (page, kw) {
+  return {
+    type: SEARCH_LOADING_MORE,
+    page,
+    kw
+  }
+}
+
+export function searchLoadingMoreData (diarys) {
+  return {
+    type: SEARCH_LOADING_MORE_DATA,
+    diarys
   }
 }

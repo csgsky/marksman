@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Text, View, Image, TouchableOpacity, AsyncStorage, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
 import Rx from 'rxjs'
+import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/homeActions'
@@ -14,10 +15,7 @@ import Search from '../img/search.png'
 import Pen from '../img/pen.png'
 import LoadingMore from '../component/LoadingMore'
 import NoMoreData from '../component/NoMoreData'
-import PubSub from 'pubsub-js'
 
-
-var ImagePicker = require('react-native-image-picker')
 // // 加密使用
 // var CryptoJS = require('crypto-js')
 
@@ -28,29 +26,6 @@ var ImagePicker = require('react-native-image-picker')
     // var base64 = base64.encode(words)
     // var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
     // console.log('hmacSHA1 ==> ' + hmacSHA1)
-
-var options = {
-  title: '图片选择',
-  cancelButtonTitle: '取消',
-  takePhotoButtonTitle: '拍照',
-  chooseFromLibraryButtonTitle: '图片库',
-  cameraType: 'back',
-  mediaType: 'photo',
-  videoQuality: 'high',
-  durationLimit: 10,
-  maxWidth: 600,
-  maxHeight: 600,
-  aspectX: 2,
-  aspectY: 1,
-  quality: 0.8,
-  angle: 0,
-  allowsEditing: true,
-  noData: false,
-  storageOptions: {
-    skipBackup: true,
-    path: 'images'
-  }
-}
 class HomeFragment extends Component {
   constructor (props) {
     super(props)
@@ -62,6 +37,10 @@ class HomeFragment extends Component {
   componentDidMount () {
     this.props.actions.homeInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
+  }
+
+  componentWillUnmount() {
+    PubSub.unsubscribe('refreshDiaryList')
   }
 
   onRefresh = () => {
@@ -96,6 +75,7 @@ class HomeFragment extends Component {
       )
     }
   }
+
   _onRouterSearch = () => {
     this.props.navigation.navigate('SearchPage', {message: '搜索'})
   }
@@ -122,12 +102,8 @@ class HomeFragment extends Component {
 
   render () {
     const {diarys, isRefreshing} = this.props
-    // // console.warn('diary length ==> ' + diarys.length)
-    // console.warn('diary isRefreshing ==> ' + isRefreshing)
-    // // console.warn('diary hasMoreData ==> ' + hasMoreData)
-    // // console.warn('diary isLoadingMore ==> ' + isLoadingMore)
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: '#EEEEEE'}}>
         <View style={styles.toolbar}>
           <TouchableOpacity style={{width: 52, height: 52, justifyContent: 'center'}} onPress={this._onRouterMine}>
             <Image source={Mine} style={styles.profile} />
