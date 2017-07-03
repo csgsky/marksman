@@ -8,6 +8,7 @@ import DefaultImg from '../img/reply_photo_placeholder.png'
 import Close from '../img/photo_delete.png'
 import * as actions from '../actions/commentEditorAction'
 import PhotoPickerModal from '../widget/PhotoPickerModal'
+import PubSub from 'pubsub-js'
 
 const dismissKeyboard = require('dismissKeyboard')
 
@@ -110,19 +111,21 @@ class CommentEditor extends PureComponent {
         }
       }
     })
+    PubSub.subscribe('refreshDetailPage', () => this.props.navigation.goBack())
   }
 
-  componentWillReceiveProps(nextProps) {
-    const {success} = this.props
-    const newSuccess = nextProps.success
-    console.log({success, newSuccess})
-    if (success !== newSuccess && newSuccess === true) {
-      this.props.navigation.goBack()
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const {success} = this.props
+  //   const newSuccess = nextProps.success
+  //   console.log({success, newSuccess})
+  //   if (success !== newSuccess && newSuccess === true) {
+  //     this.props.navigation.goBack()
+  //   }
+  // }
 
   componentWillUnmount() {
     this.props.clearCommentPost()
+    PubSub.unsubscribe('refreshDetailPage')
   }
   _closeKeyBoard = () => {
     dismissKeyboard()
