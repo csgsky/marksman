@@ -1,9 +1,9 @@
 import {AsyncStorage} from 'react-native'
+import PubSub from 'pubsub-js'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/diaryDetailAction'
-import PubSub from 'pubsub-js'
-import { CommentsApi, LikeTopicApi, LikeCommentApi } from '../api/apis'
+import { CommentsApi, LikeTopicApi, LikeCommentApi, deleteDiary } from '../api/apis'
 
 function diaryCommentInitEpic (action$) {
   return action$.ofType(actions.DIARY_COMMENT_INIT)
@@ -75,4 +75,28 @@ function diaryCommentLikeEpic (action$) {
               }))
 }
 
-export default combineEpics(diaryCommentInitEpic, diaryLikeEpic, diaryCommentLikeEpic)
+function deleteDiaryEpic (action$) {
+  return action$.ofType(actions.DIARY_DETAIL_DELETE_DIARY)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.payload),
+                (token, payload) => ({token, payload})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(deleteDiary(it.token, it.payload))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                console.warn(it.return_msg)
+                if (it.return_code === 1) {
+                  return actions.deleteDiarySuccess()
+                }
+              }).catch((error) => {
+                console.log('epic error --->' + error)
+              }))
+}
+
+export default combineEpics(diaryCommentInitEpic, diaryLikeEpic, diaryCommentLikeEpic, deleteDiaryEpic)

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList, AsyncStorage} from 'react-native'
+import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList, AsyncStorage, Alert} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
@@ -14,6 +14,8 @@ import DefaultUserAvatar from '../img/default_vatar.png'
 import CommentBar from '../component/CommentBar'
 import EmptyView from '../component/CommentEmptyView'
 import Separator from '../component/Separator'
+import Delete from '../img/diary_delete.png'
+import Edit from '../img/diary_edit.png'
 
 class DiaryDetailPage extends Component {
 
@@ -21,13 +23,21 @@ class DiaryDetailPage extends Component {
     title: '',
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: navigation.state.params.me ? <View style={{flexDirection: 'row'}}>
-      <View style={{width: 50, height: 50, backgroundColor: 'red'}}/>
-      <View style={{width: 50, height: 50, backgroundColor: 'red'}}/>
+      <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}
+        onPress={() => navigation.state.params.deleteDiary()}>
+        <Image style={{width: 18, height: 18}} source={Delete}/>
+      </TouchableOpacity>
+      <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}>
+        <Image style={{width: 16, height: 16}} source={Edit}/>
+      </TouchableOpacity>
     </View>
-      : <View style={{flexDirection: 'row', marginRight: 16}}>
-        <Text style={{alignSelf: 'center', fontSize: 14, marginRight: 11}}>{navigation.state.params.item.nickname}</Text>
-        <Image style={{width: 40, height: 40}} resizeMode="contain" source={DefaultUserAvatar}/>
-      </View>,
+      : <TouchableOpacity style={{flexDirection: 'row', marginRight: 16}}
+        onPress={() => navigation.state.params.routerToPersonalPage(navigation.state.params.item.user.user_id)}>
+        <Text style={{alignSelf: 'center', fontSize: 14, marginRight: 11}}>{navigation.state.params.item.user.nickname}</Text>
+        <Image style={{width: 26, height: 26, borderRadius: 20}}
+          resizeMode="contain"
+          source={navigation.state.params.item.user.avtar === '' ? DefaultUserAvatar : {uri: navigation.state.params.item.user.avtar}}/>
+      </TouchableOpacity>,
     headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}>
       <Image resizeMode="contain"
         style={{width: 18, height: 18, marginLeft: 16}}
@@ -55,11 +65,18 @@ class DiaryDetailPage extends Component {
     this.props.diaryCommentInit({id, ownerId})
     PubSub.subscribe('refreshDetailPage', () => this.props.diaryCommentInit({id, ownerId}))
     PubSub.subscribe('commentsLikeRefresh', () => this.props.diaryCommentInit({id, ownerId}))
+    // 跳转到个人主页
+    this.props.navigation.setParams({
+      routerToPersonalPage: this.routerToPersonalPage,
+      deleteDiary: this.deleteDiary
+    })
   }
+
   componentWillReceiveProps(nextProps) {
-    const {likeSuccess, commentSuccess} = this.props;
+    const {likeSuccess, commentSuccess, deleteSuccess} = this.props;
     const newLikeSuccess = nextProps.likeSuccess;
     const newCommentSuccess = nextProps.commentSuccess;
+    const newDeleteSuccess = nextProps.deleteSuccess;
     console.log({likeSuccess, newLikeSuccess})
     if (likeSuccess !== newLikeSuccess && newLikeSuccess) {
       this.setState({
@@ -71,12 +88,18 @@ class DiaryDetailPage extends Component {
         diary: {...this.state.diary, comment: {num: this.state.diary.comment.num + 1}}
       })
     }
+    if (deleteSuccess !== newDeleteSuccess && newDeleteSuccess) {
+      PubSub.publish('refreshDiaryList')
+      this.props.navigation.goBack()
+    }
   }
+
   componentWillUnmount() {
     PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
     this.props.clearDiary()
   }
+
   onRefresh = () => {
     const id = this.state.diary.diary_id
     const ownerId = this.state.diary.user_id
@@ -106,6 +129,24 @@ class DiaryDetailPage extends Component {
     }
     return PrivateStamp
   }
+
+  routerToPersonalPage = (userId) => {
+    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
+  }
+
+  deleteDiary = () => {
+    const payload = {diarys: [{diary_id: this.state.diary.diary_id}], mode: 0}
+    Alert.alert(
+      '删除日记',
+      '确定要删除日记？',
+      [
+        {text: '取消'},
+        {text: '确定', onPress: () => this.props.deleteDiary(payload)}
+      ],
+      { cancelable: false }
+)
+  }
+
 
   handleLoadingMore = () => {
 
@@ -151,7 +192,6 @@ class DiaryDetailPage extends Component {
     const {isRefreshing, comments} = this.props
     const diary = this.state.diary
     console.log(comments)
-    // console.log('comment render length ===> ' + comments.length)
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <FlatList
