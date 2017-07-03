@@ -3,6 +3,7 @@ import PubSub from 'pubsub-js'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/diaryDetailAction'
+import {trashDeleteSuccess} from '../actions/trashActions'
 import { CommentsApi, LikeTopicApi, LikeCommentApi, deleteDiary } from '../api/apis'
 
 function diaryCommentInitEpic (action$) {
@@ -92,7 +93,11 @@ function deleteDiaryEpic (action$) {
               ).map((it) => {
                 console.warn(it.return_msg)
                 if (it.return_code === 1) {
-                  return actions.deleteDiarySuccess()
+                  if (action.payload.mode === 0) {
+                    return actions.deleteDiarySuccess()
+                  }
+                  PubSub.publish('refreshTrashList')
+                  return trashDeleteSuccess()
                 }
               }).catch((error) => {
                 console.log('epic error --->' + error)

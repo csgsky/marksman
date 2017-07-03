@@ -1,10 +1,13 @@
+import PubSub from 'pubsub-js'
+
 export const TRASH_INIT = 'TRASH_INIT'
 export const TRASH_DATA = 'TRASH_DATA'
 export const TRASH_MORE = 'TRASH_MORE'
 export const TRASH_MORE_DATA = 'TRASH_MORE_DATA'
 export const RECOVER_DIARY = 'RECOVER_DIARY'
-export const DELETE_DIARY = 'DELETE_DIARY'
-
+export const TRASH_DELETE_SUCCESS = 'TRASH_DELETE_SUCCESS'
+export const TRASH_UPDATE_TRASH_LIST = 'TRASH_UPDATE_TRASH_LIST'
+export const TRASH_RECOVER_SUCCESS = 'TRASH_RECOVER_SUCCESS'
 export function trashInit () {
   return {
     type: TRASH_INIT,
@@ -27,7 +30,7 @@ export function trashMore (page) {
   return {
     type: TRASH_MORE,
     isLoadingMore: true,
-    page: page
+    page
   }
 }
 
@@ -47,9 +50,19 @@ export function recoverDiary(payload) {
   }
 }
 
-export function deleteDiary(payload) {
+export function recoverDiarySuccess () {
+  console.warn('trash recovery success')
+
   return {
-    type: DELETE_DIARY,
-    payload
+    type: TRASH_RECOVER_SUCCESS
   }
 }
+
+export function trashDeleteSuccess () {
+  PubSub.publish('refreshTrashList')
+  console.warn('trash delete success')
+  return {
+    type: TRASH_DELETE_SUCCESS
+  }
+}
+

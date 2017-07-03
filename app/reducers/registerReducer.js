@@ -1,4 +1,5 @@
 import * as types from '../actions/registerAction'
+
 const initState = {
   username: '',
   password: '',
@@ -7,7 +8,7 @@ const initState = {
   correctPassword: false,
   correctCode: false,
   isCounting: false,
-  secureTextEntry: false,
+  securePassword: false,
   btnCodeText: '获取验证码',
   counter: 60,
   userId: ''
@@ -57,6 +58,12 @@ export default function register (state = initState, action = {}) {
     case types.REGISTER_CODE_SUCCESS:
       return {
         ...state
+      }
+    case types.REGISTER_CHANGE_SECURE:
+      console.warn('reducer change secure ')
+      return {
+        ...state,
+        securePassword: !state.securePassword
       }
     case types.CLEAR_DATA:
       return initState
