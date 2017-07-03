@@ -10,6 +10,7 @@ export const REGISTER_CODE_DATA = 'REGISTER_CODE_DATA'
 export const REGISTER_CODE_TIME_OVER = 'REGISTER_CODE_TIME_OVER'
 export const REGISTER_CODE_COUNTER = 'REGISTER_CODE_COUNTER'
 export const CLEAR_DATA = 'CLEAR_DATA'
+export const REGISTER_CHANGE_SECURE = 'REGISTER_CHANGE_SECURE'
 export function register (account, password, message) {
   console.log('action REGISTER ===> ')
   return {
@@ -97,5 +98,12 @@ export function verCodeChange (code) {
 export function clearData () {
   return {
     type: CLEAR_DATA
+  }
+}
+
+export function changeSecure () {
+  console.warn('action change secure ')
+  return {
+    type: REGISTER_CHANGE_SECURE
   }
 }

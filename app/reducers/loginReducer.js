@@ -5,7 +5,8 @@ const initState = {
   password: '',
   correctAccount: false,
   correctPassword: false,
-  userId: ''
+  userId: '',
+  securePassword: false,
 }
 
 
@@ -28,7 +29,11 @@ export default function login (state = initState, action = {}) {
         ...state,
         userId: action.userId,
         info: action.info
-
+      }
+    case types.LOGIN_CHANGE_PASSWORD_SECURE:
+      return {
+        ...state,
+        securePassword: !state.securePassword
       }
     case types.INIT_PAGE:
       return initState

@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
 import {View, FlatList, RefreshControl, TouchableOpacity, Image} from 'react-native'
 import {connect} from 'react-redux'
+import PubSub from 'pubsub-js'
 import {bindActionCreators} from 'redux'
 import * as actions from '../../actions/trashActions'
-
+import {deleteDiary} from '../../actions/diaryDetailAction'
 import DiaryItem from '../../component/item/DiaryItem'
 import ListSeparator from '../../component/ListSeparator'
 import EmptyView from '../../component/EmptyView'
 import theme from '../../config/theme'
 import TrashModal from '../../widget/TrashModal'
+import LoadingMore from '../../component/LoadingMore'
+import NoMoreData from '../../component/NoMoreData'
 
 class Trash extends Component {
 
@@ -23,12 +26,60 @@ class Trash extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showModal: false
+      showModal: false,
+      index: 0
     }
   }
 
   componentDidMount () {
     this.props.actions.trashInit()
+    PubSub.subscribe('refreshTrashList', () => this.props.actions.trashInit())
+  }
+
+  getItemCompt = ({item, index}) => {
+    return <DiaryItem item={item} hasComment={false} showDialog={() => this.toggleDialog(index)}/>
+  }
+
+  getFooterCompt = () => {
+    const {diaries, hasMore, isLoadingMore} = this.props
+    if (diaries.length > 0 && hasMore && isLoadingMore) {
+      return <LoadingMore />
+    } else if (diaries.length > 0 && !hasMore) {
+      return <NoMoreData />
+    }
+    return <View />
+  }
+
+
+  toggleDialog = (index) => {
+    console.warn('toggle dialog ==> ' + index)
+    this.setState({
+      showModal: !this.state.showModal,
+      index
+    })
+  }
+
+  _recoverDiary = () => {
+    const payload = {diarys: [{diary_id: this.props.diaries[this.state.index].diary_id}]}
+    this.props.actions.recoverDiary(payload)
+    this.setState({
+      showModal: !this.state.showModal
+    })
+  }
+
+  _deleteDiary = () => {
+    const payload = {diarys: [{diary_id: this.props.diaries[this.state.index].diary_id}], mode: 1}
+    this.props.actions.deleteDiary(payload)
+    this.setState({
+      showModal: !this.state.showModal
+    })
+  }
+
+  handleLoadingMore = () => {
+    const {isLoadingMore, hasMore, page} = this.props
+    if (!isLoadingMore && hasMore) {
+      this.props.actions.trashMore(page)
+    }
   }
 
   render () {
@@ -38,14 +89,15 @@ class Trash extends Component {
         <TrashModal
           _dialogVisible={this.state.showModal}
           hide={() => this.toggleDialog()}
-          recoverDiary={() => this.props.recoverDiary()}
-          deleteDiary={() => this.props.deleteDiary()}/>
+          recoverDiary={this._recoverDiary}
+          deleteDiary={this._deleteDiary}/>
         {!!diaries.length && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={() => this.handleLoadingMore()}
+          ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}
           refreshControl={
             <RefreshControl
@@ -59,25 +111,7 @@ class Trash extends Component {
       </View>
     )
   }
-  getItemCompt = ({item}) => {
-    return <DiaryItem item={item} hasComment={false} showDialog={this.toggleDialog}/>
-  }
-  toggleDialog = () => {
-    console.log('toggle dialog')
-    this.setState({
-      showModal: !this.state.showModal
-    })
-  }
-  handleLoadingMore = () => {
-    const {isLoadingMore, hasMore, page} = this.props
-    if (!isLoadingMore && hasMore) {
-      this.props.actions.trashMore(page)
-    } else {
-      console.warn('trash 没有了')
-    }
-  }
 }
-
 const mapStateToProps = ({trash}) => {
   return {
     isRefreshing: trash.isRefreshing,
@@ -88,8 +122,8 @@ const mapStateToProps = ({trash}) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions, dispatch)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({...actions, deleteDiary}, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Trash)
