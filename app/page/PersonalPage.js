@@ -14,12 +14,24 @@ class PersonalPage extends Component {
 
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff', borderBottomColor: '#fff', borderBottomWidth: 0, shadowColor: '#fff'},
-    headerRight: <CustomButton title="关注"/>,
+    headerRight: <CustomButton title="关注" onPress={navigation.state.params.onPressFollow} myFocus={navigation.state.params.myFocus}/>,
     headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
 
   componentDidMount () {
+    this.props.navigation.setParams({
+      onPressFollow: this._onPressFollow
+    })
     this.props.actions.personInit(this.props.navigation.state.params.id)
+  }
+  componentWillReceiveProps(nextProps) {
+    const oldMyFocus = this.props.info.my_focus;
+    const myFocus = nextProps.info.my_focus;
+    if (oldMyFocus !== myFocus) {
+      this.props.navigation.setParams({
+        myFocus
+      })
+    }
   }
   render () {
     const {info, diaries, isRefreshing} = this.props
@@ -46,6 +58,10 @@ class PersonalPage extends Component {
   }
   getItemCompt = ({item}) => {
     return <DiaryItem item={item} hasComment/>
+  }
+  _onPressFollow = () => {
+    const {info} = this.props;
+    this.props.actions.personFollow({userId: info.user_id, myFocus: info.my_focus})
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props

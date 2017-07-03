@@ -2,7 +2,7 @@ import 'rxjs'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/personAction'
 import { combineEpics } from 'redux-observable'
-import { PersonalDiariesApi, PersonalInfoApi } from '../api/apis'
+import { PersonalDiariesApi, PersonalInfoApi, FollowUserApi, UnFollowUserApi } from '../api/apis'
 import {AsyncStorage} from 'react-native'
 function personInitEpic (action$) {
   return action$.ofType(actions.PERSON_INIT)
@@ -61,4 +61,33 @@ function personDiaryMoreEpic (action$) {
        )
 }
 
-export default combineEpics(personInitEpic, personDiaryMoreEpic)
+function personFollowEpic (action$) {
+  return action$.ofType(actions.PERSON_FOLLOW)
+            .mergeMap((action) =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                it => {
+                  if (it.token) {
+                    if (action.payload.myFocus) {
+                      return Observable.from(UnFollowUserApi(action.payload.userId, it.token))
+                    }
+                    return Observable.from(FollowUserApi(action.payload.userId, it.token))
+                  } else {
+                    return Observable.of(2)
+                  }
+                }
+              ).map(it => {
+                if (it.return_code === 2) {
+                } else {
+                  return actions.personFollowSuccess()
+                }
+              }
+            ).catch(error => {
+              console.log('epic error --> ' + error)
+            })
+       )
+}
+
+export default combineEpics(personInitEpic, personDiaryMoreEpic, personFollowEpic)

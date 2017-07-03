@@ -28,7 +28,16 @@ export default class DiaryItem extends Component {
     const hasComment = this.props.hasComment
     return (
       <View>
-        <TouchableOpacity activeOpacity={0.8} onPress={this.props.showRightTime && this.routeDiaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
+        <TouchableOpacity activeOpacity={0.8}
+          onPress={() => {
+            if (this.props.showRightTime) {
+              this.routeDiaryDetails()
+            }
+            if (this.props.showDialog) {
+              this.props.showDialog()
+            }
+          }}
+          style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
           <View style={styles.time}>
             <Text style={[styles.day, {color: item.feelcolor}]}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>

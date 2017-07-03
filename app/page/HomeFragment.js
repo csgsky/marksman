@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, Image, TouchableOpacity, AsyncStorage, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
+import {Text, View, Image, TouchableOpacity, AsyncStorage, StyleSheet, Platform, FlatList, RefreshControl, StatusBar} from 'react-native'
 import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -128,6 +128,15 @@ class HomeFragment extends Component {
     // // console.warn('diary isLoadingMore ==> ' + isLoadingMore)
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
+        <StatusBar
+          animated
+          hidden={false}
+          backgroundColor={'white'}
+          translucent
+          barStyle={'default'}
+          showHideTransition={'fade'}
+          networkActivityIndicatorVisible
+        />
         <View style={styles.toolbar}>
           <TouchableOpacity style={{width: 52, height: 52, justifyContent: 'center'}} onPress={this._onRouterMine}>
             <Image source={Mine} style={styles.profile} />
