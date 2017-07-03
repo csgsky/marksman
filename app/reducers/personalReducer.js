@@ -36,6 +36,11 @@ export default function personalData (state = initState, action = {}) {
         page: state.page + 1,
         hasMore: action.hasMore
       }
+    case types.PERSON_FOLLOW_SUCCESS:
+      return {
+        ...state,
+        info: {...state.info, my_focus: !state.info.my_focus}
+      }
     default:
       return state
   }

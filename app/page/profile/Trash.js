@@ -8,6 +8,7 @@ import DiaryItem from '../../component/item/DiaryItem'
 import ListSeparator from '../../component/ListSeparator'
 import EmptyView from '../../component/EmptyView'
 import theme from '../../config/theme'
+import TrashModal from '../../widget/TrashModal'
 
 class Trash extends Component {
 
@@ -19,6 +20,13 @@ class Trash extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      showModal: false
+    }
+  }
+
   componentDidMount () {
     this.props.actions.trashInit()
   }
@@ -27,6 +35,11 @@ class Trash extends Component {
     const {diaries, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
+        <TrashModal
+          _dialogVisible={this.state.showModal}
+          hide={() => this.toggleDialog()}
+          recoverDiary={() => this.props.recoverDiary()}
+          deleteDiary={() => this.props.deleteDiary()}/>
         {!!diaries.length && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
@@ -47,7 +60,13 @@ class Trash extends Component {
     )
   }
   getItemCompt = ({item}) => {
-    return <DiaryItem item={item} hasComment={false}/>
+    return <DiaryItem item={item} hasComment={false} showDialog={this.toggleDialog}/>
+  }
+  toggleDialog = () => {
+    console.log('toggle dialog')
+    this.setState({
+      showModal: !this.state.showModal
+    })
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props

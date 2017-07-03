@@ -4,12 +4,12 @@ import FollowImg from '../img/follow.png'
 
 class CustomButton extends Component {
   render () {
-    const {title} = this.props
+    const {onPress, myFocus} = this.props
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onPress}>
         <View style={styles.container}>
           <Image source={FollowImg} style={styles.img}/>
-          <Text style={styles.text}>{title}</Text>
+          <Text style={styles.text}>{myFocus ? '已关注' : '关注'}</Text>
         </View>
       </TouchableOpacity>);
   }
