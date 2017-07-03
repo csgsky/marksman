@@ -27,7 +27,7 @@ export default class DiaryItem extends Component {
     const img = item.img
     const hasComment = this.props.hasComment
     return (
-      <View>
+      <View style={{backgroundColor: 'white'}}>
         <TouchableOpacity activeOpacity={0.8} onPress={this.props.showRightTime && this.routeDiaryDetails} style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
           <View style={styles.time}>
             <Text style={[styles.day, {color: item.feelcolor}]}>{day}</Text>
@@ -90,11 +90,11 @@ export default class DiaryItem extends Component {
       if (result === null) {
         navigation.navigate('DiaryDetailPage', {me: false, item})
       } else {
-        if (result === item.user_id) {
+        if (result == item.user_id) {
           navigation.navigate('DiaryDetailPage', {me: true, item})
-        } else {
-          navigation.navigate('DiaryDetailPage', {me: false, item})
+          return
         }
+        navigation.navigate('DiaryDetailPage', {me: false, item})
       }
     })
   }
@@ -130,6 +130,6 @@ const styles = StyleSheet.create({
   },
   img: {
     width: theme.screenWidth - 32,
-    height: theme.screenWidth - 200
+    height: ((theme.screenWidth - 32) * 3) / 4
   }
 })

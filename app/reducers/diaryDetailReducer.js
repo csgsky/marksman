@@ -8,7 +8,8 @@ const initState = {
   page: 0,
   hasMore: true,
   likeSuccess: false,
-  commentSuccess: false
+  commentSuccess: false,
+  deleteSuccess: false
 }
 
 export default function diaryDetail (state = initState, action = {}) {
@@ -37,6 +38,12 @@ export default function diaryDetail (state = initState, action = {}) {
       return {
         ...state,
         comments: likeSuccess(state.comments, action.payload.index)
+      }
+    case types.DIARY_DETAIL_DELETE_DIARY_SUCCESS:
+      console.log('reducer ---> DIARY_COMMENT_LIKE_SUCCESS')
+      return {
+        ...state,
+        deleteSuccess: true
       }
     case types.CLEAR_DIARY:
       return initState

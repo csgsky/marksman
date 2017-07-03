@@ -4,7 +4,7 @@ import {View, StyleSheet} from 'react-native'
 export default class Separator extends Component {
   render () {
     return (
-      <View style={styles.separator}></View>
+      <View style={styles.separator} />
     )
   }
 }

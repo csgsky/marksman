@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView} from 'react-native'
 import { bindActionCreators } from 'redux'
 import Rx from 'rxjs'
+import PubSub from 'pubsub-js'
 import Moment from 'moment'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
@@ -68,8 +69,8 @@ class WriteDiaryPage extends Component {
   componentWillReceiveProps (nextProps) {
     const {success} = nextProps
     if (success) {
+      PubSub.publish('refreshDiaryList')
       this.props.cleanWritePage()
-
       this.props.navigation.goBack()
     }
   }
@@ -80,8 +81,6 @@ class WriteDiaryPage extends Component {
       postDiary({content, img: materialPosition + '', ifprivate, feel, feelcolor: color})
     } else if (imgBase64 !== null) {
       postDiary({content, img_byte: imgBase64, ifprivate, feel, feelcolor: color})
-    } else if (materialPosition < 0 && imgBase64 === null && (content === null || content === '')) {
-      // alert('不能为空 ' + color)
     } else {
       postDiary({content, ifprivate, feel, feelcolor: color})
     }

@@ -14,8 +14,6 @@ export function hotDiaryInit (page) {
 }
 
 export function hotDiaryData (data) {
-  console.log('action  --->  HOTDIARY_DATA')
-  console.log('action  --->  HOTDIARY_DATA diary length ' + data.diarys.length)
   return {
     type: HOTDIARY_DATA,
     isRefreshing: false,

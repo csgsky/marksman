@@ -3,12 +3,12 @@ import * as types from '../actions/searchAction'
 const initState = {
   isRefreshing: false,
   searchText: '',
-  isLoadingMore: false,
-  hasMore: false,
   diarys: [],
   searchInputClearShow: false,
   empty: false,
-  page: 0
+  page: 0,
+  hasMoreData: true,
+  isLoadingMore: false
 }
 
 export default function search (state = initState, action = {}) {
@@ -19,7 +19,7 @@ export default function search (state = initState, action = {}) {
       }
     case types.SEARCH_PAGE_BACK:
       return {
-        initState
+        ...initState
       }
     case types.SEARCH_INPUT_CHANGE:
       return {
@@ -43,7 +43,7 @@ export default function search (state = initState, action = {}) {
       return {
         ...state,
         isRefreshing: false,
-        hasMore: action.diarys.length >= 10,
+        hasMoreData: action.diarys.length >= 10,
         diarys: action.diarys
       }
     case types.SEARCH_RESULT_EMPTY:
@@ -51,6 +51,19 @@ export default function search (state = initState, action = {}) {
         ...state,
         isRefreshing: false,
         empty: true
+      }
+    case types.SEARCH_LOADING_MORE:
+      return {
+        ...state,
+        isLoadingMore: true
+      }
+    case types.SEARCH_LOADING_MORE_DATA:
+      return {
+        ...state,
+        isLoadingMore: false,
+        diarys: state.diarys.concat(action.diarys),
+        hasMoreData: action.diarys.length >= 10,
+        page: state.page + 1
       }
     default:
       return state
