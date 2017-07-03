@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import theme from '../../config/theme'
 import * as actions from '../../actions/loginActions'
 import * as consts from '../../utils/const'
+import PasswordVisible from '../../img/password_visible.png'
+import PasswordInvisible from '../../img/password_invisible.png'
 
 // 加密使用
 var dismissKeyboard = require('dismissKeyboard')
@@ -90,11 +92,16 @@ class Login extends Component {
               placeholder={consts.PASSWORD_PLACE_HOLDER}
               placeholderTextColor='#8d8d8d'
               underlineColorAndroid="transparent"
-              secureTextEntry={false}
-              onChangeText = {(password) => {
+              secureTextEntry={this.props.securePassword}
+              onChangeText={(password) => {
                 this.props.actions.passwordChange(password)
               }}/>
           </View>
+          <TouchableOpacity
+            style={{flexDirection: 'column', justifyContent: 'center'}}
+            onPress={this.props.actions.changePasswordSecure}>
+            <Image source={this.props.securePassword ? PasswordInvisible : PasswordVisible} style={{width: 25, height: 12}}/>
+          </TouchableOpacity>
         </View>
         <View style={styles.underLine} />
         <TouchableOpacity onPress={this._login}>
@@ -141,7 +148,8 @@ const mapStateToProps = (state) => {
     correctAccount: login.correctAccount,
     correctPassword: login.correctPassword,
     userId: login.userId,
-    info: login.info
+    info: login.info,
+    securePassword: login.securePassword
   }
 }
 

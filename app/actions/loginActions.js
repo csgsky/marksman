@@ -4,7 +4,7 @@ export const PASSWORD_CHANGE = 'PASSWORD_CHANGE'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
 export const INIT_PAGE = 'INIT_PAGE'
-
+export const LOGIN_CHANGE_PASSWORD_SECURE = 'LOGIN_CHANGE_PASSWORD_SECURE'
 export function initPage () {
   return {
     type: INIT_PAGE
@@ -38,6 +38,13 @@ export function loginSuccess (info, userId) {
     type: LOGIN_SUCCESS,
     info,
     userId
+  }
+}
+
+export function changePasswordSecure () {
+  console.warn('action change password secure ')
+  return {
+    type: LOGIN_CHANGE_PASSWORD_SECURE
   }
 }
 

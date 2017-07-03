@@ -34,6 +34,10 @@ export default function trash (state = initState, action = {}) {
         hasMore: action.diaries.length >= 3,
         page: state.page + 1
       }
+    case types.TRASH_DELETE_SUCCESS:
+      return {
+        ...state,
+      }
     default:
       return state
   }

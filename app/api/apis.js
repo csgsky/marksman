@@ -219,3 +219,7 @@ export const PostDiaryApi = (map, userId) =>
 // 删除日记的接口
 export const deleteDiary = (userId, map) =>
   deleteApi('/api/diary', userId, map)
+
+// 日记恢复接口
+export const RecoveryDiary = (userId, map) =>
+  postApi('/api/recovery', map, userId)
