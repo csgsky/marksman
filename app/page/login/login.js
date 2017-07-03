@@ -55,7 +55,7 @@ class Login extends Component {
   }
 
   _saveUserInfo = async (info) => {
-    await AsyncStorage.setItem('userId', info.user_id)
+    await AsyncStorage.setItem('userId', info.user_id + '')
     await AsyncStorage.setItem('sex', info.sex + '')
     await AsyncStorage.setItem('sign', info.sign + '')
     await AsyncStorage.setItem('nickname', info.nickname + '')
