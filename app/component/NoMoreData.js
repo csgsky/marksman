@@ -6,7 +6,7 @@ export default class NoMoreData extends Component {
   render () {
     return (
       <View style={styles.view}>
-        <Text style={styles.text}>主子，我也是有底线~~</Text>
+        <Text style={styles.text}>主子，我也是有底线的~~</Text>
       </View>
     )
   }
@@ -15,7 +15,7 @@ export default class NoMoreData extends Component {
 const styles = StyleSheet.create({
   view: {
     height: 75,
-    backgroundColor: '#EEEEEE',
+    backgroundColor: '#FAFAFA',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'

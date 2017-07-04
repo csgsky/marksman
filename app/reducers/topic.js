@@ -13,7 +13,7 @@ export default function topic (state = initState, action = {}) {
     case types.TOPIC_INIT:
       return {
         ...state,
-        isRefreshing: true
+        isRefreshing: false
       }
     case types.TOPIC_DATA:
       return {

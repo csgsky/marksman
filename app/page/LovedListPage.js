@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions/lovedActions'
 import TopUserItem from '../component/item/TopuserItem'
 import theme from '../config/theme'
+import Separator from '../component/Separator'
 
 class LovedListPage extends Component {
 
@@ -39,6 +40,7 @@ class LovedListPage extends Component {
     const {LovedFollowed} = this.props.actions
     return (
       <View style={styles.view}>
+        <Separator />
         <FlatList
           data={loved}
           renderItem={({item, index}) =>

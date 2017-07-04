@@ -13,8 +13,6 @@ import Seven from '../../img/diary_material_seven.jpeg'
 import Eight from '../../img/diary_material_eight.jpeg'
 import Nine from '../../img/diary_material_nine.jpeg'
 import Ten from '../../img/diary_material_ten.jpeg'
-// import chips
-import getSource from '../../utils/viewHelper'
 
 export default class DiaryItem extends Component {
   render () {
@@ -37,7 +35,7 @@ export default class DiaryItem extends Component {
               this.props.showDialog()
             }
           }}
-          style={{paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
+          style={{backgroundColor: 'white', paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
           <View style={styles.time}>
             <Text style={[styles.day, {color: item.feelcolor}]}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
@@ -46,7 +44,8 @@ export default class DiaryItem extends Component {
             </View>
             {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
           </View>
-          {<Text style={styles.body} numberOfLines={6}>{content}</Text>}
+          {!this.props.showRightTime && <Text style={styles.body}>{content}</Text>}
+          {this.props.showRightTime && <Text style={styles.body} numberOfLines={5}>{content}</Text>}
           {img !== '' && <TouchableOpacity onPress={this.props.showRightTime && this.photoView} activeOpacity={0.8}>
             <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]}
               source={this.getSource(img)}/>
