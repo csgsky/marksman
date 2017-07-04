@@ -4,24 +4,26 @@ import theme from '../../config/theme'
 
 export default class TalksItem extends Component {
   render () {
-    const {item, index, navigation, type} = this.props
+    const {item, index, type} = this.props
     console.log(this.props)
-    let cover = item.icon_url
-    let name = item.name
-    let tag = item.tag
-    let comment = `${item.views}浏览 | ${item.comment.num}评论 ` 
-    return <TouchableOpacity style={{paddingLeft: 16, paddingRight: 16, paddingBottom: 16, paddingTop: index === 0 ? 16 : 0}}
+    const cover = item.icon_url
+    const name = item.name
+    const tag = item.tag
+    const comment = `${item.views}浏览 | ${item.comment.num}评论 `
+    return (<TouchableOpacity style={{paddingLeft: 16, paddingRight: 16, paddingBottom: 16, paddingTop: index === 0 ? 16 : 0}}
       activeOpacity = {0.3}
       onPress={() => this._onPress(item.talk_id, item.user_id, item.diary_id)}>
       <View style={styles.item}>
-        <Image style={styles.img} source={require('../../img/splash.png')}></Image>
+        <Image style={styles.img} source={{uri: cover}} />
         <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingBottom: 6}}>
             <Text style={styles.title} numberOfLines={1}>{name}</Text>
           </View>
           {type !== 'followed' && <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
             <Text style={styles.tag}>{tag}</Text>
-            <Text style={styles.comment}>{comment}</Text>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+              <Text style={styles.comment}>{comment}</Text>
+            </View>
           </View>}
           {type === 'followed' && <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 1}}>
@@ -36,16 +38,12 @@ export default class TalksItem extends Component {
           </View>}
         </View>
       </View>
-    </TouchableOpacity>
+    </TouchableOpacity>)
   }
 
   _onPress = (topicId, ownerId, diaryId) => {
     console.log({topicId, ownerId})
     this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
-  }
-
-  getSource = (img) => {
-    return {uri: img}
   }
 
   _onPressFollow = (id, position, myFocus, type) => {
@@ -71,9 +69,12 @@ const styles = StyleSheet.create({
     color: theme.text.globalSubTextColor
   },
   tag: {
-    color: theme.text.globalSubTextColor,
+    color: 'white',
     fontSize: 14,
-    flex: 1
+    height: 20,
+    width: 70,
+    textAlign: 'center',
+    backgroundColor: '#C5CAE9'
   },
   follow: {
     width: 75,

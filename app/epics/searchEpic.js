@@ -11,11 +11,12 @@ function searchInitEpic (action$) {
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.kw),
                 Observable.of(0),
-                (token, kw, page) => ({token, kw, page})
+                Observable.from(AsyncStorage.getItem('userId')),
+                (token, kw, page, userId) => ({token, kw, page, userId})
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(SearchDiaryApi(it.token, it.kw, it.page))
+                    return Observable.from(SearchDiaryApi(it.token, it.kw, it.page, it.userId))
                   }
                   return Observable.of(2)
                 }
@@ -40,11 +41,12 @@ function searchMoreEpic (action$) {
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.kw),
                 Observable.of(action.page),
-                (token, kw, page) => ({token, kw, page})
+                Observable.from(AsyncStorage.getItem('userId')),
+                (token, kw, page, userId) => ({token, kw, page, userId})
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(SearchDiaryApi(it.token, it.kw, it.page))
+                    return Observable.from(SearchDiaryApi(it.token, it.kw, it.page, it.userId))
                   }
                   return Observable.of(2)
                 }

@@ -118,8 +118,8 @@ export const LovedUsersApi = (userId, page) => {
 }
 
 // 搜索api
-export const SearchDiaryApi = (userId, kw, page) => {
-  return getApi(`/api/diary?p=${page}&rn=10&order_type=0&order=1&key=${kw}`, userId)
+export const SearchDiaryApi = (token, kw, page, userId) => {
+  return getApi(`/api/diary?p=${page}&rn=10&order_type=0&order=1&key=${kw}&user_id=${userId}`, token)
 }
 
 // 垃圾箱列表

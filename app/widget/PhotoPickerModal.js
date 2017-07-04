@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     StyleSheet,
     FlatList,
-    Image
+    Image,
+    Platform
 } from 'react-native'
 import theme from '../config/theme'
 import One from '../img/diary_material_one.jpeg'
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
   },
   dialog: {
     width: theme.screenWidth,
-    marginBottom: 26
+    marginBottom: Platform.OS === 'ios' ? 0 : 26
   },
   materialItem: {
     width: 115,

@@ -30,7 +30,7 @@ export default class TopUserItem extends Component {
       <View style={styles.item}>
         <View style={styles.itemT}>
           <TouchableOpacity onPress={this._routerToPersonalPage}>
-            <Image style={styles.img} source={require('../../img/test_icon.jpeg')} />
+            <Image style={styles.img} source={item.avtar === '' ? theme.imgs.DefaultUserAvatar : {uri: item.avtar}} />
           </TouchableOpacity>
           <View style={{flex: 1, paddingLeft: 6}}>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
