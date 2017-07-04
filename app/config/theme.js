@@ -1,5 +1,5 @@
 import { Dimensions, Platform } from 'react-native'
-import DefaultUserAvatar from '../img/test_icon.jpeg'
+import DefaultUserAvatar from '../img/default_vatar.png'
 import PageBack from '../img/page_back.png'
 
 const globalTextColor = '#4a4a4a'

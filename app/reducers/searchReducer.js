@@ -43,6 +43,7 @@ export default function search (state = initState, action = {}) {
       return {
         ...state,
         isRefreshing: false,
+        empty: false,
         hasMoreData: action.diarys.length >= 10,
         diarys: action.diarys
       }
@@ -61,6 +62,7 @@ export default function search (state = initState, action = {}) {
       return {
         ...state,
         isLoadingMore: false,
+        empty: false,
         diarys: state.diarys.concat(action.diarys),
         hasMoreData: action.diarys.length >= 10,
         page: state.page + 1

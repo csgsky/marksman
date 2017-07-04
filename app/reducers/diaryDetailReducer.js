@@ -2,7 +2,7 @@ import * as types from '../actions/diaryDetailAction'
 import {COMMENT_POST_SUCCESS} from '../actions/commentEditorAction'
 
 const initState = {
-  isRefreshing: true,
+  isRefreshing: false,
   comments: [],
   isLoadingMore: false,
   page: 0,
@@ -18,7 +18,7 @@ export default function diaryDetail (state = initState, action = {}) {
       console.warn('reducer  --->  DIARY_DETAIL_INIT')
       return {
         ...state,
-        isRefreshing: true
+        isRefreshing: false
       }
     case types.DIARY_COMMENT_DATA:
       console.warn('reducer  --->  DIARY_DETAIL_INIT')

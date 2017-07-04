@@ -14,7 +14,7 @@ export default function personalData (state = initState, action = {}) {
     case types.PERSON_INIT:
       return {
         ...state,
-        isRefreshing: true
+        isRefreshing: false
       }
     case types.PERSON_DATA:
       return {

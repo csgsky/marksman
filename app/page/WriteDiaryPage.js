@@ -240,7 +240,7 @@ class WriteDiaryPage extends Component {
                 source={MoodSad}
                 resizeMode="contain"
                 style={{width: 20, height: 20, marginLeft: 16}}/>
-              <TouchableOpacity style={{flex: 1, flexDirection: 'row', marginRight: 16, justifyContent: 'flex-end'}} onPress={() => this.showDialog()}>
+              <TouchableOpacity style={{flex: 1, flexDirection: 'row', marginRight: 16, justifyContent: 'center'}} onPress={() => this.showDialog()}>
                 <Image
                   source={Album}
                   resizeMode="contain"
@@ -272,7 +272,7 @@ class WriteDiaryPage extends Component {
               source={MoodSad}
               resizeMode="contain"
               style={{width: 20, height: 20, marginLeft: 16}}/>
-            <TouchableOpacity style={{flex: 1, flexDirection: 'row', marginRight: 16, justifyContent: 'flex-end'}} onPress={() => this.showDialog()}>
+            <TouchableOpacity style={{flex: 1, flexDirection: 'row', marginRight: 16, justifyContent: 'center'}} onPress={() => this.showDialog()}>
               <Image
                 source={Album}
                 resizeMode="contain"
