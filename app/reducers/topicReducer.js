@@ -13,7 +13,7 @@ export default function talkList (state = initState, action = {}) {
     case types.TOPICS_INIT:
       return {
         ...state,
-        isRefreshing: action.isRefreshing,
+        isRefreshing: false,
         page: action.page
       }
     case types.TOPICS_DATA:

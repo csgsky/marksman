@@ -81,6 +81,7 @@ class SearchPage extends Component {
       {diarys.length > 0 &&
         <FlatList
           data={diarys}
+          style={{flex: 1}}
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}

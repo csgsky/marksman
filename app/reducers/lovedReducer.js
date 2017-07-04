@@ -13,7 +13,7 @@ export default function lovedList (state = initState, action = {}) {
     case types.LOVED_INIT:
       return {
         ...state,
-        isRefreshing: action.isRefreshing,
+        isRefreshing: false,
         page: action.page
       }
     case types.LOVED_DATA:

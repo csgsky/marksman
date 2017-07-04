@@ -1,21 +1,24 @@
 import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import theme from '../../config/theme'
+
 export default class RecommendUserItem extends Component {
-  render () {
-    const {item, navigation} = this.props
-    return <TouchableOpacity onPress={this._routerToPersonalPage}>
-      <View style={styles.item}>
-          <Image style= {styles.img} source={require('../../img/test_icon.jpeg')}></Image>     
-        <Text style={styles.name} numberOfLines = {1}>{item.nickname}</Text>
-      </View>
-    </TouchableOpacity>
-  }
 
   _routerToPersonalPage = () => {
-    let userId = this.props.item.user_id
-    this.props.navigation.navigate('PersonalPage',{message: '个人主页', id: userId})
+    const userId = this.props.item.user_id
+    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
   }
+
+  render() {
+    const {item} = this.props
+    return (<TouchableOpacity onPress={this._routerToPersonalPage}>
+      <View style={styles.item}>
+        <Image style={styles.img} source={item.avtar === '' ? theme.imgs.DefaultUserAvatar : {uri: item.avtar}} />
+        <Text style={styles.name} numberOfLines={1}>{item.nickname}</Text>
+      </View>
+    </TouchableOpacity>)
+  }
+
 }
 const styles = StyleSheet.create({
   item: {
