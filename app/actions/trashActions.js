@@ -51,8 +51,7 @@ export function recoverDiary(payload) {
 }
 
 export function recoverDiarySuccess () {
-  console.warn('trash recovery success')
-
+  PubSub.publish('refreshTrashList')
   return {
     type: TRASH_RECOVER_SUCCESS
   }
