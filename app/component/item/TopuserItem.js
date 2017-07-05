@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, StyleSheet, AsyncStorage} from 'react-native'
 import Rx from 'rxjs'
 import theme from '../../config/theme'
-import {loginDialog} from '../../utils/viewHelper'
 
 export default class TopUserItem extends Component {
 

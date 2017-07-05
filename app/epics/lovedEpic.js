@@ -67,7 +67,7 @@ function lovedFollowedEpic(action$) {
       ).flatMap((it) => {
         if (it.token) {
           if (action.myFocus === 0) {
-            return Observable.from(FollowUserApi(it.followedId, null, it.token))
+            return Observable.from(FollowUserApi(it.followedId, it.token))
           } else if (action.myFocus === 1) {
             return Observable.from(UnFollowUserApi(it.followedId, it.token))
           }
@@ -75,7 +75,6 @@ function lovedFollowedEpic(action$) {
         return Observable.of(2)
       }).map((it) => {
         if (it.return_code === 1) {
-          console.warn('lovedFollowedEpic ==> ' + action.position)
           if (action.myFocus === 0) {
             return actions.LovedFollowSuccess(action.position)
           } else if(action.myFocus === 1) {
