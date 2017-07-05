@@ -10,11 +10,12 @@ function trashInitEpic (action$) {
             .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
-                token => ({token})
+                Observable.from(AsyncStorage.getItem('userId')),
+                (token, userId) => ({token, userId})
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(TrashApi(it.token, 0))
+                    return Observable.from(TrashApi(it.token, 0, it.userId))
                   }
                   return Observable.of(2)
                 }
@@ -36,11 +37,12 @@ function trashMoreEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page + 1),
-                (token, page) => ({token, page})
+                Observable.from(AsyncStorage.getItem('userId')),
+                (token, page, userId) => ({token, page, userId})
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    return Observable.from(TrashApi(it.token, it.page))
+                    return Observable.from(TrashApi(it.token, it.page, it.userId))
                   } else {
                     return Observable.of(2)
                   }
