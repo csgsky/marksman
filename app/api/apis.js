@@ -5,6 +5,8 @@ const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
+  console.warn('post url ==> ' + baseUrlWithoutToken(path))
+  console.warn('post url userid ==> ' + userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -123,8 +125,8 @@ export const SearchDiaryApi = (token, kw, page, userId) => {
 }
 
 // 垃圾箱列表
-export const TrashApi = (userId, page) =>
-  getApi(`/api/diary?p=${page}&rn=10&ordertype=0&status=0`, userId)
+export const TrashApi = (token, page, userId) =>
+  getApi(`/api/diary?p=${page}&rn=10&ordertype=0&status=0&user_id=${userId}`, token)
 
 // 用户个人信息
 export const PersonalInfoApi = (userId, id) =>
@@ -168,9 +170,11 @@ export const UnfollowTopicApi = (topicId, userId) =>
 // 关注用户接口
 export const FollowUserApi = (account, userId) =>
   postApi(`/api/account/focus/${account}`, {}, userId)
+
 // 取消关注用户接口
 export const UnFollowUserApi = (account, userId) =>
   deleteApi(`/api/account/focus/${account}`, userId, null)
+
 // 点赞评论接口
 export const LikeCommentApi = ({diaryId, ownerId, commentId, userId}) =>
   postApi(`/api/${diaryId}/${ownerId}/${commentId}/like`, {}, userId)

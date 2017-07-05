@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import PubSub from 'pubsub-js'
-import * as actions from '../../actions/personalCenterAction'
+import * as actions from '../../actions/profile'
 import theme from '../../config/theme'
 import Separator from '../../component/Separator'
 import ProfileItem from '../../component/item/ProfileItem'
@@ -25,64 +25,38 @@ class PersonalCenter extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      avtar: '',
-      nickname: '',
-      sign: '',
       messageReminder: true,
       systemReminder: true
     }
   }
 
   componentDidMount () {
-    // this.initData()
-    this._setUserInfo()
+    this.initData()
     const that = this
     PubSub.subscribe('refresh', (come, data) => {
       Rx.Observable.of('refresh')
                       .delay(800)
                       .subscribe((it) => {
-                        that._setUserInfo()
+                        that.initData()
                       })
     })
   }
 
+  componentWillUnmount() {
+    PubSub.unsubscribe('refresh')
+  }
+
   getSource = () => {
-    if (this.state.avtar === '' || this.state.avtar === null) {
+    if ((this.props.info === null || this.props.info.avtar === '')) {
       return DefaultUserAvatar
     }
-    return {uri: this.state.avtar}
+    console.warn('avatar ===> ', this.props.info.avtar)
+    return {uri: this.props.info.avatar}
   }
 
   initData() {
     AsyncStorage.getItem('userId').then((result) => {
-      if (result != null) {
-        this.props.actions.personalInfoInit(result)
-      } else {
-        this.props.actions.unLoginInfoInit()
-      }
-    })
-  }
-
-  _setUserInfo = () => {
-    AsyncStorage.getItem('avtar').then((result) => {
-      // console.warn('_setUserInfo avtar => ' + result)
-      this.setState({
-        avtar: result
-      })
-    })
-
-    AsyncStorage.getItem('nickname').then((result) => {
-      // console.warn('_setUserInfo nickname => ' + result)
-      this.setState({
-        nickname: result
-      })
-    })
-
-    AsyncStorage.getItem('sign').then((result) => {
-      // console.warn('_setUserInfo sign => ' + result)
-      this.setState({
-        sign: result
-      })
+      this.props.personalInfoInit(result)
     })
   }
 
@@ -99,7 +73,15 @@ class PersonalCenter extends Component {
       ]
     })
     this.props.navigation.dispatch(resetAction)
-    // this.props.navigation.navigate('Login', {message: 'hah'})
+  }
+
+  _routerProfilePage = () => {
+    const {info} = this.props
+    if (info.user_id !== null) {
+      this.props.navigation.navigate('EditProfilePage', {come4: 'profile', info})
+    } else {
+      this.props.navigation.navigate('Login', {come4: 'profile'})
+    }
   }
 
   render () {
@@ -108,17 +90,19 @@ class PersonalCenter extends Component {
       <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
         <Separator />
         <View style={styles.view}>
-          <View style={styles.profile}>
-            <Image style={styles.avatar} source={this.getSource()}/>
+          <TouchableOpacity style={styles.profile} onPress={this._routerProfilePage}>
+            <TouchableOpacity onPress={() => alert('修改头像')}>
+              <Image style={styles.avatar} source={this.getSource()}/>
+            </TouchableOpacity>
             <View style={styles.desc}>
               <View style={styles.nicknameView}>
-                <Text style={styles.nickname}>{this.state.nickname}</Text>
+                <Text style={styles.nickname}>{this.props.info && this.props.info.nickname}</Text>
               </View>
               <View style={styles.signatureView}>
-                <Text style={styles.signature}>{this.state.sign}</Text>
+                <Text style={styles.signature}>{this.props.info && this.props.info.sign}</Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
           <ProfileItem navigation={navigation} reminder={this.state.messageReminder} value={consts.PROFILE_MINE_MESSAGE}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
@@ -189,15 +173,10 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state) => {
-  const {personalCenter} = state
-  return {
-    info: personalCenter.info
-  }
-}
+const mapStateToProps = ({profile}) => profile
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
-})
+const mapDispatchToProps = dispatch => (
+  bindActionCreators(actions, dispatch)
+)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonalCenter)

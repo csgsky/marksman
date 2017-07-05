@@ -9,7 +9,7 @@ module.exports = {
   screenWidth: Dimensions.get('window').width,
   screenHeight: Dimensions.get('window').height,
   themeColor: '#FF5000',
-  pageBackgroundColor: '#f4f4f4',
+  pageBackgroundColor: '#FAFAFA',
   grayColor: '#c4c4c4',
   linkColor: '#6082a7',
   likedColor: '#d14428',
