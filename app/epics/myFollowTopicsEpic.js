@@ -22,7 +22,8 @@ function myFollowTopicsInitEpic (action$) {
               ).map((it) => {
                 if (it.return_code === 1) {
                   console.log('epic  ---> MY_FOLLOW_TOPICS_INIT_SUCCESS ' + it.return_code)
-                  return actions.myFollowTopicsInitSuccess({topics: it.talks})
+                  console.log(it)
+                  return actions.myFollowTopicsInitSuccess({topics: it.talks, isEmpty: it.isnull})
                 }
                 return undefined
               }

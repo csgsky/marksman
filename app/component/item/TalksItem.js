@@ -3,9 +3,16 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import theme from '../../config/theme'
 
 export default class TalksItem extends Component {
+  _onPress = (topicId, ownerId, diaryId) => {
+    this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
+  }
+
+  _onPressFollow = (id, position, myFocus, type) => {
+    this.props.onPressFollow(id, position, myFocus, type)
+  }
+
   render () {
     const {item, index, type} = this.props
-    console.log(this.props)
     const cover = item.icon_url
     const name = item.name
     const tag = item.tag
@@ -30,7 +37,7 @@ export default class TalksItem extends Component {
               <Text style={styles.comment}>{comment}</Text>
               <Text style={styles.tag}>{tag}</Text>
             </View>
-            <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => this._onPressFollow(item.diary_id, index, item.my_focus, 'topics')}>
+            <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => this._onPressFollow(item.talk_id, index, item.my_focus, 'topics')}>
               <View style={styles.follow}>
                 <Text style={styles.followText}>{item.my_focus ? '取消关注' : '关注'}</Text>
               </View>
@@ -39,15 +46,6 @@ export default class TalksItem extends Component {
         </View>
       </View>
     </TouchableOpacity>)
-  }
-
-  _onPress = (topicId, ownerId, diaryId) => {
-    console.log({topicId, ownerId})
-    this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
-  }
-
-  _onPressFollow = (id, position, myFocus, type) => {
-    this.props.onPressFollow(id, position, myFocus, type)
   }
 }
 
