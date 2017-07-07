@@ -3,6 +3,7 @@ import * as types from '../actions/myFollowUsersAction'
 const initState = {
   isRefreshing: false,
   users: [],
+  isEmpty: 0,
   isLoadingMore: false,
   page: 0,
   hasMore: true
@@ -22,6 +23,7 @@ export default function myFollowUsers (state = initState, action = {}) {
         ...state,
         isRefreshing: false,
         users: action.payload.users,
+        isEmpty: action.payload.isEmpty
       }
     case types.MY_FOLLOW_USERS_LOAD_MORE:
       return {

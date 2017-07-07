@@ -3,6 +3,7 @@ import * as types from '../actions/myFollowTopicsAction'
 const initState = {
   isRefreshing: false,
   topics: [],
+  isEmpty: 0,
   isLoadingMore: false,
   page: 0,
   hasMore: true
@@ -22,6 +23,7 @@ export default function myFollowTopics (state = initState, action = {}) {
         ...state,
         isRefreshing: false,
         topics: action.payload.topics,
+        isEmpty: action.payload.isEmpty
       }
     case types.MY_FOLLOW_TOPICS_LOAD_MORE:
       return {
