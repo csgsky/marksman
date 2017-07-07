@@ -21,8 +21,9 @@ function myFollowUsersInitEpic (action$) {
                 }
               ).map((it) => {
                 if (it.return_code === 1) {
+                  console.log(it)
                   console.log('epic  ---> MY_FOLLOW_USERS_INIT_SUCCESS ' + it.return_code)
-                  return actions.myFollowUsersInitSuccess({users: it.users})
+                  return actions.myFollowUsersInitSuccess({users: it.users, isEmpty: it.isnull})
                 }
                 return undefined
               }
@@ -72,7 +73,7 @@ function myFollowUsersFollowEpic(action$) {
           if (action.payload.myFocus) {
             return Observable.from(UnFollowUserApi(action.payload.id, it.token))
           }
-          return Observable.from(FollowUserApi(action.payload.id, null, it.token))
+          return Observable.from(FollowUserApi(action.payload.id, it.token))
         }
         return Observable.of(2)
       }).map((it) => {

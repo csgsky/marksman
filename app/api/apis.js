@@ -5,6 +5,7 @@ const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
+  console.log('post Api path --->', path)
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -58,6 +59,7 @@ export function getApi (path, userId) {
 
 // get 请求
 export function deleteApi (path, userId, map) {
+  console.log('delete Api ---> path', path)
   return fetch(baseUrlWithoutToken(path), {
     method: 'DELETE',
     headers: {
