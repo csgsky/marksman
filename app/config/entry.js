@@ -113,7 +113,7 @@ const MyFollowTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2, paddingTop: 20},
+      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2},
       indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
       labelStyle: {fontSize: 15},
       tabStyle: {width: 65}
@@ -309,7 +309,8 @@ const Navigator = StackNavigator(
       screen: MyFollowTab,
       mode: 'card',
       navigationOptions: {
-        header: null
+        title: '我的关注',
+        headerStyle: {elevation: 0, backgroundColor: '#fff'}
       }
     },
     CommentEditPage: {
