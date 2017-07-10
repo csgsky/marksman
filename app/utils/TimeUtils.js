@@ -10,6 +10,11 @@ export const getYYMM = (time) => {
   return date.year() + '年' + (date.month() + 1) + '月'
 }
 
+export const getYYMMDD = (time) => {
+  const date = Moment(time)
+  return date.year() + '-' + (date.month() + 1) + '-' + date.date()
+}
+
 export const getHHMM = (time) => {
   const date = Moment(time)
   return date.hour() + ':' + (date.minute() === 0 ? '00' : date.minute())
