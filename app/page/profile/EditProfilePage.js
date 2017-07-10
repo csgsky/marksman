@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native'
 import PubSub from 'pubsub-js'
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import theme from '../../config/theme'
 import Clear from '../../img/clear_search.png'
 import Next from '../../img/next.png'
+import {getYYMMDD} from '../../utils/TimeUtils'
 
 export default class EditProfilePage extends Component {
 
@@ -22,7 +24,8 @@ export default class EditProfilePage extends Component {
     super(props)
     this.state = {
       showDelete: false,
-      info: null
+      info: null,
+      dateTimePickerVisible: false
     }
   }
 
@@ -62,9 +65,29 @@ export default class EditProfilePage extends Component {
     alert('sign ==> ' + this.state.info.job)
   }
 
+  _hideDateTimePicker = () => {
+    this.setState({
+      dateTimePickerVisible: false
+    })
+  }
+
+  _handleDatePicked = (date) => {
+    this.state.info.birthday = getYYMMDD(date)
+    this.setState({
+      info: this.state.info
+    })
+    console.warn('A date has been picked: ', getYYMMDD(date));
+    this._hideDateTimePicker();
+  }
+
   render () {
     return (
       <View style={styles.view}>
+        <DateTimePicker
+          isVisible={this.state.dateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+        />
         <View style={styles.itemView}>
           <Text style={styles.title}>姓名</Text>
           <TextInput style={styles.nickname}
@@ -119,11 +142,11 @@ export default class EditProfilePage extends Component {
           <Text style={styles.content}>男</Text>
           <Image style={styles.next} source={Next} />
         </View>
-        <View style={styles.itemView}>
+        <TouchableOpacity style={styles.itemView} onPress={() => this.setState({dateTimePickerVisible: true})}>
           <Text style={styles.title}>生日</Text>
-          <Text style={styles.content}>1993.11.04</Text>
+          <Text style={styles.content}>{this.state.info.birthday}</Text>
           <Image style={styles.next} source={Next} />
-        </View>
+        </TouchableOpacity>
         <View style={styles.itemView}>
           <Text style={styles.title}>星座</Text>
           <Text style={styles.content}>水瓶座</Text>
