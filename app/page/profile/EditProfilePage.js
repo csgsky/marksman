@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView} 
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import Rx from 'rxjs'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ConstellationPickerModal from '../../widget/ConstellationPickerModal'
 import SexModal from '../../widget/SexModal'
@@ -179,11 +180,6 @@ class EditProfilePage extends Component {
                 showDelete: true
               })
             }}
-            onBlur={() => {
-              this.setState({
-                showDelete: false
-              })
-            }}
             value={this.state.info.nickname}
             onChangeText={(nickname) => {
               this.state.info.nickname = nickname
@@ -195,8 +191,9 @@ class EditProfilePage extends Component {
             activeOpacity={0.8}
             onPress={() => {
               this.refs.nicknameTextInput.clear()
-              this.refs.nicknameTextInput.focus()
-              // 清空对话框
+              this.setState({
+                showDelete: false
+              })
             }}
             style={styles.clear}>
             <Image style={{height: 16, width: 16, marginTop: 7}}
@@ -204,7 +201,7 @@ class EditProfilePage extends Component {
           </TouchableOpacity>}
         </View>
         <View style={styles.signView}>
-          <Text style={styles.title}>签名</Text>
+          <Text style={[styles.title, {paddingTop: 16}]}>签名</Text>
           <TextInput style={styles.signTextInput}
             underlineColorAndroid="transparent"
             numberOfLines={3}
@@ -279,7 +276,6 @@ const styles = StyleSheet.create({
     marginTop: 1,
     backgroundColor: 'white',
     flexDirection: 'row',
-    paddingTop: 16,
     paddingLeft: 16,
     paddingRight: 16
   },
@@ -293,20 +289,21 @@ const styles = StyleSheet.create({
     flex: 1,
     color: theme.text.globalSubTextColor,
     fontSize: theme.text.xxlgFontSize,
-    padding: 0
+    padding: 0,
+    alignSelf: 'center'
   },
   signTextInput: {
     flex: 1,
     color: theme.text.globalSubTextColor,
     fontSize: theme.text.xxlgFontSize,
     textAlignVertical: 'top',
-    padding: 0
+    padding: 0,
+    marginTop: 10,
   },
   clear: {
     height: 30,
     width: 30,
-    alignSelf: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   content: {
     fontSize: theme.text.xxlgFontSize,

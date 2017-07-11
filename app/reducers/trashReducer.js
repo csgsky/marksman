@@ -13,7 +13,7 @@ export default function trash (state = initState, action = {}) {
     case types.TRASH_INIT:
       return {
         ...state,
-        isRefreshing: true
+        isRefreshing: false
       }
     case types.TRASH_DATA:
       return {
