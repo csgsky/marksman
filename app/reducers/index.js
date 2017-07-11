@@ -14,7 +14,7 @@ import personalData from './personalReducer'
 import feedback from './feedback'
 import topic from './topic'
 import register from './registerReducer'
-import personalCenter from './personalCenterReducer'
+import profile from './profileReducer'
 import diaryDetail from './diaryDetailReducer'
 import myFollowUsers from './myFollowUsersReducer'
 import myFollowTopics from './myFollowTopicsReducer'
@@ -37,7 +37,7 @@ export default combineReducers({
   feedback,
   topic,
   register,
-  personalCenter,
+  profile,
   diaryDetail,
   myFollowUsers,
   myFollowTopics,

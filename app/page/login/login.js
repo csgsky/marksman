@@ -38,7 +38,6 @@ class Login extends Component {
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
             PubSub.publish('refresh', hmacSHA1)
-            console.log('come4 =====> ' + this.props.navigation.state.come4)
             if (this.props.navigation.state.come4 === 'signOut') {
               const resetAction = NavigationActions.reset({
                 index: 0,

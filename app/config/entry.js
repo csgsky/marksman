@@ -8,6 +8,10 @@ import HomeFragment from '../page/HomeFragment'
 import DiscoveryFrament from '../page/DiscoveryFrament'
 import CollectionsFragment from '../page/CollectionsFragment'
 import CropImagePage from '../page/CropImagePage'
+import CareerPage from '../page/profile/CareerPage'
+import CityPage from '../page/profile/CityPage'
+import ProvincePage from '../page/profile/ProvincePage'
+import EditProfilePage from '../page/profile/EditProfilePage'
 import FeedbackPage from '../page/profile/Feedback'
 import Login from '../page/login/login'
 import TabBarItem from '../widget/TabBarItem'
@@ -129,11 +133,11 @@ const Tab = TabNavigator(
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '浅记',
         tabBarIcon: ({ focused, tintColor }) => (
-            <TabBarItem
-                focused={focused}
-                normalImage={require('../img/qianyan@2x.png')}
-                selectedImage={require('../img/qianyan-selected@2x.png')}
-            />
+          <TabBarItem
+            focused={focused}
+            normalImage={require('../img/qianyan@2x.png')}
+            selectedImage={require('../img/qianyan-selected@2x.png')}
+          />
         )
       })
     },
@@ -191,8 +195,6 @@ const Tab = TabNavigator(
     }
   }
 )
-
-
 
 const Navigator = StackNavigator(
   {
@@ -309,8 +311,7 @@ const Navigator = StackNavigator(
       screen: MyFollowTab,
       mode: 'card',
       navigationOptions: {
-        title: '我的关注',
-        headerStyle: {elevation: 0, backgroundColor: '#fff'}
+        header: null
       }
     },
     CommentEditPage: {
@@ -367,6 +368,22 @@ const Navigator = StackNavigator(
         title: '评论',
         headerStyle: {elevation: 0, backgroundColor: '#fff'}
       }
+    },
+    EditProfilePage: {
+      screen: EditProfilePage,
+      mode: 'card'
+    },
+    CareerPage: {
+      screen: CareerPage,
+      mode: 'card'
+    },
+    CityPage: {
+      screen: CityPage,
+      mode: 'card'
+    },
+    ProvincePage: {
+      screen: ProvincePage,
+      mode: 'card'
     }
   },
   { initialRouteName: 'Splash',
