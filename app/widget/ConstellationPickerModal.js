@@ -32,7 +32,7 @@ export default class ConstellationPickerModal extends Component {
               <Text style={{color: theme.text.globalTextColor, fontSize: 18}}>星座选择</Text>
             </View>
             <View style={styles.dialog}>
-              <Picker style={{width: theme.screenWidth - 39, height: 39 * 4, backgroundColor: 'white'}}
+              <Picker style={{width: theme.screenWidth - 39, height: 39 * 5, backgroundColor: 'white'}}
                 selectedValue={this.state.selectedItem}
                 itemStyle={{color: theme.text.globalTextColor, fontSize: 16}}
                 onValueChange={index => this.setState({selectedItem: index})}>
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderLeftColor: '#dcdcdc',
     borderTopColor: '#dcdcdc',
-    borderLeftWidth: 0.3,
-    borderTopWidth: 0.3,
+    borderLeftWidth: 0.5,
+    borderTopWidth: 0.5,
   },
   title: {
     height: 40,
@@ -89,6 +89,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderBottomColor: '#dcdcdc',
-    borderBottomWidth: 0.3
+    borderBottomWidth: 0.5
   }
 })

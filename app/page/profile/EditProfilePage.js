@@ -153,6 +153,9 @@ class EditProfilePage extends Component {
           isVisible={this.state.dateTimePickerVisible}
           onConfirm={this._handleDatePicked}
           onCancel={this._hideDateTimePicker}
+          titleIOS="选择日期"
+          cancelTextIOS="取消"
+          confirmTextIOS="确定"
         />
         <ConstellationPickerModal
           isVisible={this.state.constellationVisible}
