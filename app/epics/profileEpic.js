@@ -19,7 +19,7 @@ function getProfileEpic (action$) {
                   return Observable.zip(
                     AsyncStorage.getItem('nickname'),
                     AsyncStorage.getItem('sign'),
-                    (nickname, sign) => ({info: {nickname, sign, avtar: '', user_id: null}, return_code: 10})
+                    (nickname, sign) => ({info: {nickname, sign, avtar: null, user_id: null}, return_code: 10})
                   ).flatMap(value => Observable.of(value))
                 }
               ).map((it) => {
