@@ -14,7 +14,7 @@ export default function myFollowTopics (state = initState, action = {}) {
     case types.MY_FOLLOW_TOPICS_INIT:
       return {
         ...state,
-        isRefreshing: true
+        isRefreshing: false
       }
     case types.MY_FOLLOW_TOPICS_INIT_SUCCESS:
       console.log('reducer ---> MY_FOLLOW_TOPICS_INIT_SUCCESS')
