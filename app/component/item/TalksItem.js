@@ -27,7 +27,9 @@ export default class TalksItem extends Component {
             <Text style={styles.title} numberOfLines={1}>{name}</Text>
           </View>
           {type !== 'followed' && <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
-            <Text style={styles.tag}>{tag}</Text>
+            <View style={styles.tagView}>
+              <Text style={styles.tag}>{tag}</Text>
+            </View>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
               <Text style={styles.comment}>{comment}</Text>
             </View>
@@ -35,7 +37,9 @@ export default class TalksItem extends Component {
           {type === 'followed' && <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 1}}>
               <Text style={styles.comment}>{comment}</Text>
-              <Text style={styles.tag}>{tag}</Text>
+              <View style={styles.tagView}>
+                <Text style={styles.tag}>{tag}</Text>
+              </View>
             </View>
             <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => this._onPressFollow(item.talk_id, index, item.my_focus, 'topics')}>
               <View style={styles.follow}>
@@ -66,13 +70,17 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: theme.text.globalSubTextColor
   },
+  tagView: {
+    height: 20,
+    width: 70,
+    backgroundColor: '#C5CAE9',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   tag: {
     color: 'white',
     fontSize: 14,
-    height: 20,
-    width: 70,
     textAlign: 'center',
-    backgroundColor: '#C5CAE9'
   },
   follow: {
     width: 75,

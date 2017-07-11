@@ -17,7 +17,7 @@ export default function commentsList(state = initialState, action = {}) {
     case types.COMMENTS_LIST_INIT:
       return {
         ...state,
-        isRefreshing: true,
+        isRefreshing: false,
         comments: [action.payload.mainComment]
       }
     case types.COMMENTS_LIST_INIT_SUCCESS:

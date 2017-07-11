@@ -14,7 +14,7 @@ export default function myFollowUsers (state = initState, action = {}) {
     case types.MY_FOLLOW_USERS_INIT:
       return {
         ...state,
-        isRefreshing: true
+        isRefreshing: false
       }
     case types.MY_FOLLOW_USERS_INIT_SUCCESS:
       console.log('reducer ---> MY_FOLLOW_USERS_INIT_SUCCESS')
