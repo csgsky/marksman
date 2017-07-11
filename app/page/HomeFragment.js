@@ -182,9 +182,15 @@ const styles = StyleSheet.create({
     marginRight: 4
   },
   penView: {
+    width: 53,
+    height: 53,
     position: 'absolute',
-    right: 25,
-    top: theme.screenHeight - 140
+    right: 16,
+    bottom: 28
+  },
+  pen: {
+    width: 53,
+    height: 53
   }
 })
 
