@@ -2,13 +2,14 @@ import React, {PureComponent} from 'react'
 import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PubSub from 'pubsub-js'
 import ImagePicker from 'react-native-image-picker'
 import theme from '../config/theme'
 import DefaultImg from '../img/reply_photo_placeholder.png'
 import Close from '../img/photo_delete.png'
 import * as actions from '../actions/commentEditorAction'
 import PhotoPickerModal from '../widget/PhotoPickerModal'
-import PubSub from 'pubsub-js'
+
 
 const dismissKeyboard = require('dismissKeyboard')
 

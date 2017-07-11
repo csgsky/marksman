@@ -13,7 +13,7 @@ import personalEpic from './personEpic'
 import feedbackEpic from './feedbackEpic'
 import topicEpic from './topicEpic'
 import registerEpic from './registerEpic'
-import personalInfo from './personalCenterEpic'
+import profileEpic from './profileEpic'
 import diaryCommentEpic from './diaryEpic'
 import myFollowUsersEpic from './myFollowUsersEpic'
 import myFollowTopicsEpic from './myFollowTopicsEpic'
@@ -24,6 +24,6 @@ import diaryDetailEpic from './diaryDetailEpic'
 export default combineEpics(
   loginEpic, homeInitEpic, recentInitEpic, hotDiaryInitEpic, collectionInitEpic,
   discoveryInitEpic, lovedInitEpic, talksEpic, searchInitEpic, trashEpic, personalEpic,
-  feedbackEpic, topicEpic, registerEpic, personalInfo, diaryCommentEpic, myFollowTopicsEpic,
+  feedbackEpic, topicEpic, registerEpic, profileEpic, diaryCommentEpic, myFollowTopicsEpic,
   myFollowUsersEpic, commentPostEpic, commentsListEpic, diaryDetailEpic
 )

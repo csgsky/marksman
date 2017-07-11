@@ -37,13 +37,11 @@ export default function lovedList (state = initState, action = {}) {
         page: state.page + 1
       }
     case types.LOVED_FOLLOWED_SUCCESS:
-      console.warn('reducer LOVED_FOLLOWED_SUCCESS ==> action.position ' + action.position)
       return {
         ...state,
         loved: updateFocus(state.loved, action.position)
       }
     case types.LOVED_UNFOLLOWED_SUCCESS:
-      console.warn('reducer LOVED_UNFOLLOWED_SUCCESS ==> action.position ' + action.position)
       return {
         ...state,
         loved: updateFocus(state.loved, action.position)
@@ -55,11 +53,9 @@ export default function lovedList (state = initState, action = {}) {
 
 function updateFocus (loved, position) {
   const newLoved = loved.slice(0)
-  alert('newLoved[position].my_focus ' + newLoved[position].my_focus)
   if (newLoved[position].my_focus === 0) {
     newLoved[position].my_focus = 1
   } else if (newLoved[position].my_focus === 1) {
-    console.warn('hahahahhahah ' + newLoved[position].my_focus)
     newLoved[position].my_focus = 0
   }
   return newLoved
