@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Rx'
 import {AsyncStorage} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/profile'
-import {getUserProfile} from '../api/apis'
+import {getUserProfile, EditUserInfo, getUnloginInfo} from '../api/apis'
 
 function getProfileEpic (action$) {
   return action$.ofType(actions.PERSONAL_INFO_INIT)
@@ -61,7 +61,7 @@ function getUnLoginProfileEpic (action$) {
                   return actions.personalInfoData(it.customer)
                 } else {
                   console.warn('getUnLoginProfileEpic error ===>  ' + it.return_code)
-                  return action.personalInfoError(it.return_code)
+                  return actions.personalInfoError(it.return_code)
                 }
               }
             ).catch(error => {
@@ -69,5 +69,31 @@ function getUnLoginProfileEpic (action$) {
             })
        )
 }
+// PERSONAL_SUBMIT_USERINFO
+function submitUserInfoEpic(action$) {
+  return action$.ofType(actions.PERSONAL_SUBMIT_USERINFO)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.payload),
+                (token, payload) => ({token, payload})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(EditUserInfo(it.token, it.payload))
+                  }
+                }
+              ).map((it) => {
+                if (it.return_code === 1) {
+                  console.warn('submitUserInfoEpic success ===>  ')
+                  return actions.submitUserInfoSuccess(action.newInfo)
+                } 
+                return actions.submitUserInfoError(it.return_code)
+              }
+            ).catch((error) => {
+              console.log('epic error --> ' + error)
+            })
+       )
+}
 
-export default combineEpics(getProfileEpic, getUnLoginProfileEpic)
+export default combineEpics(getProfileEpic, getUnLoginProfileEpic, submitUserInfoEpic)
