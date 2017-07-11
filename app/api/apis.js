@@ -58,7 +58,7 @@ export function getApi (path, userId) {
   })
 }
 
-// get 请求
+// delete 请求
 export function deleteApi (path, userId, map) {
   return fetch(baseUrlWithoutToken(path), {
     method: 'DELETE',
@@ -81,6 +81,33 @@ export function deleteApi (path, userId, map) {
     return responseJson
   }).catch((error) => {
     console.warn('deleteApi error ==> ' + error)
+    return error
+  })
+}
+// put 请求
+export function putApi (path, userId, map) {
+  console.warn('put api map ==> ', map)
+  return fetch(baseUrlWithoutToken(path), {
+    method: 'PUT',
+    headers: {
+      'Accept': accept,
+      'User-Agent': userAgent,
+      'Content-Type': contentType,
+      'Authorization': userId
+    },
+    body: JSON.stringify(map)
+  }).then((response) => {
+    if (response.ok) {
+      console.warn('PUT ok')
+    } else {
+      console.warn('PUT error')
+    }
+    return response.json()
+  }).then((responseJson) => {
+    console.warn('responseJson ==> ' + responseJson.return_msg)
+    return responseJson
+  }).catch((error) => {
+    console.warn('putApi error ==> ' + error)
     return error
   })
 }
@@ -227,3 +254,7 @@ export const deleteDiary = (userId, map) =>
 // 日记恢复接口
 export const RecoveryDiary = (userId, map) =>
   postApi('/api/recovery', map, userId)
+
+// 编辑信息的接口
+export const EditUserInfo = (userId, map) =>
+  putApi('/api/account', userId, map)

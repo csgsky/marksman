@@ -1,13 +1,18 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView} from 'react-native'
 import PubSub from 'pubsub-js'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import ConstellationPickerModal from '../../widget/ConstellationPickerModal'
+import SexModal from '../../widget/SexModal'
 import theme from '../../config/theme'
 import Clear from '../../img/clear_search.png'
 import Next from '../../img/next.png'
+import * as actions from '../../actions/profile'
 import {getYYMMDD} from '../../utils/TimeUtils'
 
-export default class EditProfilePage extends Component {
+class EditProfilePage extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '修改资料',
@@ -25,7 +30,11 @@ export default class EditProfilePage extends Component {
     this.state = {
       showDelete: false,
       info: null,
-      dateTimePickerVisible: false
+      dateTimePickerVisible: false,
+      sexModalVisible: false,
+      constellationVisible: false,
+      itemList: ['男', '女'],
+      selectedItem: 0
     }
   }
 
@@ -40,12 +49,25 @@ export default class EditProfilePage extends Component {
     this.props.navigation.setParams({
       handleSubmit: this.handleSubmit
     })
+    this.props.submitInitPage()
     PubSub.subscribe('updateLocation', (come4, data) => {
       this.state.info.addr = data
       this.setState({
         info: this.state.info
       })
     })
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {success} = nextProps
+    const oldSuccess = this.props.success
+    if (oldSuccess !== success && success) {
+      this.props.navigation.goBack()
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.submitInitPage()
   }
 
   _routerToCareer = (career) => {
@@ -62,7 +84,15 @@ export default class EditProfilePage extends Component {
   }
 
   handleSubmit = () => {
-    alert('sign ==> ' + this.state.info.job)
+    const info = this.state.info
+    this.props.submitUserInfo({nickname: info.nickname,
+      sign: info.sign,
+      sex: info.sex,
+      birthday: info.birthday,
+      constellation: info.constellation,
+      addr: info.addr,
+      job: info.job
+    }, this.state.info)
   }
 
   _hideDateTimePicker = () => {
@@ -80,13 +110,60 @@ export default class EditProfilePage extends Component {
     this._hideDateTimePicker();
   }
 
+  hideConstellation = () => {
+    this.setState({
+      constellationVisible: false
+    })
+  }
+
+  hideSex = () => {
+    this.setState({
+      sexModalVisible: false
+    })
+  }
+
+  selectConstellation = (constellation) => {
+    this.state.info.constellation = constellation
+    this.setState({
+      info: this.state.info,
+      constellationVisible: false
+    })
+  }
+
+  selectBoy = () => {
+    this.state.info.sex = 1
+    this.setState({
+      sexModalVisible: false,
+      info: this.state.info
+    })
+  }
+
+  selectGirl = () => {
+    this.state.info.sex = 2
+    this.setState({
+      sexModalVisible: false,
+      info: this.state.info
+    })
+  }
+
   render () {
     return (
-      <View style={styles.view}>
+      <ScrollView style={styles.view}>
         <DateTimePicker
           isVisible={this.state.dateTimePickerVisible}
           onConfirm={this._handleDatePicked}
           onCancel={this._hideDateTimePicker}
+        />
+        <ConstellationPickerModal
+          isVisible={this.state.constellationVisible}
+          hideConstellation={this.hideConstellation}
+          selectConstellation={this.selectConstellation}
+        />
+        <SexModal
+          isVisible={this.state.sexModalVisible}
+          hideSex={this.props.hideSex}
+          selectBoy={this.selectBoy}
+          selectGirl={this.selectGirl}
         />
         <View style={styles.itemView}>
           <Text style={styles.title}>姓名</Text>
@@ -137,21 +214,21 @@ export default class EditProfilePage extends Component {
               })
             }}/>
         </View>
-        <View style={styles.itemView}>
+        <TouchableOpacity style={styles.itemView} onPress={() => this.setState({sexModalVisible: true})}>
           <Text style={styles.title}>性别</Text>
-          <Text style={styles.content}>男</Text>
+          <Text style={styles.content}>{this.state.info.sex === 1 ? '男' : '女'}</Text>
           <Image style={styles.next} source={Next} />
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.itemView} onPress={() => this.setState({dateTimePickerVisible: true})}>
           <Text style={styles.title}>生日</Text>
           <Text style={styles.content}>{this.state.info.birthday}</Text>
           <Image style={styles.next} source={Next} />
         </TouchableOpacity>
-        <View style={styles.itemView}>
+        <TouchableOpacity style={styles.itemView} onPress={() => this.setState({constellationVisible: true})}>
           <Text style={styles.title}>星座</Text>
-          <Text style={styles.content}>水瓶座</Text>
+          <Text style={styles.content}>{this.state.info.constellation}</Text>
           <Image style={styles.next} source={Next} />
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity style={[styles.itemView, {marginTop: 5}]} onPress={this._routerToProvince}>
           <Text style={[styles.title, {marginRight: 16}]}>所在地</Text>
           <Text style={styles.content}>{this.state.info.addr}</Text>
@@ -162,10 +239,18 @@ export default class EditProfilePage extends Component {
           <Text style={styles.content}>{this.state.info.job}</Text>
           <Image style={styles.next} source={Next} />
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     )
   }
 }
+
+const mapStateToProps = ({profile}) => profile
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators(actions, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditProfilePage)
 
 const styles = StyleSheet.create({
   view: {
