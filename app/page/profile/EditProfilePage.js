@@ -116,12 +116,6 @@ class EditProfilePage extends Component {
     })
   }
 
-  hideSex = () => {
-    this.setState({
-      sexModalVisible: false
-    })
-  }
-
   selectConstellation = (constellation) => {
     this.state.info.constellation = constellation
     this.setState({
@@ -135,6 +129,12 @@ class EditProfilePage extends Component {
     this.setState({
       sexModalVisible: false,
       info: this.state.info
+    })
+  }
+
+  hideSex = () => {
+    this.setState({
+      sexModalVisible: false
     })
   }
 
@@ -164,7 +164,7 @@ class EditProfilePage extends Component {
         />
         <SexModal
           isVisible={this.state.sexModalVisible}
-          hideSex={this.props.hideSex}
+          hideSex={this.hideSex}
           selectBoy={this.selectBoy}
           selectGirl={this.selectGirl}
         />
