@@ -102,10 +102,13 @@ class PersonalCenter extends Component {
 
 
   getSource = () => {
-    if ((this.props.info.avtar && this.props.info.avtar === '')) {
+    if (this.props.info.avtar === null || this.props.info.avtar === '') {
+      console.warn('image empty')
       return DefaultUserAvatar
+    } else {
+      console.warn('image not empty')
+      return this.state.avatar || {uri: this.props.info.avtar}
     }
-    return this.state.avatar || {uri: this.props.info.avtar}
   }
 
   initData() {
@@ -197,7 +200,7 @@ class PersonalCenter extends Component {
 
   render () {
     const {navigation} = this.props
-    console.warn('this.props.success ==> ', this.props.success)
+    console.warn('this.props.info ==> ', this.props.info)
     return (
       <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
         <PhotoPickerModal

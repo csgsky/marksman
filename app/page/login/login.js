@@ -11,7 +11,6 @@ import * as consts from '../../utils/const'
 import PasswordVisible from '../../img/password_visible.png'
 import PasswordInvisible from '../../img/password_invisible.png'
 
-// 加密使用
 var dismissKeyboard = require('dismissKeyboard')
 
 class Login extends Component {
