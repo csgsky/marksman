@@ -48,7 +48,7 @@ import theme from '../config/theme'
 class Navigation extends Component {
   constructor () {
     super()
-    StatusBar.setBarStyle('light-content')
+    StatusBar.setBarStyle('default')
   }
   render () {
     return (
