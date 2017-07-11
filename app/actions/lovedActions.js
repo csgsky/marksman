@@ -40,8 +40,6 @@ export function LovedListMoreData (data) {
 }
 
 export function LovedFollowed (followedId, position, myFocus) {
-  console.warn('action LovedFollowed followedId ==> ' + followedId)
-  console.warn('action LovedFollowed position ==> ' + position)
   return {
     type: LOVED_FOLLOWED,
     followedId,
@@ -51,7 +49,6 @@ export function LovedFollowed (followedId, position, myFocus) {
 }
 
 export function LovedFollowSuccess (position) {
-  console.warn('lovedFollowedSuccess => action' + position)
   return {
     type: LOVED_FOLLOWED_SUCCESS,
     position
@@ -59,7 +56,6 @@ export function LovedFollowSuccess (position) {
 }
 
 export function LovedUnFollowSuccess (position) {
-  console.warn('LovedUnFollowSuccess => action' + position)
   return {
     type: LOVED_UNFOLLOWED_SUCCESS,
     position

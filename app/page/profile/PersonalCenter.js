@@ -5,13 +5,37 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import PubSub from 'pubsub-js'
-import * as actions from '../../actions/personalCenterAction'
+import Toast from 'react-native-root-toast'
+import ImagePicker from 'react-native-image-picker'
+import * as actions from '../../actions/profile'
 import theme from '../../config/theme'
 import Separator from '../../component/Separator'
 import ProfileItem from '../../component/item/ProfileItem'
 import * as consts from '../../utils/const'
 import DefaultUserAvatar from '../../img/default_vatar.png'
+import PhotoPickerModal from '../../widget/PhotoPickerModal'
 
+const options = {
+  title: '图片选择',
+  cancelButtonTitle: '取消',
+  takePhotoButtonTitle: '拍照',
+  chooseFromLibraryButtonTitle: '图片库',
+  mediaType: 'photo',
+  videoQuality: 'high',
+  durationLimit: 10,
+  maxWidth: theme.screenWidth,
+  maxHeight: theme.screenHeight,
+  quality: 1,
+  aspectX: 2,
+  aspectY: 1,
+  angle: 0,
+  allowsEditing: true,
+  noData: false,
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+}
 class PersonalCenter extends Component {
 
   static navigationOptions = ({navigation}) => ({
@@ -25,64 +49,125 @@ class PersonalCenter extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      avtar: '',
-      nickname: '',
-      sign: '',
+      avatar: null,
       messageReminder: true,
-      systemReminder: true
+      systemReminder: true,
+      showPhotoPickerModal: false
     }
   }
 
   componentDidMount () {
-    // this.initData()
-    this._setUserInfo()
+    this.initData()
+    this.props.submitInitPage()
     const that = this
     PubSub.subscribe('refresh', (come, data) => {
       Rx.Observable.of('refresh')
                       .delay(800)
                       .subscribe((it) => {
-                        that._setUserInfo()
+                        that.initData()
                       })
     })
   }
 
+  componentWillReceiveProps (nextProps) {
+    const {success} = nextProps
+    const oldSuccess = this.props.success
+    if (oldSuccess !== success && success) {
+      Toast.show('更新成功', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+        onShow: () => {
+        // calls on toast\`s appear animation start
+        },
+        onShown: () => {
+        // calls on toast\`s appear animation end.
+        },
+        onHide: () => {
+        // calls on toast\`s hide animation start.
+        },
+        onHidden: () => {
+        // calls on toast\`s hide animation end.
+        }
+      })
+    }
+  }
+
+  componentWillUnmount() {
+    PubSub.unsubscribe('refresh')
+  }
+
+
   getSource = () => {
-    if (this.state.avtar === '' || this.state.avtar === null) {
+    if ((this.props.info.avtar && this.props.info.avtar === '')) {
       return DefaultUserAvatar
     }
-    return {uri: this.state.avtar}
+    return this.state.avatar || {uri: this.props.info.avtar}
   }
 
   initData() {
     AsyncStorage.getItem('userId').then((result) => {
-      if (result != null) {
-        this.props.actions.personalInfoInit(result)
+      this.props.personalInfoInit(result)
+    })
+  }
+
+  hideDialog() {
+    this.setState({
+      showPhotoPickerModal: false
+    })
+  }
+
+  launchCamera () {
+    ImagePicker.launchCamera(options, (response) => {
+      this.setState({
+        showPhotoPickerModal: false
+      })
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton)
       } else {
-        this.props.actions.unLoginInfoInit()
+        const source = { uri: 'data:image/jpg;base64,' + response.data };
+        this.setState({
+          avatar: source
+        });
+        Rx.Observable.of('refresh')
+                      .delay(100)
+                      .subscribe((it) => {
+                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info)
+                      })
       }
     })
   }
 
-  _setUserInfo = () => {
-    AsyncStorage.getItem('avtar').then((result) => {
-      // console.warn('_setUserInfo avtar => ' + result)
-      this.setState({
-        avtar: result
-      })
-    })
 
-    AsyncStorage.getItem('nickname').then((result) => {
-      // console.warn('_setUserInfo nickname => ' + result)
+  launchImageLibrary () {
+    ImagePicker.launchImageLibrary(options, (response) => {
       this.setState({
-        nickname: result
+        showPhotoPickerModal: false
       })
-    })
-
-    AsyncStorage.getItem('sign').then((result) => {
-      // console.warn('_setUserInfo sign => ' + result)
-      this.setState({
-        sign: result
-      })
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton)
+      } else {
+        const source = { uri: 'data:image/jpg;base64,' + response.data };
+        this.setState({
+          avatar: source
+        });
+        Rx.Observable.of('refresh')
+                      .delay(100)
+                      .subscribe((it) => {
+                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info)
+                      })
+      }
     })
   }
 
@@ -99,26 +184,43 @@ class PersonalCenter extends Component {
       ]
     })
     this.props.navigation.dispatch(resetAction)
-    // this.props.navigation.navigate('Login', {message: 'hah'})
+  }
+
+  _routerProfilePage = () => {
+    const {info} = this.props
+    if (info.user_id !== null) {
+      this.props.navigation.navigate('EditProfilePage', {come4: 'profile', info})
+    } else {
+      this.props.navigation.navigate('Login', {come4: 'profile'})
+    }
   }
 
   render () {
     const {navigation} = this.props
+    console.warn('this.props.success ==> ', this.props.success)
     return (
       <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
+        <PhotoPickerModal
+          _dialogVisible={this.state.showPhotoPickerModal}
+          hide={() => this.hideDialog()}
+          launchCamera={() => this.launchCamera()}
+          launchImageLibrary={() => this.launchImageLibrary()}
+          />
         <Separator />
         <View style={styles.view}>
-          <View style={styles.profile}>
-            <Image style={styles.avatar} source={this.getSource()}/>
+          <TouchableOpacity style={styles.profile} onPress={this._routerProfilePage}>
+            <TouchableOpacity onPress={() => this.setState({showPhotoPickerModal: true})}>
+              <Image style={styles.avatar} source={this.getSource()}/>
+            </TouchableOpacity>
             <View style={styles.desc}>
               <View style={styles.nicknameView}>
-                <Text style={styles.nickname}>{this.state.nickname}</Text>
+                <Text style={styles.nickname}>{this.props.info && this.props.info.nickname}</Text>
               </View>
               <View style={styles.signatureView}>
-                <Text style={styles.signature}>{this.state.sign}</Text>
+                <Text style={styles.signature}>{this.props.info && this.props.info.sign}</Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
           <ProfileItem navigation={navigation} reminder={this.state.messageReminder} value={consts.PROFILE_MINE_MESSAGE}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
@@ -189,15 +291,10 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state) => {
-  const {personalCenter} = state
-  return {
-    info: personalCenter.info
-  }
-}
+const mapStateToProps = ({profile}) => profile
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
-})
+const mapDispatchToProps = dispatch => (
+  bindActionCreators(actions, dispatch)
+)
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonalCenter)
