@@ -20,7 +20,7 @@ export function recentDiaryData (data) {
     type: RECENTDIARY_DATA,
     isRefreshing: false,
     diarys: data.diarys,
-    hasMoreData: data.diarys.length >= 6,
+    hasMoreData: data.diarys.length >= 10,
     isLoadingMore: false
   }
 }
@@ -38,7 +38,7 @@ export function recentDiaryLoadingMoreData (data) {
     type: RECENTDIARY_LOADING_MORE_DATA,
     isLoadingMore: false,
     diarys: data.diarys,
-    hasMoreData: data.diarys.length >= 6
+    hasMoreData: data.diarys.length >= 10
   }
 }
 

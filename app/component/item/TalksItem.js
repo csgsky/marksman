@@ -21,7 +21,9 @@ export default class TalksItem extends Component {
       activeOpacity = {0.3}
       onPress={() => this._onPress(item.talk_id, item.user_id, item.diary_id)}>
       <View style={styles.item}>
-        <Image style={styles.img} source={{uri: cover}} />
+        <View style={{width: 100, height: 100, backgroundColor: '#FAFAFA'}}>
+          <Image style={styles.img} source={{uri: cover}} />
+        </View>
         <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingBottom: 6}}>
             <Text style={styles.title} numberOfLines={1}>{name}</Text>

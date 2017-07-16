@@ -25,6 +25,12 @@ export default function profile (state = initState, action = {}) {
         ...state,
         success: false
       }
+    case types.MESSAGE_PROFILECENER_REMINDER_DATA:
+      console.log('reducer message ', action.message)
+      return {
+        ...state,
+        message: action.message
+      }
     default:
       return state
   }

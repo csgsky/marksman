@@ -7,8 +7,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions/hotDiaryAction'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
-import LoadingMore from '../component/LoadingMore'
-import NoMoreData from '../component/NoMoreData'
+import Footer from '../component/Footer'
 
 
 class HotDiary extends Component {
@@ -29,14 +28,9 @@ class HotDiary extends Component {
   }
 
   getFooterCompt = () => {
-    const {diarys, hasMoreData, isLoadingMore} = this.props
-    console.warn('getFooterCompt diary length ==> ' + diarys.length)
-    console.warn('getFooterCompt diary hasMoreData ==> ' + hasMoreData)
-    console.warn('getFooterCompt diary isLoadingMore ==> ' + isLoadingMore)
-    if (diarys.length > 0 && hasMoreData && isLoadingMore) {
-      return <LoadingMore />
-    } else if (diarys.length > 0 && !hasMoreData) {
-      return <NoMoreData />
+    const {diarys, hasMoreData} = this.props
+    if (diarys.length > 0) {
+      return <Footer hasMoreData={hasMoreData}/>
     }
     return <View />
   }

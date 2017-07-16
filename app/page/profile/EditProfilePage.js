@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView} 
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Rx from 'rxjs'
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ConstellationPickerModal from '../../widget/ConstellationPickerModal'
 import SexModal from '../../widget/SexModal'

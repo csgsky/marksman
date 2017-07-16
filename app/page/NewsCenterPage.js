@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import {View, TouchableOpacity, Text, Image, StyleSheet} from 'react-native'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as actions from '../actions/message'
 import theme from '../config/theme'
 import PageBack from '../img/page_back.png'
 import Separator from '../component/Separator'
@@ -8,8 +11,9 @@ import TopicIcon from '../img/news_topic.png'
 import UserIcon from '../img/news_user.png'
 import CommentIcon from '../img/news_msg.png'
 import NoticeIcon from '../img/news_notice.png'
+import Reminder from '../component/Reminder'
 
-export default class NewsCenterPage extends Component {
+class NewsCenterPage extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: '消息',
@@ -19,30 +23,59 @@ export default class NewsCenterPage extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
+  componentDidMount () {
+    this.props.mineMessageModeInit()
+  }
+
+  _routerNotificationPage = () => {
+    this.props.dismissReminder(3)
+    this.props.navigation.navigate('NotificationPage')
+  }
+
+  _routerCommentNewsPage = () => {
+    this.props.dismissReminder(2)
+    this.props.navigation.navigate('CommentNewsPage')
+  }
+
+  _routerUserNewsPage = () => {
+    this.props.dismissReminder(1)
+    this.props.navigation.navigate('UserNewsPage')
+  }
+
+  _routerTopicListPage = () => {
+    this.props.dismissReminder(0)
+    this.props.navigation.navigate('TopicListPage', {come4: 'news'})
+  }
+
+
   render () {
     return (<View style={{backgroundColor: 'white'}}>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('TopicNewsPage')}>
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerTopicListPage}>
         <Image source={TopicIcon} style={styles.icon}/>
         <Text style={styles.type}>话题</Text>
+        {this.props.modes && this.props.modes.length === 4 && this.props.modes[0].red_dot === 1 && <Reminder />}
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('UserNewsPage')}>
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerUserNewsPage}>
         <Image source={UserIcon} style={styles.icon}/>
         <Text style={styles.type}>用户</Text>
+        {this.props.modes && this.props.modes.length === 4 && this.props.modes[1].red_dot === 1 && <Reminder />}
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('CommentNewsPage')}>
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerCommentNewsPage}>
         <Image source={CommentIcon} style={styles.icon}/>
         <Text style={styles.type}>评论</Text>
+        {this.props.modes && this.props.modes.length === 4 && this.props.modes[2].red_dot === 1 && <Reminder />}
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={() => this.props.navigation.navigate('NotificationPage')}>
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerNotificationPage}>
         <Image source={NoticeIcon} style={styles.icon}/>
         <Text style={styles.type}>通知</Text>
+        {this.props.modes && this.props.modes.length === 4 && this.props.modes[3].red_dot === 1 && <Reminder />}
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
@@ -50,6 +83,14 @@ export default class NewsCenterPage extends Component {
   }
 
 }
+
+const mapStateToProps = ({message}) => message
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators(actions, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewsCenterPage)
 
 const styles = StyleSheet.create({
   itemView: {
@@ -73,6 +114,7 @@ const styles = StyleSheet.create({
   next: {
     width: 8,
     height: 14,
-    marginRight: 16
+    marginRight: 16,
+    marginLeft: 14
   }
 })

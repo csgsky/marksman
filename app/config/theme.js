@@ -5,6 +5,7 @@ import PageBack from '../img/page_back.png'
 const globalTextColor = '#4a4a4a'
 const globalSubTextColor = '#9b9b9b'
 const toolbarTitleColor = '#6a6a6a'
+
 module.exports = {
   screenWidth: Dimensions.get('window').width,
   screenHeight: Dimensions.get('window').height,

@@ -7,8 +7,7 @@ import CollectionItem from '../component/item/CollectionsItem'
 import Separator from '../component/Separator'
 import ListSeparator from '../component/ListSeparator'
 import * as actions from '../actions/collectionsAction'
-import LoadingMore from '../component/LoadingMore'
-import NoMoreData from '../component/NoMoreData'
+import Footer from '../component/Footer'
 
 class MeFragment extends Component {
   componentDidMount () {
@@ -27,14 +26,9 @@ class MeFragment extends Component {
   }
 
   getFooterCompt = () => {
-    const {collections, hasMoreData, isLoadingMore} = this.props
-    // console.warn('getFooterCompt diary length ==> ' + diarys.length)
-    // console.warn('getFooterCompt diary hasMoreData ==> ' + hasMoreData)
-    // console.warn('getFooterCompt diary isLoadingMore ==> ' + isLoadingMore)
-    if (collections.length > 0 && hasMoreData && isLoadingMore) {
-      return <LoadingMore />
-    } else if (collections.length > 0 && !hasMoreData) {
-      return <NoMoreData />
+    const {hasMoreData, collections} = this.props
+    if (collections.length > 0) {
+      return <Footer hasMoreData={hasMoreData}/>
     }
     return <View />
   }
