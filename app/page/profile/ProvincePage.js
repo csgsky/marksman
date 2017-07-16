@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {View, FlatList, Text, StyleSheet, Image, TouchableOpacity} from 'react-native'
+import PubSub from 'pubsub-js'
 import theme from '../../config/theme'
 import Next from '../../img/next.png'
 
@@ -23,6 +24,20 @@ export default class ProvincePage extends Component {
 
   _routerCityPage = (provinceId) => {
     const key = this.props.navigation.state.key
+    if (provinceId === '710000') {
+      PubSub.publish('updateLocation', '台湾省')
+      // console.warn('id ==> ', provinceId)
+      this.props.navigation.goBack()
+      return
+    } else if (provinceId === '810000') {
+      PubSub.publish('updateLocation', '香港特别行政区')
+      this.props.navigation.goBack()
+      return
+    } else if (provinceId === '820000') {
+      PubSub.publish('updateLocation', '澳门特别行政区')
+      this.props.navigation.goBack()
+      return
+    }
     this.props.navigation.navigate('CityPage', {provinceId, key})
   }
 

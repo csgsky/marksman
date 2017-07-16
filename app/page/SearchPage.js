@@ -3,6 +3,7 @@ import {StyleSheet, View, BackAndroid, Platform, FlatList, RefreshControl} from 
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Rx from 'rxjs'
+import PubSub from 'pubsub-js'
 import * as actions from '../actions/searchAction'
 import SearchTextInput from '../widget/SearchInput'
 import EmptyView from '../component/EmptyView'
@@ -18,11 +19,26 @@ class SearchPage extends Component {
     BackAndroid.addEventListener('hardwareBackPress', this._backPress)
   }
 
-  _backPress = () => {
-    this.props.actions.searchPageBack()
-    this.props.navigation.goBack()
+  getFooterCompt = () => {
+    const {diarys, hasMoreData, isLoadingMore} = this.props
+    if (diarys.length > 0 && hasMoreData && isLoadingMore) {
+      return <LoadingMore />
+    } else if (diarys.length > 0 && !hasMoreData) {
+      return <NoMoreData />
+    }
+    return <View />
   }
 
+  getItemCompt = ({item, index}) => {
+    const {navigation} = this.props
+    return <DiaryItem item={item} navigation={navigation} hasComment={false} showRightTime />
+  }
+
+  getItemSeparator = () => <ListSeparator />
+
+  _clearDiary = () => {
+    this.props.actions.clearDiary()
+  }
   _onSearchTextChange = (text) => {
     this.props.actions.searchTextChange(text)
   }
@@ -36,20 +52,9 @@ class SearchPage extends Component {
     this.props.actions.clearInput()
   }
 
-  getItemSeparator = () => <ListSeparator />
-
-  getItemCompt = ({item, index}) => {
-    const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment={false} showRightTime />
-  }
-  getFooterCompt = () => {
-    const {diarys, hasMoreData, isLoadingMore} = this.props
-    if (diarys.length > 0 && hasMoreData && isLoadingMore) {
-      return <LoadingMore />
-    } else if (diarys.length > 0 && !hasMoreData) {
-      return <NoMoreData />
-    }
-    return <View />
+  _backPress = () => {
+    this.props.actions.searchPageBack()
+    this.props.navigation.goBack()
   }
 
   handleLoadingMore = () => {
@@ -65,8 +70,7 @@ class SearchPage extends Component {
 
   render () {
     const {searchText, searchInputClearShow, empty, diarys, isRefreshing} = this.props
-    console.warn('render ==> ', diarys.length)
-    return (<View style={{flex: 1, paddingTop: (Platform.OS === 'ios') ? 20 : 0}}>
+    return (<View style={{flex: 1, paddingTop: (Platform.OS === 'ios') ? 20 : 0, backgroundColor: '#FAFAFA'}}>
       <SearchTextInput
         searchTextChange={this._onSearchTextChange}
         backPress={this._backPress}
@@ -99,10 +103,6 @@ class SearchPage extends Component {
     </View>)
   }
 }
-
-const styles = StyleSheet.create({
-
-})
 
 const mapStateToProps = (state) => {
   const {search} = state

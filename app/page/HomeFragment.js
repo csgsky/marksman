@@ -73,7 +73,13 @@ class HomeFragment extends Component {
   }
 
   _onRouterSearch = () => {
-    this.props.navigation.navigate('SearchPage', {message: '搜索'})
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'profile'})
+      } else {
+        this.props.navigation.navigate('SearchPage', {message: '搜索'})
+      }
+    })
   }
 
   _onRouterWrite = () => {
