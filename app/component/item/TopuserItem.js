@@ -40,7 +40,7 @@ export default class TopUserItem extends Component {
             </View>
           </View>
           <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => this._onPressFollow(item.my_focus, item.user_id, position)}>
-            <View style={styles.follow}>
+            <View style={[styles.follow, {backgroundColor: item.my_focus ? 'rgba(133, 179, 104, 0.57)' : 'rgba(133, 179, 104, 0.87)'}]}>
               <Text style={styles.followText}>{item.my_focus ? '取消关注' : '关注'}</Text>
             </View>
           </TouchableOpacity>
@@ -85,8 +85,7 @@ const styles = StyleSheet.create({
     width: 75,
     height: 25,
     borderRadius: 2,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(133, 179, 104, 0.57)'
+    justifyContent: 'center'
   },
   followText: {
     fontSize: theme.text.mdFontSize,

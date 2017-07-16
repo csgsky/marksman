@@ -22,12 +22,13 @@ export function personData (data) {
   }
 }
 
-export function personDiaryMore (page) {
+export function personDiaryMore (page, id) {
   console.log('action ---> PERSON_DIARY_LOAD_MORE')
   return {
     type: PERSON_DIARY_MORE,
     isLoadingMore: true,
-    page: page
+    page,
+    id
   }
 }
 

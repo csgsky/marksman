@@ -3,12 +3,12 @@ import {View, FlatList, RefreshControl, AsyncStorage} from 'react-native'
 import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PubSub from 'pubsub-js'
 import * as actions from '../actions/recentDiaryAction'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
-import LoadingMore from '../component/LoadingMore'
-import NoMoreData from '../component/NoMoreData'
-import PubSub from 'pubsub-js'
+import Footer from '../component/Footer'
+
 
 class RecentDiary extends Component {
   componentDidMount () {
@@ -19,6 +19,7 @@ class RecentDiary extends Component {
   onRefresh = () => {
     this.props.actions.recentDiaryInit(0)
   }
+
   _likeDiary = (diaryId, ownerId, myLike, index) => {
     console.log({diaryId, ownerId, myLike, index})
     if (myLike) {
@@ -34,20 +35,16 @@ class RecentDiary extends Component {
   }
 
   getItemSeparator = () => <ListSeparator />
+
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
     return <DiaryItem item={item} navigation={navigation} hasComment showRightTime likeDiary={this._likeDiary} index={index}/>
   }
 
   getFooterCompt = () => {
-    const {diarys, hasMoreData, isLoadingMore} = this.props
-    console.warn('getFooterCompt diary length ==> ' + diarys.length)
-    console.warn('getFooterCompt diary hasMoreData ==> ' + hasMoreData)
-    console.warn('getFooterCompt diary isLoadingMore ==> ' + isLoadingMore)
-    if (diarys.length > 0 && hasMoreData && isLoadingMore) {
-      return <LoadingMore />
-    } else if (diarys.length > 0 && !hasMoreData) {
-      return <NoMoreData />
+    const {diarys, hasMoreData} = this.props
+    if (diarys.length > 0) {
+      return <Footer hasMoreData={hasMoreData}/>
     }
     return <View />
   }

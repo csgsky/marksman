@@ -50,8 +50,6 @@ class PersonalCenter extends Component {
     super(props)
     this.state = {
       avatar: null,
-      messageReminder: true,
-      systemReminder: true,
       showPhotoPickerModal: false
     }
   }
@@ -59,6 +57,12 @@ class PersonalCenter extends Component {
   componentDidMount () {
     this.initData()
     this.props.submitInitPage()
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result) {
+        this.props.profileMessageReminder()
+      }
+    })
+
     const that = this
     PubSub.subscribe('refresh', (come, data) => {
       Rx.Observable.of('refresh')
@@ -224,12 +228,12 @@ class PersonalCenter extends Component {
               </View>
             </View>
           </TouchableOpacity>
-          <ProfileItem navigation={navigation} reminder={this.state.messageReminder} value={consts.PROFILE_MINE_MESSAGE}/>
+          <ProfileItem navigation={navigation} reminder={this.props.message && this.props.message.mymsg_rd === 1} value={consts.PROFILE_MINE_MESSAGE}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
           <View style={{height: 20}}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_RECOMMOND_F}/>
-          <ProfileItem navigation={navigation} reminder={this.state.systemReminder} value={consts.PROFILE_NOTIFICATION}/>
+          <ProfileItem navigation={navigation} reminder={this.props.message && this.props.message.sysmsg_rd === 1} value={consts.PROFILE_NOTIFICATION}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
           {this.props.navigation.state.params.isLogin && <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>

@@ -18,7 +18,7 @@ export function hotDiaryData (data) {
     type: HOTDIARY_DATA,
     isRefreshing: false,
     diarys: data.diarys,
-    hasMoreData: data.diarys.length >= 6
+    hasMoreData: data.diarys.length >= 10
   }
 }
 
@@ -35,7 +35,7 @@ export function hotDiaryLoadingMoreData (data) {
     type: HOTDIARY_LOADING_MORE_DATA,
     isLoadingMore: false,
     diarys: data.diarys,
-    hasMoreData: data.diarys.length >= 6
+    hasMoreData: data.diarys.length >= 10
   }
 }
 export function rhotDiaryLike(payload) {
