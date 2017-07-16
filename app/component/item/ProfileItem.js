@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, AsyncStorage, StyleSheet} from 'react-native'
-import { NavigationActions } from 'react-navigation'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
 import Msg from '../../img/msg.png'
@@ -53,7 +52,7 @@ export default class ProfileItem extends Component {
         alert(consts.PROFILE_RECOMMOND_F)
         break;
       case consts.PROFILE_NOTIFICATION:
-        alert(consts.PROFILE_NOTIFICATION)
+        this._routerSystemMessage()
         break;
       case consts.PROFILE_FEEDBACK:
         that._routerFeedback()
@@ -94,6 +93,10 @@ export default class ProfileItem extends Component {
         this.props.navigation.navigate('TrashPage', {come4: 'profile'})
       }
     })
+  }
+
+  _routerSystemMessage = () => {
+    this.props.navigation.navigate('SystemMessagePage', {come4: 'profile'})
   }
 
   _routerFeedback = () => {

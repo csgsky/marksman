@@ -9,13 +9,12 @@ function personInitEpic (action$) {
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
-                (token) => {
-                  return {token}
-                }
+                Observable.of(action.id),
+                (token, id) => ({token, id})
               ).flatMap(
                 it => Observable.zip(
                   Observable.from(PersonalInfoApi(it.token, action.id)),
-                  Observable.from(PersonalDiariesApi(it.token, 0)),
+                  Observable.from(PersonalDiariesApi(it.token, it.id, 0)),
                   (info, {diarys}) => ({info, diaries: diarys})
                 ).flatMap(it => Observable.of(it))
               ).map(it => {
@@ -38,13 +37,14 @@ function personDiaryMoreEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page + 1),
-                (token, page) => {
-                  return {token, page}
+                Observable.of(action.id),
+                (token, id, page) => {
+                  return {token, id, page}
                 }
               ).flatMap(
                 it => {
                   if (it.token) {
-                    return Observable.from(PersonalDiariesApi(it.token, it.page))
+                    return Observable.from(PersonalDiariesApi(it.token, it.id, it.page))
                   } else {
                     return Observable.of(2)
                   }

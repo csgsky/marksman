@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Alert, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
@@ -143,7 +143,7 @@ class Register extends Component {
         timeSubscribe: subscribe
       })
     } else {
-      alert('请输入正确的手机号')
+      Alert.alert('提示', '请输入正确的手机号')
     }
   }
 

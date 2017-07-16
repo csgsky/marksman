@@ -1,14 +1,14 @@
-import React, {Component} from 'React'
-import {StyleSheet, View, Text, FlatList, RefreshControl, TouchableOpacity, Image, Button} from 'react-native'
-import theme from '../config/theme'
-import * as actions from '../actions/personAction'
+import React, {Component} from 'react'
+import {View, FlatList, RefreshControl, TouchableOpacity, Image} from 'react-native'
 // import * as actions from '../../actions/loginActions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import * as actions from '../actions/personAction'
 import DiaryItem from '../component/item/DiaryItem'
 import PersonalInfoView from '../component/PersonalInfo'
 import ListSeparator from '../component/ListSeparator'
 import CustomButton from '../component/Button'
+import Footer from '../component/Footer'
 
 class PersonalPage extends Component {
 
@@ -44,6 +44,7 @@ class PersonalPage extends Component {
           ItemSeparatorComponent={() => <ListSeparator/>}
           ListHeaderComponent={() => <PersonalInfoView info={info}/>}
           onEndReached={() => this.handleLoadingMore()}
+          ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}
           refreshControl={
             <RefreshControl
@@ -56,8 +57,17 @@ class PersonalPage extends Component {
       </View>
     )
   }
+
   getItemCompt = ({item}) => {
     return <DiaryItem item={item} hasComment/>
+  }
+
+  getFooterCompt = () => {
+    const {diaries, hasMore} = this.props
+    if (diaries.length > 0) {
+      return <Footer hasMoreData={hasMore}/>
+    }
+    return <View />
   }
   _onPressFollow = () => {
     const {info} = this.props;
@@ -66,9 +76,7 @@ class PersonalPage extends Component {
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
     if (!isLoadingMore && hasMore) {
-      this.props.actions.personDiaryMore(page)
-    } else {
-      console.warn('person diaries 没有了')
+      this.props.actions.personDiaryMore(page, this.props.navigation.state.params.id)
     }
   }
 }

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import theme from '../config/theme'
 import * as actions from '../actions/topicsAction'
 import TalksItem from '../component/item/TalksItem'
+import Footer from '../component/Footer'
 
 class TopicListPage extends Component {
 
@@ -17,7 +18,31 @@ class TopicListPage extends Component {
   })
 
   componentDidMount () {
-    this.props.actions.topicListInit(0)
+    this.initData()
+  }
+
+  onRefresh = () => {
+    this.initData()
+  }
+
+  initData = () => {
+    this.props.actions.topicListInit(0, this.props.navigation.state.params.come4)
+  }
+
+
+  handleLoadingMore = (e) => {
+    const {isLoadingMore, hasMore, page} = this.props
+    if (!isLoadingMore && hasMore) {
+      this.props.actions.topicListMore(page, this.props.navigation.state.params.come4)
+    }
+  }
+
+  renderLoadMoreFooter = () => {
+    const {hasMore, talks} = this.props
+    if (talks.length > 0) {
+      return <Footer hasMoreData={hasMore}/>
+    }
+    return <View />
   }
 
   render () {
@@ -30,6 +55,7 @@ class TopicListPage extends Component {
           onEndReachedThreshold={0.1}
           onEndReached={(e) => this.handleLoadingMore(e)}
           removeClippedSubviews={false}
+          ListFooterComponent={this.renderLoadMoreFooter}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}
@@ -40,18 +66,6 @@ class TopicListPage extends Component {
        />
       </View>
     )
-  }
-  onRefresh = () => {
-    this.props.actions.topicListInit(0)
-  }
-
-  handleLoadingMore = (e) => {
-    const {isLoadingMore, hasMore, page} = this.props
-    if (!isLoadingMore && hasMore) {
-      this.props.actions.topicListMore(page)
-    } else {
-      console.warn('talks 没有了')
-    }
   }
 
 }

@@ -1,30 +1,42 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import PubSub from 'pubsub-js'
 import theme from '../config/theme'
 import ListSeparator from '../component/ListSeparator'
 import CommentItem from '../component/item/CommentItem'
 import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage} from 'react-native'
 import * as actions from '../actions/topic'
 import CommentBar from '../component/CommentBar'
-import PubSub from 'pubsub-js'
+
 import EmptyView from '../component/CommentEmptyView'
 import Separator from '../component/Separator'
-
+// homefragment/init/data
 class Topic extends Component {
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
-    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
+    headerLeft: <TouchableOpacity onPress={() => navigation.state.params.back()}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
   componentDidMount () {
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params
     this.props.topicInit({topicId, ownerId, diaryId})
     PubSub.subscribe('refreshDetailPage', this.onRefresh)
     PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
+    this.props.navigation.setParams({
+      back: this._goBack
+    })
+  }
+  componentWillUnmount() {
+    PubSub.unsubscribe('refreshDetailPage')
+    PubSub.unsubscribe('commentsLikeRefresh')
   }
   onRefresh = () => {
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params
     this.props.topicInit({topicId, ownerId, diaryId})
+  }
+  _goBack = () => {
+    PubSub.publish('homefragment/init/data')
+    this.props.navigation.goBack()
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
