@@ -6,6 +6,7 @@ import * as actions from '../actions/lovedActions'
 import TopUserItem from '../component/item/TopuserItem'
 import theme from '../config/theme'
 import Separator from '../component/Separator'
+import Footer from '../component/Footer'
 
 class LovedListPage extends Component {
 
@@ -30,9 +31,15 @@ class LovedListPage extends Component {
     const {isLoadingMore, hasMore, page} = this.props
     if (!isLoadingMore && hasMore) {
       this.props.actions.LovedListMore(page)
-    } else {
-      console.warn('loved 没有了')
     }
+  }
+
+  renderLoadMoreFooter = () => {
+    const {hasMore, loved} = this.props
+    if (loved.length > 0) {
+      return <Footer hasMoreData={hasMore}/>
+    }
+    return <View />
   }
 
   render () {
@@ -52,6 +59,7 @@ class LovedListPage extends Component {
           onEndReachedThreshold={0.1}
           removeClippedSubviews={false}
           onEndReached={this.handleLoadingMore}
+          ListFooterComponent={this.renderLoadMoreFooter}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}

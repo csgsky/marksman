@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux'
 import theme from '../config/theme'
-
+import PubSub from 'pubsub-js'
 import TalksItem from '../component/item/TalksItem'
 import Separator from '../component/Separator'
 import * as actions from '../actions/discoverAction'
@@ -13,7 +13,13 @@ import RecommendUserItem from '../component/item/RecommondUsersItem'
 class DiscoveryFrament extends Component {
   componentDidMount () {
     this.props.actions.discoveryInit()
+    PubSub.subscribe('homefragment/init/data', this.onRefresh)
   }
+
+  componentWillUnmount() {
+    PubSub.unsubscribe('homefragment/init/data')
+  }
+
   render () {
     const {talks, ranks, isRefreshing} = this.props
     return (
@@ -112,7 +118,7 @@ class DiscoveryFrament extends Component {
   </View>)
 
   _routerToTopicList = () => {
-    this.props.navigation.navigate('TopicListPage', {message: '精选话题'})
+    this.props.navigation.navigate('TopicListPage', {come4: 'discovery'})
   }
 
   _routerToLovedList = () => {

@@ -22,15 +22,15 @@ export default class RecommendUserItem extends Component {
 }
 const styles = StyleSheet.create({
   item: {
-    width: theme.screenWidth / 3,
-    paddingLeft: 16,
-    paddingRight: 16,
-    marginBottom: 32
+    width: 110,
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   img: {
-    width: (theme.screenWidth / 3) - 32,
-    height: (theme.screenWidth / 3) - 32,
-    borderRadius: ((theme.screenWidth / 3) - 32) / 2
+    width: 80,
+    height: 80,
+    borderRadius: 40
   },
   name: {
     marginTop: 12,

@@ -13,8 +13,7 @@ import ListSeparator from '../component/ListSeparator'
 import Mine from '../img/mine.png'
 import Search from '../img/search.png'
 import Pen from '../img/pen.png'
-import LoadingMore from '../component/LoadingMore'
-import NoMoreData from '../component/NoMoreData'
+import Footer from '../component/Footer'
 
 // // 加密使用
 // var CryptoJS = require('crypto-js')
@@ -55,14 +54,11 @@ class HomeFragment extends Component {
   getItemSeparator = () => <ListSeparator />
 
   getFooterCompt = () => {
-    const {diarys, hasMoreData, isLoadingMore} = this.props
-    if (diarys.length > 0 && hasMoreData && isLoadingMore) {
-      return <LoadingMore />
-    } else if (diarys.length > 0 && !hasMoreData) {
-      return <NoMoreData />
-    } else {
-      return <View />
+    const {diarys, hasMoreData} = this.props
+    if (diarys.length > 0) {
+      return <Footer hasMoreData={hasMoreData}/>
     }
+    return <View />
   }
 
   handleLoadingMore = () => {
@@ -103,7 +99,7 @@ class HomeFragment extends Component {
   render () {
     const {diarys, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
         <View style={styles.toolbar}>
           <TouchableOpacity style={{width: 52, height: 52, justifyContent: 'center'}} onPress={this._onRouterMine}>
             <Image source={Mine} style={styles.profile} />

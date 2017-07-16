@@ -15,6 +15,11 @@ export const getYYMMDD = (time) => {
   return date.year() + '-' + (date.month() + 1) + '-' + date.date()
 }
 
+export const getDotYYMMDD = (time) => {
+  const date = Moment(time)
+  return date.year() + '.' + (date.month() + 1) + '.' + date.date()
+}
+
 export const getHHMM = (time) => {
   const date = Moment(time)
   return date.hour() + ':' + (date.minute() === 0 ? '00' : date.minute())

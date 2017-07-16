@@ -42,6 +42,7 @@ import CommentNewsPage from '../page/news/CommentNewsPage'
 import NotificationPage from '../page/news/NotificationPage'
 import TopicNewsPage from '../page/news/TopicNewsPage'
 import UserNewsPage from '../page/news/UserNewsPage'
+import SystemMessagePage from '../page/news/SystemMessagePage'
 
 import theme from '../config/theme'
 
@@ -265,8 +266,8 @@ const Navigator = StackNavigator(
       screen: TopicListPage,
       mode: 'card',
       navigationOptions: {
-        title: '精选话题',
-        headerStyle: {elevation: 0, backgroundColor: '#fff'}
+        title: '话题',
+        headerStyle: {elevation: 1, backgroundColor: '#fff'}
       }
     },
     LovedListPage: {
@@ -368,6 +369,10 @@ const Navigator = StackNavigator(
         title: '评论',
         headerStyle: {elevation: 0, backgroundColor: '#fff'}
       }
+    },
+    SystemMessagePage: {
+      screen: SystemMessagePage,
+      mode: 'card'
     },
     EditProfilePage: {
       screen: EditProfilePage,

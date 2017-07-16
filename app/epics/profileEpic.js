@@ -2,7 +2,7 @@ import { Observable } from 'rxjs/Rx'
 import {AsyncStorage} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/profile'
-import {getUserProfile, EditUserInfo, getUnloginInfo} from '../api/apis'
+import {getUserProfile, EditUserInfo, getUnloginInfo, ProfileCenterReminderApi} from '../api/apis'
 
 function getProfileEpic (action$) {
   return action$.ofType(actions.PERSONAL_INFO_INIT)
@@ -96,4 +96,27 @@ function submitUserInfoEpic(action$) {
        )
 }
 
-export default combineEpics(getProfileEpic, getUnLoginProfileEpic, submitUserInfoEpic)
+function profileMessageEpic (action$) {
+  return action$.ofType(actions.MESSAGE_PROFILECENER_REMINDER)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                token => ({token})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(ProfileCenterReminderApi(it.token))
+                  }
+                }
+              ).map((it) => {
+                if (it.return_code === 1) {
+                  return actions.profileMessageReminderData(it)
+                }
+              }
+            ).catch((error) => {
+              console.log('profileMessageEpic error --> ' + error)
+            })
+       )
+}
+
+export default combineEpics(getProfileEpic, getUnLoginProfileEpic, submitUserInfoEpic, profileMessageEpic)

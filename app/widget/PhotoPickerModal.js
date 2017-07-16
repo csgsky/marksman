@@ -7,7 +7,8 @@ import {
     StyleSheet,
     FlatList,
     Image,
-    Platform
+    Platform,
+    StatusBar
 } from 'react-native'
 import theme from '../config/theme'
 import One from '../img/diary_material_one.jpeg'
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
   },
   dialog: {
     width: theme.screenWidth,
-    marginBottom: Platform.OS === 'ios' ? 0 : 26
+    marginBottom: (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight
   },
   materialItem: {
     width: 115,

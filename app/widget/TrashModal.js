@@ -4,7 +4,9 @@ import {
     Text,
     View,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    Platform,
+    StatusBar
 } from 'react-native'
 import theme from '../config/theme'
 
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
   },
   dialog: {
     width: theme.screenWidth,
-    marginBottom: 26
+    marginBottom: (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight
   },
   cancelItem: {
     height: 48,

@@ -24,7 +24,7 @@ export function postApi (path, map, userId) {
     }
     return response.json()
   }).then((responseJson) => {
-    console.warn('post responseJson ==> ' + responseJson.return_msg)
+    console.log('post responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
     return error
@@ -32,7 +32,7 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
-  console.warn('getApi path ==> ', path)
+  console.log('getApi path ==> ', path)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
@@ -43,16 +43,16 @@ export function getApi (path, userId) {
     }
   }).then((response) => {
     if (response.ok) {
-      console.warn('GET ok')
+      console.log('GET ok')
     } else {
-      console.warn('GET error')
+      console.log('GET error')
     }
     return response.json()
   }).then((responseJson) => {
-    console.warn('responseJson ==> ' + responseJson.return_msg)
+    console.log('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
-    console.warn('getApi error ==> ' + error)
+    console.log('getApi error ==> ' + error)
     return error
   })
 }
@@ -71,22 +71,22 @@ export function deleteApi (path, userId, map) {
     body: JSON.stringify(map)
   }).then((response) => {
     if (response.ok) {
-      console.warn('DELETE ok')
+      console.log('DELETE ok')
     } else {
-      console.warn('DELETE error')
+      console.log('DELETE error')
     }
     return response.json()
   }).then((responseJson) => {
-    console.warn('responseJson ==> ' + responseJson.return_msg)
+    console.log('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
-    console.warn('deleteApi error ==> ' + error)
+    console.log('deleteApi error ==> ' + error)
     return error
   })
 }
 // put 请求
 export function putApi (path, userId, map) {
-  console.warn('put api map ==> ', map)
+  console.log('put api map ==> ', map)
   return fetch(baseUrlWithoutToken(path), {
     method: 'PUT',
     headers: {
@@ -98,16 +98,16 @@ export function putApi (path, userId, map) {
     body: JSON.stringify(map)
   }).then((response) => {
     if (response.ok) {
-      console.warn('PUT ok')
+      console.log('PUT ok')
     } else {
-      console.warn('PUT error')
+      console.log('PUT error')
     }
     return response.json()
   }).then((responseJson) => {
-    console.warn('responseJson ==> ' + responseJson.return_msg)
+    console.log('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
-    console.warn('putApi error ==> ' + error)
+    console.log('putApi error ==> ' + error)
     return error
   })
 }
@@ -123,19 +123,25 @@ export const MineDiaryApi = (token, page, userId) => {
 
 // 足迹、最新
 export const FooterRecentDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=6&ordertype=0&private=1&p=${page}`, userId)
+  getApi(`/api/diary?rn=10&ordertype=0&private=1&p=${page}`, userId)
 
 // 足迹、热门
 export const FooterHotDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=6&ordertype=2&private=1&p=${page}`, userId)
+  getApi(`/api/diary?rn=10&ordertype=2&private=1&p=${page}`, userId)
 
 // 文集
 export const CollectionsApi = (userId, page) =>
   getApi(`/api/collection?rn=10&ordertype=0&p=${page}`, userId)
 
 // 发现、话题
-export const TopicsListApi = (userId, page) =>
-  getApi(`/api/talk?rn=8&tag=1,2,3&p=${page}`, userId)
+export const TopicsListApi = (userId, page, come4) => {
+  console.warn('api ===> ', come4)
+  if (come4 === 'news') {
+    console.warn('api ===> ', come4)
+    return getApi(`/api/mymsg?rn=10&mode=0&p=${page}`, userId)
+  }
+  return getApi(`/api/talk?rn=8&p=${page}`, userId)
+}
 
 // 发现、备受宠爱
 export const TopUsersApi = (userId) =>
@@ -160,8 +166,8 @@ export const PersonalInfoApi = (userId, id) =>
   getApi(`/api/account/${id}`, userId)
 
 // 个人日记列表
-export const PersonalDiariesApi = (userId, page) =>
-  getApi(`/api/diary?p=${page}&rn=3&ordertype=0&private=1`, userId)
+export const PersonalDiariesApi = (token, userId, page) =>
+  getApi(`/api/diary?p=${page}&rn=10&ordertype=0&private=1&user_id=${userId}`, token)
 
 // 反馈意见
 export const FeedbackApi = (data, userId) =>
@@ -258,3 +264,24 @@ export const RecoveryDiary = (userId, map) =>
 // 编辑信息的接口
 export const EditUserInfo = (userId, map) =>
   putApi('/api/account', userId, map)
+
+// 我的页面小红点提示 /api/msg
+export const ProfileCenterReminderApi = userId =>
+  getApi('/api/msg', userId)
+
+// 系统通知
+export const SystemMessagesApi = (userId, page) =>
+  getApi(`/api/sysmsg?p=${page}&rn=10`, userId)
+
+// 消息 - 分类
+export const MineMessageModeApi = userId =>
+  getApi('/api/mymsg/mode', userId)
+
+// 消息 - 通知
+export const MineMessageNotifApi = (userId, page) =>
+  getApi(`/api/mymsg?rn=10&mode=3&p=${page}`, userId)
+
+// 消息 - 评论
+
+export const MineMessageCommentApi = (userId, page) =>
+  getApi(`/api/mymsg?rn=10&mode=2&p=${page}`, userId)
