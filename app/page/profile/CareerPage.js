@@ -34,7 +34,7 @@ export default class CareerPage extends Component {
   getCareerItem = (item, index) => {
     return (<TouchableOpacity style={styles.itemView} onPress={() => this._setValue(item.name)}>
       <Text style={styles.content}>{item.name}</Text>
-      <Image style={styles.next} resizeMode="stretch" source={item.name === this.state.currentValue ? Check : UnCheck} />
+      <Image style={styles.next} resizeMode="stretch" source={item.name === this.state.currentValue ? Check : null} />
     </TouchableOpacity>)
   }
 
@@ -45,12 +45,14 @@ export default class CareerPage extends Component {
   }
 
   render() {
-    return (<FlatList
-      removeClippedSubviews={false}
-      data={this.state.careers}
-      showsHorizontalScrollIndicator={false}
-      renderItem={({item, index}) => this.getCareerItem(item, index)}
+    return (<View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
+      <FlatList
+        removeClippedSubviews={false}
+        data={this.state.careers}
+        showsHorizontalScrollIndicator={false}
+        renderItem={({item, index}) => this.getCareerItem(item, index)}
       />
+    </View>
     )
   }
 }

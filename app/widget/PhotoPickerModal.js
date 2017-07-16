@@ -49,11 +49,11 @@ export default class PhotoPickerModal extends Component {
         onRequestClose={() => {}}>
         <TouchableOpacity activeOpacity={1} style={styles.bg} onPress={this.props.hide}>
           <TouchableOpacity style={styles.dialog}>
-            <TouchableOpacity style={styles.launchCameraItem} onPress={this.props.launchCamera}>
+            <TouchableOpacity activeOpacity={1} style={styles.launchCameraItem} onPress={this.props.launchCamera}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>拍照</Text>
             </TouchableOpacity>
             <View style={{height: 0.5, backgroundColor: '#f8f8f8'}} />
-            <TouchableOpacity style={styles.launchImageLibraryItem} onPress={this.props.launchImageLibrary}>
+            <TouchableOpacity activeOpacity={1} style={styles.launchImageLibraryItem} onPress={this.props.launchImageLibrary}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>从手机相册选择</Text>
             </TouchableOpacity>
             <View style={{height: 0.5, backgroundColor: '#f8f8f8'}} />
@@ -69,7 +69,7 @@ export default class PhotoPickerModal extends Component {
               showsHorizontalScrollIndicator={false}
               renderItem={this.renderMaterialItem}
             />}
-            <TouchableOpacity style={styles.cancelItem} onPress={this.props.hide}>
+            <TouchableOpacity activeOpacity={1} style={styles.cancelItem} onPress={this.props.hide}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>取消</Text>
             </TouchableOpacity>
           </TouchableOpacity>
