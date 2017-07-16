@@ -169,7 +169,7 @@ class EditProfilePage extends Component {
           selectGirl={this.selectGirl}
         />
         <View style={styles.itemView}>
-          <Text style={styles.title}>姓名</Text>
+          <Text style={styles.title}>昵称</Text>
           <TextInput style={styles.nickname}
             ref="nicknameTextInput"
             underlineColorAndroid="transparent"

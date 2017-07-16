@@ -9,7 +9,13 @@ export const SEARCH_PAGE_SEARCH_DATA = 'SEARCH_PAGE_SEARCH_DATA'
 export const SEARCH_RESULT_EMPTY = 'SEARCH_RESULT_EMPTY'
 export const SEARCH_LOADING_MORE = 'SEARCH_LOADING_MORE'
 export const SEARCH_LOADING_MORE_DATA = 'SEARCH_LOADING_MORE_DATA'
+export const SEARCH_CLEAR_DIARY = 'SEARCH_CLEAR_DIARY'
 
+export function clearDiary () {
+  return {
+    type: SEARCH_CLEAR_DIARY
+  }
+}
 export function searchPageInit () {
   return {
     type: SEARCH_PAGE_INIT

@@ -61,6 +61,6 @@ const styles = StyleSheet.create({
   },
   img: {
     width: theme.screenWidth - 32,
-    height: theme.screenWidth - 200
+    height: ((theme.screenWidth - 32) * 3) / 4
   }
 })

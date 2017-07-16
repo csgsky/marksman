@@ -126,7 +126,12 @@ class Register extends Component {
           </View>
         </TouchableOpacity>
         <View style={styles.protocolView}>
-          <Text onPress={() => { alert('协议') }} style={styles.protocol}>注册表示同意Droi服务条款内容</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.protocol}>注册表示同意</Text>
+            <Text onPress={() => { alert('协议') }} style={[styles.protocol, {color: '#0091EA'}]}>Droi服务条款</Text>
+            <Text style={styles.protocol}>内容</Text>
+          </View>
+          
         </View>
       </View>
     )
@@ -244,7 +249,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    alignContent: 'center'
+    alignItems: 'center'
   },
   protocol: {
     color: theme.text.globalSubTextColor,
