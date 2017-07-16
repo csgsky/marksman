@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     opacity: 0.9,
-    backgroundColor: '#dcdddd'
+    backgroundColor: '#FAFAFA'
   },
   textInput: {
     flex: 1,
