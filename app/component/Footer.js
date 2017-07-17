@@ -5,7 +5,7 @@ import theme from '../config/theme'
 export default class Footer extends Component {
   render () {
     const {hasMoreData} = this.props
-    const text = hasMoreData ? '正在加载...' : '全部加载完毕'
+    const text = hasMoreData ? '正在加载...' : '主子，我也是有底线的~'
     return (<View style={{justifyContent: 'center', alignItems: 'center', height: 40, backgroundColor: '#FAFAFA'}}>
       <Text style={styles.textStyle} numberOfLines={1}>{text}</Text>
     </View>)

@@ -21,15 +21,26 @@ class NotificationPage extends Component {
     this.props.mineMessageNotifInit({page: 0})
   }
 
+  onRefresh = () => {
+    this.props.mineMessageNotifInit({page: 0})
+  }
+
   getItemSeparator = () => <ListSeparator />
 
+  handleLoadingMore = () => {
+    const {isLoadingMore, hasMoreData, page} = this.props
+    if (hasMoreData && !isLoadingMore) {
+      this.props.mineMessageNotifMore({page})
+    }
+  }
   renderLoadMoreFooter = () => {
-    const {hasMoreData, sysmsgs} = this.props
-    if (sysmsgs.length > 0) {
+    const {hasMoreData, notifications} = this.props
+    if (notifications.length > 0) {
       return <Footer hasMoreData={hasMoreData}/>
     }
     return <View />
   }
+
 
   renderListItem = (item) => {
     return (<TouchableOpacity style={styles.itemView}>
@@ -49,6 +60,7 @@ class NotificationPage extends Component {
         ItemSeparatorComponent={this.getItemSeparator}
         renderItem={({item}) => this.renderListItem(item)}
         ListFooterComponent={this.renderLoadMoreFooter}
+        onEndReached={this.handleLoadingMore}
         refreshControl={
           <RefreshControl
             onRefresh={this.onRefresh}

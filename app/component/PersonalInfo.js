@@ -19,7 +19,7 @@ class PersonalInfoView extends Component {
   }
 
   _getSource = (img) => {
-    return img === '' ? require('../img/test_icon.jpeg') : {uri: img}
+    return img === '' ? require('../img/default_vatar.png') : {uri: img}
   }
 }
 

@@ -24,7 +24,7 @@ class DiaryDetailPage extends Component {
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: navigation.state.params.me ? <View style={{flexDirection: 'row'}}>
       <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}
-        onPress={() => navigation.state.params.deleteDiary()}>
+        onPress={() => navigation.state.params.deleteDiary && navigation.state.params.deleteDiary()}>
         <Image style={{width: 18, height: 18}} source={Delete}/>
       </TouchableOpacity>
       <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}>
@@ -34,8 +34,7 @@ class DiaryDetailPage extends Component {
       : <TouchableOpacity style={{flexDirection: 'row', marginRight: 16}}
         onPress={() => navigation.state.params.routerToPersonalPage(navigation.state.params.item.user.user_id)}>
         <Text style={{alignSelf: 'center', fontSize: 14, marginRight: 11}}>{navigation.state.params.item.user.nickname}</Text>
-        <Image style={{width: 26, height: 26, borderRadius: 20}}
-          resizeMode="contain"
+        <Image style={{width: 26, height: 26, borderRadius: 13}}
           source={navigation.state.params.item.user.avtar === '' ? DefaultUserAvatar : {uri: navigation.state.params.item.user.avtar}}/>
       </TouchableOpacity>,
     headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}>
@@ -137,14 +136,14 @@ class DiaryDetailPage extends Component {
   deleteDiary = () => {
     const payload = {diarys: [{diary_id: this.state.diary.diary_id}], mode: 0}
     Alert.alert(
-      '删除日记',
-      '确定要删除日记？',
+      '提示',
+      '日记删除后，30天内可在垃圾箱恢复日记，是否确认删除？',
       [
         {text: '取消'},
         {text: '确定', onPress: () => this.props.deleteDiary(payload)}
       ],
       { cancelable: false }
-)
+    )
   }
 
 
