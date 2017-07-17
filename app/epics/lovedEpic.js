@@ -1,8 +1,10 @@
 import { Observable } from 'rxjs/Rx'
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { LovedUsersApi, FollowUserApi, UnFollowUserApi} from '../api/apis'
 import * as actions from '../actions/lovedActions'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
 function lovedInitEpic (action$) {
   return action$.ofType(actions.LOVED_INIT)
@@ -10,15 +12,19 @@ function lovedInitEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => ({token, page})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, page, net) => ({token, page, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(LovedUsersApi(it.token, it.page))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 2) {
                   return null
                 }
@@ -26,6 +32,7 @@ function lovedInitEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -36,16 +43,20 @@ function lovedMoreEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page + 1),
-                (token, page) => ({token, page})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, page, net) => ({token, page, net})
                 
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(LovedUsersApi(it.token, it.page))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 2) {
                   return null
                 }
@@ -53,6 +64,7 @@ function lovedMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -63,9 +75,10 @@ function lovedFollowedEpic(action$) {
       Observable.zip(
          Observable.from(AsyncStorage.getItem('token')),
          Observable.of(action.followedId),
-         (token, followedId) => ({token, followedId})
+         Observable.from(NativeModules.SplashScreen.getNetInfo()),
+         (token, followedId, net) => ({token, followedId, net})
       ).flatMap((it) => {
-        if (it.token) {
+        if (it.token && it.net === '1') {
           if (action.myFocus === 0) {
             return Observable.from(FollowUserApi(it.followedId, it.token))
           } else if (action.myFocus === 1) {
@@ -74,6 +87,9 @@ function lovedFollowedEpic(action$) {
         }
         return Observable.of(2)
       }).map((it) => {
+        if (it === 2) {
+          return showError(NET_WORK_ERROR)
+        }
         if (it.return_code === 1) {
           if (action.myFocus === 0) {
             return actions.LovedFollowSuccess(action.position)
@@ -84,6 +100,7 @@ function lovedFollowedEpic(action$) {
         return null
       }).catch((error) => {
         console.log(error)
+        return showError(OTHER_ERROR)
       })
     )
 }
