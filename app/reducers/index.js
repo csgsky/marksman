@@ -21,6 +21,7 @@ import myFollowTopics from './myFollowTopicsReducer'
 import commentEditor from './commentEditorReducer'
 import commentsList from './commentsListReducer'
 import writeDiary from './writeDiaryReducer'
+import common from './common'
 
 export default combineReducers({
   homePage,
@@ -43,5 +44,6 @@ export default combineReducers({
   myFollowTopics,
   commentEditor,
   commentsList,
-  writeDiary
+  writeDiary,
+  common
 })
