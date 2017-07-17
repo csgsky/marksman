@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-import {TouchableOpacity, StyleSheet, AsyncStorage, View, Text, Image, FlatList, RefreshControl} from 'react-native'
+import {TouchableOpacity, StyleSheet, Alert, AsyncStorage, View, Text, Image, FlatList, RefreshControl} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/message'
 import theme from '../../config/theme'
 import ListSeparator from '../../component/ListSeparator'
 import Footer from '../../component/Footer'
-import NoticeIcon from '../../img/news_notice.png'
 
 class CommentNewPage extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -23,6 +22,13 @@ class CommentNewPage extends Component {
 
   getItemSeparator = () => <ListSeparator />
 
+
+  getIconSource = (url) => {
+    if (url === '') {
+      return theme.imgs.DefaultUserAvatar
+    }
+    return {uri: url}
+  }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMoreData, page} = this.props
     if (hasMoreData && !isLoadingMore) {
@@ -30,13 +36,25 @@ class CommentNewPage extends Component {
     }
   }
 
+
   _routerToDiary = (item) => {
+    if (item === null) {
+      Alert.alert(
+      '提示',
+      '该日记已被删除',
+        [
+          {text: '确定', onPress: () => {}}
+        ],
+        { cancelable: false }
+      )
+      return
+    }
     const {navigation } = this.props
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         navigation.navigate('DiaryDetailPage', {me: false, item})
       } else {
-        if (result == item.user_id) {
+        if (result === item.user_id) {
           navigation.navigate('DiaryDetailPage', {me: true, item})
           return
         }
@@ -54,8 +72,8 @@ class CommentNewPage extends Component {
   }
 
   renderListItem = (item) => {
-    return (<TouchableOpacity style={styles.itemView} onPress={() => this._routerToDiary(item)}>
-      <Image source={{uri: item.obj_img}} style={styles.icon} />
+    return (<TouchableOpacity style={styles.itemView} onPress={() => this._routerToDiary(item.diary)}>
+      <Image source={this.getIconSource(item.obj_img)} style={styles.icon} />
       <View style={{marginLeft: 16}}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.content}>{item.content}</Text>

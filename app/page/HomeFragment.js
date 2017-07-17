@@ -43,6 +43,7 @@ class HomeFragment extends Component {
   }
 
   onRefresh = () => {
+    this.refs._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
     this.props.actions.homeInit(0)
   }
 
@@ -118,11 +119,13 @@ class HomeFragment extends Component {
         <Separator />
         <FlatList
           data={diarys}
+          ref="_homefragmentlist"
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
           ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}
+          initialNumToRender={6}
           onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl
