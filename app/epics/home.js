@@ -24,7 +24,7 @@ function homeInitEpic (action$) {
                 }
               ).map((it) => {
                 if (it === 2) {
-                  return showError({error: NET_WORK_ERROR});
+                  return showError(NET_WORK_ERROR);
                 }
                 if (it.return_code === 2) {
                   return null
@@ -33,7 +33,7 @@ function homeInitEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              return showError({error: OTHER_ERROR});
+              return showError(OTHER_ERROR);
             })
        )
 }
@@ -56,7 +56,7 @@ function homeMoreEpic (action$) {
                 }
               ).map((it) => {
                 if (it === 2) {
-                  return showError({error: NET_WORK_ERROR})
+                  return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 2) {
                   return null
@@ -65,7 +65,7 @@ function homeMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              return showError({error: OTHER_ERROR})
+              return showError(OTHER_ERROR)
             })
        )
 }

@@ -29,7 +29,7 @@ function personInitEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                if (it.info.return_code === 1 && it.diaries.return_code === 1) {
+                if (it.info.return_code === 1) {
                   console.log('epic  ---> personal info ' + it.info.return_code)
                   console.log('epic  ---> personal diaries ' + it.diaries)
                   return actions.personData(it)
@@ -54,7 +54,7 @@ function personDiaryMoreEpic (action$) {
                 (token, page, net) => ({token, page, net})
               ).flatMap(
                 (it) => {
-                  if (it.token && it.net === 1) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(PersonalDiariesApi(it.token, it.page))
                   }
                   return Observable.of(2)

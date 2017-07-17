@@ -19,7 +19,7 @@ function topicInitEpic (action$) {
                     return Observable.zip(
                     Observable.from(TopicApi(action.topicId, it.token)),
                     Observable.from(CommentsApi({id: action.diaryId, ownerId: action.ownerId, page: 0, userId: it.token})),
-                    (topic, {comments}) => ({topic: topic.talk, comments}))
+                    (topic, {comments}) => ({topic: topic.talk, comments, return_code: topic.return_code}))
                   }
                   return Observable.of(2)
                 }).flatMap(data => Observable.of(data))
@@ -30,7 +30,7 @@ function topicInitEpic (action$) {
                 if (it.return_code === 1) {
                   return actions.topicData(it)
                 }
-                console.log(it.topic)
+                console.log(it)
                 return showError(OTHER_ERROR)
               }
             )
