@@ -1,8 +1,10 @@
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import { Observable } from 'rxjs/Rx'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/searchAction'
 import { SearchDiaryApi } from '../api/apis'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
 function searchInitEpic (action$) {
   return action$.ofType(actions.SEARCH_PAGE_SEARCH_INIT)
@@ -12,24 +14,30 @@ function searchInitEpic (action$) {
                 Observable.of(action.kw),
                 Observable.of(0),
                 Observable.from(AsyncStorage.getItem('userId')),
-                (token, kw, page, userId) => ({token, kw, page, userId})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, kw, page, userId, net) => ({token, kw, page, userId, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(SearchDiaryApi(it.token, it.kw, it.page, it.userId))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 1) {
                   if (it.diarys.length > 0) {
                     return actions.searchDiaryData(it.diarys)
                   }
                   return actions.searchEmpty()
                 }
+                return showError(OTHER_ERROR)
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -42,15 +50,19 @@ function searchMoreEpic (action$) {
                 Observable.of(action.kw),
                 Observable.of(action.page),
                 Observable.from(AsyncStorage.getItem('userId')),
-                (token, kw, page, userId) => ({token, kw, page, userId})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, kw, page, userId, net) => ({token, kw, page, userId, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(SearchDiaryApi(it.token, it.kw, it.page, it.userId))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 1) {
                   return actions.searchLoadingMoreData(it.diarys)
                 }
@@ -58,6 +70,7 @@ function searchMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }

@@ -7,6 +7,8 @@
 //
 
 #import "SplashScreen.h"
+#import "Reachability.h"
+
 @implementation SplashScreen
 
 RCT_EXPORT_MODULE();
@@ -22,6 +24,20 @@ RCT_REMAP_METHOD(getDeviceId,
   } else {
     reject(@"001", @"get device failed", nil);
   }
+}
+
+RCT_REMAP_METHOD(getNetInfo,
+                 res:(RCTPromiseResolveBlock)resolve
+                 rej:(RCTPromiseRejectBlock)reject)
+{
+  Reachability *conn = [Reachability reachabilityForInternetConnection];
+  NSString *netInfo;
+  if ([conn currentReachabilityStatus] != NotReachable) {
+    netInfo = @"1";
+  } else {
+    netInfo = @"0";
+  }
+  resolve(netInfo);
 }
 
 @end

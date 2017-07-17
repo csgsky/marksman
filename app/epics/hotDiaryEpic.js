@@ -1,8 +1,10 @@
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import { Observable } from 'rxjs/Rx'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/hotDiaryAction'
 import { FooterHotDiaryApi, LikeTopicApi } from '../api/apis'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
 function hotDiaryInitEpic (action$) {
   return action$.ofType(actions.HOTDIARY_INIT)
@@ -10,16 +12,20 @@ function hotDiaryInitEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => ({token, page})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, page, net) => ({token, page, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     console.log('epic  --->  it token  ' + it.token)
                     return Observable.from(FooterHotDiaryApi(it.token, it.page))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 2) {
                   return null
                 }
@@ -29,6 +35,7 @@ function hotDiaryInitEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -40,15 +47,19 @@ function hotDiaryMoreEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => ({token, page})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, page, net) => ({token, page, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(FooterHotDiaryApi(it.token, it.page))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 2) {
                   return null
                 }
@@ -56,6 +67,7 @@ function hotDiaryMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -65,21 +77,27 @@ function diaryLikeEpic (action$) {
             .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
-                token => ({token})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, net) => ({token, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(LikeTopicApi({id: action.payload.id, ownerId: action.payload.ownerId, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 console.log(it.return_msg)
                 if (it.return_code === 1) {
                   return actions.hotDiaryLikeSuccess({index: action.payload.index})
                 }
+                return null
               }).catch((error) => {
                 console.log('epic error --->' + error)
+                return showError(OTHER_ERROR)
               }))
 }
 
