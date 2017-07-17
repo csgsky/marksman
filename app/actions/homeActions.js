@@ -17,7 +17,7 @@ export function homeData (data) {
     type: HOME_DATA,
     isRefreshing: false,
     diarys: data.diarys,
-    hasMoreData: data.diarys.length >= 6,
+    hasMoreData: data.diarys.length >= 10,
     isLoadingMore: false
   }
 }
@@ -34,6 +34,6 @@ export function homeLoadingMoreData (data) {
     type: HOME_LOADING_MORE_DATA,
     isLoadingMore: false,
     diarys: data.diarys,
-    hasMoreData: data.diarys.length >= 6
+    hasMoreData: data.diarys.length >= 10
   }
 }

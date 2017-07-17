@@ -16,7 +16,7 @@ export default class TalksItem extends Component {
     const cover = item.icon_url
     const name = item.name
     const tag = item.tag
-    const comment = `${item.views}浏览 | ${item.comment.num}评论 `
+    const comment = `${item.views}浏览 | 评论 `
     return (<TouchableOpacity style={{paddingLeft: 16, paddingRight: 16, paddingBottom: 16, paddingTop: index === 0 ? 16 : 0}}
       activeOpacity = {0.3}
       onPress={() => this._onPress(item.talk_id, item.user_id, item.diary_id)}>
