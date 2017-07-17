@@ -115,23 +115,23 @@ export function putApi (path, userId, map) {
 // 首页日记
 export const MineDiaryApi = (token, page, userId) => {
   if (userId !== null) {
-    return getApi(`/api/diary?rn=6&ordertype=1&p=${page}&user_id=${userId}`, token)
+    return getApi(`/api/diary?rn=10&order_type=1&p=${page}&user_id=${userId}`, token)
   } else {
-    return getApi(`/api/diary?rn=6&ordertype=1&p=${page}`, token)
+    return getApi(`/api/diary?rn=10&order_type=1&p=${page}`, token)
   }
 }
 
 // 足迹、最新
 export const FooterRecentDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=10&ordertype=0&private=1&p=${page}`, userId)
+  getApi(`/api/diary?rn=10&order_type=0&private=1&p=${page}`, userId)
 
 // 足迹、热门
 export const FooterHotDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=10&ordertype=2&private=1&p=${page}`, userId)
+  getApi(`/api/diary?rn=10&order_type=2&private=1&p=${page}`, userId)
 
 // 文集
 export const CollectionsApi = (userId, page) =>
-  getApi(`/api/collection?rn=10&ordertype=0&p=${page}`, userId)
+  getApi(`/api/collection?rn=10&order_type=0&p=${page}`, userId)
 
 // 发现、话题
 export const TopicsListApi = (userId, page, come4) => {
@@ -159,7 +159,7 @@ export const SearchDiaryApi = (token, kw, page, userId) => {
 
 // 垃圾箱列表
 export const TrashApi = (token, page, userId) =>
-  getApi(`/api/diary?p=${page}&rn=10&ordertype=0&status=0&user_id=${userId}`, token)
+  getApi(`/api/diary?p=${page}&rn=10&order_type=0&status=0&user_id=${userId}`, token)
 
 // 用户个人信息
 export const PersonalInfoApi = (userId, id) =>
@@ -167,7 +167,7 @@ export const PersonalInfoApi = (userId, id) =>
 
 // 个人日记列表
 export const PersonalDiariesApi = (token, userId, page) =>
-  getApi(`/api/diary?p=${page}&rn=10&ordertype=0&private=1&user_id=${userId}`, token)
+  getApi(`/api/diary?p=${page}&rn=10&order_type=0&private=1&user_id=${userId}`, token)
 
 // 反馈意见
 export const FeedbackApi = (data, userId) =>
@@ -282,6 +282,5 @@ export const MineMessageNotifApi = (userId, page) =>
   getApi(`/api/mymsg?rn=10&mode=3&p=${page}`, userId)
 
 // 消息 - 评论
-
 export const MineMessageCommentApi = (userId, page) =>
   getApi(`/api/mymsg?rn=10&mode=2&p=${page}`, userId)

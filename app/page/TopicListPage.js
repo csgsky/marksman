@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch) => ({
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: theme.pageBackgroundColor
   }
 })
 

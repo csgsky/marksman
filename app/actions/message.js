@@ -7,6 +7,8 @@ export const MINE_MESSAGE_MODE_DATA = 'MINE_MESSAGE_MODE_DATA'
 export const MESSAGE_DISMISS_REMINDER = 'MESSAGE_DISMISS_REMINDER'
 export const MINE_MESSAGE_NOTIF_INIT = 'MINE_MESSAGE_NOTIF_INIT'
 export const MINE_MESSAGE_NOTIF_DATA = 'MINE_MESSAGE_NOTIF_DATA'
+export const MINE_MESSAGE_NOTIF_MORE = 'MINE_MESSAGE_NOTIF_MORE'
+export const MINE_MESSAGE_NOTIF_MORE_DATA = 'MINE_MESSAGE_NOTIF_MORE_DATA'
 export const MINE_MESSAGE_COMMENT_INIT = 'MINE_MESSAGE_COMMENT_INIT'
 export const MINE_MESSAGE_COMMENT_DATA = 'MINE_MESSAGE_COMMENT_DATA'
 export const MINE_MESSAGE_COMMENT_MORE = 'MINE_MESSAGE_COMMENT_MORE'
@@ -78,6 +80,22 @@ export function mineMessageNotifData (payload) {
   console.log('action ---> MINE_MESSAGE_NOTIF_DATA', payload)
   return {
     type: MINE_MESSAGE_NOTIF_DATA,
+    payload
+  }
+}
+
+export function mineMessageNotifMore(payload) {
+  console.log('action ---> MINE_MESSAGE_NOTIF_MORE', payload)
+  return {
+    type: MINE_MESSAGE_NOTIF_MORE,
+    payload
+  }
+}
+
+export function mineMessageNotifMoreData (payload) {
+  console.log('action ---> MINE_MESSAGE_NOTIF_MORE_DATA', payload)
+  return {
+    type: MINE_MESSAGE_NOTIF_MORE_DATA,
     payload
   }
 }

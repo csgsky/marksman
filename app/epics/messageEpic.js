@@ -102,6 +102,30 @@ function mineMessageNotifInitEpic (action$) {
        )
 }
 
+function mineMessageNotifMoreEpic (action$) {
+  return action$.ofType(actions.MINE_MESSAGE_NOTIF_MORE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.payload),
+                (token, payload) => ({token, payload})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(MineMessageNotifApi(it.token, it.payload.page))
+                  }
+                }
+              ).map((it) => {
+                if (it.return_code === 1) {
+                  return actions.mineMessageNotifMoreData(it.mymsgs)
+                }
+              }
+            ).catch((error) => {
+              console.log('epic error --> ' + error)
+            })
+       )
+}
+
 function mineMessageCommentInitEpic (action$) {
   return action$.ofType(actions.MINE_MESSAGE_COMMENT_INIT)
             .mergeMap(action =>
@@ -155,5 +179,6 @@ export default combineEpics(systemMessageInitEpic,
   systemMessageMoreEpic,
   mineMessageModeEpic,
   mineMessageNotifInitEpic,
+  mineMessageNotifMoreEpic,
   mineMessageCommentInitEpic,
   mineMessageCommentMoreEpic)

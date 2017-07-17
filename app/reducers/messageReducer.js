@@ -64,7 +64,25 @@ export default function message (state = initState, action = {}) {
       console.log('reducer --> MINE_MESSAGE_NOTIF_DATA', action.payload)
       return {
         ...state,
-        notifications: action.payload
+        notifications: action.payload,
+        hasMoreData: action.payload.length >= 10,
+        isLoadingMore: false,
+        page: state.page + 1
+      }
+    case types.MINE_MESSAGE_NOTIF_MORE:
+      return {
+        ...state,
+        isLoadingMore: true
+      }
+    case types.MINE_MESSAGE_NOTIF_MORE_DATA:
+      console.log('reducer --> MINE_MESSAGE_NOTIF_MORE_DATA', action.payload)
+      console.log('reducer --> MINE_MESSAGE_NOTIF_MORE_DATA', state.notifications.concat(action.payload))
+      return {
+        ...state,
+        page: state.page + 1,
+        hasMoreData: action.payload.length >= 10,
+        isLoadingMore: false,
+        notifications: state.notifications.concat(action.payload)
       }
     case types.MINE_MESSAGE_COMMENT_INIT:
       console.log('reducer --> MINE_MESSAGE_COMMENT_INIT', action.payload)
@@ -79,7 +97,7 @@ export default function message (state = initState, action = {}) {
       return {
         ...state,
         commemts: action.payload,
-        hasMoreData: action.payload.length >= 0,
+        hasMoreData: action.payload.length >= 10,
         page: state.page + 1
       }
     case types.MINE_MESSAGE_COMMENT_MORE_DATA:
@@ -87,7 +105,8 @@ export default function message (state = initState, action = {}) {
       return {
         ...state,
         commemts: state.commemts.concat(action.payload),
-        hasMoreData: action.payload.length >= 0,
+        hasMoreData: action.payload.length >= 10,
+        isLoadingMore: false,
         page: state.page + 1
       }
     default:
