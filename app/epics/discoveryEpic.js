@@ -9,22 +9,19 @@ import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
 function discoveryInitEpic (action$) {
   return action$.ofType(actions.DISCOVERY_INIT)
-            .mergeMap(() =>
+            .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
                 (token, net) => ({token, net})
               ).flatMap(
                 (it) => {
+                  console.log(action)
                   if (it.token && it.net === '1') {
-                    Observable.zip(
-                        Observable.from(TopicsListApi(it.token, it.page)),
+                    return Observable.zip(
+                        Observable.from(TopicsListApi(it.token, 0)),
                         Observable.from(TopUsersApi(it.token)),
-                        (topics, topUsers) => {
-                          return {
-                            topics, topUsers
-                          }
-                        })
+                        (topics, topUsers) => ({topics, topUsers}))
                   }
                   return Observable.of(2)
                 }).flatMap(it => Observable.of(it))

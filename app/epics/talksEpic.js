@@ -23,6 +23,7 @@ function talksInitEpic (action$) {
                   return Observable.of(2)
                 }
               ).map((it) => {
+                console.log(it)
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
