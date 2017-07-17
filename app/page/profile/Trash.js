@@ -91,7 +91,7 @@ class Trash extends Component {
           hide={() => this.toggleDialog()}
           recoverDiary={this._recoverDiary}
           deleteDiary={this._deleteDiary}/>
-        {!!diaries.length && <FlatList
+        {diaries && !!diaries.length && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
@@ -107,7 +107,7 @@ class Trash extends Component {
             />
           }
         />}
-        {!isRefreshing && diaries.length === 0 && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
+        {diaries && diaries.length === 0 && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
       </View>
     )
   }
