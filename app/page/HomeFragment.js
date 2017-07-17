@@ -8,6 +8,7 @@ import * as actions from '../actions/homeActions'
 import * as consts from '../utils/const'
 import theme from '../config/theme'
 import Separator from '../component/Separator'
+import Toast from 'react-native-root-toast'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Mine from '../img/mine.png'
@@ -37,6 +38,31 @@ class HomeFragment extends Component {
   componentDidMount () {
     this.props.actions.homeInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
+  }
+  componentWillReceiveProps(nextProps) {
+    const err = nextProps.common.error;
+    if (err) {
+      Toast.show(err, {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+        onShow: () => {
+        // calls on toast\`s appear animation start
+        },
+        onShown: () => {
+        // calls on toast\`s appear animation end.
+        },
+        onHide: () => {
+        // calls on toast\`s hide animation start.
+        },
+        onHidden: () => {
+        // calls on toast\`s hide animation end.
+        }
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -139,13 +165,14 @@ class HomeFragment extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const {homePage} = state
+  const {homePage, common} = state
   return {
     isRefreshing: homePage.isRefreshing,
     diarys: homePage.diarys,
     hasMoreData: homePage.hasMoreData,
     isLoadingMore: homePage.isLoadingMore,
-    page: homePage.page
+    page: homePage.page,
+    common
   }
 }
 

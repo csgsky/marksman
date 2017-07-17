@@ -1,8 +1,11 @@
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/loginActions'
 import { combineEpics } from 'redux-observable'
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import {LoginApi} from '../api/apis'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
+
 function loginEpic (action$) {
   return action$.ofType(actions.LOGIN)
             .mergeMap((action) =>
@@ -10,21 +13,28 @@ function loginEpic (action$) {
                   Observable.from(AsyncStorage.getItem('token')),
                   Observable.of(action.account),
                   Observable.of(action.password),
-                  (token, account, password) => {
-                    return {token, data: {account, password}}
+                  Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                  (token, account, password, net) => {
+                    return {token, data: {account, password}, net}
                   }
                 ).flatMap(it => {
-                  return Observable.from(LoginApi(it.token, it.data))
+                  if (it.token && it.net === '1') {
+                    return Observable.from(LoginApi(it.token, it.data))
+                  }
+                  return Observable.of(2)
                 }
                 ).map(it => {
+                  if (it === 2) {
+                    return showError(NET_WORK_ERROR)
+                  }
                   if (it.return_code === 1) {
                     return actions.loginSuccess(it, it.user_id)
-                  } else {
-                    return actions.loginError(it.return_msg)
                   }
+                  return actions.loginError(it.return_msg)
                 }
-              ).catch(error => {
+              ).catch((error) => {
                 console.warn('epic error --> ' + error)
+                return showError(OTHER_ERROR)
               })
         )
 }
