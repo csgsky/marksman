@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage} from 'react-native'
 import theme from '../../config/theme'
-import {getDay, getYYMM, getDate, getHHMM} from '../../utils/TimeUtils'
+import {getDay, getYYMM, getDate, getHHMM, recentTime} from '../../utils/TimeUtils'
 import CommentBar from '../CommentBar'
 import One from '../../img/diary_material_one.jpeg'
 import Two from '../../img/diary_material_two.jpg'
@@ -15,6 +15,11 @@ import Nine from '../../img/diary_material_nine.jpeg'
 import Ten from '../../img/diary_material_ten.jpeg'
 
 export default class DiaryItem extends Component {
+
+  getIconSource = (img) => {
+    return img === '' ? theme.imgs.DefaultUserAvatar : {uri: img}
+  }
+
   render () {
     const { item, index } = this.props
     const day = getDay(item.create_time)
@@ -36,14 +41,21 @@ export default class DiaryItem extends Component {
             }
           }}
           style={{backgroundColor: 'white', paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
-          <View style={styles.time}>
+          {!this.props.showUserInfo && <View style={styles.time}>
             <Text style={[styles.day, {color: item.feelcolor}]}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
               <Text style={styles.week}>{week}</Text>
               <Text style={styles.year_month}>{yymm}</Text>
             </View>
             {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
-          </View>
+          </View>}
+          {this.props.showUserInfo && <View style={[styles.time, {alignItems: 'center'}]}>
+            <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
+            <View style={{flex: 1, flexDirection: 'column', marginLeft: 19}}>
+              <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}}>{item.user.nickname}</Text>
+              <Text style={{marginTop: 4, fontSize: theme.text.mdFontSize, color: theme.text.globalSubTextColor}}>{recentTime(item.create_time)}</Text>
+            </View>
+          </View>}
           {!this.props.showRightTime && <Text style={styles.body}>{content}</Text>}
           {this.props.showRightTime && <Text style={styles.body} numberOfLines={5}>{content}</Text>}
           {img !== '' && <TouchableOpacity onPress={this.props.showRightTime && this.photoView} activeOpacity={0.8}>

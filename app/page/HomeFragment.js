@@ -144,13 +144,14 @@ class HomeFragment extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const {homePage} = state
+  const {homePage, common} = state
   return {
     isRefreshing: homePage.isRefreshing,
     diarys: homePage.diarys,
     hasMoreData: homePage.hasMoreData,
     isLoadingMore: homePage.isLoadingMore,
-    page: homePage.page
+    page: homePage.page,
+    common
   }
 }
 

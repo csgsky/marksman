@@ -2,7 +2,7 @@ import * as types from '../actions/trashActions'
 
 const initState = {
   isRefreshing: false,
-  diaries: [],
+  diaries: undefined,
   isLoadingMore: false,
   page: 0,
   hasMore: true

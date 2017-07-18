@@ -37,7 +37,7 @@ class Feedback extends Component {
     const {success} = nextProps;
     if (oldSuccess !== success && success) {
       this.props.navigation.goBack()
-      Toast.show('反馈成功', {
+      Toast.show('提交成功，小编正快马加鞭解决问题~', {
         duration: Toast.durations.LONG,
         position: Toast.positions.BOTTOM,
         shadow: true,
@@ -77,8 +77,7 @@ class Feedback extends Component {
         <View style={styles.tips}>
           <Text style={styles.tip}>小提示</Text>
           <Text style={styles.tip}>如您有任何问题请与我联系或留言~</Text>
-          <Text style={styles.tip}>QQ: 11111</Text>
-          <Text style={styles.tip}>微信: 11111</Text>
+          <Text style={styles.tip}>联系我们: qianyanapp@gmail.com</Text>
         </View>
       </View>
     )

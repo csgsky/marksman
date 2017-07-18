@@ -22,6 +22,7 @@ import commentEditor from './commentEditorReducer'
 import commentsList from './commentsListReducer'
 import writeDiary from './writeDiaryReducer'
 import message from './messageReducer'
+import common from './common'
 
 export default combineReducers({
   homePage,
@@ -45,5 +46,6 @@ export default combineReducers({
   commentEditor,
   commentsList,
   writeDiary,
-  message
+  message,
+  common
 })
