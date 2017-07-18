@@ -24,7 +24,13 @@ class HotDiary extends Component {
 
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment showRightTime likeDiary={this._likeDiary} index={index}/>
+    return (<DiaryItem item={item}
+      navigation={navigation}
+      hasComment
+      showRightTime
+      showUserInfo
+      likeDiary={this._likeDiary}
+      index={index}/>)
   }
 
   getFooterCompt = () => {

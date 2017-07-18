@@ -1,4 +1,5 @@
 import PubSub from 'pubsub-js'
+import Toast from 'react-native-root-toast'
 
 export const TRASH_INIT = 'TRASH_INIT'
 export const TRASH_DATA = 'TRASH_DATA'
@@ -52,6 +53,26 @@ export function recoverDiary(payload) {
 
 export function recoverDiarySuccess () {
   PubSub.publish('refreshTrashList')
+  Toast.show('恢复成功，请在浅记里查看~', {
+    duration: Toast.durations.LONG,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0,
+    onShow: () => {
+        // calls on toast\`s appear animation start
+    },
+    onShown: () => {
+        // calls on toast\`s appear animation end.
+    },
+    onHide: () => {
+        // calls on toast\`s hide animation start.
+    },
+    onHidden: () => {
+        // calls on toast\`s hide animation end.
+    }
+  })
   return {
     type: TRASH_RECOVER_SUCCESS
   }

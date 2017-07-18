@@ -1,5 +1,8 @@
 package com.zhy.qianyan.module;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -37,6 +40,28 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
                     getCurrentActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
             Log.i("getIMSI"," androidId ===>  " + androidId);
             promise.resolve(androidId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            promise.reject(e.getMessage(), e);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void getNetInfo(Promise promise){
+        try {
+
+            ConnectivityManager cm = (ConnectivityManager) getCurrentActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            boolean response = networkInfo != null && networkInfo.isConnected();
+            if (response){
+                promise.resolve("1");
+            } else {
+                promise.resolve("0");
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
