@@ -70,6 +70,7 @@ class WriteDiaryPage extends Component {
     const {success} = nextProps
     if (success) {
       PubSub.publish('refreshDiaryList')
+      dismissKeyboard()
       this.props.cleanWritePage()
       this.props.navigation.goBack()
     }

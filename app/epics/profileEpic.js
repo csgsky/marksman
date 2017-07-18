@@ -1,8 +1,11 @@
 import { Observable } from 'rxjs/Rx'
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/profile'
 import {getUserProfile, EditUserInfo, getUnloginInfo, ProfileCenterReminderApi} from '../api/apis'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
+
 
 function getProfileEpic (action$) {
   return action$.ofType(actions.PERSONAL_INFO_INIT)
@@ -10,9 +13,13 @@ function getProfileEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.userId),
-                (token, userId) => ({token, userId})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, userId, net) => ({token, userId, net})
               ).flatMap(
                 (it) => {
+                  if (it.net === '0') {
+                    return Observable.of(2)
+                  }
                   if (it.userId) {
                     return Observable.from(getUserProfile(it.token, it.userId))
                   }
@@ -23,6 +30,9 @@ function getProfileEpic (action$) {
                   ).flatMap(value => Observable.of(value))
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(OTHER_ERROR)
+                }
                 if (it.return_code === 1) {
                   console.warn('getProfileEpic success ===>  ')
                   return actions.personalInfoData(it)
@@ -34,6 +44,7 @@ function getProfileEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -44,28 +55,28 @@ function getUnLoginProfileEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.from(AsyncStorage.getItem('devicedid')),
-                (token, userId) => {
-                  return {token, userId}
-                }
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, userId, net) => ({token, userId, net})
               ).flatMap(
-                it => {
-                  if (it.token) {
+                (it) => {
+                  if (it.token && it.net === '1') {
                     return Observable.from(getUnloginInfo(it.token, it.userId))
-                  } else {
-                    return Observable.of(2)
                   }
+                  return Observable.of(2)
                 }
-              ).map(it => {
+              ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 1) {
                   console.warn('getUnLoginProfileEpic success ===>  ' + it.customer)
                   return actions.personalInfoData(it.customer)
-                } else {
-                  console.warn('getUnLoginProfileEpic error ===>  ' + it.return_code)
-                  return actions.personalInfoError(it.return_code)
                 }
+                return actions.personalInfoError(it.return_code)
               }
-            ).catch(error => {
+            ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -76,22 +87,28 @@ function submitUserInfoEpic(action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.payload),
-                (token, payload) => ({token, payload})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, payload, net) => ({token, payload, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     return Observable.from(EditUserInfo(it.token, it.payload))
                   }
+                  return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 1) {
                   console.warn('submitUserInfoEpic success ===>  ')
                   return actions.submitUserInfoSuccess(action.newInfo)
-                } 
+                }
                 return actions.submitUserInfoError(it.return_code)
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }

@@ -115,9 +115,9 @@ export function putApi (path, userId, map) {
 // 首页日记
 export const MineDiaryApi = (token, page, userId) => {
   if (userId !== null) {
-    return getApi(`/api/diary?rn=10&order_type=1&p=${page}&user_id=${userId}`, token)
+    return getApi(`/api/diary?rn=10&p=${page}&user_id=${userId}`, token)
   } else {
-    return getApi(`/api/diary?rn=10&order_type=1&p=${page}`, token)
+    return getApi(`/api/diary?rn=10&p=${page}`, token)
   }
 }
 

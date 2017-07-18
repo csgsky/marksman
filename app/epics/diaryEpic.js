@@ -1,8 +1,11 @@
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/diaryAction'
 import { PostDiaryApi} from '../api/apis'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
+
 
 // function diaryCommentInitEpic (action$) {
 //   return action$.ofType(actions.DIARY_COMMENT_INIT)
@@ -31,10 +34,19 @@ function postWriteDiary (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.payload),
-                (token, payload) => ({token, payload})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, payload, net) => ({token, payload, net})
               ).flatMap(
-                it => Observable.from(PostDiaryApi(it.payload, it.token))
+                (it) => {
+                  if (it.net === '1' && it.token) {
+                    return Observable.from(PostDiaryApi(it.payload, it.token))
+                  }
+                  return Observable.of(2)
+                }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
                 if (it.return_code === 2) {
                   return null
                 } else if (it.return_code === 1) {
@@ -44,6 +56,7 @@ function postWriteDiary (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }

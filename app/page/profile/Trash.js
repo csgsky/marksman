@@ -10,8 +10,7 @@ import ListSeparator from '../../component/ListSeparator'
 import EmptyView from '../../component/EmptyView'
 import theme from '../../config/theme'
 import TrashModal from '../../widget/TrashModal'
-import LoadingMore from '../../component/LoadingMore'
-import NoMoreData from '../../component/NoMoreData'
+import Footer from '../../component/Footer'
 
 class Trash extends Component {
 
@@ -41,11 +40,9 @@ class Trash extends Component {
   }
 
   getFooterCompt = () => {
-    const {diaries, hasMore, isLoadingMore} = this.props
-    if (diaries.length > 0 && hasMore && isLoadingMore) {
-      return <LoadingMore />
-    } else if (diaries.length > 0 && !hasMore) {
-      return <NoMoreData />
+    const {diaries, hasMore} = this.props
+    if (diaries.length > 0) {
+      return <Footer hasMoreData={hasMore}/>
     }
     return <View />
   }
@@ -91,7 +88,7 @@ class Trash extends Component {
           hide={() => this.toggleDialog()}
           recoverDiary={this._recoverDiary}
           deleteDiary={this._deleteDiary}/>
-        {!!diaries.length && <FlatList
+        {diaries && !!diaries.length && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
@@ -107,7 +104,7 @@ class Trash extends Component {
             />
           }
         />}
-        {!isRefreshing && diaries.length === 0 && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
+        {diaries && diaries.length === 0 && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
       </View>
     )
   }

@@ -29,7 +29,7 @@ export default class TalksItem extends Component {
             <Text style={styles.title} numberOfLines={1}>{name}</Text>
           </View>
           {type !== 'followed' && <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
-            <View style={styles.tagView}>
+            <View style={[styles.tagView, {backgroundColor: item.tag_color}]}>
               <Text style={styles.tag}>{tag}</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
