@@ -1,8 +1,10 @@
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import { Observable } from 'rxjs/Rx'
 import { combineEpics } from 'redux-observable'
 import * as actions from '../actions/collectionsAction'
 import { CollectionsApi } from '../api/apis'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
 function collectionsInitEpic (action$) {
   return action$.ofType(actions.COLLECTIONS_INIT)
@@ -10,16 +12,20 @@ function collectionsInitEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => ({token, page})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, page, net) => ({token, page, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     console.warn('epic  --->  it token  ' + it.page)
                     return Observable.from(CollectionsApi(it.token, it.page))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR);
+                }
                 if (it.return_code === 2) {
                   return null
                 }
@@ -27,6 +33,7 @@ function collectionsInitEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
        )
 }
@@ -37,16 +44,20 @@ function collectionLoadingMoreEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                (token, page) => ({token, page})
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, page, net) => ({token, page, net})
               ).flatMap(
                 (it) => {
-                  if (it.token) {
+                  if (it.token && it.net === '1') {
                     console.warn('epic  --->  it token  ' + it.page)
                     return Observable.from(CollectionsApi(it.token, it.page))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR);
+                }
                 if (it.return_code === 2) {
                   return null
                 }
@@ -54,6 +65,7 @@ function collectionLoadingMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
+              showError(OTHER_ERROR)
             })
        )
 }

@@ -24,6 +24,35 @@ export const getHHMM = (time) => {
   const date = Moment(time)
   return date.hour() + ':' + (date.minute() === 0 ? '00' : date.minute())
 }
+
+// 时间显示，一分以内为‘刚刚’，一小时以内为‘分钟前’，一天以内为‘小时前’，今年为‘月日’，往年为‘年月日’
+export function recentTime (_time) {
+  const today = new Date()
+  const ONE_MINUTE = 60 * 1000
+  const ONE_HOUR = ONE_MINUTE * 60
+  const ONE_DAY = ONE_HOUR * 24
+  const date = new Date(_time)
+  const delta = today.getTime() - date.getTime()
+  console.log('delta ==> ')
+  if (delta < ONE_MINUTE) {
+    return '刚刚'
+  }
+  if (delta < ONE_HOUR) {
+    return Math.floor(delta / ONE_MINUTE) + timeDesc.ONE_MINUTE_AGO
+  }
+  if (delta < ONE_DAY) {
+    return Math.floor(delta / ONE_HOUR) + timeDesc.ONE_HOUR_AGO
+  }
+  return _time.slice(0, 10)
+}
+
+const timeDesc = {
+  JUST_NOW: '刚刚',
+  ONE_MINUTE_AGO: '分钟前',
+  ONE_HOUR_AGO: '小时前',
+  ONE_DAY_AGO: '天前'
+}
+
 export const getDate = (time) => {
   const date = Moment(time).day()
   switch (date) {

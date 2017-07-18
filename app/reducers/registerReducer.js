@@ -8,7 +8,7 @@ const initState = {
   correctPassword: false,
   correctCode: false,
   isCounting: false,
-  securePassword: false,
+  securePassword: true,
   btnCodeText: '获取验证码',
   counter: 60,
   userId: ''

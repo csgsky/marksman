@@ -107,9 +107,9 @@ class Login extends Component {
             <Text style={styles.login}>{consts.CONFIRM}</Text>
           </View>
         </TouchableOpacity>
-        <Text style={styles.register} onPress={this._quickRegister}>{consts.QUICK_REGISTER}</Text>
+        <Text onPress={this._forgetPassword} style={styles.register}>{consts.FORGET_PASSWORD}</Text>
         <View style={styles.forgetView}>
-          <Text onPress={this._forgetPassword} style={styles.forget}>{consts.FORGET_PASSWORD}</Text>
+          <Text onPress={this._quickRegister}style={styles.forget}>{consts.QUICK_REGISTER}</Text>
         </View>
       </View>
     )
@@ -202,19 +202,20 @@ const styles = StyleSheet.create({
   },
   register: {
     color: '#4990e2',
-    fontSize: 15,
-    alignSelf: 'center',
+    fontSize: 17,
+    textAlign: 'right',
     marginTop: 20
   },
   forgetView: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    marginBottom: 15,
     alignContent: 'center'
   },
   forget: {
-    color: theme.text.globalSubTextColor,
-    fontSize: 15,
+    color: '#4990e2',
+    fontSize: 17,
     alignSelf: 'center'
   }
 })

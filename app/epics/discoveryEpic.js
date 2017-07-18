@@ -1,40 +1,45 @@
-import 'rxjs'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/discoverAction'
-import {AsyncStorage} from 'react-native'
+import {AsyncStorage, NativeModules} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { TopicsListApi, TopUsersApi } from '../api/apis'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
+
 function discoveryInitEpic (action$) {
   return action$.ofType(actions.DISCOVERY_INIT)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
-                Observable.of(0),
-                (token, page) => {
-                  return {token, page}
-                }
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, net) => ({token, net})
               ).flatMap(
-                it => Observable.zip(
-                        Observable.from(TopicsListApi(it.token, it.page)),
+                (it) => {
+                  console.log(action)
+                  if (it.token && it.net === '1') {
+                    return Observable.zip(
+                        Observable.from(TopicsListApi(it.token, 0)),
                         Observable.from(TopUsersApi(it.token)),
-                        (topics, topUsers) => {
-                          return {
-                            topics, topUsers
-                          }
-                        }
-                       ).flatMap(it => Observable.of(it))
-              ).map(it => {
-                if (it.topics.return_code === 1 && it.topUsers.return_code === 1) {
-                  return actions.discoveryData(it.topics.talks, it.topUsers.ranks, it.topUsers.banners)
-                } else {
+                        (topics, topUsers) => ({topics, topUsers}))
+                  }
+                  return Observable.of(2)
+                }).flatMap(it => Observable.of(it))
+                .map((it) => {
+                  if (it === 2) {
+                    return showError(NET_WORK_ERROR)
+                  }
+                  if (it.topics.return_code === 1 && it.topUsers.return_code === 1) {
+                    return actions.discoveryData(it.topics.talks, it.topUsers.ranks, it.topUsers.banners)
+                  }
                   console.log('epic  ---> return_code mistake')
-                  return actions.discoveryData(it)
+                  return null
                 }
-              }
-            ).catch(error => {
+            )
+            .catch((error) => {
               console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
             })
-       )
+        )
 }
 
 export default combineEpics(discoveryInitEpic)
