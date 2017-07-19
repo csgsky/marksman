@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, WebView, TouchableOpacity, Image} from 'react-native'
+import {StyleSheet, View, WebView, TouchableOpacity, Image, Platform} from 'react-native'
 import theme from '../../config/theme'
 import Protocol from '../../constant/agreement.html'
 
@@ -15,7 +15,8 @@ export default class CommonWebviewPage extends Component {
   render () {
     const {state} = this.props.navigation
     if (state.params.type === 'protocol') {
-      return <WebView style={styles.container} source={Protocol}/>
+      const source = Platform.OS === 'ios' ? Protocol : { uri: 'file:///android_asset/agreement.html' };
+      return <WebView style={styles.container} source={source}/>
     }
     return <WebView style={styles.container} source={{uri: state.params.url}}/>
   }
