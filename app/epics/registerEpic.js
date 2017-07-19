@@ -1,11 +1,10 @@
-import 'rxjs'
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/registerAction'
-import { combineEpics } from 'redux-observable'
-import {getVertiCodeApi, RegisterApi} from '../api/apis'
 import {AsyncStorage, NativeModules} from 'react-native'
+import { combineEpics } from 'redux-observable'
+import * as actions from '../actions/registerAction'
+import {getVertiCodeApi, RegisterApi, getForgetPasswordCodeApi, ForgetPasswordApi} from '../api/apis'
 import {showError} from '../actions/common'
-import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
+import {NET_WORK_ERROR, OTHER_ERROR, PHONO_NUMBER_HAS_REGISTER} from '../constant/errors'
 
 function vertiCodeEpic (action$) {
   return action$.ofType(actions.REGISTER_GET_CODE)
@@ -13,12 +12,15 @@ function vertiCodeEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.account),
+                Observable.of(action.pageType),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, account, net) => ({token, account, net})
+                (token, account, pageType, net) => ({token, account, pageType, net})
               ).flatMap(
                 (it) => {
-                  if (it.account && it.net === '1') {
+                  if (it.account && it.net === '1' && it.pageType === 'register') {
                     return Observable.from(getVertiCodeApi(it.token, it.account))
+                  } else if (it.account && it.net === '1' && it.pageType === 'forget') {
+                    return Observable.from(getForgetPasswordCodeApi(it.token, it.account))
                   }
                   return Observable.of(2)
                 }
@@ -29,7 +31,9 @@ function vertiCodeEpic (action$) {
                 if (it.return_code === 1) {
                   return actions.codeSuccess()
                 }
-                return showError(OTHER_ERROR)
+                if (it.return_code === 3) {
+                  return showError(PHONO_NUMBER_HAS_REGISTER)
+                }
               }
             ).catch((error) => {
               return showError(OTHER_ERROR)
@@ -49,14 +53,19 @@ function registerEpic (action$) {
                 Observable.from(AsyncStorage.getItem('sign')),
                 Observable.from(AsyncStorage.getItem('nickname')),
                 Observable.from(AsyncStorage.getItem('tags')),
+                Observable.of(action.pageType),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, account, password, message, sex, sign, nickname, tags, net) => {
-                  return {token, data: {account, password, message, sex, sign, nickname, tags, net}}
+                (token, account, password, message, sex, sign, nickname, tags, pageType, net) => {
+                  return {token, data: {account, password, message, sex, sign, nickname, tags}, pageType, net}
                 }
               ).flatMap(
                 it => {
-                  if (it.token && it.net === '1') {
+                  if (it.token && it.net === '1' && it.pageType === 'register') {
+                    console.warn('it RegisterApi code ==> ', it)
                     return Observable.from(RegisterApi(it.token, it.data))
+                  } else if (it.token && it.net === '1' && it.pageType === 'forget') {
+                    console.warn('it ForgetPasswordApi code ==> ', it)
+                    return Observable.from(ForgetPasswordApi(it.token, {account: it.data.account, password: it.data.password, message: it.data.message}))
                   }
                   return Observable.of(2)
                 }
@@ -64,9 +73,11 @@ function registerEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.warn('it return code ==> ' + it)
+                console.warn('it return code ==> ', it)
                 if (it.return_code === 1) {
-                  return actions.registerSuccess(it.user_id)
+                  return actions.registerSuccess(it.user_id ? it.user_id + '' : null)
+                } else if (it.return_code === 6) {
+                  return actions.registerError(it.return_msg)
                 }
                 return actions.registerError(it.return_msg)
               }

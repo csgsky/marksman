@@ -52,6 +52,7 @@ export default class CityPage extends Component {
       removeClippedSubviews={false}
       data={this.state.citys}
       showsHorizontalScrollIndicator={false}
+      initialNumToRender={15}
       renderItem={({item}) => this.getLocationItem(item)}
       />
     )

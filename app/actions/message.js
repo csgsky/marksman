@@ -13,6 +13,12 @@ export const MINE_MESSAGE_COMMENT_INIT = 'MINE_MESSAGE_COMMENT_INIT'
 export const MINE_MESSAGE_COMMENT_DATA = 'MINE_MESSAGE_COMMENT_DATA'
 export const MINE_MESSAGE_COMMENT_MORE = 'MINE_MESSAGE_COMMENT_MORE'
 export const MINE_MESSAGE_COMMENT_MORE_DATA = 'MINE_MESSAGE_COMMENT_MORE_DATA'
+
+export const MINE_MESSAGE_USER_INIT = 'MINE_MESSAGE_USER_INIT'
+export const MINE_MESSAGE_USER_DATA = 'MINE_MESSAGE_USER_DATA'
+export const MINE_MESSAGE_USER_MORE = 'MINE_MESSAGE_USER_MORE'
+export const MINE_MESSAGE_USER_MORE_DATA = 'MINE_MESSAGE_USER_MORE_DATA'
+
 export function profileMessageReminder (payload) {
   console.log('action --> MESSAGE_SYSTEM_NOTIFY_INIT')
   return {
@@ -129,6 +135,35 @@ export function mineMessageCommentMoreData (payload) {
   console.log('action ---> MINE_MESSAGE_COMMENT_MORE_DATA', payload)
   return {
     type: MINE_MESSAGE_COMMENT_MORE_DATA,
+    payload
+  }
+}
+
+export function mineMessageUserInit (payload) {
+  console.log('action ---> MINE_MESSAGE_USER_INIT', payload)
+  return {
+    type: MINE_MESSAGE_USER_INIT,
+    payload
+  }
+}
+export function mineMessageUserData (payload) {
+  console.log('action ---> MINE_MESSAGE_USER_DATA', payload)
+  return {
+    type: MINE_MESSAGE_USER_DATA,
+    payload
+  }
+}
+export function mineMessageUserMore (payload) {
+  console.log('action ---> MINE_MESSAGE_USER_MORE', payload)
+  return {
+    type: MINE_MESSAGE_USER_MORE,
+    payload
+  }
+}
+export function mineMessageUserMoreData (payload) {
+  console.log('action ---> MINE_MESSAGE_USER_MORE_DATA', payload)
+  return {
+    type: MINE_MESSAGE_USER_MORE_DATA,
     payload
   }
 }

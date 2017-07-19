@@ -10,24 +10,6 @@ export const WRITE_DIARY_CONTENT_CHANGE = 'WRITE_DIARY_CONTENT_CHANGE'
 export const WRITE_DIARY_POST_DIARY = 'WRITE_DIARY_POST_DIARY'
 export const WRITE_DIARY_POST_DIARY_SUCCESS = 'WRITE_DIARY_POST_DIARY_SUCCESS'
 export const WRITE_DIARY_CLEAN_PAGE = 'WRITE_DIARY_CLEAN_PAGE'
-// export function diaryCommentInit ({id, ownerId}) {
-//   console.warn('action  --->  DIARY_COMMENT_INIT')
-//   return {
-//     type: DIARY_COMMENT_INIT,
-//     isRefreshing: true,
-//     id,
-//     ownerId,
-//   }
-// }
-
-// export function diaryCommentData (data) {
-//   console.log('action  --->  COLLECTIONS_DATA')
-//   return {
-//     type: DIARY_COMMENT_DATA,
-//     isRefreshing: false,
-//     comments: data.comments
-//   }
-// }
 
 export function writeDiaryInit (payload) {
   console.log('action  --->  WRITE_DIARY_INIT')
