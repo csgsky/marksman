@@ -25,28 +25,28 @@ export default class LabelPageTwo extends Component {
     super(props)
     this.state = {
       nickname: null,
-      sign: ''
+      sign: '',
+      tags: this.props.navigation.state.params.tags + '',
+      sex: this.props.navigation.state.params.sex + ''
     }
   }
   _onPressNext = () => {
-    // this._saveUseInfo()
-    if (this.state.nickname !== null && this.state.sign !== null) {
-      // console.warn('tags: ' + this.props.navigation.state.params.tags)
+    if (this.state.nickname !== '' && this.state.sign !== '') {
       this._registerCustomUser()
     }
-
-    // alert('nickName ==> ' + this.state.nickname + ' sign ==> ' + this.state.sign)
   }
 
   _registerCustomUser = () => {
-    const map = {sex: this.props.navigation.state.params.sex, tags: this.props.navigation.state.params.tags, nickname: this.state.nickname, sign: this.state.sign}
+    const map = {sex: this.state.sex, tags: this.state.tags, nickname: this.state.nickname, sign: this.state.sign}
     AsyncStorage.getItem('token').then((result) => {
       if (result) {
         Rx.Observable.from(CustomerRegisterApi(map, result)).subscribe(
                       (it) => {
                         if (it.return_code === 1) {
                           this._saveUseInfo()
-                          this.props.navigation.dispatch(resetAction)
+                          Rx.Observable.of('delay').delay(800).subscribe(() => {
+                            this.props.navigation.dispatch(resetAction)
+                          })
                         }
                       }
                     )
@@ -59,10 +59,11 @@ export default class LabelPageTwo extends Component {
   }
 
   _saveUseInfo = async () => {
-    await AsyncStorage.setItem('sex', this.props.navigation.state.params.sex + '')
+    console.log('save --> ', this.state.tags)
+    await AsyncStorage.setItem('sex', this.state.sex)
     await AsyncStorage.setItem('sign', this.state.sign)
     await AsyncStorage.setItem('nickname', this.state.nickname)
-    await AsyncStorage.setItem('tags', this.props.navigation.state.params.tags)
+    await AsyncStorage.setItem('tags', this.state.tags)
   }
 
   render() {

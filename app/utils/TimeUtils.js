@@ -15,6 +15,16 @@ export const getYYMMDD = (time) => {
   return date.year() + '-' + (date.month() + 1) + '-' + date.date()
 }
 
+export const getMMDD = (time) => {
+  const date = Moment(time)
+  return (date.month() + 1) + '-' + date.date()
+}
+
+export const getYYMMDDC = (time) => {
+  const date = Moment(time)
+  return date.year() + '年' + (date.month() + 1) + '月' + date.date() + '日'
+}
+
 export const getDotYYMMDD = (time) => {
   const date = Moment(time)
   return date.year() + '.' + (date.month() + 1) + '.' + date.date()
@@ -31,8 +41,13 @@ export function recentTime (_time) {
   const ONE_MINUTE = 60 * 1000
   const ONE_HOUR = ONE_MINUTE * 60
   const ONE_DAY = ONE_HOUR * 24
+<<<<<<< HEAD
   const date = new Date(_time)
   const delta = today.getTime() - date.getTime()
+=======
+  const date = Moment(_time)
+  const delta = today - date
+>>>>>>> dev
   if (delta < ONE_MINUTE) {
     return '刚刚'
   }
@@ -42,7 +57,7 @@ export function recentTime (_time) {
   if (delta < ONE_DAY) {
     return Math.floor(delta / ONE_HOUR) + timeDesc.ONE_HOUR_AGO
   }
-  return _time.slice(0, 10)
+  return getYYMMDDC(_time)
 }
 
 const timeDesc = {

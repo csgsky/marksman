@@ -75,7 +75,6 @@ export default class Splash extends Component {
         // 未登录状态
         Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
           .subscribe((imsi) => {
-            console.warn('imsi =====>    ' + imsi)
             this.setState({
               devicedid: imsi.split('-').join('')
             })
@@ -101,7 +100,7 @@ export default class Splash extends Component {
   }
 
   _generateAuth = () => {
-    const rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '12342/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    const rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     const words = encodeURIComponent(rawStr)
     const base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
@@ -116,11 +115,10 @@ export default class Splash extends Component {
   }
 
   _getUnLoginUserInfo = (authorization) => {
-    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '12342', authorization)).subscribe(
+    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '', authorization)).subscribe(
                       (it) => {
                         this.setState({customer: it.customer, success: true})
                         if (it.customer) {
-                          console.warn('未登录，但是有信息，保存信息，直接到主页')
                           this.setState({
                             newOne: false,
                           })

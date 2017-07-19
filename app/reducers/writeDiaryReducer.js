@@ -13,7 +13,6 @@ import Nine from '../img/diary_material_nine.jpeg'
 import Ten from '../img/diary_material_ten.jpeg'
 
 const initState = {
-  color: '#ffa3c5',
   diary: null,
   day: null,
   yymm: null,
@@ -31,21 +30,21 @@ const initState = {
 export default function writeDiary (state = initState, action = {}) {
   switch (action.type) {
     case types.WRITE_DIARY_INIT:
-      console.log('writeDiary reducer WRITE_DIARY_INIT-> ' + action.payload)
+      console.log('writeDiary reducer WRITE_DIARY_INIT-> ', action.payload)
       return {
         ...state,
-        diary: action.payload.diary,
-        day: action.payload.diary === null ? getDay(Moment().format()) : getDay(action.payload.diary.create_time),
-        yymm: action.payload.diary === null ? getYYMM(Moment().format()) : getYYMM(action.payload.diary.create_time),
-        date: action.payload.diary === null ? getDate(Moment().format()) : getDate(action.payload.diary.create_time),
-        source: action.payload.diary === null ? null : {uri: action.payload.diary.img},
-        ifprivate: action.payload.diary === null ? 1 : (action.payload.diary.ifprivate === 0 ? 0 : 1),
-        content: action.payload.diary === null ? null : action.payload.diary.content
+        diary: action.payload,
+        day: action.payload === null ? getDay(Moment().format()) : getDay(action.payload.create_time),
+        yymm: action.payload === null ? getYYMM(Moment().format()) : getYYMM(action.payload.create_time),
+        date: action.payload === null ? getDate(Moment().format()) : getDate(action.payload.create_time),
+        source: action.payload === null ? null : getDefaultSource(action.payload.img),
+        materialPosition: action.payload === null ? -1 : getMaterialPosition(action.payload.img),
+        ifprivate: action.payload === null ? 1 : (action.payload.ifprivate === 0 ? 0 : 1),
+        content: action.payload === null ? null : action.payload.content,
       }
     case types.WRITE_DIARY_COLOR_CHANGE:
       return {
         ...state,
-        color: action.payload.color,
         feel: action.payload.feel
       }
     case types.WRITE_DIARY_PHOTO_PICKER:
@@ -110,6 +109,56 @@ function getSource (index) {
     return Nine
   } else if (index === 9) {
     return Ten
+  }
+  return One
+}
+
+function getDefaultSource (img) {
+  if (img === '0') {
+    return One
+  } else if (img === '1') {
+    return Two
+  } else if (img === '2') {
+    return Three
+  } else if (img === '3') {
+    return Four
+  } else if (img === '4') {
+    return Five
+  } else if (img === '5') {
+    return Six
+  } else if (img === '6') {
+    return Seven
+  } else if (img === '7') {
+    return Eight
+  } else if (img === '8') {
+    return Nine
+  } else if (img === '9') {
+    return Ten
+  }
+  return {uri: img}
+}
+
+function getMaterialPosition(img) {
+  if (img === '0') {
+    return 0
+  } else if (img === '1') {
+    return 1
+  } else if (img === '2') {
+    return 2
+  } else if (img === '3') {
+    return 3
+  } else if (img === '4') {
+    return 4
+  } else if (img === '5') {
+    return 5
+  } else if (img === '6') {
+    return 6
+  } else if (img === '7') {
+    return 7
+  } else if (img === '8') {
+    return 8
+  } else if (img === '9') {
+    return 9
   }
   return One
 }
