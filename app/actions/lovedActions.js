@@ -18,7 +18,7 @@ export function LovedListData (data) {
     type: LOVED_DATA,
     isRefreshing: false,
     loved: data,
-    hasMore: data.length >= 8
+    hasMore: data.length >= 10
   }
 }
 
@@ -35,7 +35,7 @@ export function LovedListMoreData (data) {
     type: LOVED_MORE_DATA,
     isLoadingMore: false,
     loved: data,
-    hasMore: data.length >= 8
+    hasMore: data.length >= 10
   }
 }
 

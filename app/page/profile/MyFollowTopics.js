@@ -60,7 +60,7 @@ class MyFollowTopics extends PureComponent {
         <FlatList
           data={topics}
           renderItem={({item, index}) => (
-            <TopicItem item={item} index={index} type="followed" onPressFollow={this.props.myFollowTopicsFollow}/>)}
+            <TopicItem item={item} index={index} type="followed" navigation={this.props.navigation} onPressFollow={this.props.myFollowTopicsFollow}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader(isEmpty)}
           onEndReached={() => this.handleLoadingMore()}

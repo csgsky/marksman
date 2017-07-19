@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import PubSub from 'pubsub-js'
@@ -12,7 +12,7 @@ import CommentBar from '../component/CommentBar'
 import EmptyView from '../component/CommentEmptyView'
 import Separator from '../component/Separator'
 // homefragment/init/data
-class Topic extends Component {
+class Topic extends PureComponent {
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerLeft: <TouchableOpacity onPress={() => navigation.state.params.back()}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
@@ -35,7 +35,7 @@ class Topic extends Component {
     this.props.topicInit({topicId, ownerId, diaryId})
   }
   _goBack = () => {
-    PubSub.publish('homefragment/init/data')
+    // PubSub.publish('homefragment/init/data')
     this.props.navigation.goBack()
   }
   handleLoadingMore = () => {

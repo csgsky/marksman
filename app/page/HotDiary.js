@@ -61,7 +61,7 @@ class HotDiary extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'recentDiary'})
       } else {
-        this.props.actions.rencentDiaryLike({diaryId, ownerId, index})
+        this.props.actions.hotDiaryLike({diaryId, ownerId, index})
       }
     })
   }

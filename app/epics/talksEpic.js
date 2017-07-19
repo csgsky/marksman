@@ -15,7 +15,7 @@ function talksInitEpic (action$) {
                 Observable.of(action.page),
                 Observable.of(action.come4),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, page, net, come4) => ({token, page, net, come4})
+                (token, page, come4, net) => ({token, page, net, come4})
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
