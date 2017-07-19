@@ -89,11 +89,11 @@ class CommentEditor extends PureComponent {
         const data = {
           content: that.state.text,
           img_byte: that.state.data,
+          img_suffix: that.state.suffix
         }
         if (pid) {
           data.pid = pid
         }
-        console.log({data})
         if (that.state.text) {
           that.props.commentPost({diaryId, ownerId, commentId, data})
         }
@@ -133,10 +133,10 @@ class CommentEditor extends PureComponent {
         console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
-
         this.setState({
           image: source,
           data: response.data,
+          suffix: response.fileName.split('.')[1]
         });
       }
     })
@@ -158,9 +158,11 @@ class CommentEditor extends PureComponent {
         console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
+        console.log(response)
         this.setState({
           image: source,
           data: response.data,
+          suffix: response.fileName.split('.')[1]
         });
       }
     })

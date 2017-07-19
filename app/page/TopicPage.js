@@ -22,6 +22,7 @@ class Topic extends PureComponent {
     this.props.topicInit({topicId, ownerId, diaryId})
     PubSub.subscribe('refreshDetailPage', this.onRefresh)
     PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
+    PubSub.subscribe('commentsRefresh', this.onRefresh)
     this.props.navigation.setParams({
       back: this._goBack
     })
@@ -29,6 +30,7 @@ class Topic extends PureComponent {
   componentWillUnmount() {
     PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
+    PubSub.unsubscribe('commentsRefresh')
   }
   onRefresh = () => {
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params

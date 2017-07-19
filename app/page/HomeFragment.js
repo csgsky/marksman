@@ -36,11 +36,7 @@ class HomeFragment extends Component {
   componentDidMount () {
     this.props.actions.homeInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
-    // AsyncStorage.getItem('tags').then((result) => {
-    //   if (result) {
-    //     alert(result)
-    //   }
-    // })
+    PubSub.subscribe('loginRefresh', this.onRefresh)
   }
 
   componentWillUnmount() {
@@ -49,7 +45,7 @@ class HomeFragment extends Component {
 
   onRefresh = () => {
     this.props.actions.homeInit(0)
-    this.refs._homefragmentlist.scrollToOffset({x: 0, y: 1, animated: true});
+    // this.refs._homefragmentlist.scrollToOffset({x: 0, y: 1, animated: true});
   }
 
   getItemCompt = ({item, index}) => {

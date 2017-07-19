@@ -23,12 +23,13 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>com.zhy.qianyan</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.zhy.qianyan</string>
-				<string>iosapp</string>
+				<string>qianyan</string>
 			</array>
 		</dict>
 	</array>
