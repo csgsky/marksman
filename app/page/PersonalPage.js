@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import {View, FlatList, RefreshControl, TouchableOpacity, Image, AsyncStorage} from 'react-native'
 // import * as actions from '../../actions/loginActions'
 import { bindActionCreators } from 'redux'
+import PubSub from 'pubsub-js'
 import { connect } from 'react-redux'
 import * as actions from '../actions/personAction'
 import DiaryItem from '../component/item/DiaryItem'
@@ -23,6 +24,8 @@ class PersonalPage extends PureComponent {
       onPressFollow: this._onPressFollow
     })
     this.props.actions.personInit(this.props.navigation.state.params.id)
+    PubSub.subscribe('refreshDetailPage', this.onRefresh)
+    PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
   }
   componentWillReceiveProps(nextProps) {
     console.log('component will receive props')
