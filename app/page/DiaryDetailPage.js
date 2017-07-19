@@ -65,6 +65,7 @@ class DiaryDetailPage extends Component {
     this.props.diaryCommentInit({id, ownerId})
     PubSub.subscribe('refreshDetailPage', () => this.props.diaryCommentInit({id, ownerId}))
     PubSub.subscribe('commentsLikeRefresh', () => this.props.diaryCommentInit({id, ownerId}))
+    PubSub.subscribe('commentsRefresh', () => this.props.diaryCommentInit({id, ownerId}))
     // 跳转到个人主页
     this.props.navigation.setParams({
       routerToPersonalPage: this.routerToPersonalPage,
@@ -98,6 +99,7 @@ class DiaryDetailPage extends Component {
   componentWillUnmount() {
     PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
+    PubSub.unsubscribe('commentsRefresh')
     this.props.clearDiary()
   }
 
