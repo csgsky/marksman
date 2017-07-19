@@ -98,7 +98,13 @@ class PersonalPage extends PureComponent {
   }
   _onPressFollow = () => {
     const {info} = this.props;
-    this.props.actions.personFollow({userId: info.user_id, myFocus: info.my_focus})
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'personalPage'})
+      } else {
+        this.props.actions.personFollow({userId: info.user_id, myFocus: info.my_focus})
+      }
+    })
   }
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
