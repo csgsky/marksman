@@ -15,6 +15,7 @@ export default class PhotoPickerModal extends Component {
     return (
       <Modal
         visible={this.props._dialogVisible}
+        animationType={'fade'}
         transparent>
         <TouchableOpacity activeOpacity={1} style={styles.bg} onPress={this.props.hide}>
           <TouchableOpacity style={styles.dialog}>

@@ -12,6 +12,8 @@ import Next from '../../img/next.png'
 import * as actions from '../../actions/profile'
 import {getYYMMDD} from '../../utils/TimeUtils'
 
+const dismissKeyboard = require('dismissKeyboard')
+
 class EditProfilePage extends Component {
 
   static navigationOptions = ({navigation}) => ({
@@ -67,6 +69,7 @@ class EditProfilePage extends Component {
   }
 
   componentWillUnmount() {
+    dismissKeyboard()
     this.props.submitInitPage()
   }
 

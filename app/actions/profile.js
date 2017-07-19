@@ -8,7 +8,7 @@ export const PERSONAL_SUBMIT_USERINFO_ERROR = 'PERSONAL_SUBMIT_USERINFO_ERROR'
 export const PERSONAL_INFO_SUBMIT_INIT = 'PERSONAL_INFO_SUBMIT_INIT'
 export const MESSAGE_PROFILECENER_REMINDER = 'MESSAGE_PROFILECENER_REMINDER'
 export const MESSAGE_PROFILECENER_REMINDER_DATA = 'MESSAGE_PROFILECENER_REMINDER_DATA'
-
+export const MESSAGE_PROFILE_ITEM_CLICK = 'MESSAGE_PROFILE_ITEM_CLICK'
 export function profileMessageReminder () {
   console.log('action --> MESSAGE_PROFILECENER_REMINDER')
   return {
@@ -80,6 +80,14 @@ export function submitInitPage() {
   console.warn('action submit init info ')
   return {
     type: PERSONAL_INFO_SUBMIT_INIT
+  }
+}
+
+export function profileItemClick(value) {
+  console.warn('action profileItemClick ')
+  return {
+    type: MESSAGE_PROFILE_ITEM_CLICK,
+    value
   }
 }
 
