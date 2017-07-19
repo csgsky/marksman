@@ -7,7 +7,8 @@ const initState = {
   page: 0,
   modes: [],
   notifications: [],
-  commemts: []
+  commemts: [],
+  users: []
 }
 
 
@@ -105,6 +106,37 @@ export default function message (state = initState, action = {}) {
       return {
         ...state,
         commemts: state.commemts.concat(action.payload),
+        hasMoreData: action.payload.length >= 10,
+        isLoadingMore: false,
+        page: state.page + 1
+      }
+    case types.MINE_MESSAGE_USER_INIT:
+      console.log('reducer --> MINE_MESSAGE_USER_INIT', action.payload)
+      return {
+        ...state,
+        isLoadingMore: false,
+        hasMoreData: false,
+        page: 0
+      }
+    case types.MINE_MESSAGE_USER_DATA:
+      console.log('reducer --> MINE_MESSAGE_USER_DATA', action.payload)
+      return {
+        ...state,
+        users: action.payload,
+        hasMoreData: action.payload.length >= 10,
+        page: state.page + 1
+      }
+    case types.MINE_MESSAGE_USER_MORE:
+      console.log('reducer --> MINE_MESSAGE_USER_MORE', action.payload)
+      return {
+        ...state,
+        isLoadingMore: true
+      }
+    case types.MINE_MESSAGE_USER_MORE_DATA:
+      console.log('reducer --> MINE_MESSAGE_USER_MORE_DATA', state.users.concat(action.payload))
+      return {
+        ...state,
+        users: state.users.concat(action.payload),
         hasMoreData: action.payload.length >= 10,
         isLoadingMore: false,
         page: state.page + 1

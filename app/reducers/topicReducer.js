@@ -36,6 +36,10 @@ export default function talkList (state = initState, action = {}) {
         hasMore: action.hasMore,
         page: state.page + 1
       }
+    case types.TOPIC_LIST_CLEAR_PAGE_DATA:
+      return {
+        ...initState
+      }
     default:
       return state
   }

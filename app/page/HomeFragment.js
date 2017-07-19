@@ -36,6 +36,11 @@ class HomeFragment extends Component {
   componentDidMount () {
     this.props.actions.homeInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
+    // AsyncStorage.getItem('tags').then((result) => {
+    //   if (result) {
+    //     alert(result)
+    //   }
+    // })
   }
 
   componentWillUnmount() {

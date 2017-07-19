@@ -3,12 +3,10 @@ import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInpu
 import { bindActionCreators } from 'redux'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
-import Moment from 'moment'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
 import * as actions from '../actions/diaryAction'
 import theme from '../config/theme'
-import {getDay, getYYMM, getDate} from '../utils/TimeUtils'
 import ColorPicker from '../widget/ColorPicker'
 import MoodSad from '../img/mood_sad.png'
 import MoodHappy from '../img/mood_happy.png'
@@ -26,20 +24,7 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
-  videoQuality: 'high',
-  durationLimit: 10,
-  maxWidth: theme.screenWidth,
-  maxHeight: theme.screenHeight,
-  quality: 1,
-  aspectX: 2,
-  aspectY: 1,
-  angle: 0,
-  allowsEditing: true,
-  noData: false,
-  storageOptions: {
-    skipBackup: true,
-    path: 'images'
-  }
+  allowsEditing: true
 }
 
 class WriteDiaryPage extends Component {
@@ -55,12 +40,22 @@ class WriteDiaryPage extends Component {
   })
   constructor(props) {
     super(props);
-    this.state = {text: '', height: 0, showPhoto: false, showModal: false, avatarSource: null};
+    this.state = {
+      height: 0,
+      showPhoto: false,
+      showModal: false,
+      avatarSource: null,
+      color2: '#ffa3c5'
+    };
+    if (this.props.navigation.state.params.diary) {
+      const diary = this.props.navigation.state.params.diary
+      this.state.color2 = diary.feelcolor
+    }
   }
 
   componentDidMount() {
     const diary = this.props.navigation.state.params.diary
-    this.props.writeDiaryInit({diary})
+    this.props.writeDiaryInit(diary)
     this.props.navigation.setParams({
       handleSubmit: this._postDiary
     })
@@ -76,14 +71,18 @@ class WriteDiaryPage extends Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.cleanWritePage()
+  }
+
   _postDiary = () => {
-    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, color} = this.props
+    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel} = this.props
     if (materialPosition > 0) {
-      postDiary({content, img: materialPosition + '', ifprivate, feel, feelcolor: color})
+      postDiary({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
     } else if (imgBase64 !== null) {
-      postDiary({content, img_byte: imgBase64, ifprivate, feel, feelcolor: color})
+      postDiary({content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2})
     } else {
-      postDiary({content, ifprivate, feel, feelcolor: color})
+      postDiary({content, ifprivate, feel, feelcolor: this.state.color2})
     }
   }
 
@@ -146,6 +145,9 @@ class WriteDiaryPage extends Component {
 
   _onColorChanged = (color, feel) => {
     this.props.writeDiaryColorChange({color, feel})
+    this.setState({
+      color2: color
+    })
   }
 
   selectMaterial = (index) => {
@@ -183,10 +185,10 @@ class WriteDiaryPage extends Component {
         <ScrollView style={styles.view}>
           <TouchableOpacity activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
             <View style={styles.time}>
-              <Text style={[styles.day, {color: this.props.color}]}>{getDay(Moment().format())}</Text>
+              <Text style={[styles.day, {color: this.state.color2}]}>{this.props.day}</Text>
               <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
-                <Text style={styles.week}>{getDate(Moment().format())}</Text>
-                <Text style={styles.year_month}>{getYYMM(Moment().format())}</Text>
+                <Text style={styles.week}>{this.props.date}</Text>
+                <Text style={styles.year_month}>{this.props.yymm}</Text>
               </View>
               <TouchableOpacity activeOpacity={0.8} style={{width: 60, height: 60, flexDirection: 'column'}} onPress={this.props.changeDiaryState}>
                 <Image
@@ -203,20 +205,18 @@ class WriteDiaryPage extends Component {
             underlineColorAndroid="transparent"
             autoFocus
             maxLength={1500}
-            placeholder="今天你过的好么？"
+            placeholder="今天，你过得好么？"
             onChangeText={(content) => {
               this.props.diaryContentChange({content})
               this.props.navigation.setParams({content})
             }}
             onChange={(event) => {
               this.setState({
-                text: event.nativeEvent.text,
                 height: event.nativeEvent.contentSize.height,
               });
             }}
-            onFocus={this._dismissPhoto}
-            style={[styles.input, {height: Math.max(35, this.state.height)}]}
-            value={this.state.text} />
+            style={[styles.input, {height: Math.max(200, this.state.height)}]}
+            value={this.props.content} />
         </ScrollView>
         {Platform.OS === 'ios' && <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-64}>
           <View>
@@ -234,7 +234,7 @@ class WriteDiaryPage extends Component {
                 style={{width: 20, height: 20, marginLeft: 16, marginRight: 16}}/>
               <ColorPicker
                 style={{width: 200, height: 20}}
-                defaultColor="#ffa3c5"
+                defaultColor={this.state.color2}
                 onColorChange={this._onColorChanged}
               />
               <Image
@@ -266,7 +266,7 @@ class WriteDiaryPage extends Component {
               style={{width: 20, height: 20, marginLeft: 16, marginRight: 16}}/>
             <ColorPicker
               style={{width: 200, height: 20}}
-              defaultColor="#ffa3c5"
+              defaultColor={this.state.color2}
               onColorChange={this._onColorChanged}
             />
             <Image

@@ -6,6 +6,7 @@ import theme from '../config/theme'
 import * as actions from '../actions/topicsAction'
 import TalksItem from '../component/item/TalksItem'
 import Footer from '../component/Footer'
+import NewsTalksItem from '../component/item/NewsTalksItem'
 
 class TopicListPage extends Component {
 
@@ -18,7 +19,11 @@ class TopicListPage extends Component {
   })
 
   componentDidMount () {
+    console.log('componentDidMount', this.props.navigation.state.params.come4)
     this.initData()
+  }
+  componentWillUnmount() {
+    this.props.actions.clearPageData()
   }
 
   onRefresh = () => {
@@ -37,6 +42,15 @@ class TopicListPage extends Component {
     }
   }
 
+  renderListItem = ({item, index}) => {
+    const {navigation} = this.props
+    const come4 = navigation.state.params.come4
+    if (come4 === 'news') {
+      return <NewsTalksItem item={item} navigation={navigation}/>
+    }
+    return <TalksItem item={item} index={index} navigation={navigation}/>
+  }
+
   renderLoadMoreFooter = () => {
     const {hasMore, talks} = this.props
     if (talks.length > 0) {
@@ -46,12 +60,12 @@ class TopicListPage extends Component {
   }
 
   render () {
-    const {isRefreshing, talks, navigation} = this.props
+    const {isRefreshing, talks} = this.props
     return (
       <View style={styles.view}>
         <FlatList
           data={talks}
-          renderItem={({item, index}) => <TalksItem item={item} index={index} navigation={navigation}/>}
+          renderItem={this.renderListItem}
           onEndReachedThreshold={0.1}
           onEndReached={(e) => this.handleLoadingMore(e)}
           removeClippedSubviews={false}
