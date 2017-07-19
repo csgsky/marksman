@@ -15,6 +15,7 @@ export default class SexModal extends Component {
     return (
       <Modal
         visible={this.props.isVisible}
+        animationType={'fade'}
         transparent>
         <TouchableOpacity activeOpacity={1} style={styles.bg} onPress={this.props.hideSex}>
           <TouchableOpacity style={styles.dialog}>

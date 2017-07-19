@@ -4,7 +4,8 @@ import { combineEpics } from 'redux-observable'
 import {SystemMessagesApi,
   MineMessageModeApi,
   MineMessageNotifApi,
-  MineMessageCommentApi} from '../api/apis'
+  MineMessageCommentApi,
+  MineMessageUserApi} from '../api/apis'
 import * as actions from '../actions/message'
 
 function systemMessageInitEpic (action$) {
@@ -175,10 +176,61 @@ function mineMessageCommentMoreEpic (action$) {
        )
 }
 
+
+function mineMessageUserInitEpic (action$) {
+  return action$.ofType(actions.MINE_MESSAGE_USER_INIT)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.payload),
+                (token, payload) => ({token, payload})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(MineMessageUserApi(it.token, it.payload.page))
+                  }
+                }
+              ).map((it) => {
+                if (it.return_code === 1) {
+                  return actions.mineMessageUserData(it.mymsgs)
+                }
+              }
+            ).catch((error) => {
+              console.log('epic error --> ' + error)
+            })
+       )
+}
+
+function mineMessageUserMoreEpic (action$) {
+  return action$.ofType(actions.MINE_MESSAGE_USER_MORE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.payload),
+                (token, payload) => ({token, payload})
+              ).flatMap(
+                (it) => {
+                  if (it.token) {
+                    return Observable.from(MineMessageUserApi(it.token, it.payload.page))
+                  }
+                }
+              ).map((it) => {
+                if (it.return_code === 1) {
+                  return actions.mineMessageUserMoreData(it.mymsgs)
+                }
+              }
+            ).catch((error) => {
+              console.log('epic error --> ' + error)
+            })
+       )
+}
+
 export default combineEpics(systemMessageInitEpic,
   systemMessageMoreEpic,
   mineMessageModeEpic,
   mineMessageNotifInitEpic,
   mineMessageNotifMoreEpic,
   mineMessageCommentInitEpic,
-  mineMessageCommentMoreEpic)
+  mineMessageCommentMoreEpic,
+  mineMessageUserInitEpic,
+  mineMessageUserMoreEpic)

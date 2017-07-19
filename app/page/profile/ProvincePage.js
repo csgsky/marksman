@@ -45,6 +45,7 @@ export default class ProvincePage extends Component {
     return (<FlatList
       removeClippedSubviews={false}
       data={Province}
+      initialNumToRender={15}
       showsHorizontalScrollIndicator={false}
       renderItem={({item}) => this.getLocationItem(item)}
       />

@@ -33,6 +33,7 @@ export function postApi (path, map, userId) {
 // get 请求
 export function getApi (path, userId) {
   console.log('getApi path ==> ', path)
+  console.log('getApi userid ==> ', userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
@@ -134,13 +135,11 @@ export const CollectionsApi = (userId, page) =>
   getApi(`/api/collection?rn=10&order_type=0&p=${page}`, userId)
 
 // 发现、话题
-export const TopicsListApi = (userId, page, come4) => {
-  console.warn('api ===> ', come4)
+export const TopicsListApi = (userId, page, come4, tag) => {
   if (come4 === 'news') {
-    console.warn('api ===> ', come4)
     return getApi(`/api/mymsg?rn=10&mode=0&p=${page}`, userId)
   }
-  return getApi(`/api/talk?rn=8&p=${page}`, userId)
+  return getApi(`/api/talk?rn=10&p=${page}&tag=${'1,2,3,4,7,8'}`, userId)
 }
 
 // 发现、备受宠爱
@@ -180,13 +179,21 @@ export const TopicApi = (id, userId) =>
 export const CommentsApi = ({id, ownerId, page, userId}) =>
   getApi(`/api/${id}/${ownerId}/comment?p=${page}&rn=10`, userId)
 
-// 获取验证码
+// 注册，获取验证码
 export const getVertiCodeApi = (userId, account) =>
   getApi(`/api/addaccount/${account}`, userId)
+
+// 忘记密码，获取验证码
+export const getForgetPasswordCodeApi = (userId, account) =>
+  getApi(`/api/fgtpswd/${account}`, userId)
 
 // 注册提交接口
 export const RegisterApi = (userId, map) =>
   postApi(`/api/account`, map, userId)
+
+// 忘记密码提交的接口
+export const ForgetPasswordApi = (userId, map) =>
+  putApi('/api/fgtpswd', userId, map)
 
 // 登录接口
 export const LoginApi = (userId, map) =>
@@ -284,3 +291,7 @@ export const MineMessageNotifApi = (userId, page) =>
 // 消息 - 评论
 export const MineMessageCommentApi = (userId, page) =>
   getApi(`/api/mymsg?rn=10&mode=2&p=${page}`, userId)
+
+// 消息 - 用户
+export const MineMessageUserApi = (userId, page) =>
+  getApi(`/api/mymsg?rn=10&mode=1&p=${page}`, userId)
