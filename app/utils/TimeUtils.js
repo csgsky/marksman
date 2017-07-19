@@ -41,13 +41,8 @@ export function recentTime (_time) {
   const ONE_MINUTE = 60 * 1000
   const ONE_HOUR = ONE_MINUTE * 60
   const ONE_DAY = ONE_HOUR * 24
-<<<<<<< HEAD
-  const date = new Date(_time)
-  const delta = today.getTime() - date.getTime()
-=======
   const date = Moment(_time)
   const delta = today - date
->>>>>>> dev
   if (delta < ONE_MINUTE) {
     return '刚刚'
   }
