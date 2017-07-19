@@ -24,22 +24,27 @@ export default class TalksItem extends Component {
         <View style={{width: 100, height: 100, backgroundColor: '#FAFAFA'}}>
           <Image style={styles.img} source={{uri: cover}} />
         </View>
-        <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center', paddingBottom: 6}}>
+        {type !== 'followed' && <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
+          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: 6}}>
             <Text style={styles.title} numberOfLines={1}>{name}</Text>
           </View>
-          {type !== 'followed' && <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
+          <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
             <View style={[styles.tagView, {backgroundColor: item.tag_color}]}>
               <Text style={styles.tag}>{tag}</Text>
             </View>
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
               <Text style={styles.comment}>{comment}</Text>
             </View>
-          </View>}
-          {type === 'followed' && <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{flex: 1}}>
-              <Text style={styles.comment}>{comment}</Text>
-              <View style={styles.tagView}>
+          </View>
+        </View>}
+        {type === 'followed' && <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
+          <View style={{height: 25, flexDirection: 'column', justifyContent: 'center', paddingBottom: 6}}>
+            <Text style={styles.title} numberOfLines={1}>{name}</Text>
+          </View>
+          <View style={{flex: 1, flexDirection: 'row', paddingTop: 6}}>
+            <View style={{flexDirection: 'column', flex: 1}}>
+              <Text style={[styles.comment, {marginBottom: 10}]}>{comment}</Text>
+              <View style={[styles.tagView, {backgroundColor: item.tag_color}]}>
                 <Text style={styles.tag}>{tag}</Text>
               </View>
             </View>
@@ -48,8 +53,8 @@ export default class TalksItem extends Component {
                 <Text style={styles.followText}>{item.my_focus ? '取消关注' : '关注'}</Text>
               </View>
             </TouchableOpacity>
-          </View>}
-        </View>
+          </View>
+        </View>}
       </View>
     </TouchableOpacity>)
   }
