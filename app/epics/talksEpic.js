@@ -13,13 +13,16 @@ function talksInitEpic (action$) {
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
-                Observable.of(action.come4),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, page, net, come4) => ({token, page, net, come4})
+                Observable.of(action.come4),
+                Observable.from(AsyncStorage.getItem('tags')),
+                (token, page, net, come4, tags) => ({token, page, net, come4, tags})
               ).flatMap(
                 (it) => {
+                  console.log('talksInitEpic ===> it ', it)
                   if (it.token && it.net === '1') {
-                    return Observable.from(TopicsListApi(it.token, it.page, it.come4))
+                    console.log('talksInitEpic ===> has net', it.come4)
+                    return Observable.from(TopicsListApi(it.token, it.page, it.come4, it.tags))
                   }
                   return Observable.of(2)
                 }
@@ -28,13 +31,19 @@ function talksInitEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
+                if (action.come4 === 'news') {
+                  if (it.return_code === 1) {
+                    return actions.topicListData(it.mymsgs)
+                  }
+                  return showError(OTHER_ERROR)
+                }
                 if (it.return_code === 1) {
                   return actions.topicListData(it.talks)
                 }
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              console.log('epic talksInitEpic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -48,11 +57,12 @@ function talksMoreEpic (action$) {
                 Observable.of(action.page + 1),
                 Observable.of(action.come4),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, page, come4, net) => ({token, page, come4, net})
+                Observable.from(AsyncStorage.getItem('tags')),
+                (token, page, come4, net, tags) => ({token, page, come4, net, tags})
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    return Observable.from(TopicsListApi(it.token, it.page, it.come4))
+                    return Observable.from(TopicsListApi(it.token, it.page, it.come4, it.tags))
                   }
                   return Observable.of(2)
                 }

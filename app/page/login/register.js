@@ -17,18 +17,23 @@ class Register extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      timeSubscribe: ''
+      timeSubscribe: '',
+      pageType: ''
     }
   }
 
+  componentWillMount() {
+    this.setState({pageType: this.props.navigation.state.params.type})
+  }
   componentDidMount () {
-    console.warn('componentDidMount')
     BackAndroid.addEventListener('hardwareBackPress', this._backPress)
   }
+
+
   componentWillReceiveProps (nextProps) {
     const {userId} = nextProps
     if (userId !== this.props.userId && userId !== '') {
-      console.warn('componentWillReceiveProps ==> counter + 生成新的 token ')
+      console.warn('componentWillReceiveProps ==> counter + 生成新的 token ', userId)
       var base64 = require('base-64')
       var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
@@ -38,17 +43,17 @@ class Register extends Component {
       // console.log('userId ==>: ' + userId)
       // console.log('hmacSHA1 ==>: ' + hmacSHA1)
       // console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
-      AsyncStorage.setItem('userId', userId + '')
+      AsyncStorage.setItem('userId', userId)
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
-            PubSub.publish('refresh', hmacSHA1)
+            PubSub.publish('loginRefresh', hmacSHA1)
             this.props.actions.clearData()
             this.props.navigation.goBack(this.props.navigation.state.params.key)
           }
         )
     }
     // console.warn('componentWillReceiveProps ==> codeStatus  ' + codeStatus)
-    console.warn('componentWillReceiveProps ==> counter  ' + nextProps.counter)
+    // console.warn('componentWillReceiveProps ==> counter  ' + nextProps.counter)
 
     if (nextProps.counter === 0) {
       this.state.timeSubscribe.unsubscribe()
@@ -85,7 +90,7 @@ class Register extends Component {
           </View>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <TextInput style={styles.username}
-              placeholder={consts.PASSWORD_PLACE_HOLDER}
+              placeholder={this.state.pageType === 'register' ? consts.PASSWORD_PLACE_HOLDER : consts.PASSWORD_NEW_PLACE_HOLDER}
               placeholderTextColor="#8d8d8d"
               underlineColorAndroid="transparent"
               secureTextEntry={securePassword}
@@ -103,7 +108,7 @@ class Register extends Component {
         <View style={styles.underLine} />
         <View style={[styles.itemView, {marginTop: 10}]}>
           <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-            <Image style={styles.icon} resizeMode='contain' source={require('../../img/vel.png')} />
+            <Image style={styles.icon} resizeMode="contain" source={require('../../img/vel.png')} />
           </View>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <TextInput style={styles.username}
@@ -115,7 +120,7 @@ class Register extends Component {
                 actions.verCodeChange(code)
               }}/>
           </View>
-          <TouchableOpacity activeOpacity = {1} style={[styles.vertiView, {borderColor: '#8d8d8d'}]} onPress={!isCounting && this._getCode}>
+          <TouchableOpacity activeOpacity={1} style={[styles.vertiView, {borderColor: '#8d8d8d'}]} onPress={!isCounting && this._getCode}>
             <Text>{btnCodeText}</Text>
           </TouchableOpacity>
         </View>
@@ -125,14 +130,13 @@ class Register extends Component {
             <Text style={styles.login}>{consts.CONFIRM}</Text>
           </View>
         </TouchableOpacity>
-        <View style={styles.protocolView}>
+        {this.state.pageType === 'register' && <View style={styles.protocolView}>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.protocol}>注册表示同意</Text>
-            <Text onPress={() => { alert('协议') }} style={[styles.protocol, {color: '#0091EA'}]}>Droi服务条款</Text>
+            <Text onPress={() => this.props.navigation.navigate('CommonWebviewPage', {url: 'http://iranshao.com/', name: '用户协议', type: 'protocol'})} style={[styles.protocol, {color: '#0091EA'}]}>Droi服务条款</Text>
             <Text style={styles.protocol}>内容</Text>
           </View>
-          
-        </View>
+        </View>}
       </View>
     )
   }
@@ -140,7 +144,7 @@ class Register extends Component {
   _getCode = () => {
     const {isCounting, correctUsername, username} = this.props
     if (correctUsername && !isCounting) {
-      this.props.actions.getVerCode(username)
+      this.props.actions.getVerCode(username, this.state.pageType)
       const subscribe = Rx.Observable.timer(0, 1000).subscribe(it => {
         this.props.actions.codeCounter(it)
       })
@@ -162,11 +166,11 @@ class Register extends Component {
 
   _login = () => {
     const {correctUsername, correctPassword, correctCode} = this.props
-    console.warn('correctUsername: ' + correctUsername + ' correctPassword: ' + correctPassword + ' correctCode' + correctCode)
-    this.props.navigation.goBack(this.props.navigation.state.params.key)
+    console.warn('correctUsername: ' + correctUsername + ' correctPassword: ' + correctPassword + ' correctCode: ' + correctCode)
+    // this.props.navigation.goBack(this.props.navigation.state.params.key)
     if (correctUsername && correctPassword && correctCode) {
       const {username, password, code} = this.props
-      this.props.actions.register(username, password, code)
+      this.props.actions.register(username, password, code, this.state.pageType)
     }
   }
 
@@ -174,6 +178,7 @@ class Register extends Component {
     if (typeof (this.state.timeSubscribe) === 'function') {
       this.state.timeSubscribe.unsubscribe()
     }
+    this.props.actions.codeTimeOver()
     this.props.actions.clearData()
   }
 }

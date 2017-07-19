@@ -21,21 +21,9 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
-  videoQuality: 'high',
-  durationLimit: 10,
-  maxWidth: theme.screenWidth,
-  maxHeight: theme.screenHeight,
-  quality: 1,
-  aspectX: 2,
-  aspectY: 1,
-  angle: 0,
-  allowsEditing: true,
-  noData: false,
-  storageOptions: {
-    skipBackup: true,
-    path: 'images'
-  }
+  allowsEditing: true
 }
+
 class PersonalCenter extends Component {
 
   static navigationOptions = ({navigation}) => ({
@@ -50,7 +38,11 @@ class PersonalCenter extends Component {
     super(props)
     this.state = {
       avatar: null,
-      showPhotoPickerModal: false
+      showPhotoPickerModal: false,
+      isLogin: false
+    }
+    if (this.props.navigation.state.params.isLogin) {
+      this.state.isLogin = this.props.navigation.state.params.isLogin
     }
   }
 
@@ -64,10 +56,13 @@ class PersonalCenter extends Component {
     })
 
     const that = this
-    PubSub.subscribe('refresh', (come, data) => {
+    PubSub.subscribe('loginRefresh', (come, data) => {
       Rx.Observable.of('refresh')
                       .delay(800)
                       .subscribe((it) => {
+                        this.setState({
+                          isLogin: true
+                        })
                         that.initData()
                       })
     })
@@ -133,11 +128,8 @@ class PersonalCenter extends Component {
         showPhotoPickerModal: false
       })
       if (response.didCancel) {
-        console.log('User cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         this.setState({
@@ -233,10 +225,10 @@ class PersonalCenter extends Component {
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
           <View style={{height: 20}}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_RECOMMOND_F}/>
-          <ProfileItem navigation={navigation} reminder={this.props.message && this.props.message.sysmsg_rd === 1} value={consts.PROFILE_NOTIFICATION}/>
+          <ProfileItem navigation={navigation} profileItemClick={this.props.profileItemClick}reminder={this.props.message && this.props.message.sysmsg_rd === 1} value={consts.PROFILE_NOTIFICATION}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
-          {this.props.navigation.state.params.isLogin && <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>
+          {this.state.isLogin && <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>
             <Text style={{fontSize: theme.text.xxlgFontSize, color: 'white'}}>退出账号</Text>
           </TouchableOpacity>}
         </View>

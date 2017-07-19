@@ -27,7 +27,8 @@ class DiaryDetailPage extends Component {
         onPress={() => navigation.state.params.deleteDiary && navigation.state.params.deleteDiary()}>
         <Image style={{width: 18, height: 18}} source={Delete}/>
       </TouchableOpacity>
-      <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}>
+      <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}
+        onPress={() => navigation.state.params.editDiary && navigation.state.params.editDiary()}>
         <Image style={{width: 16, height: 16}} source={Edit}/>
       </TouchableOpacity>
     </View>
@@ -67,7 +68,8 @@ class DiaryDetailPage extends Component {
     // 跳转到个人主页
     this.props.navigation.setParams({
       routerToPersonalPage: this.routerToPersonalPage,
-      deleteDiary: this.deleteDiary
+      deleteDiary: this.deleteDiary,
+      editDiary: this.editDiary
     })
   }
 
@@ -144,6 +146,10 @@ class DiaryDetailPage extends Component {
       ],
       { cancelable: false }
     )
+  }
+
+  editDiary = () => {
+    this.props.navigation.navigate('WriteDiaryPage', {diary: this.state.diary})
   }
 
 

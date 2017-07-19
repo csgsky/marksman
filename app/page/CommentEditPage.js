@@ -19,20 +19,7 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
-  videoQuality: 'high',
-  durationLimit: 10,
-  maxWidth: theme.screenWidth,
-  maxHeight: theme.screenHeight,
-  quality: 1,
-  aspectX: 2,
-  aspectY: 1,
-  angle: 0,
-  allowsEditing: true,
-  noData: false,
-  storageOptions: {
-    skipBackup: true,
-    path: 'images'
-  }
+  allowsEditing: true
 }
 class CommentEditor extends PureComponent {
 
