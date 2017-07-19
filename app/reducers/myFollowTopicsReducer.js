@@ -35,7 +35,7 @@ export default function myFollowTopics (state = initState, action = {}) {
         ...state,
         isLoadingMore: false,
         topics: state.topics.concat(action.payload.topics || []),
-        hasMore: action.payload.topics.length >= 5,
+        hasMore: action.payload.topics.length >= 10,
         page: state.page + 1
       }
     case types.MY_FOLLOW_TOPICS_FOLLOW_SUCCESS:

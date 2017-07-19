@@ -33,7 +33,6 @@ export function recentTime (_time) {
   const ONE_DAY = ONE_HOUR * 24
   const date = new Date(_time)
   const delta = today.getTime() - date.getTime()
-  console.log('delta ==> ')
   if (delta < ONE_MINUTE) {
     return '刚刚'
   }

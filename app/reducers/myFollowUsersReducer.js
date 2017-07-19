@@ -35,7 +35,7 @@ export default function myFollowUsers (state = initState, action = {}) {
         ...state,
         isLoadingMore: false,
         users: state.users.concat(action.payload.users || []),
-        hasMore: action.payload.users.length >= 5,
+        hasMore: action.payload.users.length >= 10,
         page: state.page + 1
       }
     case types.MY_FOLLOW_USERS_FOLLOW_SUCCESS:

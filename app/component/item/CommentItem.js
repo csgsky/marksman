@@ -7,7 +7,8 @@ import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 
 export default class CommentItem extends Component {
   _onPressUserAvatar = () => {
-    alert('should navigate to user page')
+    const userId = this.props.data.user_id;
+    this.props.navigation.navigate('PersonalPage', {message: '评论', id: userId})
   }
 
   render () {

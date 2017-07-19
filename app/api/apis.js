@@ -149,7 +149,7 @@ export const TopUsersApi = (userId) =>
 
 // 备受宠爱列表
 export const LovedUsersApi = (userId, page) => {
-  return getApi(`/api/rankuser?rn=8&p=${page}`, userId)
+  return getApi(`/api/rankuser?rn=10&p=${page}`, userId)
 }
 
 // 搜索api
@@ -225,10 +225,10 @@ export const getUserProfile = (token, userId) =>
 
 // 获取关注人员列表
 export const MyFollowUsersApi = (userId, page) =>
-  getApi(`/api/account/focus?p=${page}&rn=5`, userId)
+  getApi(`/api/account/focus?p=${page}&rn=10`, userId)
 
 export const MyFollowTopicsApi = (userId, page) =>
-  getApi(`/api/talk/focus?p=${page}&rn=5`, userId)
+  getApi(`/api/talk/focus?p=${page}&rn=10`, userId)
 
 export const getUnloginInfo = (devicedId, userId) =>
  getApi(`/api/customer/${devicedId}`, userId)
