@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, TextInput, Image, Alert, TouchableOpacity, AsyncStorage} from 'react-native'
+import {StyleSheet, View, Text, TextInput, Image, Alert, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
 import PubSub from 'pubsub-js'
 import CryptoJS from 'crypto-js'
 import { NavigationActions } from 'react-navigation'
@@ -60,12 +60,11 @@ class Login extends Component {
 
   render () {
     return (
+      <ScrollView>
       <View style={styles.view}>
         <Text style ={styles.title}>{consts.appName}</Text>
         <View style={styles.itemView}>
-          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-            <Image style={styles.icon} resizeMode="contain" source={require('../../img/tel.png')} />
-          </View>
+          <Image style={styles.icon} resizeMode="contain" source={require('../../img/tel.png')} />
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <TextInput style={styles.username}
               placeholder={consts.USERNAME_PLACE_HOLDER}
@@ -80,9 +79,7 @@ class Login extends Component {
         </View>
         <View style={styles.underLine} />
         <View style={[styles.itemView, {marginTop: 10}]}>
-          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-            <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
-          </View>
+          <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
             <TextInput style={styles.username}
               placeholder={consts.PASSWORD_PLACE_HOLDER}
@@ -100,16 +97,15 @@ class Login extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.underLine} />
-        <TouchableOpacity onPress={this._login}>
-          <View style={styles.confirm}>
-            <Text style={styles.login}>{consts.CONFIRM}</Text>
-          </View>
+        <TouchableOpacity style={styles.confirm} onPress={this._login}>
+          <Text style={styles.login}>{consts.CONFIRM}</Text>
         </TouchableOpacity>
         <Text onPress={this._forgetPassword} style={styles.register}>{consts.FORGET_PASSWORD}</Text>
         <View style={styles.forgetView}>
           <Text onPress={this._quickRegister}style={styles.forget}>{consts.QUICK_REGISTER}</Text>
         </View>
       </View>
+      </ScrollView>
     )
   }
 
@@ -157,7 +153,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Login)
 
 const styles = StyleSheet.create({
   view: {
-    flex: 1,
+    height: theme.screenHeight,
+    width: theme.screenWidth,
     backgroundColor: 'white',
     padding: 30,
     paddingBottom: 15
@@ -166,13 +163,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: '#f89f33',
     fontSize: 36,
-    marginTop: 40,
+    marginTop: 80,
     marginBottom: 40,
     alignSelf: 'center'
   },
   itemView: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: 'center',
     height: 40
   },
   username: {
@@ -208,7 +205,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    marginBottom: 15,
+    marginBottom: 25,
     alignContent: 'center'
   },
   forget: {
