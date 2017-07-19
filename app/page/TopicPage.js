@@ -103,7 +103,7 @@ class Topic extends PureComponent {
           </View>
           <Text style={styles.counts}>{topic.comment.num}评论 | {topic.like.num}赞</Text>
           <Text style={styles.content}>{topic.content}</Text>
-          <View style={styles.tag}>
+          <View style={[styles.tag, {backgroundColor: topic.tag_color}]}>
             <Text style={styles.tagText}>{topic.tag}</Text>
           </View>
         </View>
