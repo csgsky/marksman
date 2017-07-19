@@ -107,7 +107,7 @@ class CommentListPage extends PureComponent {
     if (pid) {
       data.pid = pid
     }
-    this.props.commentPost({diaryId, ownerId: commentOwnerId, commentId, data})
+    this.props.commentsListCommentPost({diaryId, ownerId: commentOwnerId, commentId, data})
   }
   render() {
     const {comments, navigation, isRefreshing} = this.props
@@ -194,4 +194,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(({commentsList}) => commentsList, dispatch => bindActionCreators({...actions, commentPost, clearCommentPost}, dispatch))(CommentListPage)
+export default connect(({commentsList}) => commentsList, dispatch => bindActionCreators({...actions, clearCommentPost}, dispatch))(CommentListPage)
