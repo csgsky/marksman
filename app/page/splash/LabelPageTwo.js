@@ -6,7 +6,7 @@ import theme from '../../config/theme'
 import WriteNickASign from '../../img/write_nick_sign_bg.png'
 import NickNameBg from '../../img/nickname_bg.png'
 import SignBg from '../../img/sign_bg.png'
-import selected from '../../img/splash_selected.png'
+import selected from '../../img//enter_qianyan.png'
 import {CustomerRegisterApi} from '../../api/apis'
 
 var dismissKeyboard = require('dismissKeyboard')
@@ -76,8 +76,8 @@ export default class LabelPageTwo extends Component {
         </View>
         <TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.closeKeyBoard}>
           <Text style={{fontSize: 16, marginLeft: 8, color: '#757575', backgroundColor: 'transparent'}}>请写下你的昵称：</Text>
-          <Image style={{width: 280, height: 60, marginTop: 30}}
-            resizeMode="contain"
+          <Image style={{width: theme.screenWidth - 60, height: 60, marginTop: 30}}
+            resizeMode="stretch"
             source={NickNameBg}>
             <TextInput style={{fontSize: 14, height: 45, marginLeft: 21}}
               placeholder={'请写下你的昵称'}
@@ -93,8 +93,8 @@ export default class LabelPageTwo extends Component {
             </Image>
           <View style={styles.signView}>
             <Image
-              style={{width: 300, height: 130}}
-              resizeMode="contain"
+              style={{width: theme.screenWidth - 60, height: 130}}
+              resizeMode="stretch"
               source={SignBg} />
             <TextInput style={styles.sign}
               placeholder={'请留下你的只言片语，让如诗的日子杨帆起航~~'}
@@ -130,12 +130,6 @@ const styles = StyleSheet.create({
     left: 16,
     right: 16,
     bottom: 0
-  },
-  nicknameView: {
-    height: 60,
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginTop: 20
   },
   signView: {
     height: 130,
