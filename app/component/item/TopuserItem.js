@@ -19,18 +19,18 @@ export default class TopUserItem extends Component {
   }
 
   _routerToPersonalPage = () => {
-    this.props.navigation.navigate('PersonalPage', {message: '个人主页'})
+    console.log('route to personal page')
+    const userId = this.props.item.user_id
+    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
   }
 
   render () {
     const {item, position} = this.props
     const desc = '公开日记 ' + item.diary_num + ' 粉丝 ' + item.focus_num + ' 收获点赞 ' + item.like_num
-    return <View onPress={this._routerToPersonalPage}>
+    return <TouchableOpacity onPress={this._routerToPersonalPage}>
       <View style={styles.item}>
         <View style={styles.itemT}>
-          <TouchableOpacity onPress={this._routerToPersonalPage}>
-            <Image style={styles.img} source={item.avtar === '' ? theme.imgs.DefaultUserAvatar : {uri: item.avtar}} />
-          </TouchableOpacity>
+          <Image style={styles.img} source={item.avtar === '' ? theme.imgs.DefaultUserAvatar : {uri: item.avtar}} />
           <View style={{flex: 1, paddingLeft: 6}}>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
               <Text style={styles.name}>{item.nickname}</Text>
@@ -47,7 +47,7 @@ export default class TopUserItem extends Component {
         </View>
         <Text style={styles.sign} numberOfLines={1}>{item.sign}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   }
 
 }

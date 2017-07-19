@@ -38,7 +38,7 @@ export function hotDiaryLoadingMoreData (data) {
     hasMoreData: data.diarys.length >= 10
   }
 }
-export function rhotDiaryLike(payload) {
+export function hotDiaryLike(payload) {
   return {
     type: HOTDIARY_LIKE,
     payload
