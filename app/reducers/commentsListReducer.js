@@ -48,13 +48,13 @@ export default function commentsList(state = initialState, action = {}) {
         ...state,
         comments: likeCommentSuccess(state.comments, action.payload.index)
       }
-    case COMMENT_POST:
+    case types.COMMENTS_LIST_COMMENT_POST:
       return {
         ...state,
         success: false,
         isPostingComment: true,
       }
-    case COMMENT_POST_SUCCESS:
+    case types.COMMENTS_LIST_COMMENT_POST_SUCCESS:
       return {
         ...state,
         success: true,

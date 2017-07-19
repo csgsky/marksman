@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/commentEditorAction'
 // import { combineEpics } from 'redux-observable'
 import PubSub from 'pubsub-js'
-import { PostCommentApi, PostCommentCommentApi } from '../api/apis'
+import { PostCommentApi } from '../api/apis'
 import {showError} from '../actions/common'
 import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
@@ -19,10 +19,7 @@ function commentPostEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    const {diaryId, commentId, ownerId, data} = action.payload
-                    if (commentId) {
-                      return Observable.from(PostCommentCommentApi({diaryId, ownerId, commentId, data, userId: it.token}))
-                    }
+                    const {diaryId, ownerId, data} = action.payload
                     return Observable.from(PostCommentApi({diaryId, ownerId, data, userId: it.token}))
                   }
                   return Observable.of(2)
@@ -35,7 +32,6 @@ function commentPostEpic (action$) {
                 } else {
                   console.log('epic  ---> commentpostsuccess ')
                   console.log(it)
-                  PubSub.publish('commentsRefresh')
                   PubSub.publish('refreshDetailPage')
                   PubSub.publish('refreshDiaryList')
                   return actions.commentPostSuccess()
