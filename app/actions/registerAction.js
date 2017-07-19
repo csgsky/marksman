@@ -11,13 +11,14 @@ export const REGISTER_CODE_TIME_OVER = 'REGISTER_CODE_TIME_OVER'
 export const REGISTER_CODE_COUNTER = 'REGISTER_CODE_COUNTER'
 export const CLEAR_DATA = 'CLEAR_DATA'
 export const REGISTER_CHANGE_SECURE = 'REGISTER_CHANGE_SECURE'
-export function register (account, password, message) {
+export function register (account, password, message, pageType) {
   console.log('action REGISTER ===> ')
   return {
     type: REGISTER,
     account,
     password,
-    message
+    message,
+    pageType
   }
 }
 
@@ -37,11 +38,12 @@ export function registerError (returnMsg) {
   }
 }
 
-export function getVerCode (account) {
-  console.log('action account REGISTER_GET_CODE ===> ' + account)
+export function getVerCode (account, pageType) {
+  // console.log('action account REGISTER_GET_CODE ===> ' + account)
   return {
     type: REGISTER_GET_CODE,
-    account
+    account,
+    pageType
   }
 }
 

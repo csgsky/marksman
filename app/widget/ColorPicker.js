@@ -56,6 +56,8 @@ export default class ColorPicker extends Component {
   _computeHValue(x, y) {
     if (x < 0) {
       return 338
+    } else if (Math.round(338 - (x / this.state.pickerWidth) * 88) < 250) {
+      return 250
     }
     return Math.round(338 - (x / this.state.pickerWidth) * 88)
   }

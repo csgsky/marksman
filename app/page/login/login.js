@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, TextInput, Image, BackAndroid, TouchableOpacity, AsyncStorage} from 'react-native'
+import {StyleSheet, View, Text, TextInput, Image, Alert, TouchableOpacity, AsyncStorage} from 'react-native'
 import PubSub from 'pubsub-js'
 import CryptoJS from 'crypto-js'
 import { NavigationActions } from 'react-navigation'
@@ -16,14 +16,12 @@ var dismissKeyboard = require('dismissKeyboard')
 class Login extends Component {
 
   componentDidMount () {
-    console.warn('componentDidMount')
     this.props.actions.initPage()
   }
 
   componentWillReceiveProps (nextProps) {
     const {userId, info} = nextProps
     if (userId !== this.props.userId && userId !== '') {
-      console.log('componentWillReceiveProps ==>: 登录去吧，宝宝们')
       var base64 = require('base-64')
       var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
@@ -36,7 +34,7 @@ class Login extends Component {
       this._saveUserInfo(info)
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
-            PubSub.publish('refresh', hmacSHA1)
+            PubSub.publish('loginRefresh', hmacSHA1)
             if (this.props.navigation.state.come4 === 'signOut') {
               const resetAction = NavigationActions.reset({
                 index: 0,
@@ -121,21 +119,21 @@ class Login extends Component {
     if (correctAccount && correctPassword) {
       this.props.actions.login(account, password)
     } else if (!correctAccount) {
-      alert('请输入正确格式的手机号')
+      Alert.alert('提示', '请输入正确的手机号')
     } else if (!correctPassword) {
-      alert('请输入正确格式的密码')
+      Alert.alert('提示', '请输入正确格式的密码')
     }
   }
 
   _quickRegister = () => {
     const key = this.props.navigation.state.key
-    this.props.navigation.navigate('RegisterPage', {key})
+    this.props.navigation.navigate('RegisterPage', {key, type: 'register'})
   }
 
   _forgetPassword = () => {
-    alert('忘记密码 ')
+    const key = this.props.navigation.state.key
+    this.props.navigation.navigate('RegisterPage', {key, type: 'forget'})
   }
-
 }
 
 const mapStateToProps = (state) => {
