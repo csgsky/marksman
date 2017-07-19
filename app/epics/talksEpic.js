@@ -14,13 +14,9 @@ function talksInitEpic (action$) {
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-<<<<<<< HEAD
-                (token, page, come4, net) => ({token, page, net, come4})
-=======
                 Observable.of(action.come4),
                 Observable.from(AsyncStorage.getItem('tags')),
                 (token, page, net, come4, tags) => ({token, page, net, come4, tags})
->>>>>>> dev
               ).flatMap(
                 (it) => {
                   console.log('talksInitEpic ===> it ', it)
