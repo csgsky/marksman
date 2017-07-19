@@ -125,10 +125,8 @@ class Register extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.underLine} />
-        <TouchableOpacity onPress={this._login}>
-          <View style={styles.confirm}>
-            <Text style={styles.login}>{consts.CONFIRM}</Text>
-          </View>
+        <TouchableOpacity onPress={this._login} style={styles.confirm}>
+          <Text style={styles.login}>{consts.CONFIRM}</Text>
         </TouchableOpacity>
         {this.state.pageType === 'register' && <View style={styles.protocolView}>
           <View style={{flexDirection: 'row'}}>
@@ -218,7 +216,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: '#f89f33',
     fontSize: 36,
-    marginTop: 40,
+    marginTop: 60,
     marginBottom: 40,
     alignSelf: 'center'
   },
