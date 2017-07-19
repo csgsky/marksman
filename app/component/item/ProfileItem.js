@@ -52,7 +52,7 @@ export default class ProfileItem extends Component {
         alert(consts.PROFILE_RECOMMOND_F)
         break;
       case consts.PROFILE_NOTIFICATION:
-        this._routerSystemMessage()
+        this._routerSystemMessage(consts.PROFILE_NOTIFICATION)
         break;
       case consts.PROFILE_FEEDBACK:
         that._routerFeedback()
@@ -95,8 +95,15 @@ export default class ProfileItem extends Component {
     })
   }
 
-  _routerSystemMessage = () => {
-    this.props.navigation.navigate('SystemMessagePage', {come4: 'profile'})
+  _routerSystemMessage = (value) => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'profile'})
+      } else if (this.props.profileItemClick) {
+        this.props.profileItemClick(value)
+        this.props.navigation.navigate('SystemMessagePage', {come4: 'profile'})
+      }
+    })
   }
 
   _routerFeedback = () => {

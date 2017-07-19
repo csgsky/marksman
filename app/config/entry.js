@@ -43,6 +43,7 @@ import NotificationPage from '../page/news/NotificationPage'
 import TopicNewsPage from '../page/news/TopicNewsPage'
 import UserNewsPage from '../page/news/UserNewsPage'
 import SystemMessagePage from '../page/news/SystemMessagePage'
+import ForgetPasswordPage from '../page/login/forget'
 
 import theme from '../config/theme'
 
@@ -51,6 +52,7 @@ class Navigation extends Component {
     super()
     StatusBar.setBarStyle('default')
   }
+
   render () {
     return (
       <Navigator />
@@ -257,10 +259,7 @@ const Navigator = StackNavigator(
     },
     CommonWebviewPage: {
       screen: CommonWebviewPage,
-      mode: 'card',
-      navigationOptions: ({navigation}) => ({
-        title: navigation.state.params.name
-      })
+      mode: 'card'
     },
     TopicListPage: {
       screen: TopicListPage,
@@ -388,6 +387,10 @@ const Navigator = StackNavigator(
     },
     ProvincePage: {
       screen: ProvincePage,
+      mode: 'card'
+    },
+    ForgetPasswordPage: {
+      screen: ForgetPasswordPage,
       mode: 'card'
     }
   },

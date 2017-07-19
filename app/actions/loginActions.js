@@ -1,3 +1,5 @@
+import {Alert} from 'react-native'
+
 export const LOGIN = 'LOGIN'
 export const ACCOUNT_CHANGE = 'ACCOUNT_CHANGE'
 export const PASSWORD_CHANGE = 'PASSWORD_CHANGE'
@@ -49,7 +51,7 @@ export function changePasswordSecure () {
 }
 
 export function loginError (errorMsg) {
-  alert('用户名或密码错误！')
+  Alert.alert('用户名或密码错误！')
   return {
     type: LOGIN_ERROR,
     errorMsg

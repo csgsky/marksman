@@ -31,6 +31,15 @@ export default function profile (state = initState, action = {}) {
         ...state,
         message: action.message
       }
+    case types.MESSAGE_PROFILE_ITEM_CLICK:
+      console.log('reducer MESSAGE_PROFILE_ITEM_CLICK ', action.value)
+      return {
+        ...state,
+        message: {
+          ...state.message,
+          sysmsg_rd: 0
+        }
+      }
     default:
       return state
   }
