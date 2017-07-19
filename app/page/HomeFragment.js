@@ -48,8 +48,8 @@ class HomeFragment extends Component {
   }
 
   onRefresh = () => {
-    this.refs._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
     this.props.actions.homeInit(0)
+    this.refs._homefragmentlist.scrollToOffset({x: 0, y: 1, animated: true});
   }
 
   getItemCompt = ({item, index}) => {
@@ -124,7 +124,7 @@ class HomeFragment extends Component {
         <Separator />
         <FlatList
           data={diarys}
-          ref="_homefragmentlist"
+          ref='_homefragmentlist'
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
