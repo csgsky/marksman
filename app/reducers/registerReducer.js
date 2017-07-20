@@ -65,7 +65,7 @@ export default function register (state = initState, action = {}) {
         ...state,
         securePassword: !state.securePassword
       }
-    case types.CLEAR_DATA:
+    case types.CLEAR_REGISTER_DATA:
       return initState
     default:
       return state
@@ -73,7 +73,7 @@ export default function register (state = initState, action = {}) {
 }
 
 function testMobile (mobile) {
-  if ((/^1[3|5|7][0-9]\d{4,8}$/.test(mobile)) && mobile.length === 11) {
+  if ((/^1[3|5|7|4|8][0-9]\d{4,8}$/.test(mobile)) && mobile.length === 11) {
     return true
   } else {
     return false

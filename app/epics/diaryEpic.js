@@ -2,7 +2,7 @@ import {AsyncStorage, NativeModules} from 'react-native'
 import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/diaryAction'
-import { PostDiaryApi} from '../api/apis'
+import { PostDiaryApi, PostEditDiaryApi} from '../api/apis'
 import {showError} from '../actions/common'
 import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
@@ -39,7 +39,12 @@ function postWriteDiary (action$) {
               ).flatMap(
                 (it) => {
                   if (it.net === '1' && it.token) {
-                    return Observable.from(PostDiaryApi(it.payload, it.token))
+                    if (action.come4 === 'write') {
+                      return Observable.from(PostDiaryApi(it.payload, it.token))
+                    } else if (action.come4 === 'edit') {
+                      console.log('postWriteDiary --- epic--->  ', it.payload)
+                      return Observable.from(PostEditDiaryApi(it.payload, it.token))
+                    }
                   }
                   return Observable.of(2)
                 }

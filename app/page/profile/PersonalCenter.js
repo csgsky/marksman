@@ -55,7 +55,6 @@ class PersonalCenter extends Component {
       }
     })
 
-    const that = this
     PubSub.subscribe('loginRefresh', (come, data) => {
       Rx.Observable.of('refresh')
                       .delay(800)
@@ -63,7 +62,7 @@ class PersonalCenter extends Component {
                         this.setState({
                           isLogin: true
                         })
-                        that.initData()
+                        this.initData()
                       })
     })
   }
@@ -175,14 +174,19 @@ class PersonalCenter extends Component {
   }
 
   _loginOut = () => {
-    this._clearUserInfo()
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({routeName: 'Login', come4: 'signOut'})
-      ]
-    })
-    this.props.navigation.dispatch(resetAction)
+    if (this.state.isLogin) {
+      AsyncStorage.removeItem('userId').then(() => {
+        this.initData()
+        this.props.submitInitPage()
+        AsyncStorage.getItem('userId').then((result) => {
+          if (result) {
+            this.props.profileMessageReminder()
+          }
+        })
+      })
+    } else {
+      this.props.navigation.navigate('Login', {come4: 'profile'})
+    }
   }
 
   _routerProfilePage = () => {
@@ -228,9 +232,9 @@ class PersonalCenter extends Component {
           <ProfileItem navigation={navigation} profileItemClick={this.props.profileItemClick}reminder={this.props.message && this.props.message.sysmsg_rd === 1} value={consts.PROFILE_NOTIFICATION}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
-          {this.state.isLogin && <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>
-            <Text style={{fontSize: theme.text.xxlgFontSize, color: 'white'}}>退出账号</Text>
-          </TouchableOpacity>}
+          <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>
+            <Text style={{fontSize: theme.text.xxlgFontSize, color: 'white'}}>{this.state.isLogin ? '退出账号' : '登录'}</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     )

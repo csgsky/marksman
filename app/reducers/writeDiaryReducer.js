@@ -31,6 +31,7 @@ export default function writeDiary (state = initState, action = {}) {
   switch (action.type) {
     case types.WRITE_DIARY_INIT:
       console.log('writeDiary reducer WRITE_DIARY_INIT-> ', action.payload)
+      // console.log('writeDiary reducer WRITE_DIARY_INIT -> img ', getMaterialPosition(action.payload.img))
       return {
         ...state,
         diary: action.payload,
@@ -41,6 +42,7 @@ export default function writeDiary (state = initState, action = {}) {
         materialPosition: action.payload === null ? -1 : getMaterialPosition(action.payload.img),
         ifprivate: action.payload === null ? 1 : (action.payload.ifprivate === 0 ? 0 : 1),
         content: action.payload === null ? null : action.payload.content,
+        success: false
       }
     case types.WRITE_DIARY_COLOR_CHANGE:
       return {
@@ -134,6 +136,8 @@ function getDefaultSource (img) {
     return Nine
   } else if (img === '9') {
     return Ten
+  } else if (img === '') {
+    return null
   }
   return {uri: img}
 }
@@ -160,6 +164,6 @@ function getMaterialPosition(img) {
   } else if (img === '9') {
     return 9
   }
-  return One
+  return -1
 }
 
