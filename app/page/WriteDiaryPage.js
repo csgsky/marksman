@@ -76,13 +76,23 @@ class WriteDiaryPage extends Component {
   }
 
   _postDiary = () => {
-    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel} = this.props
+    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
+    const come4 = navigation.state.params.come4
     if (materialPosition > 0) {
-      postDiary({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
+      const dataOne = this.props.diary === null ?
+        {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2} :
+        {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
+      postDiary(dataOne, come4)
     } else if (imgBase64 !== null) {
-      postDiary({content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2})
+      const dataTwo = this.props.diary === null ?
+        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2} :
+        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
+      postDiary(dataTwo, come4)
     } else {
-      postDiary({content, ifprivate, feel, feelcolor: this.state.color2})
+      const dataThree = this.props.diary === null ?
+        {content, ifprivate, feel, feelcolor: this.state.color2} :
+        {content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
+      postDiary(dataThree, come4)
     }
   }
 
