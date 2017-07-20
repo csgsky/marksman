@@ -59,10 +59,11 @@ export function diaryContentChange (payload) {
   }
 }
 
-export function postDiary (payload) {
+export function postDiary (payload, come4) {
   return {
     type: WRITE_DIARY_POST_DIARY,
-    payload
+    payload,
+    come4
   }
 }
 

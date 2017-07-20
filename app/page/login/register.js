@@ -26,6 +26,7 @@ class Register extends Component {
     this.setState({pageType: this.props.navigation.state.params.type})
   }
   componentDidMount () {
+    this._backPress()
     BackAndroid.addEventListener('hardwareBackPress', this._backPress)
   }
 
@@ -47,7 +48,6 @@ class Register extends Component {
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
             PubSub.publish('loginRefresh', hmacSHA1)
-            this.props.actions.clearData()
             this.props.navigation.goBack(this.props.navigation.state.params.key)
           }
         )
