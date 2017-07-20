@@ -37,6 +37,13 @@ class HomeFragment extends Component {
     this.props.actions.homeInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('loginRefresh', this.onRefresh)
+    // AsyncStorage.getItem('tags').then((result) => {
+    //   if (result !== null) {
+    //     alert(result)
+    //   } else {
+    //     alert('kong')
+    //   }
+    // })
   }
 
   componentWillUnmount() {
@@ -89,7 +96,7 @@ class HomeFragment extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
       } else {
-        this.props.navigation.navigate('WriteDiaryPage', {diary: null})
+        this.props.navigation.navigate('WriteDiaryPage', {diary: null, come4: 'write'})
       }
     })
   }

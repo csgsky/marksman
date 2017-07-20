@@ -260,6 +260,10 @@ export const CommentCommentsApi = ({diaryId, ownerId, commentId, page, userId}) 
 export const PostDiaryApi = (map, userId) =>
   postApi('/api/diary', map, userId)
 
+// 编辑日记提交接口
+export const PostEditDiaryApi = (map, userId) =>
+  putApi('/api/diary', userId, map)
+
 // 删除日记的接口
 export const deleteDiary = (userId, map) =>
   deleteApi('/api/diary', userId, map)

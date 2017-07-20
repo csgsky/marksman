@@ -151,7 +151,7 @@ class DiaryDetailPage extends Component {
   }
 
   editDiary = () => {
-    this.props.navigation.navigate('WriteDiaryPage', {diary: this.state.diary})
+    this.props.navigation.navigate('WriteDiaryPage', {diary: this.state.diary, come4: 'edit'})
   }
 
 
