@@ -1,7 +1,6 @@
-'use strict'
 import React, {Component} from 'react'
-
-import {NativeModules, Platform, StatusBar} from 'react-native'
+import * as WeChat from 'react-native-wechat';
+import {Platform, StatusBar} from 'react-native'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import AboutUsPage from '../page/profile/AboutUs'
 import HomeFragment from '../page/HomeFragment'
@@ -60,6 +59,13 @@ class Navigation extends Component {
   }
 
   componentWillMount () {
+    WeChat.registerApp('wx304eb8f40f7a2d88').then((result) => {
+      if (result) {
+        alert('wechat')
+      } else {
+        alert('wechat not ok')
+      }
+    })
     // NativeModules.SplashScreen.hide()
   }
 }
