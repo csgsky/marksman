@@ -1,0 +1,22 @@
+{
+  "wechat": {
+    "appId": {
+      "ios": "wx0404a41a2ea81ad5",
+      "android": "wx304eb8f40f7a2d88"
+    },
+    "appSecret": {
+      "ios": "de2f9f9f3fded171508eaeb5a4204d85",
+      "android": "e19bae2990b22fafcc25f17c7b22650f"
+    }
+  },
+  "qq": {
+    "appId": {
+      "ios": "1106287922",
+      "android": "1106211147"
+    },
+    "appSecret": {
+      "ios": "KOt2XW1Bmcyb7mMX",
+      "android": "9cxhjUloaFRKq4ed"
+    }
+  }
+}
