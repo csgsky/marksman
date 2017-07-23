@@ -139,7 +139,7 @@ export const TopicsListApi = (userId, page, come4, tag) => {
   if (come4 === 'news') {
     return getApi(`/api/mymsg?rn=10&mode=0&p=${page}`, userId)
   }
-  return getApi(`/api/talk?rn=10&p=${page}&tag=${'1,2,3,4,7,8'}`, userId)
+  return getApi(`/api/talk?rn=10&p=${page}`, userId)
 }
 
 // 发现、备受宠爱
