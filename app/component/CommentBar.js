@@ -8,7 +8,7 @@ import Share from '../img/comment_share.png'
 
 class CommentBar extends Component {
   render() {
-    const {myLike, likeAction, commentAction, shareAction, likeNum, commentsNum} = this.props;
+    const {myLike, likeAction, commentAction, showShare, likeNum, commentsNum} = this.props;
     return (
       <View style={styles.container}>
         <TouchableOpacity onPress={() => likeAction && likeAction()} style={{flex: 1}}>
@@ -23,7 +23,7 @@ class CommentBar extends Component {
             <Text style={{color: theme.text.globalSubTextColor, marginLeft: 8, fontSize: 13}}>{commentsNum}</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => shareAction && shareAction()} style={{flex: 1}}>
+        <TouchableOpacity onPress={showShare} style={{flex: 1}}>
           <View style={styles.cell}>
             <Image source={Share} style={{width: 17, height: 17}}/>
           </View>
