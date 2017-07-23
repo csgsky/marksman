@@ -8,7 +8,7 @@ import CommentItem from '../component/item/CommentItem'
 import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage} from 'react-native'
 import * as actions from '../actions/topic'
 import CommentBar from '../component/CommentBar'
-
+import ShareModal from '../widget/ShareModal'
 import EmptyView from '../component/CommentEmptyView'
 import Separator from '../component/Separator'
 // homefragment/init/data
@@ -17,6 +17,14 @@ class Topic extends PureComponent {
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerLeft: <TouchableOpacity onPress={() => navigation.state.params.back()}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      shareVisible: false, // 显示分享
+      wechatMetadata: null
+    }
+  }
   componentDidMount () {
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params
     this.props.topicInit({topicId, ownerId, diaryId})
@@ -90,6 +98,8 @@ class Topic extends PureComponent {
     })
   }
   renderHeader = (topic, comments) => {
+    console.log('topic')
+    console.log(topic)
     console.log({focus: topic.my_focus})
     const {topicId} = this.props.navigation.state.params
     return (
@@ -114,11 +124,39 @@ class Topic extends PureComponent {
       </View>
     )
   }
+
+  getWechatShareMeta = () => {
+    const {topic} = this.props
+    return {
+      type: 'news',
+      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${topic.talk_id}`,
+      title: topic.name,
+      description: topic.content
+    }
+  }
+  hideShare = () => {
+    this.setState({
+      shareVisible: false
+    })
+  }
+  showShare = () => {
+    const wechatMetadata = this.getWechatShareMeta()
+    this.setState({
+      shareVisible: true,
+      wechatMetadata
+    })
+  }
+
   render () {
     const {topic, comments, isRefreshing} = this.props;
     console.log({topic})
     return (
       <View style={styles.container}>
+        <ShareModal
+          visible={this.state.shareVisible}
+          hideShare={this.hideShare}
+          wechatMetadata={this.state.wechatMetadata}
+        />
         {topic && topic.name && <FlatList
           data={comments}
           renderItem={({item, index}) => (
@@ -144,6 +182,7 @@ class Topic extends PureComponent {
           myLike={topic.my_like}
           likeAction={() => this._onPressLike(topic.diary_id, topic.user_id, topic.my_like)}
           likeNum={topic.like.num}
+          showShare={this.showShare}
           commentAction={() => this._onPressComment(topic)}
           commentsNum={topic.comment.num}/>}
       </View>
