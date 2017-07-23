@@ -45,6 +45,7 @@ import SystemMessagePage from '../page/news/SystemMessagePage'
 import ForgetPasswordPage from '../page/login/forget'
 
 import theme from '../config/theme'
+import AppConfig from '../constant/config.json'
 
 class Navigation extends Component {
   constructor () {
@@ -59,13 +60,16 @@ class Navigation extends Component {
   }
 
   componentWillMount () {
-    WeChat.registerApp('wx304eb8f40f7a2d88').then((result) => {
+    const wxAppId = Platform.OS === 'ios' ? AppConfig.wechat.appId.ios : AppConfig.wechat.appId.android
+    const result = WeChat.registerApp(wxAppId);
+    console.log({result})
+    console.log('is wechat installed', WeChat.isWXAppInstalled().then((result) => {
       if (result) {
-        alert('wechat')
+        alert('wechat installed')
       } else {
-        alert('wechat not ok')
+        alert('wechat uninstalled')
       }
-    })
+    }))
     // NativeModules.SplashScreen.hide()
   }
 }
