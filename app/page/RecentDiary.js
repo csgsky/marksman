@@ -8,9 +8,18 @@ import * as actions from '../actions/recentDiaryAction'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Footer from '../component/Footer'
-
+import ShareModal from '../widget/ShareModal'
 
 class RecentDiary extends Component {
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      shareVisible: false, // 显示分享
+      wechatMetadata: null
+    }
+  }
+
   componentDidMount () {
     this.props.actions.recentDiaryInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
@@ -43,6 +52,7 @@ class RecentDiary extends Component {
       hasComment
       showRightTime
       showUserInfo
+      showShare={() => this.showShare(index, item)}
       likeDiary={this._likeDiary}
       index={index}/>)
   }
@@ -67,10 +77,40 @@ class RecentDiary extends Component {
     }
   }
 
+  hideShare = () => {
+    this.setState({
+      shareVisible: false
+    })
+  }
+
+  getWechatShareMeta = (index, item) => {
+    const user = item.user
+    return {
+      type: 'news',
+      webpageUrl: `http://101.95.97.178/h5/diary.html?diary_id=${item.diary_id}`,
+      title: '来自' + user.nickname + '的日记',
+      description: item.content
+    }
+  }
+
+  showShare = (index, item) => {
+    // 将分享数据进行准备
+    const wechatMetadata = this.getWechatShareMeta(index, item)
+    this.setState({
+      shareVisible: true,
+      wechatMetadata
+    })
+  }
+
   render () {
     const {diarys, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
+        <ShareModal
+          visible={this.state.shareVisible}
+          hideShare={this.hideShare}
+          wechatMetadata={this.state.wechatMetadata}
+        />
         <FlatList
           data={diarys}
           renderItem={this.getItemCompt}

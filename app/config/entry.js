@@ -59,14 +59,7 @@ class Navigation extends Component {
   }
 
   componentWillMount () {
-    WeChat.registerApp('wx304eb8f40f7a2d88').then((result) => {
-      if (result) {
-        alert('wechat')
-      } else {
-        alert('wechat not ok')
-      }
-    })
-    // NativeModules.SplashScreen.hide()
+    WeChat.registerApp('wx304eb8f40f7a2d88')
   }
 }
 

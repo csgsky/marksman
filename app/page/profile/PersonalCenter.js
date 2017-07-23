@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Rx from 'rxjs'
-import {StyleSheet, View, Text, Image, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
+import {StyleSheet, View, NativeModules, Text, Image, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
@@ -175,6 +175,13 @@ class PersonalCenter extends Component {
 
   _loginOut = () => {
     if (this.state.isLogin) {
+      Rx.Observable.from(NativeModules.SplashScreen.getNetInfo()).subscribe((it) => {
+        if (it === '1') {
+          this.setState({
+            isLogin: false
+          })
+        }
+      })
       AsyncStorage.removeItem('userId').then(() => {
         this.initData()
         this.props.submitInitPage()

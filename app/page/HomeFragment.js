@@ -15,35 +15,11 @@ import Search from '../img/search.png'
 import Pen from '../img/pen.png'
 import Footer from '../component/Footer'
 
-// // 加密使用
-// var CryptoJS = require('crypto-js')
-
-// var base64 = require('base-64')
-    // var utf8 = require('utf8')
-    // var rawStr = '/ZTE/ZTE1.1.3/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
-    // var words = encodeURIComponent(rawStr)
-    // var base64 = base64.encode(words)
-    // var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-    // console.log('hmacSHA1 ==> ' + hmacSHA1)
 class HomeFragment extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      // 测试上传头像问题
-      avatarSource: ''
-    }
-  }
   componentDidMount () {
     this.props.actions.homeInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('loginRefresh', this.onRefresh)
-    // AsyncStorage.getItem('tags').then((result) => {
-    //   if (result !== null) {
-    //     alert(result)
-    //   } else {
-    //     alert('kong')
-    //   }
-    // })
   }
 
   componentWillUnmount() {
@@ -108,6 +84,18 @@ class HomeFragment extends Component {
       } else {
         this.props.navigation.navigate('PersonalCenter', {isLogin: false})
       }
+    })
+  }
+
+  hideShare = () => {
+    this.setState({
+      shareVisible: false
+    })
+  }
+
+  showShare = () => {
+    this.setState({
+      shareVisible: true
     })
   }
 
