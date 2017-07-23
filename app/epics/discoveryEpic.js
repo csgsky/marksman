@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs/Rx'
-import * as actions from '../actions/discoverAction'
 import {AsyncStorage, NativeModules} from 'react-native'
 import { combineEpics } from 'redux-observable'
-import { TopicsListApi, TopUsersApi } from '../api/apis'
+import { TopicsListApi, TopUsersApi, UnFollowUserApi, FollowUserApi} from '../api/apis'
 import {showError} from '../actions/common'
+import * as actions from '../actions/discoverAction'
 import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
 function discoveryInitEpic (action$) {
@@ -32,7 +32,7 @@ function discoveryInitEpic (action$) {
                     return actions.discoveryData(it.topics.talks, it.topUsers.ranks, it.topUsers.banners)
                   }
                   console.log('epic  ---> return_code mistake')
-                  return null
+                  return showError(NET_WORK_ERROR)
                 }
             )
             .catch((error) => {
@@ -42,4 +42,73 @@ function discoveryInitEpic (action$) {
         )
 }
 
-export default combineEpics(discoveryInitEpic)
+function discoveryMoreEpic (action$) {
+  return action$.ofType(actions.DISCOVERY_MORE)
+            .mergeMap((action) =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.of(action.page),
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, page, net) => ({token, page, net})
+              ).flatMap(
+                (it) => {
+                  if (it.token && it.net === '1') {
+                    return Observable.from(TopicsListApi(it.token, it.page))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
+                if (it.return_code === 1) {
+                  return actions.discoveryMoreData(it.talks)
+                }
+                return showError(NET_WORK_ERROR)
+              }
+            ).catch((error) => {
+              console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
+            })
+       )
+}
+
+function recommendUserFollowEpic(action$) {
+  return action$.ofType(actions.RECOMMEND_USER_FOLLOWED)
+    .mergeMap(action =>
+      Observable.zip(
+         Observable.from(AsyncStorage.getItem('token')),
+         Observable.of(action.followedId),
+         Observable.from(NativeModules.SplashScreen.getNetInfo()),
+         (token, followedId, net) => ({token, followedId, net})
+      ).flatMap((it) => {
+        if (it.token && it.net === '1') {
+          if (action.myFocus === 0) {
+            console.log('走关注的接口')
+            return Observable.from(FollowUserApi(it.followedId, it.token))
+          } else if (action.myFocus === 1) {
+            console.log('走取消关注的接口')
+            return Observable.from(UnFollowUserApi(it.followedId, it.token))
+          }
+        }
+        return Observable.of(2)
+      }).map((it) => {
+        if (it === 2) {
+          return showError(NET_WORK_ERROR)
+        }
+        if (it.return_code === 1) {
+          if (action.myFocus === 0) {
+            return actions.recommendUserFollowSuccess(action.position)
+          } else if (action.myFocus === 1) {
+            return actions.recommendUserUnFollowSuccess(action.position)
+          }
+        }
+        return showError(OTHER_ERROR)
+      }).catch((error) => {
+        console.log(error)
+        return showError(OTHER_ERROR)
+      })
+    )
+}
+
+export default combineEpics(discoveryInitEpic, recommendUserFollowEpic, discoveryMoreEpic)

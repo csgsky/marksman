@@ -15,7 +15,7 @@ import Separator from '../component/Separator'
 class Topic extends PureComponent {
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
-    headerLeft: <TouchableOpacity onPress={() => navigation.state.params.back()}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
+    headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => navigation.state.params.back()}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
 
   constructor (props) {
