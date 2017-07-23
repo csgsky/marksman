@@ -16,7 +16,7 @@ class PersonalPage extends PureComponent {
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff', borderBottomColor: '#fff', borderBottomWidth: 0, shadowColor: '#fff'},
     headerRight: <CustomButton title="关注" onPress={navigation.state.params.onPressFollow} myFocus={navigation.state.params.myFocus}/>,
-    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
+    headerLeft: <TouchableOpacity onPress={() => {navigation.goBack()}}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
   componentDidMount () {
     console.log('person Init at component did mount')

@@ -31,7 +31,7 @@ export default class LabelPageTwo extends Component {
     }
   }
   _onPressNext = () => {
-    if (this.state.nickname !== '' && this.state.sign !== '') {
+    if (this.state.nickname !== '') {
       this._registerCustomUser()
     }
   }
@@ -61,7 +61,7 @@ export default class LabelPageTwo extends Component {
   _saveUseInfo = async () => {
     console.log('save --> ', this.state.tags)
     await AsyncStorage.setItem('sex', this.state.sex)
-    await AsyncStorage.setItem('sign', this.state.sign)
+    await AsyncStorage.setItem('sign', this.state.sign === '' ? '慵懒~是一种生活的姿态！' : this.state.sign)
     await AsyncStorage.setItem('nickname', this.state.nickname)
     await AsyncStorage.setItem('tags', this.state.tags)
   }
