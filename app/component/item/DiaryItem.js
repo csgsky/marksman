@@ -49,13 +49,13 @@ export default class DiaryItem extends Component {
             </View>
             {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
           </View>}
-          {this.props.showUserInfo && <View style={[styles.time, {alignItems: 'center'}]}>
+          {this.props.showUserInfo && <TouchableOpacity style={[styles.time, {alignItems: 'center'}]} onPress={() => this.props.navigation.navigate('PersonalPage', {message: '备受宠爱', id: item.user.user_id})}>
             <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 19}}>
               <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}}>{item.user.nickname}</Text>
               <Text style={{marginTop: 4, fontSize: theme.text.mdFontSize, color: theme.text.globalSubTextColor}}>{recentTime(item.create_time)}</Text>
             </View>
-          </View>}
+          </TouchableOpacity>}
           {!this.props.showRightTime && <Text style={styles.body}>{content}</Text>}
           {this.props.showRightTime && <Text style={styles.body} numberOfLines={5}>{content}</Text>}
           {img !== '' && <TouchableOpacity onPress={this.props.showRightTime && this.photoView} activeOpacity={0.8}>
@@ -67,6 +67,7 @@ export default class DiaryItem extends Component {
           <CommentBar
             myLike={item.my_like}
             likeNum={item.like.num}
+            showShare={this.props.showShare}
             likeAction={() => { this.props.likeDiary(item.diary_id, item.user_id, item.my_like, index) }}
             commentAction={() => this.routeDiaryDetails()}
             commentsNum={item.comment.num}/>}
@@ -92,7 +93,7 @@ export default class DiaryItem extends Component {
     } else if (img === '7') {
       return Eight
     } else if (img === '8') {
-      return Nine
+      return Ten
     } else if (img === '9') {
       return Ten
     }

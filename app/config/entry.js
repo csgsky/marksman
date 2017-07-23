@@ -71,6 +71,7 @@ class Navigation extends Component {
       }
     }))
     // NativeModules.SplashScreen.hide()
+    WeChat.registerApp('wx304eb8f40f7a2d88')
   }
 }
 
