@@ -1,8 +1,9 @@
 import React, {PureComponent} from 'react'
-import {View, FlatList, RefreshControl, Platform, TextInput, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, AsyncStorage } from 'react-native'
+import {View, FlatList, RefreshControl, Platform, TextInput, Image, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, AsyncStorage } from 'react-native'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import PubSub from 'pubsub-js'
+import PageBack from '../img/page_back.png'
 import * as actions from '../actions/commentListActions'
 import dismissKeyboard from 'dismissKeyboard'
 import {commentPost, clearCommentPost} from '../actions/commentEditorAction'
@@ -15,7 +16,8 @@ class CommentListPage extends PureComponent {
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     title: navigation.state.params.title || ' ',
-    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18},
+    headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={PageBack} /></TouchableOpacity>,
   })
   constructor(props) {
     super(props)

@@ -20,7 +20,6 @@ import LabelPageTwo from '../page/splash/LabelPageTwo'
 import Splash from '../page/splash/Splash'
 import PersonalCenter from '../page/profile/PersonalCenter'
 import SearchPage from '../page/SearchPage'
-import SettingPage from '../page/SettingPage'
 import WriteDiaryPage from '../page/WriteDiaryPage'
 import HotDiary from '../page/HotDiary'
 import LightBoxPage from '../page/LightBoxPage'
@@ -256,13 +255,6 @@ const Navigator = StackNavigator(
     PersonalCenter: {
       screen: PersonalCenter,
       headerMode: 'screen'
-    },
-    SettingPage: {
-      screen: SettingPage,
-      mode: 'card',
-      navigationOptions: {
-        title: '设置'
-      }
     },
     WriteDiaryPage: {
       screen: WriteDiaryPage,

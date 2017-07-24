@@ -97,7 +97,7 @@ function lovedFollowedEpic(action$) {
             return actions.LovedUnFollowSuccess(action.position)
           }
         }
-        return null
+        return showError(OTHER_ERROR)
       }).catch((error) => {
         console.log(error)
         return showError(OTHER_ERROR)
