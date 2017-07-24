@@ -16,6 +16,7 @@ import EmptyView from '../component/CommentEmptyView'
 import Separator from '../component/Separator'
 import Delete from '../img/diary_delete.png'
 import Edit from '../img/diary_edit.png'
+import ShareModal from '../widget/ShareModal'
 
 class DiaryDetailPage extends Component {
 
@@ -38,7 +39,7 @@ class DiaryDetailPage extends Component {
         <Image style={{width: 26, height: 26, borderRadius: 13}}
           source={navigation.state.params.item.user.avtar === '' ? DefaultUserAvatar : {uri: navigation.state.params.item.user.avtar}}/>
       </TouchableOpacity>,
-    headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}>
+    headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => { navigation.goBack() }}>
       <Image resizeMode="contain"
         style={{width: 18, height: 18, marginLeft: 16}}
         source={theme.imgs.PageBack} />
@@ -49,7 +50,9 @@ class DiaryDetailPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      diary: undefined
+      diary: undefined,
+      shareVisible: false, // 显示分享
+      wechatMetadata: null
     }
   }
 
@@ -195,12 +198,39 @@ class DiaryDetailPage extends Component {
     })
   }
 
+  getWechatShareMeta = () => {
+    const diary = this.state.diary
+    return {
+      type: 'news',
+      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${diary.diary_id}`,
+      title: '来自' + diary.user.nickname + '的日记',
+      description: diary.content
+    }
+  }
+  hideShare = () => {
+    this.setState({
+      shareVisible: false
+    })
+  }
+  showShare = () => {
+    const wechatMetadata = this.getWechatShareMeta()
+    this.setState({
+      shareVisible: true,
+      wechatMetadata
+    })
+  }
+
   render () {
     const {isRefreshing, comments} = this.props
     const diary = this.state.diary
     console.log(comments)
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
+        <ShareModal
+          visible={this.state.shareVisible}
+          hideShare={this.hideShare}
+          wechatMetadata={this.state.wechatMetadata}
+        />
         <FlatList
           data={comments}
           renderItem={({item, index}) => (
@@ -226,6 +256,7 @@ class DiaryDetailPage extends Component {
           myLike={diary.my_like}
           likeAction={() => this._onPressLike(diary.diary_id, diary.user_id, diary.my_like)}
           likeNum={diary.like.num}
+          showShare={this.showShare}
           commentAction={() => this._onPressComment(diary)}
           commentsNum={diary.comment.num}/>
       </View>

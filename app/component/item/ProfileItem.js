@@ -49,7 +49,7 @@ export default class ProfileItem extends Component {
         that._routerMineTrash()
         break;
       case consts.PROFILE_RECOMMOND_F:
-        alert(consts.PROFILE_RECOMMOND_F)
+        this.props.showShare()
         break;
       case consts.PROFILE_NOTIFICATION:
         this._routerSystemMessage(consts.PROFILE_NOTIFICATION)

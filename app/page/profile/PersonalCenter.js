@@ -14,6 +14,7 @@ import ProfileItem from '../../component/item/ProfileItem'
 import * as consts from '../../utils/const'
 import DefaultUserAvatar from '../../img/default_vatar.png'
 import PhotoPickerModal from '../../widget/PhotoPickerModal'
+import ShareModal from '../../widget/ShareModal'
 
 const options = {
   title: '图片选择',
@@ -30,7 +31,7 @@ class PersonalCenter extends Component {
     title: '个人中心',
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: <View />,
-    headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
+    headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
@@ -39,7 +40,9 @@ class PersonalCenter extends Component {
     this.state = {
       avatar: null,
       showPhotoPickerModal: false,
-      isLogin: false
+      isLogin: false,
+      shareVisible: false, // 显示分享
+      wechatMetadata: null
     }
     if (this.props.navigation.state.params.isLogin) {
       this.state.isLogin = this.props.navigation.state.params.isLogin
@@ -205,6 +208,31 @@ class PersonalCenter extends Component {
     }
   }
 
+
+  hideShare = () => {
+    this.setState({
+      shareVisible: false
+    })
+  }
+
+  getWechatShareMeta = () => {
+    return {
+      type: 'news',
+      webpageUrl: 'http://101.95.97.178/h5/app.html',
+      title: '自从遇见了【浅言】，我用细节把生活串成了诗～...',
+      description: '用细节把日子串成诗'
+    }
+  }
+
+  showShare = () => {
+    // 将分享数据进行准备
+    const wechatMetadata = this.getWechatShareMeta()
+    this.setState({
+      shareVisible: true,
+      wechatMetadata
+    })
+  }
+
   render () {
     const {navigation} = this.props
     console.warn('this.props.info ==> ', this.props.info)
@@ -216,6 +244,11 @@ class PersonalCenter extends Component {
           launchCamera={() => this.launchCamera()}
           launchImageLibrary={() => this.launchImageLibrary()}
           />
+        <ShareModal
+          visible={this.state.shareVisible}
+          hideShare={this.hideShare}
+          wechatMetadata={this.state.wechatMetadata}
+        />
         <Separator />
         <View style={styles.view}>
           <TouchableOpacity style={styles.profile} onPress={this._routerProfilePage}>
@@ -235,7 +268,7 @@ class PersonalCenter extends Component {
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
           <View style={{height: 20}}/>
-          <ProfileItem navigation={navigation} value={consts.PROFILE_RECOMMOND_F}/>
+          <ProfileItem navigation={navigation} showShare={this.showShare} value={consts.PROFILE_RECOMMOND_F}/>
           <ProfileItem navigation={navigation} profileItemClick={this.props.profileItemClick}reminder={this.props.message && this.props.message.sysmsg_rd === 1} value={consts.PROFILE_NOTIFICATION}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
