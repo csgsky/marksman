@@ -102,6 +102,9 @@ android {
         jackOptions {
             enabled true
         }
+        manifestPlaceholders = [
+                QQ_APPID: "1106211147"
+        ]
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -176,6 +179,7 @@ dependencies {
     compile project(':react-native-wheel-picker')
     compile project(':react-native-image-picker')
     compile project(':RCTWeChat')
+    compile project(':react-native-qq')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
