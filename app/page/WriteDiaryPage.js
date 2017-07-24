@@ -79,7 +79,9 @@ class WriteDiaryPage extends Component {
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
     const come4 = navigation.state.params.come4
-    if (materialPosition > 0) {
+    if (materialPosition >= 0) {
+      console.log('post diary')
+      console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
       const dataOne = this.props.diary === null ?
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2} :
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
