@@ -25,6 +25,7 @@ export default class TopUserItem extends Component {
   }
 
   render () {
+    console.log('TopUserItem render')
     const {item, position} = this.props
     const desc = '公开日记 ' + item.diary_num + ' 粉丝 ' + item.focus_num + ' 收获点赞 ' + item.like_num
     return <TouchableOpacity onPress={this._routerToPersonalPage}>

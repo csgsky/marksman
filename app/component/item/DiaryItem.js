@@ -49,7 +49,7 @@ export default class DiaryItem extends Component {
             </View>
             {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
           </View>}
-          {this.props.showUserInfo && <TouchableOpacity style={[styles.time, {alignItems: 'center'}]} onPress={() => this.props.navigation.navigate('PersonalPage', {message: '备受宠爱', id: item.user.user_id})}>
+          {this.props.showUserInfo && <TouchableOpacity style={[styles.time, {alignItems: 'center'}]} onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
             <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 19}}>
               <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}}>{item.user.nickname}</Text>
