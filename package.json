@@ -16,6 +16,7 @@
     "react-native-image-picker": "^0.26.3",
     "react-native-lightbox": "^0.6.0",
     "react-native-modal-datetime-picker": "^4.7.0",
+    "react-native-qq": "^2.0.5",
     "react-native-root-toast": "^1.1.2",
     "react-native-swiper": "^1.5.4",
     "react-native-wechat": "^1.9.9",
