@@ -1,16 +1,18 @@
 import React, {Component} from 'react'
 import {Text, View, Image, StyleSheet, Platform, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
 import { bindActionCreators } from 'redux'
+import PubSub from 'pubsub-js'
 import Swiper from 'react-native-swiper'
 import { connect } from 'react-redux'
 import theme from '../config/theme'
-import PubSub from 'pubsub-js'
 import TalksItem from '../component/item/TalksItem'
 import Separator from '../component/Separator'
 import * as actions from '../actions/discoverAction'
 import RecommendUserItem from '../component/item/RecommondUsersItem'
+import Footer from '../component/Footer'
 
 class DiscoveryFrament extends Component {
+
   componentDidMount () {
     this.props.actions.discoveryInit()
     PubSub.subscribe('homefragment/init/data', this.onRefresh)
@@ -21,11 +23,12 @@ class DiscoveryFrament extends Component {
   }
 
   render () {
+    console.log('DiscoveryFrament render')
     const {talks, ranks, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <View style={styles.toolbar}>
-          <View style={styles.titleView}><Text style = {styles.title}>精选</Text></View>
+          <View style={styles.titleView}><Text style={styles.title}>精选</Text></View>
         </View>
         <Separator/>
         <SectionList
@@ -33,6 +36,10 @@ class DiscoveryFrament extends Component {
           renderSectionHeader={this.getSectionView}
           removeClippedSubviews={false}
           stickySectionHeadersEnabled={false}
+          ListFooterComponent={this.getFooterCompt}
+          onEndReached={this.handleLoadingMore}
+          SectionSeparatorComponent={() => <Separator />}
+          onEndReachedThreshold={0.1}
           sections={[
             {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem},
             {data: talks, key: 'talks', renderItem: this.getTalksItem}
@@ -53,6 +60,24 @@ class DiscoveryFrament extends Component {
     this.props.actions.discoveryInit()
   }
 
+  getFooterCompt = () => {
+
+    const {talks, hasMoreData} = this.props
+    console.log('getFooter')
+    console.log(hasMoreData)
+    if (talks.length > 0) {
+      return <Footer hasMoreData={hasMoreData}/>
+    }
+    return <View />
+  }
+
+  handleLoadingMore = () => {
+    const {page, hasMoreData, isLoadingMore} = this.props
+    if (hasMoreData && !isLoadingMore) {
+      this.props.actions.discoveryMore(page)
+    }
+  }
+
   getTalksItem = ({item}) => {
     return <TalksItem item={item} navigation={this.props.navigation}/>
   }
@@ -64,7 +89,7 @@ class DiscoveryFrament extends Component {
       removeClippedSubviews={false}
       data={item.data}
       showsHorizontalScrollIndicator={false}
-      renderItem={({item}) => <RecommendUserItem item={item} navigation={navigation}/>}
+      renderItem={({item, index}) => <RecommendUserItem item={item} position={index} LovedFollowed={this.props.actions.recommendUserFollowed} navigation={navigation}/>}
     />)
   }
 
@@ -98,17 +123,14 @@ class DiscoveryFrament extends Component {
   }
 
   getTalksSectionHeader = () => (<View style={styles.talksSection}>
-    <View style={{width: 3, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}} />
+    <View style={{width: 1.5, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}} />
     <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
       <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>浅言浅语</Text>
     </View>
-    <TouchableOpacity style={{flexDirection: 'column', justifyContent: 'center'}} onPress={this._routerToTopicList}>
-      <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多</Text>
-    </TouchableOpacity>
   </View>)
 
   getTopUsersSectionHeader = () => (<View style={styles.talksSection}>
-    <View style={{width: 3, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}} />
+    <View style={{width: 1.5, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}} />
     <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
       <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>备受宠爱</Text>
     </View>
@@ -145,7 +167,10 @@ const mapStateToProps = (state) => {
     isRefreshing: discovery.isRefreshing,
     talks: discovery.talks,
     ranks: discovery.ranks,
-    banners: discovery.banners
+    banners: discovery.banners,
+    hasMoreData: discovery.hasMoreData,
+    isLoadingMore: discovery.isLoadingMore,
+    page: discovery.page
   }
 }
 
