@@ -43,6 +43,8 @@
 		C878834B1F21A74A00C5EA5A /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C878834A1F21A74A00C5EA5A /* libc++.tbd */; };
 		C878834D1F21A75200C5EA5A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C878834C1F21A75200C5EA5A /* libz.tbd */; };
 		C87883581F21A9BE00C5EA5A /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C87883551F21A96900C5EA5A /* libRCTWeChat.a */; };
+		C87FDB401F25D4FC002CA240 /* libRCTQQAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C87FDB2D1F25D4CD002CA240 /* libRCTQQAPI.a */; };
+		C87FDB421F25D50A002CA240 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C87FDB411F25D50A002CA240 /* libiconv.tbd */; };
 		C8EF7EF71EF7B86800F57334 /* SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EF7EF61EF7B86800F57334 /* SplashScreen.m */; };
 		C8EF7F5B1EF7E7E100F57334 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C8EF7F591EF7E7E100F57334 /* assets */; };
 		C8EF7F5C1EF7E7E100F57334 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C8EF7F5A1EF7E7E100F57334 /* main.jsbundle */; };
@@ -260,6 +262,13 @@
 			remoteGlobalIDString = 10D6D7A41F160C250066F0F3;
 			remoteInfo = RCTWeChatTests;
 		};
+		C87FDB2C1F25D4CD002CA240 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C87FDB1E1F25D4CA002CA240 /* RCTQQAPI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9139321C1C232D310085E3BA;
+			remoteInfo = RCTQQAPI;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -296,6 +305,8 @@
 		C878834A1F21A74A00C5EA5A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		C878834C1F21A75200C5EA5A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		C878834E1F21A96900C5EA5A /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../../../../../../usr/local/lib/node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
+		C87FDB1E1F25D4CA002CA240 /* RCTQQAPI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTQQAPI.xcodeproj; path = "../node_modules/react-native-qq/ios/RCTQQAPI.xcodeproj"; sourceTree = "<group>"; };
+		C87FDB411F25D50A002CA240 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		C8EF7EF61EF7B86800F57334 /* SplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SplashScreen.m; path = marksman/SplashScreen.m; sourceTree = "<group>"; };
 		C8EF7F111EF7B89300F57334 /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SplashScreen.h; path = marksman/SplashScreen.h; sourceTree = "<group>"; };
 		C8EF7F591EF7E7E100F57334 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
@@ -316,6 +327,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C87FDB421F25D50A002CA240 /* libiconv.tbd in Frameworks */,
+				C87FDB401F25D4FC002CA240 /* libRCTQQAPI.a in Frameworks */,
 				C878834D1F21A75200C5EA5A /* libz.tbd in Frameworks */,
 				C878834B1F21A74A00C5EA5A /* libc++.tbd in Frameworks */,
 				C87883491F21A73F00C5EA5A /* libsqlite3.0.tbd in Frameworks */,
@@ -492,6 +505,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				C87FDB1E1F25D4CA002CA240 /* RCTQQAPI.xcodeproj */,
 				C878834E1F21A96900C5EA5A /* RCTWeChat.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -547,6 +561,7 @@
 		C80AC3991F1A2198003E481D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C87FDB411F25D50A002CA240 /* libiconv.tbd */,
 				C878834C1F21A75200C5EA5A /* libz.tbd */,
 				C878834A1F21A74A00C5EA5A /* libc++.tbd */,
 				C87883481F21A73F00C5EA5A /* libsqlite3.0.tbd */,
@@ -569,6 +584,14 @@
 			children = (
 				C87883551F21A96900C5EA5A /* libRCTWeChat.a */,
 				C87883571F21A96900C5EA5A /* RCTWeChatTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C87FDB1F1F25D4CA002CA240 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C87FDB2D1F25D4CD002CA240 /* libRCTQQAPI.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -711,6 +734,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = C87FDB1F1F25D4CA002CA240 /* Products */;
+					ProjectRef = C87FDB1E1F25D4CA002CA240 /* RCTQQAPI.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -948,6 +975,13 @@
 			remoteRef = C87883561F21A96900C5EA5A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C87FDB2D1F25D4CD002CA240 /* libRCTQQAPI.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTQQAPI.a;
+			remoteRef = C87FDB2C1F25D4CD002CA240 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1147,16 +1181,23 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LR339T85G8;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-qq/ios/RCTQQAPI";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 				);
 				INFOPLIST_FILE = marksman/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"-isystem",
+					"\"$(SRCROOT)/../node_modules/react-native-qq/ios/RCTQQAPI\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-framework",
+					"\"TencentOpenAPI\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhy.qianyan;
 				PRODUCT_NAME = marksman;
@@ -1174,16 +1215,23 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LR339T85G8;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-qq/ios/RCTQQAPI";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 				);
 				INFOPLIST_FILE = marksman/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"-isystem",
+					"\"$(SRCROOT)/../node_modules/react-native-qq/ios/RCTQQAPI\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-framework",
+					"\"TencentOpenAPI\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhy.qianyan;
 				PRODUCT_NAME = marksman;
@@ -1445,16 +1493,23 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LR339T85G8;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-qq/ios/RCTQQAPI";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 				);
 				INFOPLIST_FILE = marksman/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = (
+					"-isystem",
+					"\"$(SRCROOT)/../node_modules/react-native-qq/ios/RCTQQAPI\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-framework",
+					"\"TencentOpenAPI\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhy.qianyan;
 				PRODUCT_NAME = marksman;
