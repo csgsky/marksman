@@ -97,7 +97,7 @@ export default class LabelPageTwo extends Component {
               resizeMode="stretch"
               source={SignBg} />
             <TextInput style={styles.sign}
-              placeholder={'请留下你的只言片语，让如诗的日子杨帆起航~~'}
+              placeholder={'慵懒~是一种生活的姿态！'}
               placeholderTextColor="#a0be8a"
               multiline
               underlineColorAndroid="transparent"

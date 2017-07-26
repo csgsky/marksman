@@ -22,7 +22,7 @@ export default class TalksItem extends Component {
       onPress={() => this._onPress(item.talk_id, item.user_id, item.diary_id)}>
       <View style={styles.item}>
         <View style={{width: 100, height: 100, backgroundColor: '#FAFAFA'}}>
-          <Image style={styles.img} source={{uri: cover}} />
+          <Image style={styles.img} resizeMode="stretch" source={{uri: cover}} />
         </View>
         {type !== 'followed' && <View style={{flex: 1, flexDirection: 'column', paddingLeft: 9}}>
           <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: 6}}>
