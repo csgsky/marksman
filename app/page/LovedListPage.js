@@ -7,6 +7,7 @@ import TopUserItem from '../component/item/TopuserItem'
 import theme from '../config/theme'
 import Separator from '../component/Separator'
 import Footer from '../component/Footer'
+import ListSeparator from '../component/ListSeparator'
 
 class LovedListPage extends Component {
 
@@ -26,6 +27,8 @@ class LovedListPage extends Component {
   onRefresh = () => {
     this.props.actions.LovedListInit(0)
   }
+
+  getItemSeparator = () => <ListSeparator />
 
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
@@ -58,6 +61,7 @@ class LovedListPage extends Component {
               navigation={navigation}/>)}
           onEndReachedThreshold={0.1}
           removeClippedSubviews={false}
+          ItemSeparatorComponent={this.getItemSeparator}
           onEndReached={this.handleLoadingMore}
           ListFooterComponent={this.renderLoadMoreFooter}
           refreshControl={

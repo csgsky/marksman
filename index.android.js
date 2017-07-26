@@ -27,7 +27,7 @@ const store = createStore(
 export default class marksman extends Component {
   render () {
     return (
-      <Provider store ={store}>
+      <Provider store={store}>
         <Navigation />
       </Provider>
     )
