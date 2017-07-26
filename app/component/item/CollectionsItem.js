@@ -7,7 +7,7 @@ export default class CollectionItem extends Component {
     const {item} = this.props
     const kh = item.kh
     return (<TouchableOpacity style = {styles.item} activeOpacity={0.3} onPress={this._onRouterWrite}>
-      <Image style={styles.cover} source={{uri: item.cover_url}} />
+      <Image style={styles.cover} resizeMode="stretch" source={{uri: item.cover_url}} />
       <View style={styles.info}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.issn}>{kh}</Text>
