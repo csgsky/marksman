@@ -11,16 +11,16 @@ import {
     StatusBar
 } from 'react-native'
 import theme from '../config/theme'
-import One from '../img/diary_material_one.jpeg'
+import One from '../img/diary_material_one.jpg'
 import Two from '../img/diary_material_two.jpg'
 import Three from '../img/diary_material_three.jpg'
-import Four from '../img/diary_material_four.jpeg'
-import Five from '../img/diary_material_five.jpeg'
-import Six from '../img/diary_material_six.jpeg'
-import Seven from '../img/diary_material_seven.jpeg'
-import Eight from '../img/diary_material_eight.jpeg'
-import Nine from '../img/diary_material_nine.jpeg'
-import Ten from '../img/diary_material_ten.jpeg'
+import Four from '../img/diary_material_four.jpg'
+import Five from '../img/diary_material_five.jpg'
+import Six from '../img/diary_material_six.jpg'
+import Seven from '../img/diary_material_seven.jpg'
+import Eight from '../img/diary_material_eight.jpg'
+import Nine from '../img/diary_material_nine.jpg'
+import Ten from '../img/diary_material_ten.jpg'
 import ChooseUp from '../img/choose_up.png'
 import Choose from '../img/choose.png'
 
@@ -77,7 +77,7 @@ export default class PhotoPickerModal extends Component {
 
   renderMaterialItem = ({item, index}) => (<TouchableOpacity style={styles.materialItem} onPress={() => this.props.selectMaterial(index)}>
     <View style={{width: 115, height: 75}}>
-      <Image style={{width: 180, height: 135}} source={item.img}/>
+      <Image style={{width: 115, height: 75}} source={item.img}/>
       <Image style={{position: 'absolute', width: 17, height: 17, right: 6, top: 6}} source={this.getSource(index)} />
     </View>
   </TouchableOpacity>)
