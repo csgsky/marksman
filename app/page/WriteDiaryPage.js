@@ -33,7 +33,7 @@ class WriteDiaryPage extends Component {
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: <TouchableOpacity
       onPress={() => navigation.state.params.content && navigation.state.params.content !== '' && navigation.state.params.handleSubmit()}>
-      <Text style={[styles.save, {color: (navigation.state.params.content && navigation.state.params.content !== '') ? '#c37f2e' : '#A4A3A5'}]}>保存</Text>
+      <Text style={[styles.save, {color: (navigation.state.params.content && navigation.state.params.content !== '') ? '#c37f2e' : '#A4A3A5'}]}>发布</Text>
     </TouchableOpacity>,
     gesturesEnabled: false,
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => {navigation.goBack()}}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
@@ -240,7 +240,7 @@ class WriteDiaryPage extends Component {
               </TouchableOpacity>
               </View>}
             <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
-            <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
               <Image
                 source={MoodHappy}
                 resizeMode="contain"
@@ -272,7 +272,7 @@ class WriteDiaryPage extends Component {
               </TouchableOpacity>
               </View>}
           <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
-          <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
             <Image
               source={MoodHappy}
               resizeMode="contain"

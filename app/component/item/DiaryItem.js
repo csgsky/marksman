@@ -3,16 +3,16 @@ import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage} from 'rea
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM, recentTime} from '../../utils/TimeUtils'
 import CommentBar from '../CommentBar'
-import One from '../../img/diary_material_one.jpeg'
+import One from '../../img/diary_material_one.jpg'
 import Two from '../../img/diary_material_two.jpg'
 import Three from '../../img/diary_material_three.jpg'
-import Four from '../../img/diary_material_four.jpeg'
-import Five from '../../img/diary_material_five.jpeg'
-import Six from '../../img/diary_material_six.jpeg'
-import Seven from '../../img/diary_material_seven.jpeg'
-import Eight from '../../img/diary_material_eight.jpeg'
-import Nine from '../../img/diary_material_nine.jpeg'
-import Ten from '../../img/diary_material_ten.jpeg'
+import Four from '../../img/diary_material_four.jpg'
+import Five from '../../img/diary_material_five.jpg'
+import Six from '../../img/diary_material_six.jpg'
+import Seven from '../../img/diary_material_seven.jpg'
+import Eight from '../../img/diary_material_eight.jpg'
+import Nine from '../../img/diary_material_nine.jpg'
+import Ten from '../../img/diary_material_ten.jpg'
 
 export default class DiaryItem extends Component {
 
@@ -93,7 +93,7 @@ export default class DiaryItem extends Component {
     } else if (img === '7') {
       return Eight
     } else if (img === '8') {
-      return Ten
+      return Nine
     } else if (img === '9') {
       return Ten
     }
