@@ -5,15 +5,15 @@ import theme from '../../config/theme'
 export default class CollectionItem extends Component {
   render () {
     const {item} = this.props
-    const kh = '第 ' + item.kh + ' 期'
-    return <TouchableOpacity style = {styles.item} activeOpacity={0.3} onPress={this._onRouterWrite}>
-      <Image style={styles.cover} source={{uri: item.cover_url}}></Image>
+    const kh = item.kh
+    return (<TouchableOpacity style = {styles.item} activeOpacity={0.3} onPress={this._onRouterWrite}>
+      <Image style={styles.cover} source={{uri: item.cover_url}} />
       <View style={styles.info}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.issn}>{kh}</Text>
         <Text style={styles.desc} numberOfLines={2}>{item.descn}</Text>
       </View>
-    </TouchableOpacity>
+    </TouchableOpacity>)
   }
 
   getSource = (img) => {
@@ -22,7 +22,7 @@ export default class CollectionItem extends Component {
 
   _onRouterWrite = () => {
     const {item} = this.props
-    this.props.navigation.navigate('CommonWebviewPage', {url: 'http://iranshao.com/', name: item.name})
+    this.props.navigation.navigate('CommonWebviewPage', {url: item.link, name: item.name})
   }
 }
 
