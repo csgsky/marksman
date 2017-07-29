@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, BackAndroid, Platform, FlatList, RefreshControl} from 'react-native'
+import { View, BackAndroid, Platform, FlatList, RefreshControl} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Rx from 'rxjs'
@@ -16,7 +16,12 @@ import NoMoreData from '../component/NoMoreData'
 class SearchPage extends Component {
   componentDidMount () {
     this.props.actions.searchPageInit()
+    PubSub.subscribe('refreshDiaryList', this._onSubmitEditing)
     BackAndroid.addEventListener('hardwareBackPress', this._backPress)
+  }
+
+  componentWillUnmount() {
+    PubSub.unsubscribe('refreshDiaryList')
   }
 
   getFooterCompt = () => {
