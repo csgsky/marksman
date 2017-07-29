@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView} from 'react-native'
+import React, {PureComponent} from 'react'
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView, Keyboard, Dimensions} from 'react-native'
 import { bindActionCreators } from 'redux'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
@@ -17,7 +17,7 @@ import PhotoPickerModal from '../widget/PhotoPickerModal'
 import DeletePhoto from '../img/photo_delete.png'
 
 const dismissKeyboard = require('dismissKeyboard')
-
+const screenHeight = Dimensions.get('window').height
 const options = {
   title: '图片选择',
   cancelButtonTitle: '取消',
@@ -27,7 +27,7 @@ const options = {
   allowsEditing: true
 }
 
-class WriteDiaryPage extends Component {
+class WriteDiaryPage extends PureComponent {
 // color: '#c37f2e',
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
@@ -46,12 +46,17 @@ class WriteDiaryPage extends Component {
       showPhoto: false,
       showModal: false,
       avatarSource: null,
-      color2: '#ffa3c5'
+      color2: '#ffa3c5',
+      screenHeight: screenHeight - 64
     };
     if (this.props.navigation.state.params.diary) {
       const diary = this.props.navigation.state.params.diary
       this.state.color2 = diary.feelcolor
     }
+  }
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
   }
 
   componentDidMount() {
@@ -63,6 +68,7 @@ class WriteDiaryPage extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log('component will receive props')
     const {success} = nextProps
     if (success) {
       PubSub.publish('refreshDiaryList')
@@ -71,9 +77,28 @@ class WriteDiaryPage extends Component {
       this.props.navigation.goBack()
     }
   }
+  componentWillUpdate(nextProps, nextState) {
+    console.log({nextProps, nextState})
+    console.log('component will update')
+  }
 
   componentWillUnmount () {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
     this.props.cleanWritePage()
+  }
+  _keyboardDidShow = (e) => {
+    console.log('did show', e)
+    this.setState({
+      screenHeight: screenHeight - 64 - e.startCoordinates.height
+    });
+  }
+  _keyboardDidHide = (e) => {
+    console.log('force update', e)
+    this.setState({
+      screenHeight: screenHeight - 64
+    });
+    // this.forceUpdate();
   }
 
   _postDiary = () => {
@@ -195,7 +220,7 @@ class WriteDiaryPage extends Component {
           selectMaterial={this.selectMaterial}
           materialPosition={this.props.materialPosition}
           />
-        {Platform.OS === 'ios' && <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={64} style={{flex: 1}}>
+        {Platform.OS === 'ios' && <View style={{height: this.state.screenHeight, backgroundColor: 'red'}}>
           <ScrollView style={styles.view} ref="scroll"
             onLayout={(event) => {
               this.setState({
@@ -249,7 +274,7 @@ class WriteDiaryPage extends Component {
               </TouchableOpacity>
               </View>}
           </ScrollView>
-          <View style={{height: 40}}>
+          <View style={{height: 40, alignSelf: 'flex-end'}}>
             <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
             <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
               <Image
@@ -274,7 +299,7 @@ class WriteDiaryPage extends Component {
             </View>
             <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
           </View>
-        </KeyboardAvoidingView>}
+        </View>}
         {Platform.OS === 'android' && <View style={{flex: 1}}>
           <ScrollView style={styles.view} ref="scroll">
             <TouchableOpacity activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
