@@ -14,7 +14,7 @@ export default function recentDiary (state = initState, action = {}) {
     case types.HOME_INIT:
       return {
         ...state,
-        isRefreshing: action.isRefreshing,
+        isRefreshing: false,
         page: action.page
       }
     case types.HOME_DATA:

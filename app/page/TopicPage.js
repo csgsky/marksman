@@ -14,8 +14,11 @@ import Separator from '../component/Separator'
 // homefragment/init/data
 class Topic extends PureComponent {
   static navigationOptions = ({navigation}) => ({
+    title: '话题',
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
-    headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => navigation.state.params.back()}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
+    headerRight: <View />,
+    headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={theme.imgs.PageBack} /></TouchableOpacity>,
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
   constructor (props) {
