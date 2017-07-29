@@ -8,7 +8,6 @@ import theme from '../../config/theme'
 
 class MyFollowTopics extends PureComponent {
   componentDidMount() {
-    console.log('did mount')
     this.props.myFollowTopicsInit()
   }
   onRefresh = () => {
@@ -54,7 +53,6 @@ class MyFollowTopics extends PureComponent {
   )
   render() {
     const {topics, isRefreshing, isEmpty} = this.props
-    console.log(this.props)
     return (
       <View style={{flex: 1, backgroundColor: '#fff'}}>
         <FlatList

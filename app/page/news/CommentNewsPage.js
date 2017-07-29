@@ -36,7 +36,6 @@ class CommentNewPage extends Component {
     }
   }
 
-
   _routerToDiary = (item) => {
     if (item === null) {
       Alert.alert(
@@ -72,10 +71,14 @@ class CommentNewPage extends Component {
   }
 
   renderListItem = (item) => {
+    const title = item.name.split(item.obj_name)
+    const userLeft = title.length >= 2 && title[0]
+    const userRight = title.length >= 2 && title[1]
     return (<TouchableOpacity style={styles.itemView} onPress={() => this._routerToDiary(item.diary)}>
       <Image source={this.getIconSource(item.obj_img)} style={styles.icon} />
       <View style={{marginLeft: 16}}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{userLeft}<Text style={{color: '#6082a7', fontSize: theme.text.xlgFontSize}}>
+          {item.obj_name}</Text>{userRight}</Text>
         <Text style={styles.content}>{item.content}</Text>
       </View>
     </TouchableOpacity>)

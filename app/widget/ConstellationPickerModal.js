@@ -3,8 +3,10 @@ import {
     Modal,
     Text,
     View,
+    Platform,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    StatusBar
 } from 'react-native'
 import Picker from 'react-native-wheel-picker'
 import theme from '../config/theme'
@@ -28,26 +30,35 @@ export default class ConstellationPickerModal extends Component {
         transparent>
         <TouchableOpacity activeOpacity={1} style={styles.bg} onPress={this.props.hideConstellation}>
           <TouchableOpacity activeOpacity={1}>
-            <View style={styles.title}>
-              <Text style={{color: theme.text.globalTextColor, fontSize: 18}}>星座选择</Text>
+            <View style={{flexDirection: 'row', alignItems: 'center', height: 50, backgroundColor: '#f8f8f8'}}>
+              <TouchableOpacity style={{width: 70, justifyContent: 'center', alignItems: 'center'}} onPress={this.props.hideConstellation}>
+                <Text style={{color: '#19419e', fontSize: 18}}>取消</Text>
+              </TouchableOpacity>
+              <View style={styles.title}>
+                <Text style={{color: theme.text.globalTextColor, fontSize: 18}}>星座选择</Text>
+              </View>
+              <TouchableOpacity style={{width: 70, justifyContent: 'center', alignItems: 'center'}}
+                onPress={() => this.props.selectConstellation(this.state.itemList[this.state.selectedItem])}>
+                <Text style={{color: '#19419e', fontSize: 18}}>确定</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.dialog}>
-              <Picker style={{width: theme.screenWidth - 39, height: 39 * 5, backgroundColor: 'white'}}
+              <Picker style={{width: theme.screenWidth, height: 39 * 5, backgroundColor: 'white'}}
                 selectedValue={this.state.selectedItem}
-                itemStyle={{color: theme.text.globalTextColor, fontSize: 16}}
+                itemStyle={{color: theme.text.globalTextColor, fontSize: 18}}
                 onValueChange={index => this.setState({selectedItem: index})}>
                 {this.state.itemList.map((value, i) => (
                   <PickerItem label={value} value={i} key={value}/>
               ))}
               </Picker>
-              <View style={styles.menuView}>
+              {/* <View style={styles.menuView}>
                 <TouchableOpacity activeOpacity={0.8} style={styles.cancelItem} onPress={this.props.hideConstellation}>
                   <Text style={{color: theme.text.globalSubTextColor, fontSize: theme.text.xxlgFontSize}}>取消</Text>
                 </TouchableOpacity>
                 <TouchableOpacity activeOpacity={0.8} style={styles.cancelItem} onPress={() => this.props.selectConstellation(this.state.itemList[this.state.selectedItem])}>
                   <Text style={{color: '#2d4896', fontSize: theme.text.xxlgFontSize}}>确定</Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
             </View>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -62,12 +73,12 @@ const styles = StyleSheet.create({
     height: theme.screenHeight,
     flexDirection: 'column',
     backgroundColor: 'rgba(52,52,52,0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   dialog: {
-    width: theme.screenWidth - 39,
-    backgroundColor: 'white'
+    width: theme.screenWidth,
+    backgroundColor: 'white',
+    marginBottom: (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight
   },
   menuView: {
     flexDirection: 'row'
@@ -83,11 +94,13 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0.5,
     borderTopWidth: 0.5,
   },
+  titleView: {
+
+  },
   title: {
-    height: 40,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
     borderBottomColor: '#dcdcdc',
     borderBottomWidth: 0.5
   }
