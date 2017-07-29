@@ -63,7 +63,7 @@ class DiaryDetailPage extends Component {
   }
 
   componentDidMount () {
-    const id = this.state.diary.diary_id;
+    const id = this.state.diary.diary_id
     const ownerId = this.state.diary.user_id
     this.props.diaryCommentInit({id, ownerId})
     PubSub.subscribe('refreshDetailPage', () => this.props.diaryCommentInit({id, ownerId}))
