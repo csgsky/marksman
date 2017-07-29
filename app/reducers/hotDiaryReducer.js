@@ -14,13 +14,14 @@ export default function hotDiary (state = initState, action = {}) {
     case types.HOTDIARY_INIT:
       return {
         ...state,
-        isRefreshing: action.isRefreshing
+        isRefreshing: false
       }
     case types.HOTDIARY_DATA:
       return {
         ...state,
         isRefreshing: action.isRefreshing,
-        diarys: action.diarys
+        diarys: action.diarys,
+        page: state.page + 1
       }
     case types.HOTDIARY_LOADING_MORE:
       return {
