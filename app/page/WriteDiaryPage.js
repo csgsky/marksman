@@ -257,7 +257,7 @@ class WriteDiaryPage extends Component {
                 resizeMode="contain"
                 style={{width: 20, height: 20, marginLeft: 16, marginRight: 16}}/>
               <ColorPicker
-                style={{width: theme.screenWidth - 140, height: 20}}
+                style={{width: theme.screenWidth - 140, height: 25}}
                 defaultColor={this.state.color2}
                 onColorChange={this._onColorChanged}
               />
