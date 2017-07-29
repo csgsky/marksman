@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import * as WeChat from 'react-native-wechat';
-import {Platform, StatusBar} from 'react-native'
+import {Platform, StatusBar, TouchableOpacity, Image, View} from 'react-native'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import AboutUsPage from '../page/profile/AboutUs'
 import HomeFragment from '../page/HomeFragment'
@@ -131,10 +131,10 @@ const MyFollowTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: '#ffffff', paddingLeft: (theme.screenWidth - 130) / 2, paddingTop: Platform.OS === 'ios' ? 20 : 0},
-      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
-      labelStyle: {fontSize: 15},
-      tabStyle: {width: 65}
+      style: {backgroundColor: 'white', height: 40},
+      indicatorStyle: {backgroundColor: '#f89f33'},
+      tabStyle: {height: 40},
+      labelStyle: {fontSize: 15}
     }
   }
 )
@@ -158,7 +158,7 @@ const Tab = TabNavigator(
     Footer: {
       screen: FooterTab,
       navigationOptions: ({ navigation }) => ({
-        tabBarLabel: '足迹',
+        tabBarLabel: '足印',
         tabBarIcon: ({ focused, tintColor }) => (
             <TabBarItem
               focused={focused}
@@ -314,9 +314,13 @@ const Navigator = StackNavigator(
     MyFollowPage: {
       screen: MyFollowTab,
       mode: 'card',
-      navigationOptions: {
-        header: null
-      }
+      navigationOptions: ({navigation}) => ({
+        title: '我的关注',
+        headerStyle: {elevation: 0.5, backgroundColor: '#fff'},
+        headerRight: <View />,
+        headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={theme.imgs.PageBack} /></TouchableOpacity>,
+        headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+      })
     },
     CommentEditPage: {
       screen: CommentEditPage,

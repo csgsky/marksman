@@ -53,14 +53,14 @@ class MyFollowUsers extends PureComponent {
     </View>
   )
   render() {
-    const {users, isRefreshing, isEmpty} = this.props
+    const {users, isRefreshing, isEmpty, navigation} = this.props
     console.log(this.props)
     return (
       <View style={{flex: 1, backgroundColor: '#fff'}}>
         <FlatList
           data={users}
           renderItem={({item, index}) => (
-            <UserItem item={item} position={index} LovedFollowed={this.props.myFollowUsersFollow}/>)}
+            <UserItem item={item} position={index} navigation={navigation} LovedFollowed={this.props.myFollowUsersFollow}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader(isEmpty)}
           ItemSeparatorComponent={() => <ListSeparator/>}
