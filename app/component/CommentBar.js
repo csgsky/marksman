@@ -5,29 +5,33 @@ import Like from '../img/like.png'
 import Liked from '../img/liked.png'
 import Comment from '../img/comment.png'
 import Share from '../img/comment_share.png'
+import Separator from '../component/Separator'
 
 class CommentBar extends Component {
   render() {
     const {myLike, likeAction, commentAction, showShare, likeNum, commentsNum} = this.props;
     return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => likeAction && likeAction()} style={{flex: 1}}>
-          <View style={styles.cell}>
-            <Image source={myLike ? Liked : Like} style={{width: 17, height: 17}}/>
-            <Text style={{color: theme.text.globalSubTextColor, marginLeft: 8, fontSize: 13}}>{likeNum}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => commentAction && commentAction()} style={{flex: 1}}>
-          <View style={styles.cell}>
-            <Image source={Comment} style={{width: 18, height: 17}}/>
-            <Text style={{color: theme.text.globalSubTextColor, marginLeft: 8, fontSize: 13}}>{commentsNum}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={showShare} style={{flex: 1}}>
-          <View style={styles.cell}>
-            <Image source={Share} style={{width: 17, height: 17}}/>
-          </View>
-        </TouchableOpacity>
+      <View>
+        {!this.props.diary && <Separator />}
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => likeAction && likeAction()} style={{flex: 1}}>
+            <View style={styles.cell}>
+              <Image resizeMode="stretch" source={myLike ? Liked : Like} style={{width: 16, height: 16}}/>
+              <Text style={{color: theme.text.globalSubTextColor, marginLeft: 8, fontSize: 13}}>{likeNum}</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => commentAction && commentAction()} style={{flex: 1}}>
+            <View style={styles.cell}>
+              <Image resizeMode="stretch" source={Comment} style={{width: 16, height: 16}}/>
+              <Text style={{color: theme.text.globalSubTextColor, marginLeft: 8, fontSize: 13}}>{commentsNum}</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={showShare} style={{flex: 1}}>
+            <View style={styles.cell}>
+              <Image resizeMode="stretch" source={Share} style={{width: 16, height: 16}}/>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     )
   }
