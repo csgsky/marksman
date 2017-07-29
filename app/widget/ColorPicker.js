@@ -119,7 +119,7 @@ export default class ColorPicker extends Component {
           <Image
             source={colorPickerImage}
             resizeMode="stretch"
-            style={{width: style.width, height: style.height - 10}}/>
+            style={{width: style.width, height: style.height - 12}}/>
           <View style={[styles.pickerIndicator, computed.pickerIndicator]} />
         </View>
       </View>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   pickerImage: {
     width: 300,
-    height: 20
+    height: 30
   },
   pickerIndicator: {
     position: 'absolute',

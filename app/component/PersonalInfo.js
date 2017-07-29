@@ -13,7 +13,7 @@ class PersonalInfoView extends Component {
           <Text style={styles.num}> 粉丝 {info.focus_num}</Text>
           <Text style={styles.num}> | 收获赞 {info.like_num}</Text>
         </View>
-        <Text style={styles.sign}>{info.sign}</Text>
+        <Text style={styles.sign} numberOfLines={2}>{info.sign}</Text>
       </View>
     )
   }
@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
   },
   sign: {
     fontSize: 10,
+    marginLeft: 40,
+    marginRight: 40,
     color: '#9b9b9b'
   }
 })

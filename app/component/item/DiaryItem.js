@@ -65,6 +65,7 @@ export default class DiaryItem extends Component {
         </TouchableOpacity>
         {hasComment &&
           <CommentBar
+            diary
             myLike={item.my_like}
             likeNum={item.like.num}
             showShare={this.props.showShare}

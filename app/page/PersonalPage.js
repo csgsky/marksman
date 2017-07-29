@@ -15,14 +15,27 @@ class PersonalPage extends PureComponent {
 
   static navigationOptions = ({navigation}) => ({
     headerStyle: {elevation: 0, backgroundColor: '#fff', borderBottomColor: '#fff', borderBottomWidth: 0, shadowColor: '#fff'},
-    headerRight: <CustomButton title="关注" onPress={navigation.state.params.onPressFollow} myFocus={navigation.state.params.myFocus}/>,
+    headerRight: !navigation.state.params.me ? <CustomButton title="关注" onPress={navigation.state.params.onPressFollow} myFocus={navigation.state.params.myFocus}/> : <View/>,
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => {navigation.goBack()}}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
-  componentDidMount () {
-    console.log('person Init at component did mount')
-    this.props.navigation.setParams({
-      onPressFollow: this._onPressFollow
+  componentWillMount () {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('Login', {come4: 'profile'})
+      } else if (result === this.props.navigation.state.params.id + '') {
+        this.props.navigation.setParams({
+          onPressFollow: this._onPressFollow,
+          me: true
+        })
+      } else {
+        this.props.navigation.setParams({
+          onPressFollow: this._onPressFollow,
+          me: false
+        })
+      }
     })
+  }
+  componentDidMount () {
     this.props.actions.personInit(this.props.navigation.state.params.id)
     PubSub.subscribe('refreshDetailPage', this.onRefresh)
     PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
