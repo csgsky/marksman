@@ -16,11 +16,9 @@ export default function discovery (state = initState, action = {}) {
     case types.DISCOVERY_INIT:
       return {
         ...state,
-        isRefreshing: action.isRefreshing
+        isRefreshing: false
       }
     case types.DISCOVERY_DATA:
-      console.log('reducer ==> DISCOVERY_DATA')
-      console.log(action.talks.length >= 10)
       return {
         ...state,
         isRefreshing: action.isRefreshing,
@@ -60,15 +58,11 @@ export default function discovery (state = initState, action = {}) {
 }
 
 function updateFocus (loved, position) {
-  console.log('update focus, position ', position)
   const newLoved = loved.slice(0)
   if (newLoved[position].my_focus === 0) {
-    console.log('update focus, 关注 ')
     newLoved[position].my_focus = 1
   } else if (newLoved[position].my_focus === 1) {
-    console.log('update focus, 取消关注 ')
     newLoved[position].my_focus = 0
   }
-  console.log({newLoved})
   return newLoved
 }

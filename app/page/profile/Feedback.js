@@ -8,7 +8,7 @@ import * as actions from '../../actions/feedback'
 
 class Feedback extends Component {
   static navigationOptions = ({navigation}) => ({
-    headerStyle: {elevation: 0, backgroundColor: '#fff'},
+    headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
     headerRight: <TouchableOpacity onPress={() => navigation.state.params.handleSubmit()}><Text style={styles.submit}>提交</Text></TouchableOpacity>,
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => {navigation.goBack()}}><Image resizeMode ='contain' style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
@@ -75,8 +75,6 @@ class Feedback extends Component {
           underlineColorAndroid="transparent"
           placeholder="我们用情在做一款产品，我们用心倾听您的建议，我们不断改善，只为更长久的与您同行！"/>
         <View style={styles.tips}>
-          <Text style={styles.tip}>小提示</Text>
-          <Text style={styles.tip}>如您有任何问题请与我联系或留言~</Text>
           <Text style={styles.tip}>联系我们: qianyanapp@gmail.com</Text>
         </View>
       </View>
@@ -90,10 +88,10 @@ const styles = StyleSheet.create({
     flex: 1
   },
   input: {
-    height: 420,
+    height: theme.screenHeight - 156,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
-    paddingTop: 35,
+    paddingTop: 14,
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 32,
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
   tip: {
     lineHeight: 20,
     color: '#9b9b9b',
-    fontSize: 12,
+    fontSize: 16,
   }
 })
 
