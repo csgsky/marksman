@@ -14,7 +14,7 @@ export default function getArticles (state = initState, action = {}) {
     case types.RECENTDIARY_INIT:
       return {
         ...state,
-        isRefreshing: action.isRefreshing,
+        isRefreshing: false,
         page: action.page
       }
     case types.RECENTDIARY_DATA:

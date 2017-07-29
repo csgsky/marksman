@@ -13,11 +13,22 @@ import Seven from '../../img/diary_material_seven.jpg'
 import Eight from '../../img/diary_material_eight.jpg'
 import Nine from '../../img/diary_material_nine.jpg'
 import Ten from '../../img/diary_material_ten.jpg'
+import PublicStamp from '../../img/public_stamp.png'
+import PrivateStamp from '../../img/private_stamp.png'
 
 export default class DiaryItem extends Component {
 
   getIconSource = (img) => {
     return img === '' ? theme.imgs.DefaultUserAvatar : {uri: img}
+  }
+
+  getDiaryTpye = (item) => {
+    if (item.ifprivate === 1) {
+      return PublicStamp
+    } else if (item.ifprivate === 0) {
+      return PrivateStamp
+    }
+    return PrivateStamp
   }
 
   render () {
@@ -45,14 +56,14 @@ export default class DiaryItem extends Component {
             <Text style={[styles.day, {color: item.feelcolor}]}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
               <Text style={styles.week}>{week}</Text>
-              <Text style={styles.year_month}>{yymm}</Text>
+              <Text style={styles.year_month}>{yymm} {hhmm}</Text>
             </View>
-            {this.props.showRightTime && <Text style={styles.hour_minute}>{hhmm}</Text>}
+            {this.props.showRightTime && <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye(item)}/>}
           </View>}
-          {this.props.showUserInfo && <TouchableOpacity style={[styles.time, {alignItems: 'center'}]} onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
+          {this.props.showUserInfo && <TouchableOpacity style={[styles.time, {alignItems: 'center', width: 180}]} onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
             <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
-            <View style={{flex: 1, flexDirection: 'column', marginLeft: 19}}>
-              <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}}>{item.user.nickname}</Text>
+            <View style={{flexDirection: 'column', marginLeft: 19}}>
+              <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}} numberOfLines={1}>{item.user.nickname}</Text>
               <Text style={{marginTop: 4, fontSize: theme.text.mdFontSize, color: theme.text.globalSubTextColor}}>{recentTime(item.create_time)}</Text>
             </View>
           </TouchableOpacity>}
@@ -124,7 +135,8 @@ export default class DiaryItem extends Component {
 
 const styles = StyleSheet.create({
   time: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   day: {
     fontSize: 40
@@ -153,5 +165,10 @@ const styles = StyleSheet.create({
   img: {
     width: theme.screenWidth - 32,
     height: ((theme.screenWidth - 32) * 3) / 4
+  },
+  stamp: {
+    width: 50,
+    height: 30,
+    marginRight: 20
   }
 })

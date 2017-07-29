@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import * as WeChat from 'react-native-wechat';
-import {Platform, StatusBar, TouchableOpacity, Image, View} from 'react-native'
+import {Platform, StatusBar, TouchableOpacity, Image, View, NativeModules} from 'react-native'
 import {StackNavigator, TabBarBottom, TabNavigator, TabBarTop} from 'react-navigation'
 import AboutUsPage from '../page/profile/AboutUs'
 import HomeFragment from '../page/HomeFragment'
@@ -57,23 +57,17 @@ class Navigation extends Component {
       <Navigator />
     )
   }
-
+  // NativeModules.SplashScreen.getDeviceId()
   componentWillMount () {
     const wxAppId = Platform.OS === 'ios' ? AppConfig.wechat.appId.ios : AppConfig.wechat.appId.android
     WeChat.registerApp(wxAppId);
-    // console.log({result})
-    // console.log({wxAppId})
-    // console.log('is wechat installed', WeChat.isWXAppInstalled().then((result) => {
-    //   if (result) {
-    //     alert('wechat installed')
-    //   } else {
-    //     alert('wechat uninstalled')
-    //   }
-    // }))
-    // NativeModules.SplashScreen.hide()
-    // WeChat.registerApp('wx304eb8f40f7a2d88')
+  }
+
+  componentDidMount() {
+    NativeModules.SplashScreen.hide()
   }
 }
+
 
 const FooterTab = TabNavigator(
   {
