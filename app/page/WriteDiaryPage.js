@@ -55,8 +55,8 @@ class WriteDiaryPage extends PureComponent {
     }
   }
   componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardDidHide);
   }
 
   componentDidMount() {
