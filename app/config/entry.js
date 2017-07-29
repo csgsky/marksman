@@ -64,7 +64,9 @@ class Navigation extends Component {
   }
 
   componentDidMount() {
-    NativeModules.SplashScreen.hide()
+    if (Platform.OS === 'android') {
+      NativeModules.SplashScreen.hide()
+    }
   }
 }
 

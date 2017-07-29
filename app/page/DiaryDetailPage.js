@@ -116,6 +116,8 @@ class DiaryDetailPage extends Component {
       <DiaryItem
         item={this.state.diary}
         hasComment={false}
+        isDetail
+        navigation={this.props.navigation}
         showRightTime />
       <Separator />
       {comments && comments.length === 0 && <EmptyView message={'快来发表你的评论吧~'}/>}
