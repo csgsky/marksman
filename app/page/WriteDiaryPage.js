@@ -195,50 +195,61 @@ class WriteDiaryPage extends Component {
           selectMaterial={this.selectMaterial}
           materialPosition={this.props.materialPosition}
           />
-        <ScrollView style={styles.view}>
-          <TouchableOpacity activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
-            <View style={styles.time}>
-              <Text style={[styles.day, {color: this.state.color2}]}>{this.props.day}</Text>
-              <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
-                <Text style={styles.week}>{this.props.date}</Text>
-                <Text style={styles.year_month}>{this.props.yymm}</Text>
-              </View>
-              <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}} onPress={this.props.changeDiaryState}>
-                <Image
-                  source={this.props.ifprivate === 1 ? LockOpen : LockClose}
-                  resizeMode="contain"
-                  style={{width: 23, height: 23}}/>
-                <Text style={{fontSize: theme.text.xlgFontSize, color: theme.text.globalSubTextColor}}>{this.props.ifprivate === 1 ? '公开' : '私密'}</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-          <TextInput
-            multiline
-            placeholderTextColor="#a3a3a3"
-            underlineColorAndroid="transparent"
-            autoFocus
-            maxLength={1500}
-            placeholder="今天，你过得好么？"
-            onChangeText={(content) => {
-              this.props.diaryContentChange({content})
-              this.props.navigation.setParams({content})
-            }}
-            onChange={(event) => {
+        {Platform.OS === 'ios' && <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={64} style={{flex: 1}}>
+          <ScrollView style={styles.view} ref="scroll"
+            onLayout={(event) => {
               this.setState({
-                height: event.nativeEvent.contentSize.height,
+                scrollHeight: event.nativeEvent.layout.height
               });
             }}
-            style={[styles.input, {height: Math.max(73, this.state.height)}]}
-            value={this.props.content} />
-          {this.props.source && <View style={styles.imageView}>
-            <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="stretch"/>
-            <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
-              <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
+            onContentSizeChange={(contentWidth, contentHeight) => {
+              console.log(contentHeight, this.state.scrollHeight)
+              if (contentHeight > this.state.scrollHeight) {
+                this.refs.scroll.scrollToEnd({animated: false});
+              }
+            }}>
+            <TouchableOpacity activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
+              <View style={styles.time}>
+                <Text style={[styles.day, {color: this.state.color2}]}>{this.props.day}</Text>
+                <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
+                  <Text style={styles.week}>{this.props.date}</Text>
+                  <Text style={styles.year_month}>{this.props.yymm}</Text>
+                </View>
+                <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}} onPress={this.props.changeDiaryState}>
+                  <Image
+                    source={this.props.ifprivate === 1 ? LockOpen : LockClose}
+                    resizeMode="contain"
+                    style={{width: 23, height: 23}}/>
+                  <Text style={{fontSize: theme.text.xlgFontSize, color: theme.text.globalSubTextColor}}>{this.props.ifprivate === 1 ? '公开' : '私密'}</Text>
+                </TouchableOpacity>
+              </View>
             </TouchableOpacity>
-            </View>}
-        </ScrollView>
-        {Platform.OS === 'ios' && <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-64}>
-          <View>
+            <TextInput
+              multiline
+              placeholderTextColor="#a3a3a3"
+              underlineColorAndroid="transparent"
+              autoFocus
+              maxLength={1500}
+              placeholder="今天，你过得好么？"
+              onChangeText={(content) => {
+                this.props.diaryContentChange({content})
+                this.props.navigation.setParams({content})
+              }}
+              onChange={(event) => {
+                this.setState({
+                  height: event.nativeEvent.contentSize.height,
+                });
+              }}
+              style={[styles.input, {height: Math.max(73, this.state.height)}]}
+              value={this.props.content} />
+            {this.props.source && <View style={styles.imageView}>
+              <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="stretch"/>
+              <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
+                <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
+              </TouchableOpacity>
+              </View>}
+          </ScrollView>
+          <View style={{height: 40}}>
             <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
             <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
               <Image
@@ -264,7 +275,49 @@ class WriteDiaryPage extends Component {
             <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
           </View>
         </KeyboardAvoidingView>}
-        {Platform.OS === 'android' && <View>
+        {Platform.OS === 'android' && <View style={{flex: 1}}>
+          <ScrollView style={styles.view} ref="scroll">
+            <TouchableOpacity activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
+              <View style={styles.time}>
+                <Text style={[styles.day, {color: this.state.color2}]}>{this.props.day}</Text>
+                <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
+                  <Text style={styles.week}>{this.props.date}</Text>
+                  <Text style={styles.year_month}>{this.props.yymm}</Text>
+                </View>
+                <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}} onPress={this.props.changeDiaryState}>
+                  <Image
+                    source={this.props.ifprivate === 1 ? LockOpen : LockClose}
+                    resizeMode="contain"
+                    style={{width: 23, height: 23}}/>
+                  <Text style={{fontSize: theme.text.xlgFontSize, color: theme.text.globalSubTextColor}}>{this.props.ifprivate === 1 ? '公开' : '私密'}</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+            <TextInput
+              multiline
+              placeholderTextColor="#a3a3a3"
+              underlineColorAndroid="transparent"
+              autoFocus
+              maxLength={1500}
+              placeholder="今天，你过得好么？"
+              onChangeText={(content) => {
+                this.props.diaryContentChange({content})
+                this.props.navigation.setParams({content})
+              }}
+              onChange={(event) => {
+                this.setState({
+                  height: event.nativeEvent.contentSize.height,
+                });
+              }}
+              style={[styles.input, {height: Math.max(73, this.state.height)}]}
+              value={this.props.content} />
+            {this.props.source && <View style={styles.imageView}>
+              <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="stretch"/>
+              <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
+                <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
+              </TouchableOpacity>
+              </View>}
+          </ScrollView>
           <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
           <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
             <Image
