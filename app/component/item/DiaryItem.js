@@ -44,7 +44,7 @@ export default class DiaryItem extends Component {
       <View>
         <TouchableOpacity activeOpacity={0.8}
           onPress={() => {
-            if (this.props.showRightTime) {
+            if (!this.props.isDetail) {
               this.routeDiaryDetails()
             }
             if (this.props.showDialog) {
