@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
-import android.util.Log;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -38,7 +37,7 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
 
             String androidId = Settings.Secure.getString(
                     getCurrentActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
-            Log.i("getIMSI"," androidId ===>  " + androidId);
+//            Log.i("getIMSI"," androidId ===>  " + androidId);
             promise.resolve(androidId);
 
         } catch (Exception e) {

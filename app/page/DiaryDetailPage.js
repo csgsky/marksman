@@ -8,8 +8,6 @@ import theme from '../config/theme'
 import CommentItem from '../component/item/CommentItem'
 import ListSeparator from '../component/ListSeparator'
 import DiaryItem from '../component/item/DiaryItem'
-import PublicStamp from '../img/public_stamp.png'
-import PrivateStamp from '../img/private_stamp.png'
 import DefaultUserAvatar from '../img/default_vatar.png'
 import CommentBar from '../component/CommentBar'
 import EmptyView from '../component/CommentEmptyView'
@@ -115,25 +113,13 @@ class DiaryDetailPage extends Component {
   getHeaderView = () => {
     const {comments} = this.props
     return (<View style={{flexDirection: 'column'}}>
-      <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye()}/>
-      </View>
       <DiaryItem
         item={this.state.diary}
         hasComment={false}
-        showRightTime={false} />
+        showRightTime />
       <Separator />
       {comments && comments.length === 0 && <EmptyView message={'快来发表你的评论吧~'}/>}
     </View>)
-  }
-
-  getDiaryTpye = () => {
-    if (this.state.diary.ifprivate === 1) {
-      return PublicStamp
-    } else if (this.state.diary.ifprivate === 0) {
-      return PrivateStamp
-    }
-    return PrivateStamp
   }
 
   routerToPersonalPage = (userId) => {
@@ -264,13 +250,6 @@ class DiaryDetailPage extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  stamp: {
-    width: 50,
-    height: 30,
-    marginRight: 20
-  }
-})
 
 const mapStateToProps = ({diaryDetail}) => diaryDetail
 
