@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react'
 import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView, Keyboard, Dimensions} from 'react-native'
 import { bindActionCreators } from 'redux'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
 import { connect } from 'react-redux'
@@ -24,7 +25,7 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
-  allowsEditing: true
+  allowsEditing: true,
 }
 
 class WriteDiaryPage extends PureComponent {
@@ -47,17 +48,18 @@ class WriteDiaryPage extends PureComponent {
       showModal: false,
       avatarSource: null,
       color2: '#ffa3c5',
-      screenHeight: screenHeight - 64
+      screenHeight: screenHeight - 64 - 40,
+      keyboardHeight: 258,
     };
     if (this.props.navigation.state.params.diary) {
       const diary = this.props.navigation.state.params.diary
       this.state.color2 = diary.feelcolor
     }
   }
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardDidShow);
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardDidHide);
-  }
+  // componentWillMount() {
+  //   this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardDidShow);
+  //   this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardDidHide);
+  // }
 
   componentDidMount() {
     const diary = this.props.navigation.state.params.diary
@@ -76,30 +78,28 @@ class WriteDiaryPage extends PureComponent {
       this.props.cleanWritePage()
       this.props.navigation.goBack()
     }
-  }
-  componentWillUpdate(nextProps, nextState) {
-    console.log({nextProps, nextState})
-    console.log('component will update')
+    // const oldHeight = this.state.height;
+    // const height = this.state.height;
   }
 
-  componentWillUnmount () {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-    this.props.cleanWritePage()
-  }
-  _keyboardDidShow = (e) => {
-    console.log('did show', e)
-    this.setState({
-      screenHeight: screenHeight - 64 - e.startCoordinates.height
-    });
-  }
-  _keyboardDidHide = (e) => {
-    console.log('force update', e)
-    this.setState({
-      screenHeight: screenHeight - 64
-    });
-    // this.forceUpdate();
-  }
+  // componentWillUnmount () {
+  //   this.keyboardDidShowListener.remove();
+  //   this.keyboardDidHideListener.remove();
+  //   this.props.cleanWritePage()
+  // }
+  // _keyboardDidShow = (e) => {
+  //   console.log('did show', e)
+  //   this.setState({
+  //     screenHeight: screenHeight - 64 - e.startCoordinates.height
+  //   });
+  // }
+  // _keyboardDidHide = (e) => {
+  //   console.log('force update', e)
+  //   this.setState({
+  //     screenHeight: screenHeight - 64
+  //   });
+  //   // this.forceUpdate();
+  // }
 
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
@@ -220,19 +220,50 @@ class WriteDiaryPage extends PureComponent {
           selectMaterial={this.selectMaterial}
           materialPosition={this.props.materialPosition}
           />
-        {Platform.OS === 'ios' && <View style={{height: this.state.screenHeight, backgroundColor: 'red'}}>
-          <ScrollView style={styles.view} ref="scroll"
-            onLayout={(event) => {
+        {Platform.OS === 'ios' && <View style={{flex: 1}}>
+          <KeyboardAwareScrollView style={styles.view} ref="scroll"
+            onKeyboardWillShow={(frames) => {
+              console.log('keyboard will show', frames);
               this.setState({
-                scrollHeight: event.nativeEvent.layout.height
+                keyboardHeight: frames.endCoordinates.height,
+                keyboardShow: true,
+                screenHeight: screenHeight - 64- 40 - frames.endCoordinates.height
+              });
+              // const y = 60 + 36 + Math.max(this.state.height, 73) - (screenHeight - 64- 40 - frames.endCoordinates.height)
+              // if (this.props.source && y > 0) {
+              //   this.refs.scroll.scrollToPosition(0, y, false)
+              // } else {
+              //  this.refs.scroll.scrollToEnd(false)
+              //}
+            }}
+            onKeyboardWillHide={(frames) => {
+              this.setState({
+                keyboardShow: false,
+                screenHeight: screenHeight - 64- 40
               });
             }}
             onContentSizeChange={(contentWidth, contentHeight) => {
-              console.log(contentHeight, this.state.scrollHeight)
-              if (contentHeight > this.state.scrollHeight) {
-                this.refs.scroll.scrollToEnd({animated: false});
+              const imageHeight = this.props.source ? ((theme.screenWidth - 32) * 3) / 4 : 0
+              if ((contentHeight - imageHeight) > this.state.screenHeight) {
+                const y = 60 + 16 + Math.max(this.state.height, 73) - this.state.screenHeight
+                console.log(y);
+                if (y > 0) {
+                  this.refs.scroll.scrollToPosition(0, y, false)
+                }
               }
-            }}>
+            }}
+            // onLayout={(event) => {
+            //  this.setState({
+            //    scrollHeight: event.nativeEvent.layout.height
+            //  });
+            //}}
+            //onContentSizeChange={(contentWidth, contentHeight) => {
+              // console.log(contentHeight, this.state.scrollHeight)
+              // if (contentHeight > this.state.scrollHeight) {
+              //  this.refs.scroll.scrollToEnd({animated: false});
+             // }
+            //}}
+            >
             <TouchableOpacity activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
               <View style={styles.time}>
                 <Text style={[styles.day, {color: this.state.color2}]}>{this.props.day}</Text>
@@ -273,8 +304,8 @@ class WriteDiaryPage extends PureComponent {
                 <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
               </TouchableOpacity>
               </View>}
-          </ScrollView>
-          <View style={{height: 40, alignSelf: 'flex-end'}}>
+          </KeyboardAwareScrollView>
+          <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={-64}>
             <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
             <View style={{height: 40, width: theme.screenWidth, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
               <Image
@@ -298,7 +329,7 @@ class WriteDiaryPage extends PureComponent {
               </TouchableOpacity>
             </View>
             <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
-          </View>
+          </KeyboardAvoidingView>
         </View>}
         {Platform.OS === 'android' && <View style={{flex: 1}}>
           <ScrollView style={styles.view} ref="scroll">
