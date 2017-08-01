@@ -49,7 +49,7 @@ export default class PhotoPickerModal extends Component {
         aanimationType={'fade'}
         onRequestClose={() => {}}>
         <TouchableOpacity activeOpacity={1} style={styles.bg} onPress={this.props.hide}>
-          <TouchableOpacity style={styles.dialog}>
+          <TouchableOpacity activeOpacity={1} style={styles.dialog}>
             <TouchableOpacity activeOpacity={1} style={styles.launchCameraItem} onPress={this.props.launchCamera}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>拍照</Text>
             </TouchableOpacity>
@@ -75,7 +75,7 @@ export default class PhotoPickerModal extends Component {
     )
   }
 
-  renderMaterialItem = ({item, index}) => (<TouchableOpacity style={styles.materialItem} onPress={() => this.props.selectMaterial(index)}>
+  renderMaterialItem = ({item, index}) => (<TouchableOpacity activeOpacity={1} style={styles.materialItem} onPress={() => this.props.selectMaterial(index)}>
     <View style={{width: 115, height: 75}}>
       <Image style={{width: 115, height: 75}} source={item.img} resizeMode="cover"/>
       <Image style={{position: 'absolute', width: 17, height: 17, right: 6, top: 6}} source={this.getSource(index)} />

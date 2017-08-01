@@ -44,21 +44,21 @@ export default class DiaryItem extends Component {
       <View>
         <TouchableOpacity activeOpacity={0.8}
           onPress={() => {
-            if (!this.props.isDetail) {
+            if (!this.props.isDetail && !this.props.isDefault) {
               this.routeDiaryDetails()
             }
             if (this.props.showDialog) {
               this.props.showDialog()
             }
           }}
-          style={{backgroundColor: 'white', paddingLeft: 16, paddingRight: 16, paddingTop: this.props.showRightTime ? 16 : 0}}>
+          style={{backgroundColor: 'white', paddingLeft: 16, paddingRight: 16, paddingTop: 16}}>
           {!this.props.showUserInfo && <View style={styles.time}>
             <Text style={[styles.day, {color: item.feelcolor}]}>{day}</Text>
             <View style={{flex: 1, flexDirection: 'column', marginLeft: 12}}>
               <Text style={styles.week}>{week}</Text>
               <Text style={styles.year_month}>{yymm} {hhmm}</Text>
             </View>
-            {this.props.showRightTime && <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye(item)}/>}
+            {this.props.showStamp && <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye(item)}/>}
           </View>}
           {this.props.showUserInfo && <TouchableOpacity style={[styles.time, {alignItems: 'center', width: 180}]} onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
             <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
@@ -67,12 +67,13 @@ export default class DiaryItem extends Component {
               <Text style={{marginTop: 4, fontSize: theme.text.mdFontSize, color: theme.text.globalSubTextColor}}>{recentTime(item.create_time)}</Text>
             </View>
           </TouchableOpacity>}
-          {!this.props.showRightTime && <Text style={styles.body}>{content}</Text>}
-          {this.props.showRightTime && <Text style={styles.body} numberOfLines={5}>{content}</Text>}
-          {img !== '' && <TouchableOpacity onPress={this.props.showRightTime && this.photoView} activeOpacity={0.8}>
-            <Image style={[styles.img, {marginBottom: hasComment ? 0 : 15}]}
-              source={this.getSource(img)}/>
-            </TouchableOpacity>}
+          {this.props.isDetail && <Text style={styles.body}>{content}</Text>}
+          {!this.props.isDetail && <Text style={styles.body} numberOfLines={this.props.isDefault ? 10 : 5}>{content}</Text>}
+          {img !== '' &&
+            <View style={{backgroundColor: '#EEEEEE', marginBottom: hasComment ? 0 : 15}}><Image style={[styles.img]}
+              source={this.getSource(img)}
+              resizeMode="cover"/></View>
+          }
         </TouchableOpacity>
         {hasComment &&
           <CommentBar
