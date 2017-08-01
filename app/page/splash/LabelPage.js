@@ -1,17 +1,14 @@
 import React, {Component} from 'react'
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
-import theme from '../../config/theme'
-// import * as actions from '../../actions/loginActions'
-// import { bindActionCreators } from 'redux'
-// import { connect } from 'react-redux'
+import Toast from 'react-native-root-toast'
 import chooseTagBg from '../../img/choose_tag_bg.png'
 import selected from '../../img/splash_selected.png'
 import boy from '../../img/boy.png'
 import boyPre from '../../img/boy-pre.png'
 import girl from '../../img/girl.png'
 import girlPre from '../../img/girl-pre.png'
-// const tagsValues = ['宠物花草', '健康养生', '摄影旅行', '食物烹饪', '公益环保', '科学自然', '摄影旅行', '食物烹饪', '公益环保']
-// const tagsState = [1, 0, 0, 0, 0, 0, 0, 0, 0]
+import theme from '../../config/theme'
+
 export default class LabelPage extends Component {
   constructor (props) {
     super(props)
@@ -21,38 +18,46 @@ export default class LabelPage extends Component {
       defaultTextColor: '#86b368',
       selectedBgColor: '#86b368',
       selectedTextColor: 'white',
-      tagsValues: ['宠物花草', '健康养生', '摄影旅行', '食物烹饪', '公益环保', '科学自然', '写写代码', '王者荣耀', '读书写字', '任性，就不告诉你~'],
-      tagsState: [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      sex: [1, 0]
+      tagsValues: ['家有宠物', '宅腐双修', '游戏一族', '单身汪', '时尚达人', '二次元', '小说迷', '星座控', '技术男女', '我任性，不告诉你~'],
+      tagsState: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      sex: [null, null]
     }
   }
+// 家有宠物、宅腐双修、游戏一族、单身汪、时尚达人、二次元、小说迷、技术男女、星座控、我懒，我任性，不告诉你
 
   _onPressTag (position) {
     const newTagsState = this.state.tagsState.slice(0)
-    if (newTagsState[position] === 0) {
-      newTagsState[position] = 1
-    } else if (newTagsState[position] === 1) {
-      newTagsState[position] = 0
+    if (position === 9) {
+      const values = newTagsState.map((value, index) => index !== 9 ? 0 : 1)
+      this.setState({
+        tagsState: values
+      })
+    } else {
+      if (newTagsState[position] === 0) {
+        newTagsState[position] = 1
+      } else if (newTagsState[position] === 1) {
+        newTagsState[position] = 0
+      }
+      newTagsState[9] = 0
+      this.setState({
+        tagsState: newTagsState
+      })
     }
-    this.setState({
-      tagsState: newTagsState
-    })
   }
   _getTagView = (position, values, selectedState) => {
     if (position !== 9) {
-      return (<TouchableOpacity onPress={this._onPressTag.bind(this, position)}
-        style={{borderColor: '#86b368', borderRadius: 3, borderWidth: 1, justifyContent: 'center', width: (theme.screenWidth - 104) / 3, height: 35, marginRight: 20, backgroundColor: selectedState === 1 ? '#86b368' : 'white'}}>
+      return (<TouchableOpacity onPress={() => this._onPressTag(position)}
+        style={{borderColor: '#86b368', borderRadius: 3, borderWidth: 1, justifyContent: 'center', width: (theme.screenWidth - 125) / 3, marginLeft: position % 3 === 0 ? 0 : 10, marginRight: (position === 2 || position === 5 || position === 8) ? 15 : 10, height: 35, backgroundColor: selectedState === 1 ? '#86b368' : 'white'}}>
         <Text style={{textAlign: 'center', color: selectedState === 1 ? 'white' : '#86b368'}}>{values}</Text>
       </TouchableOpacity>)
     } else {
-      return (<TouchableOpacity onPress={this._onPressTag.bind(this, position)}
-        style={{borderColor: '#86b368', borderRadius: 3, borderWidth: 1, paddingLeft: 20, paddingRight: 20,justifyContent: 'center', height: 35, marginRight: 20, backgroundColor: selectedState === 1 ? '#86b368' : 'white'}}>
+      return (<TouchableOpacity onPress={() => this._onPressTag(position)}
+        style={{borderColor: '#86b368', borderRadius: 3, borderWidth: 1, paddingLeft: 20, paddingRight: 20, justifyContent: 'center', height: 35, backgroundColor: selectedState === 1 ? '#86b368' : 'white'}}>
         <Text style={{textAlign: 'center', color: selectedState === 1 ? 'white' : '#86b368'}}>{values}</Text>
       </TouchableOpacity>)
     }
   }
   _onPressSex (position) {
-    // alert(position)
     const newSex = this.state.sex.slice(0)
     if (position === 0) {
       newSex[0] = 1
@@ -68,14 +73,39 @@ export default class LabelPage extends Component {
 
   _onPressNext = () => {
     const tags = []
+    let chooseTag = false
     this.state.tagsState.forEach((value, index) => {
       if (value === 1) {
         tags.push(index)
+        chooseTag = true
       }
     })
-
-    const sex = this.state.sex[0] === 1 ? 1 : 2
-    this.props.navigation.navigate('LabelPageTwo', {tags: tags.toString(), sex})
+    if (this.state.sex[0] === null && !chooseTag) {
+      Toast.show('请选择性别', {
+        duration: Toast.durations.shor,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true
+      })
+    } else if (this.state.sex[0] === null) {
+      Toast.show('请选择性别', {
+        duration: Toast.durations.shor,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true
+      })
+    } else if (!chooseTag) {
+      Toast.show('请至少选择一个身边的元素', {
+        duration: Toast.durations.shor,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true
+      })
+    } else {
+      // alert(tags.toString())
+      const sex = this.state.sex[0] === 1 ? 1 : 2
+      this.props.navigation.navigate('LabelPageTwo', {tags: tags.toString(), sex})
+    }
   }
   render () {
     return (
@@ -103,20 +133,21 @@ export default class LabelPage extends Component {
           <View style={{flexDirection: 'row', marginTop: 15}}>
             {this._getTagView(9, this.state.tagsValues[9], this.state.tagsState[9])}
           </View>
-          <Text style={{fontSize: 16, color: '#757575', marginTop: 15, backgroundColor: 'transparent'}}>选择你的性别：</Text>
-          <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 15}}>
-            <TouchableOpacity activeOpacity={1} onPress={this._onPressSex.bind(this, 0)} style={{width: 24, height: 46, marginRight: 25}}>
-              <Image source={this.state.sex[0] === 1 ? boyPre : boy}/>
+          <Text style={{fontSize: 16, color: '#757575', marginTop: 25, backgroundColor: 'transparent'}}>请选择你的性别：</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 25}}>
+            <TouchableOpacity activeOpacity={1} onPress={() => this._onPressSex(1)} style={{width: 28, height: 60, marginRight: 44}}>
+              <Image source={this.state.sex[1] === 1 ? girlPre : girl} resizeMode="contain"/>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={1} onPress={this._onPressSex.bind(this, 1)} style={{width: 24, height: 46, marginLeft: 25}}>
-              <Image source={this.state.sex[1] === 1 ? girlPre : girl}/>
+            <TouchableOpacity activeOpacity={1} onPress={() => this._onPressSex(0)} style={{width: 28, height: 60, marginLeft: 44}}>
+              <Image source={this.state.sex[0] === 1 ? boyPre : boy} resizeMode="contain"/>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity activeOpacity={1} onPress={this._onPressNext} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Image style={{width: 160, height: 36}}
+          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <TouchableOpacity activeOpacity={0.5} onPress={this._onPressNext}><Image style={{width: 160, height: 36}}
               source={selected}
               resizeMode="stretch"/>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     )
@@ -128,6 +159,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'column',
     padding: 10,
+    paddingLeft: 25,
     backgroundColor: 'white',
     top: 160,
     left: 16,

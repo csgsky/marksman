@@ -80,7 +80,6 @@ class WriteDiaryPage extends Component {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
     const come4 = navigation.state.params.come4
     if (materialPosition >= 0) {
-      console.log('post diary')
       console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
       const dataOne = this.props.diary === null ?
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2} :
@@ -106,7 +105,7 @@ class WriteDiaryPage extends Component {
   _showPhoto = () => {
     this._closeKeyBoard()
     Rx.Observable.of('showPhoto').delay(100).subscribe(
-      it => {
+      () => {
         this.setState({
           showPhoto: !this.state.showPhoto
         })
@@ -257,7 +256,7 @@ class WriteDiaryPage extends Component {
                 resizeMode="contain"
                 style={{width: 20, height: 20, marginLeft: 16, marginRight: 16}}/>
               <ColorPicker
-                style={{width: theme.screenWidth - 140, height: 25}}
+                style={{width: theme.screenWidth - 140, height: 20}}
                 defaultColor={this.state.color2}
                 onColorChange={this._onColorChanged}
               />
