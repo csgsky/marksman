@@ -13,6 +13,13 @@ import Footer from '../component/Footer'
 
 class DiscoveryFrament extends Component {
 
+  static navigationOptions = ({navigation}) => ({
+    title: '精选',
+    headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
+    headerRight: <View />,
+    headerLeft: <View />,
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+  })
   componentDidMount () {
     this.props.actions.discoveryInit()
     PubSub.subscribe('homefragment/init/data', this.onRefresh)
@@ -23,14 +30,9 @@ class DiscoveryFrament extends Component {
   }
 
   render () {
-    console.log('DiscoveryFrament render')
     const {talks, ranks, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
-        <View style={styles.toolbar}>
-          <View style={styles.titleView}><Text style={styles.title}>精选</Text></View>
-        </View>
-        <Separator/>
+      <View style={{flex: 1, backgroundColor: '#fafafa'}}>
         <SectionList
           ListHeaderComponent={this.getHeaderView}
           renderSectionHeader={this.getSectionView}
