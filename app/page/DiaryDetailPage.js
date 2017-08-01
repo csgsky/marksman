@@ -98,7 +98,7 @@ class DiaryDetailPage extends Component {
   }
 
   componentWillUnmount() {
-    PubSub.unsubscribe('refreshDetailPage')
+    // PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
     PubSub.unsubscribe('commentsRefresh')
     this.props.clearDiary()
@@ -118,14 +118,20 @@ class DiaryDetailPage extends Component {
         hasComment={false}
         isDetail
         navigation={this.props.navigation}
-        showRightTime />
+        showStamp />
       <Separator />
       {comments && comments.length === 0 && <EmptyView message={'快来发表你的评论吧~'}/>}
     </View>)
   }
 
-  routerToPersonalPage = (userId) => {
-    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
+  getWechatShareMeta = () => {
+    const diary = this.state.diary
+    return {
+      type: 'news',
+      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${diary.diary_id}`,
+      title: '来自' + diary.user.nickname + '的日记',
+      description: diary.content
+    }
   }
 
   deleteDiary = () => {
@@ -186,14 +192,8 @@ class DiaryDetailPage extends Component {
     })
   }
 
-  getWechatShareMeta = () => {
-    const diary = this.state.diary
-    return {
-      type: 'news',
-      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${diary.diary_id}`,
-      title: '来自' + diary.user.nickname + '的日记',
-      description: diary.content
-    }
+  routerToPersonalPage = (userId) => {
+    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
   }
   hideShare = () => {
     this.setState({

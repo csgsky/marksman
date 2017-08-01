@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Alert, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Alert, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity, ScrollView} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
@@ -12,6 +12,7 @@ import PasswordInvisible from '../../img/password_invisible.png'
 
 // 加密使用
 var CryptoJS = require('crypto-js')
+var dismissKeyboard = require('dismissKeyboard')
 
 class Register extends Component {
   constructor (props) {
@@ -34,7 +35,7 @@ class Register extends Component {
   componentWillReceiveProps (nextProps) {
     const {userId} = nextProps
     if (userId !== this.props.userId && userId !== '') {
-      console.warn('componentWillReceiveProps ==> counter + 生成新的 token ', userId)
+      // console.warn('componentWillReceiveProps ==> counter + 生成新的 token ', userId)
       var base64 = require('base-64')
       var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
@@ -65,7 +66,13 @@ class Register extends Component {
     const {actions, isCounting, btnCodeText, securePassword} = this.props
     console.warn('render ==> securePassword ', securePassword)
     return (
-      <View style={styles.view}>
+      <TouchableOpacity style={styles.view} onPress={() => dismissKeyboard()} activeOpacity={1}>
+        <TouchableOpacity
+          style={{width: 18}}
+          onPress={() => this.props.navigation.goBack()}>
+          <Image resizeMode="contain"
+            style={{width: 18, height: 18}}
+            source={theme.imgs.PageBack} /></TouchableOpacity>
         <Text style={styles.title}>{consts.appName}</Text>
         <View style={styles.itemView}>
           <View style={{flexDirection: 'column', justifyContent: 'center'}}>
@@ -135,7 +142,7 @@ class Register extends Component {
             <Text style={styles.protocol}>内容</Text>
           </View>
         </View>}
-      </View>
+      </TouchableOpacity>
     )
   }
 

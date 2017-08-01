@@ -3,7 +3,6 @@ import Rx from 'rxjs'
 import {StyleSheet, View, NativeModules, Text, Image, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { NavigationActions } from 'react-navigation'
 import PubSub from 'pubsub-js'
 import Toast from 'react-native-root-toast'
 import ImagePicker from 'react-native-image-picker'
@@ -104,11 +103,19 @@ class PersonalCenter extends Component {
 
   getSource = () => {
     if (this.props.info.avtar === null || this.props.info.avtar === '') {
-      console.warn('image empty')
       return DefaultUserAvatar
-    } else {
-      console.warn('image not empty')
-      return this.state.avatar || {uri: this.props.info.avtar}
+    } else if (this.state.avatar !== null) {
+      return this.state.avatar
+    }
+    return {uri: this.props.info.avtar}
+  }
+
+  getWechatShareMeta = () => {
+    return {
+      type: 'news',
+      webpageUrl: 'http://101.95.97.178/h5/app.html',
+      title: '自从遇见了【浅言】，我用细节把生活串成了诗～...',
+      description: '用细节把日子串成诗'
     }
   }
 
@@ -153,11 +160,8 @@ class PersonalCenter extends Component {
         showPhotoPickerModal: false
       })
       if (response.didCancel) {
-        console.log('User cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         this.setState({
@@ -194,6 +198,7 @@ class PersonalCenter extends Component {
           }
         })
       })
+      PubSub.publish('refreshDiaryList')
     } else {
       this.props.navigation.navigate('Login', {come4: 'profile'})
     }
@@ -215,15 +220,6 @@ class PersonalCenter extends Component {
     })
   }
 
-  getWechatShareMeta = () => {
-    return {
-      type: 'news',
-      webpageUrl: 'http://101.95.97.178/h5/app.html',
-      title: '自从遇见了【浅言】，我用细节把生活串成了诗～...',
-      description: '用细节把日子串成诗'
-    }
-  }
-
   showShare = () => {
     // 将分享数据进行准备
     const wechatMetadata = this.getWechatShareMeta()
@@ -235,7 +231,6 @@ class PersonalCenter extends Component {
 
   render () {
     const {navigation} = this.props
-    console.warn('this.props.info ==> ', this.props.info)
     return (
       <ScrollView style={{flex: 1, backgroundColor: 'white'}}>
         <PhotoPickerModal
@@ -260,7 +255,7 @@ class PersonalCenter extends Component {
                 <Text style={styles.nickname}>{this.props.info && this.props.info.nickname}</Text>
               </View>
               <View style={styles.signatureView}>
-                <Text style={styles.signature}>{this.props.info && this.props.info.sign}</Text>
+                <Text style={styles.signature} numberOfLines={1}>{this.props.info && this.props.info.sign}</Text>
               </View>
             </View>
           </TouchableOpacity>

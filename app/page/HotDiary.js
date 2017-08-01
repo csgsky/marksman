@@ -9,6 +9,7 @@ import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Footer from '../component/Footer'
 import ShareModal from '../widget/ShareModal'
+import theme from '../config/theme'
 
 
 class HotDiary extends Component {
@@ -35,7 +36,6 @@ class HotDiary extends Component {
     return (<DiaryItem item={item}
       navigation={navigation}
       hasComment
-      showRightTime
       showUserInfo
       showShare={() => this.showShare(index, item)}
       likeDiary={this._likeDiary}
@@ -103,7 +103,7 @@ class HotDiary extends Component {
   render () {
     const {diarys, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <ShareModal
           visible={this.state.shareVisible}
           hideShare={this.hideShare}

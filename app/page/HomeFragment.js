@@ -1,49 +1,93 @@
 import React, {Component} from 'react'
-import {Text, View, Image, TouchableOpacity, AsyncStorage, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
+import {View, Image, TouchableOpacity, AsyncStorage, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/homeActions'
-import * as consts from '../utils/const'
 import theme from '../config/theme'
-import Separator from '../component/Separator'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Mine from '../img/mine.png'
 import Search from '../img/search.png'
 import Pen from '../img/pen.png'
 import Footer from '../component/Footer'
+import Reminder from '../component/Reminder'
+import defaultDiary from '../constant/defaultDiary.json'
 
 class HomeFragment extends Component {
+
+  static navigationOptions = ({navigation}) => ({
+    title: '浅言',
+    headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
+    headerRight: <TouchableOpacity style={{width: 40, height: 40, marginRight: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
+      onPress={() => navigation.state.params.routerSearch()}>
+      <Image source={Search} style={styles.search} />
+    </TouchableOpacity>,
+    headerLeft: <TouchableOpacity style={{width: 30, height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
+      onPress={() => navigation.state.params.routerMine()}>
+      <Image source={Mine} style={styles.profile} />
+      {navigation.state.params && navigation.state.params.showReminder && <View style={{height: 15, marginLeft: 2}}>
+        <Reminder />
+      </View>}
+    </TouchableOpacity>,
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+  })
+
+  componentWillMount () {
+    AsyncStorage.getItem('showHomeReminder').then((result) => {
+      if (result === null) {
+        this.props.navigation.setParams({
+          showReminder: true
+        })
+      } else {
+        this.props.navigation.setParams({
+          showReminder: false
+        })
+      }
+    })
+  }
+
   componentDidMount () {
-    this.props.actions.homeInit(0)
+    this.initData()
+    this.props.navigation.setParams({
+      routerMine: this._onRouterMine,
+      routerSearch: this._onRouterSearch
+    })
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('loginRefresh', this.onRefresh)
   }
 
-  componentWillUnmount() {
-    PubSub.unsubscribe('refreshDiaryList')
-  }
 
   onRefresh = () => {
-    this.props.actions.homeInit(0)
-    // this.refs._homefragmentlist.scrollToOffset({x: 0, y: 1, animated: true});
+    this.initData()
   }
 
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment={false} showRightTime />
+    return <DiaryItem item={item} navigation={navigation} hasComment={false} showStamp isDefault={!this.props.isLogin}/>
   }
 
   getItemSeparator = () => <ListSeparator />
 
   getFooterCompt = () => {
-    const {diarys, hasMoreData} = this.props
-    if (diarys.length > 0) {
+    const {diarys, hasMoreData, isLogin} = this.props
+    if (diarys.length > 0 && isLogin) {
+      return <Footer hasMoreData={hasMoreData}/>
+    } else if (!isLogin) {
       return <Footer hasMoreData={hasMoreData}/>
     }
     return <View />
+  }
+
+  initData = () => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.actions.visitor()
+      } else {
+        this.props.actions.homeInit(0)
+      }
+    })
   }
 
   handleLoadingMore = () => {
@@ -78,6 +122,13 @@ class HomeFragment extends Component {
   }
 
   _onRouterMine = () => {
+    if (this.props.navigation.state.params.showReminder) {
+      AsyncStorage.setItem('showHomeReminder', 'true').then(() => alert('ok'))
+      this.props.navigation.setParams({
+        showReminder: false
+      })
+    }
+
     AsyncStorage.getItem('userId').then((result) => {
       if (result != null) {
         this.props.navigation.navigate('PersonalCenter', {isLogin: true})
@@ -100,21 +151,11 @@ class HomeFragment extends Component {
   }
 
   render () {
-    const {diarys, isRefreshing} = this.props
+    const {diarys, isRefreshing, isLogin} = this.props
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
-        <View style={styles.toolbar}>
-          <TouchableOpacity style={{width: 52, height: 52, justifyContent: 'center'}} onPress={this._onRouterMine}>
-            <Image source={Mine} style={styles.profile} />
-          </TouchableOpacity>
-          <View style={styles.titleView}><Text style={styles.title}>{consts.appName}</Text></View>
-          <TouchableOpacity style={{width: 52, height: 52, alignItems: 'center', marginTop: 16}} onPress={this._onRouterSearch}>
-            <Image source={Search} style={styles.search} />
-          </TouchableOpacity>
-        </View>
-        <Separator />
         <FlatList
-          data={diarys}
+          data={isLogin ? diarys : defaultDiary}
           ref='_homefragmentlist'
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
@@ -147,6 +188,7 @@ const mapStateToProps = (state) => {
     hasMoreData: homePage.hasMoreData,
     isLoadingMore: homePage.isLoadingMore,
     page: homePage.page,
+    isLogin: homePage.isLogin,
     common
   }
 }
@@ -156,23 +198,6 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const styles = StyleSheet.create({
-  toolbar: {
-    flexDirection: 'row',
-    height: 52,
-    marginTop: Platform.OS === 'ios' ? 20 : 0,
-    backgroundColor: 'white'
-  },
-  titleView: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    width: 50,
-    color: '#6a6a6a',
-    fontSize: 18
-  },
   profile: {
     width: 15,
     height: 15,
