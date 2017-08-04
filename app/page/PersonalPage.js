@@ -10,6 +10,8 @@ import PersonalInfoView from '../component/PersonalInfo'
 import ListSeparator from '../component/ListSeparator'
 import CustomButton from '../component/Button'
 import Footer from '../component/Footer'
+import ShareModal from '../widget/ShareModal'
+import theme from '../config/theme'
 
 class PersonalPage extends PureComponent {
 
@@ -18,6 +20,14 @@ class PersonalPage extends PureComponent {
     headerRight: !navigation.state.params.me ? <CustomButton title="关注" onPress={navigation.state.params.onPressFollow} myFocus={navigation.state.params.myFocus}/> : <View/>,
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => {navigation.goBack()}}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
   })
+
+  constructor (props) {
+    super(props)
+    this.state = {
+      shareVisible: false, // 显示分享
+      wechatMetadata: null
+    }
+  }
   componentWillMount () {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
@@ -50,10 +60,16 @@ class PersonalPage extends PureComponent {
       })
     }
   }
+
   render () {
     const {info, diaries, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
+        <ShareModal
+          visible={this.state.shareVisible}
+          hideShare={this.hideShare}
+          wechatMetadata={this.state.wechatMetadata}
+        />
         {diaries && info && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
@@ -74,10 +90,11 @@ class PersonalPage extends PureComponent {
       </View>
     )
   }
+
   componentWillUnmount() {
-    console.log('component will unmount')
     this.props.actions.clearPersonData()
   }
+
   onRefresh = () => {
     this.props.actions.personInit(this.props.navigation.state.params.id)
   }
@@ -86,8 +103,9 @@ class PersonalPage extends PureComponent {
     return (<DiaryItem item={item}
       navigation={this.props.navigation}
       hasComment
-      showRightTime
       showUserInfo
+      come4="个人主页"
+      showShare={() => this.showShare(index, item)}
       likeDiary={this._likeDiary}
       index={index}/>)
   }
@@ -99,8 +117,33 @@ class PersonalPage extends PureComponent {
     }
     return <View />
   }
+
+  hideShare = () => {
+    this.setState({
+      shareVisible: false
+    })
+  }
+
+  showShare = (index, item) => {
+    // 准备 分享数据
+    const wechatMetadata = this.getWechatShareMeta(index, item)
+    this.setState({
+      shareVisible: true,
+      wechatMetadata
+    })
+  }
+
+  getWechatShareMeta = (index, item) => {
+    const user = item.user
+    return {
+      type: 'news',
+      webpageUrl: `http://101.95.97.178/h5/diary.html?diary_id=${item.diary_id}`,
+      title: '来自' + user.nickname + '的日记',
+      description: item.content
+    }
+  }
+
   _likeDiary = (diaryId, ownerId, myLike, index) => {
-    console.log({diaryId, ownerId, myLike, index})
     if (myLike) {
       return
     }

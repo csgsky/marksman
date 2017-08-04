@@ -32,7 +32,7 @@ function lovedInitEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -64,7 +64,7 @@ function lovedMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -100,7 +100,7 @@ function lovedFollowedEpic(action$) {
         return showError(OTHER_ERROR)
       }).catch((error) => {
         console.log(error)
-        return showError(OTHER_ERROR)
+        return Observable.of(showError(NET_WORK_ERROR))
       })
     )
 }

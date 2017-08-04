@@ -68,7 +68,6 @@ export function personDiaryLike(payload) {
 }
 
 export function personDiaryLikeSuccess(payload) {
-  console.log('action ---> PERSON_DIARY_LIKE_SUCCESS')
   return {
     type: PERSON_DIARY_LIKE_SUCCESS,
     payload

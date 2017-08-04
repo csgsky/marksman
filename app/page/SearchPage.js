@@ -36,7 +36,7 @@ class SearchPage extends Component {
 
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment={false} showRightTime />
+    return <DiaryItem item={item} navigation={navigation} hasComment={false} showStamp come4="搜索"/>
   }
 
   getItemSeparator = () => <ListSeparator />
@@ -87,7 +87,7 @@ class SearchPage extends Component {
       />
       <Separator />
       {empty && <EmptyView message={'你还未写过相关的内容哦~'}/>}
-      {diarys.length > 0 &&
+      {diarys.length > 0 && !empty &&
         <FlatList
           data={diarys}
           style={{flex: 1}}

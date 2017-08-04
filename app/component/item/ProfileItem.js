@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, Image, TouchableOpacity, AsyncStorage, StyleSheet} from 'react-native'
+import {View, Text, Image, TouchableOpacity, AsyncStorage, StyleSheet, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
 import Msg from '../../img/msg.png'
@@ -40,24 +40,31 @@ export default class ProfileItem extends Component {
     const {value} = this.props
     switch (value) {
       case consts.PROFILE_MINE_MESSAGE:
+        NativeModules.TCAgent.track('我的', '我的消息')
         that._routerMineNews()
         break;
       case consts.PROFILE_MINE_FOLLOW:
+        NativeModules.TCAgent.track('我的', '我的关注')
         that._routerMineFollow()
         break;
       case consts.PROFILE_MINE_TRASH:
+        NativeModules.TCAgent.track('我的', '垃圾箱')
         that._routerMineTrash()
         break;
       case consts.PROFILE_RECOMMOND_F:
+        NativeModules.TCAgent.track('我的', '推荐给朋友')
         this.props.showShare()
         break;
       case consts.PROFILE_NOTIFICATION:
         this._routerSystemMessage(consts.PROFILE_NOTIFICATION)
+        NativeModules.TCAgent.track('我的', '系统通知')
         break;
       case consts.PROFILE_FEEDBACK:
+        NativeModules.TCAgent.track('我的', '反馈问题')
         that._routerFeedback()
         break;
       case consts.PROFILE_ABOUT_US:
+        NativeModules.TCAgent.track('我的', '关于我们')
         this._routerAboutUs()
         break;
       default:

@@ -13,7 +13,7 @@ export const TOPIC_COMMENT_UNLIKE = 'TOPIC_COMMENT_UNLIKE'
 export const TOPIC_COMMENT_UNLIKE_SUCCESS = 'TOPIC_UNLIKE_SUCCESS'
 export const TOPIC_LIKE = 'TOPIC_LIKE'
 export const TOPIC_LIKE_SUCCESS = 'TOPIC_LIKE_SUCCESS'
-
+export const TOPIC_DETAIL_CLEAR_DATA = 'TOPIC_DETAIL_CLEAR_DATA'
 export function topicInit ({topicId, ownerId, diaryId}) {
   return {
     type: TOPIC_INIT,
@@ -140,9 +140,14 @@ export function topicLike (payload) {
 }
 
 export function topicLikeSuccess (payload) {
-  console.log('action ---> TOPIC_LIKE_SUCCESS')
   return {
     type: TOPIC_LIKE_SUCCESS,
     payload
+  }
+}
+
+export function clearData () {
+  return {
+    type: TOPIC_DETAIL_CLEAR_DATA
   }
 }
