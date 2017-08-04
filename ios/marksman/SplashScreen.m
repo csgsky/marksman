@@ -32,6 +32,9 @@ RCT_REMAP_METHOD(getNetInfo,
 {
   Reachability *conn = [Reachability reachabilityForInternetConnection];
   NSString *netInfo;
+  if (conn == NULL) {
+    reject(@"002", @"get net failed", nil);
+  }
   if ([conn currentReachabilityStatus] != NotReachable) {
     netInfo = @"1";
   } else {

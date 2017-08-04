@@ -81,7 +81,6 @@ function trashRecoveryEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    console.warn(it.payload)
                     return Observable.from(RecoveryDiary(it.token, it.payload))
                   }
                   return Observable.of(2)
@@ -96,8 +95,7 @@ function trashRecoveryEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(error.toString()))
             })
        )
 }
