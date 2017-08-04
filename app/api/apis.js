@@ -299,3 +299,8 @@ export const MineMessageCommentApi = (userId, page) =>
 // 消息 - 用户
 export const MineMessageUserApi = (userId, page) =>
   getApi(`/api/mymsg?rn=10&mode=1&p=${page}`, userId)
+
+// 启动页 - 图片
+export const splashApi = userId =>
+  getApi('/api/startup', userId)
+

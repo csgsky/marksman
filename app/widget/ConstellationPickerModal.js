@@ -32,14 +32,14 @@ export default class ConstellationPickerModal extends Component {
           <TouchableOpacity activeOpacity={1}>
             <View style={{flexDirection: 'row', alignItems: 'center', height: 50, backgroundColor: '#f8f8f8'}}>
               <TouchableOpacity style={{width: 70, justifyContent: 'center', alignItems: 'center'}} onPress={this.props.hideConstellation}>
-                <Text style={{color: '#19419e', fontSize: 18}}>取消</Text>
+                <Text style={{color: '#9B9B9B', fontSize: 18}}>取消</Text>
               </TouchableOpacity>
               <View style={styles.title}>
                 <Text style={{color: theme.text.globalTextColor, fontSize: 18}}>星座选择</Text>
               </View>
               <TouchableOpacity style={{width: 70, justifyContent: 'center', alignItems: 'center'}}
                 onPress={() => this.props.selectConstellation(this.state.itemList[this.state.selectedItem])}>
-                <Text style={{color: '#19419e', fontSize: 18}}>确定</Text>
+                <Text style={{color: '#F89F33', fontSize: 18}}>确定</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.dialog}>
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderBottomColor: '#dcdcdc',
-    borderBottomWidth: 0.5
+    borderBottomColor: '#dcdcdc'
   }
 })

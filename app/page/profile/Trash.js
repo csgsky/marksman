@@ -49,7 +49,7 @@ class Trash extends Component {
 
 
   toggleDialog = (index) => {
-    console.warn('toggle dialog ==> ' + index)
+    // console.warn('toggle dialog ==> ' + index)
     this.setState({
       showModal: !this.state.showModal,
       index
