@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, FlatList, RefreshControl, AsyncStorage} from 'react-native'
+import {View, FlatList, RefreshControl, AsyncStorage, NativeModules} from 'react-native'
 import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -9,6 +9,7 @@ import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Footer from '../component/Footer'
 import ShareModal from '../widget/ShareModal'
+import theme from '../config/theme'
 
 class RecentDiary extends Component {
 
@@ -21,16 +22,18 @@ class RecentDiary extends Component {
   }
 
   componentDidMount () {
+    NativeModules.TCAgent.track('足印', '最新')
     this.props.actions.recentDiaryInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
   }
 
   onRefresh = () => {
+    NativeModules.TCAgent.track('足印', '最新')
     this.props.actions.recentDiaryInit(0)
   }
 
   _likeDiary = (diaryId, ownerId, myLike, index) => {
-    console.log({diaryId, ownerId, myLike, index})
+    NativeModules.TCAgent.track('足印', '点赞')
     if (myLike) {
       return
     }
@@ -50,8 +53,8 @@ class RecentDiary extends Component {
     return (<DiaryItem item={item}
       navigation={navigation}
       hasComment
-      showRightTime
       showUserInfo
+      come4="最新"
       showShare={() => this.showShare(index, item)}
       likeDiary={this._likeDiary}
       index={index}/>)
@@ -105,7 +108,7 @@ class RecentDiary extends Component {
   render () {
     const {diarys, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <ShareModal
           visible={this.state.shareVisible}
           hideShare={this.hideShare}

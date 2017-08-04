@@ -3,8 +3,8 @@ import { NavigationActions } from 'react-navigation'
 import Rx from 'rxjs'
 import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules, Platform} from 'react-native'
 import theme from '../../config/theme'
-import {getUnloginInfo} from '../../api/apis'
-
+import {getUnloginInfo, splashApi} from '../../api/apis'
+import defaultSplash from '../../img/splash.png'
 
 const CryptoJS = require('crypto-js')
 // import consts from '../../utils/const'
@@ -29,11 +29,13 @@ export default class Splash extends Component {
       devicedid: null,
       newOne: false,
       customer: null,
-      success: false
+      success: false,
+      img: null
     }
   }
 
-  componentDidMount () {
+  componentWillMount () {
+    NativeModules.TCAgent.track('启动页', '启动页展现')
     this._getDeviceUserInfo()
     // 倒计时
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
@@ -44,31 +46,33 @@ export default class Splash extends Component {
         this._splashRouter()
       }
     })
-
     this.setState({
       timeSubscribe: subscribe
     })
   }
-
-
-// const resetAction = NavigationActions.reset({
-//   index: 0,
-//   actions: [
-//     NavigationActions.navigate({routeName: 'LabelPage'})
-//   ]
-// })
 
   componentWillUnmount() {
     this.state.timeSubscribe.unsubscribe()
   }
 
   _getDeviceUserInfo = () => {
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result !== null) {
+    const authorization = this._generateAuth()
+    AsyncStorage.getItem('userId').then((userId) => {
+      if (userId !== null) {
         // 登录状态
-        console.warn('splah ==> userId not null ==> ' + result)
         this.setState({
           success: true
+        })
+        // 设置背景图
+        AsyncStorage.getItem('splashImage').then((image) => {
+          // alert('走的是登录')
+          if (image) {
+            this.setState({
+              img: {uri: image}
+            })
+          } else {
+            this._getSplash(authorization)
+          }
         })
       } else {
         console.warn('user id null ')
@@ -81,12 +85,23 @@ export default class Splash extends Component {
             AsyncStorage.getItem('devicedid').then((devicedid) => {
               // 未登录状态但已经有用户信息
               if (devicedid != null) {
+                // 设置背景图
+                AsyncStorage.getItem('splashImage').then((image) => {
+                  // alert('走的是未登录')
+                  if (image) {
+                    this.setState({
+                      img: {uri: image}
+                    })
+                  } else {
+                    this._getSplash(authorization)
+                  }
+                })
                 this.setState({
                   success: true
                 })
               } else {
                 // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
-                const authorization = this._generateAuth()
+                
                 // console.warn('authorization  ==> ' + this._generateAuth())
                 AsyncStorage.setItem('token', authorization)
                   .then(() => {
@@ -100,7 +115,7 @@ export default class Splash extends Component {
   }
 
   _generateAuth = () => {
-    const rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '010/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    const rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '012/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     const words = encodeURIComponent(rawStr)
     const base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
@@ -115,23 +130,53 @@ export default class Splash extends Component {
   }
 
   _getUnLoginUserInfo = (authorization) => {
-    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '010', authorization)).subscribe(
+    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '012', authorization)).subscribe(
                       (it) => {
+                        // alert(it.return_code)
                         this.setState({customer: it.customer, success: true})
                         if (it.customer) {
+                          AsyncStorage.setItem('devicedid', it.customer.imsi)
                           this.setState({
                             newOne: false,
                           })
+                          AsyncStorage.getItem('splashImage').then((image) => {
+                            // alert('走的接口，是未登录, 但是有信息')
+                            if (image) {
+                              this.setState({
+                                img: {uri: image}
+                              })
+                            } else {
+                              this._getSplash(authorization)
+                            }
+                          })
                         } else {
-                          console.warn('未登录，并且没有信息，跳到 label 页面')
                           this.setState({
-                            newOne: true
+                            newOne: true,
+                            img: defaultSplash
                           })
                         }
                       }
                     )
   }
+
+  _getSplash = (authorization) => {
+    Rx.Observable
+      .from(splashApi(authorization))
+      .subscribe((it) => {
+        if (it.return_code === 1) {
+          AsyncStorage.setItem('splashImage', it.img_url)
+          this.setState({
+            img: {uri: it.img_url}
+          })
+        } else {
+          this.setState({
+            img: defaultSplash
+          })
+        }
+      })
+  }
   _onPress = () => {
+    NativeModules.TCAgent.track('启动页', '启动页跳过')
     this._splashRouter()
   }
   _splashRouter = () => {
@@ -158,7 +203,7 @@ export default class Splash extends Component {
     return (
       <View>
         <View style={styles.lable}>
-          <Image style={styles.lable} source={require('../../img/splash.png')} />
+          <Image style={styles.lable} source={this.state.img} />
         </View>
         <Text style={styles.skipText} onPress={this._onPress}>跳过 {this.state.time}</Text>
       </View>

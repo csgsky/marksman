@@ -53,6 +53,7 @@ export default function writeDiary (state = initState, action = {}) {
       return {
         ...state,
         imgBase64: action.payload.imgBase64,
+        materialPosition: -1,
         source: action.payload.source
       }
     case types.WRITE_DIARY_MATERIAL_PHOTO_SELECT:

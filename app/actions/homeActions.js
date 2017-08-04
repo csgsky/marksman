@@ -2,6 +2,13 @@ export const HOME_INIT = 'HOME_INIT'
 export const HOME_DATA = 'HOME_DATA'
 export const HOME_LOADING_MORE = 'HOME_LOADING_MORE'
 export const HOME_LOADING_MORE_DATA = 'HOME_LOADING_MORE_DATA'
+export const HOME_VISITOR = 'HOME_VISITOR'
+
+export function visitor () {
+  return {
+    type: HOME_VISITOR
+  }
+}
 export function homeInit (page) {
   return {
     type: HOME_INIT,

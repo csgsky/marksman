@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, FlatList, AsyncStorage, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, NativeModules, FlatList, AsyncStorage, Alert} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
@@ -56,11 +56,13 @@ class DiaryDetailPage extends Component {
 
   componentWillMount() {
     this.setState({
-      diary: this.props.navigation.state.params.item
+      diary: this.props.navigation.state.params.item,
+      com4: this.props.navigation.state.params.com4
     })
   }
 
   componentDidMount () {
+    NativeModules.TCAgent.track('日记详情页', '日记详情')
     const id = this.state.diary.diary_id
     const ownerId = this.state.diary.user_id
     this.props.diaryCommentInit({id, ownerId})
@@ -98,7 +100,7 @@ class DiaryDetailPage extends Component {
   }
 
   componentWillUnmount() {
-    PubSub.unsubscribe('refreshDetailPage')
+    // PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
     PubSub.unsubscribe('commentsRefresh')
     this.props.clearDiary()
@@ -118,17 +120,24 @@ class DiaryDetailPage extends Component {
         hasComment={false}
         isDetail
         navigation={this.props.navigation}
-        showRightTime />
+        showStamp />
       <Separator />
       {comments && comments.length === 0 && <EmptyView message={'快来发表你的评论吧~'}/>}
     </View>)
   }
 
-  routerToPersonalPage = (userId) => {
-    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
+  getWechatShareMeta = () => {
+    const diary = this.state.diary
+    return {
+      type: 'news',
+      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${diary.diary_id}`,
+      title: '来自' + diary.user.nickname + '的日记',
+      description: diary.content
+    }
   }
 
   deleteDiary = () => {
+    NativeModules.TCAgent.track('日记详情页', '删除日记')
     const payload = {diarys: [{diary_id: this.state.diary.diary_id}], mode: 0}
     Alert.alert(
       '提示',
@@ -142,6 +151,7 @@ class DiaryDetailPage extends Component {
   }
 
   editDiary = () => {
+    NativeModules.TCAgent.track('日记详情页', '编辑')
     this.props.navigation.navigate('WriteDiaryPage', {diary: this.state.diary, come4: 'edit'})
   }
 
@@ -151,6 +161,7 @@ class DiaryDetailPage extends Component {
   }
 
   _onPressLike = (diaryId, ownerId, myLike) => {
+    NativeModules.TCAgent.track('日记详情页', '点赞')
     if (!myLike) {
       AsyncStorage.getItem('userId').then((result) => {
         if (result === null) {
@@ -163,6 +174,7 @@ class DiaryDetailPage extends Component {
   }
 
   _onPressComment = (diary) => {
+    NativeModules.TCAgent.track('日记详情页', '评论')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'diary'})
@@ -186,14 +198,8 @@ class DiaryDetailPage extends Component {
     })
   }
 
-  getWechatShareMeta = () => {
-    const diary = this.state.diary
-    return {
-      type: 'news',
-      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${diary.diary_id}`,
-      title: '来自' + diary.user.nickname + '的日记',
-      description: diary.content
-    }
+  routerToPersonalPage = (userId) => {
+    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
   }
   hideShare = () => {
     this.setState({
@@ -201,6 +207,7 @@ class DiaryDetailPage extends Component {
     })
   }
   showShare = () => {
+    NativeModules.TCAgent.track('日记详情页', '分享')
     const wechatMetadata = this.getWechatShareMeta()
     this.setState({
       shareVisible: true,

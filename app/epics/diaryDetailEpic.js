@@ -122,9 +122,10 @@ function deleteDiaryEpic (action$) {
                 if (it.return_code === 1) {
                   if (action.payload.mode === 0) {
                     return actions.deleteDiarySuccess()
+                  } else {
+                    PubSub.publish('refreshTrashList')
+                    return trashDeleteSuccess()
                   }
-                  PubSub.publish('refreshTrashList')
-                  return trashDeleteSuccess()
                 }
                 return null
               }).catch((error) => {
