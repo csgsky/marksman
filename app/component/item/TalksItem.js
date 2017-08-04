@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, Image, TouchableOpacity, StyleSheet, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 
 export default class TalksItem extends Component {
   _onPress = (topicId, ownerId, diaryId) => {
+    const come4 = this.props.come4 || '发现'
+    NativeModules.TCAgent.track(come4, '话题')
     this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
   }
 
@@ -17,7 +19,7 @@ export default class TalksItem extends Component {
     const name = item.name
     const tag = item.tag
     const comment = `${item.views}浏览 | ${item.comment.num}评论 `
-    return (<TouchableOpacity style={{paddingLeft: 16, paddingRight: 16, paddingBottom: 16, paddingTop: index === 0 ? 16 : 0}}
+    return (<TouchableOpacity style={{backgroundColor: 'white', paddingLeft: 16, paddingRight: 16, paddingBottom: 16, paddingTop: index === 0 ? 16 : 0}}
       activeOpacity = {0.3}
       onPress={() => this._onPress(item.talk_id, item.user_id, item.diary_id)}>
       <View style={styles.item}>

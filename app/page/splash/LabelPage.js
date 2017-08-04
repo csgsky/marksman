@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Image, Text, TouchableOpacity, NativeModules} from 'react-native'
 import Toast from 'react-native-root-toast'
 import chooseTagBg from '../../img/choose_tag_bg.png'
 import selected from '../../img/splash_selected.png'
@@ -23,7 +23,9 @@ export default class LabelPage extends Component {
       sex: [null, null]
     }
   }
-// 家有宠物、宅腐双修、游戏一族、单身汪、时尚达人、二次元、小说迷、技术男女、星座控、我懒，我任性，不告诉你
+  componentDidMount () {
+    NativeModules.TCAgent.track('引导页', '引导页展现')
+  }
 
   _onPressTag (position) {
     const newTagsState = this.state.tagsState.slice(0)
@@ -58,6 +60,7 @@ export default class LabelPage extends Component {
     }
   }
   _onPressSex (position) {
+    NativeModules.TCAgent.track('引导页', '性别男女选择')
     const newSex = this.state.sex.slice(0)
     if (position === 0) {
       newSex[0] = 1
@@ -72,6 +75,7 @@ export default class LabelPage extends Component {
   }
 
   _onPressNext = () => {
+    NativeModules.TCAgent.track('引导页', '选好了')
     const tags = []
     let chooseTag = false
     this.state.tagsState.forEach((value, index) => {
@@ -81,13 +85,15 @@ export default class LabelPage extends Component {
       }
     })
     if (this.state.sex[0] === null && !chooseTag) {
-      Toast.show('请选择性别', {
+      NativeModules.TCAgent.track('引导页', '请选择标签提示')
+      Toast.show('请至少选择一个身边的元素', {
         duration: Toast.durations.shor,
         position: Toast.positions.BOTTOM,
         shadow: true,
         animation: true
       })
     } else if (this.state.sex[0] === null) {
+      NativeModules.TCAgent.track('引导页', '请选择性别提示')
       Toast.show('请选择性别', {
         duration: Toast.durations.shor,
         position: Toast.positions.BOTTOM,
@@ -95,6 +101,7 @@ export default class LabelPage extends Component {
         animation: true
       })
     } else if (!chooseTag) {
+      NativeModules.TCAgent.track('引导页', '请选择标签提示')
       Toast.show('请至少选择一个身边的元素', {
         duration: Toast.durations.shor,
         position: Toast.positions.BOTTOM,

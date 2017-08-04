@@ -35,6 +35,7 @@ export default class Splash extends Component {
   }
 
   componentWillMount () {
+    NativeModules.TCAgent.track('启动页', '启动页展现')
     this._getDeviceUserInfo()
     // 倒计时
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
@@ -175,6 +176,7 @@ export default class Splash extends Component {
       })
   }
   _onPress = () => {
+    NativeModules.TCAgent.track('启动页', '启动页跳过')
     this._splashRouter()
   }
   _splashRouter = () => {

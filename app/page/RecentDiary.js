@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, FlatList, RefreshControl, AsyncStorage} from 'react-native'
+import {View, FlatList, RefreshControl, AsyncStorage, NativeModules} from 'react-native'
 import Rx from 'rxjs'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -22,16 +22,18 @@ class RecentDiary extends Component {
   }
 
   componentDidMount () {
+    NativeModules.TCAgent.track('足印', '最新')
     this.props.actions.recentDiaryInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
   }
 
   onRefresh = () => {
+    NativeModules.TCAgent.track('足印', '最新')
     this.props.actions.recentDiaryInit(0)
   }
 
   _likeDiary = (diaryId, ownerId, myLike, index) => {
-    console.log({diaryId, ownerId, myLike, index})
+    NativeModules.TCAgent.track('足印', '点赞')
     if (myLike) {
       return
     }
@@ -52,6 +54,7 @@ class RecentDiary extends Component {
       navigation={navigation}
       hasComment
       showUserInfo
+      come4="最新"
       showShare={() => this.showShare(index, item)}
       likeDiary={this._likeDiary}
       index={index}/>)

@@ -39,9 +39,14 @@ export default class LabelPageTwo extends Component {
       })
   }
 
+  componentDidMount () {
+    NativeModules.TCAgent.track('引导页', '引导页展现')
+  }
+
 
   _onPressNext = () => {
     if (this.state.nickname === null || this.state.nickname === '') {
+      NativeModules.TCAgent.track('引导页', '请填写昵称提示')
       Toast.show('请填写昵称', {
         duration: Toast.durations.shor,
         position: Toast.positions.BOTTOM,
@@ -54,6 +59,7 @@ export default class LabelPageTwo extends Component {
   }
 
   _registerCustomUser = () => {
+    NativeModules.TCAgent.track('引导页', '进入浅言')
     const map = {sex: this.state.sex, tags: this.state.tags, nickname: this.state.nickname, sign: this.state.sign}
     AsyncStorage.getItem('token').then((result) => {
       if (result) {
@@ -103,6 +109,7 @@ export default class LabelPageTwo extends Component {
               underlineColorAndroid="transparent"
               maxLength={20}
               onChangeText={(nickname) => {
+                NativeModules.TCAgent.track('引导页', '填写昵称')
                 this.setState({
                   nickname
                 })
@@ -121,6 +128,7 @@ export default class LabelPageTwo extends Component {
                 maxLength={20}
                 underlineColorAndroid="transparent"
                 onChangeText={(sign) => {
+                  NativeModules.TCAgent.track('引导页', '填写签名')
                   this.setState({
                     sign
                   })
