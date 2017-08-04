@@ -5,6 +5,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
+import com.zhy.qianyan.module.SensorModule;
 import com.zhy.qianyan.module.SplashScreenModule;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class MyReactPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         ArrayList<NativeModule> list = new ArrayList<>();
         list.add(new SplashScreenModule(reactContext));
+        list.add(new SensorModule(reactContext));
         return list;
     }
 

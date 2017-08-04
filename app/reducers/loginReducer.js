@@ -35,7 +35,7 @@ export default function login (state = initState, action = {}) {
         ...state,
         securePassword: !state.securePassword
       }
-    case types.INIT_PAGE:
+    case types.LOGIN_INIT_PAGE:
       return initState
     default:
       return state

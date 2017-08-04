@@ -45,7 +45,7 @@ export default function personalData (state = initState, action = {}) {
     case types.PERSON_DIARY_LIKE_SUCCESS:
       return {
         ...state,
-        diarys: likeSuccess(state.diaries, action.payload.index)
+        diaries: likeSuccess(state.diaries, action.payload.index)
       }
     case types.CLEAR_PERSON_DATA:
       return initState
@@ -55,15 +55,12 @@ export default function personalData (state = initState, action = {}) {
 }
 
 function likeSuccess(data, index) {
-  console.log(data, index);
-  const newData = [...data]
+  const newData = data.slice(0)
   if (newData[index].my_like === 0) {
     newData[index].my_like = 1
     newData[index].like.num += 1
   } else if (newData[index].my_like === 1) {
-    console.warn('hahahahhahah ' + newData[index].my_like)
     newData[index].my_like = 0
   }
-  console.log(newData === data)
   return newData
 }

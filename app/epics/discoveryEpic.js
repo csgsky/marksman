@@ -36,8 +36,8 @@ function discoveryInitEpic (action$) {
                 }
             )
             .catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              // console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
         )
 }
@@ -68,7 +68,7 @@ function discoveryMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -105,8 +105,8 @@ function recommendUserFollowEpic(action$) {
         }
         return showError(OTHER_ERROR)
       }).catch((error) => {
-        console.log(error)
-        return showError(OTHER_ERROR)
+        // console.log(error)
+        return Observable.of(showError(NET_WORK_ERROR))
       })
     )
 }

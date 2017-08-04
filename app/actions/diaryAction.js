@@ -1,5 +1,7 @@
 // export const DIARY_COMMENT_INIT = 'DIARY_COMMENT_INIT'
 // export const DIARY_COMMENT_DATA = 'DIARY_COMMENT_DATA'
+import {NativeModules} from 'react-native'
+
 export const WRITE_DIARY_INIT = 'WRITE_DIARY_INIT'
 export const WRITE_DIARY_COLOR_CHANGE = 'WRITE_DIARY_COLOR_CHANGE'
 export const WRITE_DIARY_PHOTO_PICKER = 'WRITE_DIARY_PHOTO_PICKER'
@@ -41,12 +43,14 @@ export function selectMaterial(payload) {
 }
 
 export function deletePhoto() {
+  NativeModules.TCAgent.track('写日记', '插入图片成功')
   return {
     type: WRITE_DIARY_DELETE_PHOTO
   }
 }
 
 export function changeDiaryState () {
+  NativeModules.TCAgent.track('写日记', '隐私')
   return {
     type: WRITE_DIARY_CHANGE_STATE
   }

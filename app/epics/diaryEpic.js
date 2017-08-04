@@ -6,28 +6,6 @@ import { PostDiaryApi, PostEditDiaryApi} from '../api/apis'
 import {showError} from '../actions/common'
 import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
-
-// function diaryCommentInitEpic (action$) {
-//   return action$.ofType(actions.DIARY_COMMENT_INIT)
-//             .mergeMap(action =>
-//               Observable.zip(
-//                 Observable.from(AsyncStorage.getItem('token')),
-//                 token => ({token})
-//               ).flatMap(
-//                 it => Observable.from(CommentsApi({id: action.id, ownerId: action.ownerId, page: 0, userId: it.token}))
-//               ).map((it) => {
-//                 if (it.return_code === 2) {
-//                   return null
-//                 }
-//                 // console.log('epic  ---> topic ' + it.topic)
-//                 return actions.diaryCommentData(it)
-//               }
-//             ).catch((error) => {
-//               console.log('epic error --> ' + error)
-//             })
-//        )
-// }
-
 function postWriteDiary (action$) {
   return action$.ofType(actions.WRITE_DIARY_POST_DIARY)
             .mergeMap(action =>
@@ -60,8 +38,8 @@ function postWriteDiary (action$) {
                 return null
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              // console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }

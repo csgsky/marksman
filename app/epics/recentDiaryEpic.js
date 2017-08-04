@@ -20,7 +20,7 @@ function recentInitEpic (action$) {
                     // console.log('epic  --->  it token  ' + it.token)
                     return Observable.from(FooterRecentDiaryApi(it.token, it.page))
                   }
-                  return Observable.of(2)
+                  return Observable.from(2)
                 }
               ).map((it) => {
                 if (it === 2) {
@@ -32,8 +32,9 @@ function recentInitEpic (action$) {
                 return actions.recentDiaryData(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              // console.log('epic error --> ' + error)
+              // return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -63,8 +64,8 @@ function recentMoreEpic (action$) {
                 return actions.recentDiaryLoadingMoreData(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              // console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -93,8 +94,7 @@ function diaryLikeEpic (action$) {
                 }
                 return showError(OTHER_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 
