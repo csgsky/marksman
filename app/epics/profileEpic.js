@@ -43,8 +43,7 @@ function getProfileEpic (action$) {
                 return action.personalInfoError(it.return_code)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -75,8 +74,7 @@ function getUnLoginProfileEpic (action$) {
                 return actions.personalInfoError(it.return_code)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -107,8 +105,7 @@ function submitUserInfoEpic(action$) {
                 return actions.submitUserInfoError(it.return_code)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -131,7 +128,7 @@ function profileMessageEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('profileMessageEpic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }

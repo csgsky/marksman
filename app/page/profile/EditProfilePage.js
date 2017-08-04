@@ -207,6 +207,7 @@ class EditProfilePage extends Component {
           <TextInput style={styles.signTextInput}
             underlineColorAndroid="transparent"
             numberOfLines={3}
+            maxLength={30}
             multiline
             value={this.state.info.sign}
             onChangeText={(sign) => {

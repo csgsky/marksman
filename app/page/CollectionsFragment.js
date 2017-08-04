@@ -1,15 +1,22 @@
 import React, {Component} from 'react'
-import {Text, View, StyleSheet, FlatList, Platform, RefreshControl} from 'react-native'
+import {View, StyleSheet, FlatList, Platform, RefreshControl} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Rx from 'rxjs'
 import CollectionItem from '../component/item/CollectionsItem'
-import Separator from '../component/Separator'
 import ListSeparator from '../component/ListSeparator'
 import * as actions from '../actions/collectionsAction'
 import Footer from '../component/Footer'
+import theme from '../config/theme'
 
 class MeFragment extends Component {
+  static navigationOptions = () => ({
+    title: '文集',
+    headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
+    headerRight: <View />,
+    headerLeft: <View />,
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+  })
   componentDidMount () {
     this.props.actions.collectionsInit(0)
   }
@@ -48,10 +55,6 @@ class MeFragment extends Component {
     const {collections, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <View style={styles.toolbar}>
-          <View style={styles.titleView}><Text style={styles.title}>文集</Text></View>
-        </View>
-        <Separator/>
         <FlatList
           data={collections}
           renderItem={this.getItemCompt}

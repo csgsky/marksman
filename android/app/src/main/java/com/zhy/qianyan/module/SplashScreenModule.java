@@ -51,22 +51,18 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getNetInfo(Promise promise){
         try {
-
             ConnectivityManager cm = (ConnectivityManager) getCurrentActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
             boolean response = networkInfo != null && networkInfo.isConnected();
-            if (response){
+            if (response) {
                 promise.resolve("1");
             } else {
                 promise.resolve("0");
             }
 
-
         } catch (Exception e) {
             e.printStackTrace();
             promise.reject(e.getMessage(), e);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
         }
     }
 

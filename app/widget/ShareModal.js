@@ -35,67 +35,12 @@ export default class ShareModal extends Component {
 
   shareWeChatF = () => {
     this.props.hideShare()
-    if (WeChat.isWXAppInstalled) {
-      WeChat.shareToSession(this.state.wechatMetadata)
-    } else {
-      Toast.show('未安装微信客户端', {
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0
-      })
-    }
-  }
-
-  shreWeChatM = () => {
-    this.props.hideShare()
-    if (WeChat.isWXAppInstalled) {
-      WeChat.shareToTimeline(this.state.wechatMetadata)
-    } else {
-      Toast.show('未安装微信客户端', {
-        duration: Toast.durations.SHORT,
-        position: Toast.positions.BOTTOM,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0
-      })
-    }
-  }
-
-  shareToQQF = () => {
-    this.props.hideShare()
-    if (QQAPI.isQQInstalled) {
-      QQAPI.shareToQQ(this.state.wechatMetadata).then((result) => {
-        if (result) {
-          Toast.show('分享成功', {
-            duration: Toast.durations.shor,
-            position: Toast.positions.BOTTOM,
-            shadow: true,
-            animation: true
-          })
-        }
-      })
-    } else {
-      Toast.show('未安装QQ客户端', {
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0
-      })
-    }
-  }
-
-  shareToQQZ = () => {
-    this.props.hideShare()
-    if (QQAPI.isQQInstalled) {
-      QQAPI.shareToQzone(this.state.wechatMetadata).then((result) => {
-        if (result) {
-          Toast.show('分享成功', {
+    WeChat.isWXAppInstalled()
+      .then((installed) => {
+        if (installed) {
+          WeChat.shareToSession(this.state.wechatMetadata)
+        } else {
+          Toast.show('未安装微信客户端', {
             duration: Toast.durations.LONG,
             position: Toast.positions.BOTTOM,
             shadow: true,
@@ -105,16 +50,82 @@ export default class ShareModal extends Component {
           })
         }
       })
-    } else {
-      Toast.show('未安装QQ客户端', {
-        duration: Toast.durations.LONG,
-        position: Toast.positions.BOTTOM,
-        shadow: true,
-        animation: true,
-        hideOnPress: true,
-        delay: 0
+  }
+
+  shreWeChatM = () => {
+    this.props.hideShare()
+    WeChat.isWXAppInstalled()
+      .then((installed) => {
+        if (installed) {
+          WeChat.shareToTimeline(this.state.wechatMetadata)
+        } else {
+          Toast.show('未安装微信客户端', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.BOTTOM,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0
+          })
+        }
       })
-    }
+  }
+
+  shareToQQF = () => {
+    this.props.hideShare()
+    QQAPI.isQQInstalled()
+      .then((installed) => {
+        if (installed) {
+          QQAPI.shareToQQ(this.state.wechatMetadata).then((result) => {
+            if (result) {
+              Toast.show('分享成功', {
+                duration: Toast.durations.shor,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true
+              })
+            }
+          })
+        } else {
+          Toast.show('未安装QQ客户端', {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0
+          })
+        }
+      })
+  }
+
+  shareToQQZ = () => {
+    this.props.hideShare()
+    QQAPI.isQQInstalled().then((installed) => {
+      if (installed) {
+        QQAPI.shareToQzone(this.state.wechatMetadata).then((result) => {
+          if (result) {
+            Toast.show('分享成功', {
+              duration: Toast.durations.LONG,
+              position: Toast.positions.BOTTOM,
+              shadow: true,
+              animation: true,
+              hideOnPress: true,
+              delay: 0
+            })
+          }
+        })
+      } else {
+        Toast.show('未安装QQ客户端', {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0
+        })
+      }
+    })
   }
 
   render () {

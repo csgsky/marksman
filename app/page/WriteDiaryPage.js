@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView, Keyboard, Dimensions} from 'react-native'
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView, NativeModules, Keyboard, Dimensions} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Rx from 'rxjs'
@@ -62,6 +62,7 @@ class WriteDiaryPage extends PureComponent {
   // }
 
   componentDidMount() {
+    NativeModules.TCAgent.track('写日记', '写日记')
     const diary = this.props.navigation.state.params.diary
     this.props.writeDiaryInit(diary)
     this.props.navigation.setParams({
@@ -73,6 +74,7 @@ class WriteDiaryPage extends PureComponent {
     console.log('component will receive props')
     const {success} = nextProps
     if (success) {
+      NativeModules.TCAgent.track('写日记', '保存成功')
       PubSub.publish('refreshDiaryList')
       dismissKeyboard()
       this.props.cleanWritePage()
@@ -104,8 +106,8 @@ class WriteDiaryPage extends PureComponent {
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
     const come4 = navigation.state.params.come4
+    NativeModules.TCAgent.track('写日记', '日记保存')
     if (materialPosition >= 0) {
-      console.log('post diary')
       console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
       const dataOne = this.props.diary === null ?
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2} :
@@ -131,7 +133,7 @@ class WriteDiaryPage extends PureComponent {
   _showPhoto = () => {
     this._closeKeyBoard()
     Rx.Observable.of('showPhoto').delay(100).subscribe(
-      it => {
+      () => {
         this.setState({
           showPhoto: !this.state.showPhoto
         })
@@ -152,6 +154,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
         // console.log('User tapped custom button: ', response.customButton)
       } else {
+        NativeModules.TCAgent.track('写日记', '插入图片成功')
         const source = { uri: response.uri }
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
@@ -174,6 +177,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
         // console.log('User tapped custom button: ', response.customButton)
       } else {
+        NativeModules.TCAgent.track('写日记', '插入图片成功')
         const source = { uri: response.uri }
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
@@ -182,6 +186,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   _onColorChanged = (color, feel) => {
+    NativeModules.TCAgent.track('写日记', '选择心情')
     this.props.writeDiaryColorChange({color, feel})
     this.setState({
       color2: color
@@ -189,6 +194,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   selectMaterial = (index) => {
+    NativeModules.TCAgent.track('写日记', '插入图片成功')
     this.props.selectMaterial({index})
     this.setState({
       showModal: false
@@ -196,6 +202,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   showDialog() {
+    NativeModules.TCAgent.track('写日记', '插入图片')
     this._closeKeyBoard()
     this.setState({
       showModal: true
@@ -313,7 +320,7 @@ class WriteDiaryPage extends PureComponent {
                 resizeMode="contain"
                 style={{width: 20, height: 20, marginLeft: 16, marginRight: 16}}/>
               <ColorPicker
-                style={{width: theme.screenWidth - 140, height: 25}}
+                style={{width: theme.screenWidth - 140, height: 20}}
                 defaultColor={this.state.color2}
                 onColorChange={this._onColorChanged}
               />

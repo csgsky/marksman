@@ -24,7 +24,6 @@ export default class RecommendUserItem extends Component {
 
   render() {
     const {item, position} = this.props
-    console.log('RecommendUserItem render')
     return (<TouchableOpacity>
       <View style={styles.item}>
         <TouchableOpacity style={{width: 75, height: 75}} onPress={this._routerToPersonalPage}>
@@ -43,6 +42,7 @@ export default class RecommendUserItem extends Component {
 }
 const styles = StyleSheet.create({
   item: {
+    backgroundColor: 'white',
     width: 110,
     padding: 16,
     justifyContent: 'center',
