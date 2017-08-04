@@ -9,5 +9,5 @@
 #import <React/RCTBridgeModule.h>
 #import <React/RCTLog.h>
 
-@interface Track : NSObject <RCTBridgeModule>
+@interface TCAgent : NSObject <RCTBridgeModule>
 @end

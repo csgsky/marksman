@@ -148,7 +148,10 @@ const Tab = TabNavigator(
             normalImage={require('../img/qianyan@2x.png')}
             selectedImage={require('../img/qianyan-selected@2x.png')}
           />
-        )
+        ),
+        tabBarOnPress: (scene, jumpToIndex) => {
+          console.log('onPress 浅记');
+        },
       })
     },
     Footer: {
@@ -161,12 +164,18 @@ const Tab = TabNavigator(
               normalImage={require('../img/zy@2x.png')}
               selectedImage={require('../img/zy-selected@2x.png')}
             />
-        )
+        ),
+        tabBarOnPress: (scene, jumpToIndex) => {
+          console.log('onPress 足印');
+        },
       })
     },
     Discovery: {
       screen: DiscoveryFrament,
       navigationOptions: ({ navigation }) => ({
+        tabBarOnPress: (scene, jumpToIndex) => {
+          console.log('onPress 发现');
+        },
         tabBarLabel: '发现',
         tabBarIcon: ({ focused, tintColor }) => (
           <TabBarItem
@@ -187,7 +196,10 @@ const Tab = TabNavigator(
             normalImage={require('../img/wj@2x.png')}
             selectedImage={require('../img/wenji-selected@2x.png')}
           />
-        )
+        ),
+        tabBarOnPress: (scene, jumpToIndex) => {
+          console.log('onPress 文集');
+        },
       })
     }
   },
@@ -201,7 +213,7 @@ const Tab = TabNavigator(
     tabBarOptions: {
       activeTintColor: '#ffa3c4',
       inactiveTintColor: '#9b9b9b',
-      style: { backgroundColor: '#ffffff' }
+      style: { backgroundColor: '#ffffff' },
     }
   }
 )

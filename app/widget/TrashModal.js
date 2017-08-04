@@ -24,7 +24,7 @@ export default class PhotoPickerModal extends Component {
             </TouchableOpacity>
             <View style={{height: 0.5, backgroundColor: '#f8f8f8'}} />
             <TouchableOpacity style={styles.delete} onPress={this.props.deleteDiary}>
-              <Text style={{fontSize: theme.text.xxlgFontSize}}>彻底删除</Text>
+              <Text style={{fontSize: theme.text.xxlgFontSize, color: 'red'}}>彻底删除</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.cancelItem} onPress={this.props.hide}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>取消</Text>
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
     height: 48,
     justifyContent: 'center',
     alignItems: 'center',
-    color: 'red',
     backgroundColor: 'white'
   }
 })

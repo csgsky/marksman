@@ -6,22 +6,24 @@
 //  Copyright © 2017年 Facebook. All rights reserved.
 //
 
-#import "Track.h"
+#import "TCAgent.h"
 #import "TalkingData.h"
 
-@implementation Track
+@implementation TCAgent
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(track: (NSString*)name)
+RCT_EXPORT_METHOD(track: (NSString*)name
+                  label: (NSString*)label)
 {
-  [TalkingData trackEvent:name];
+  [TalkingData trackEvent:name label:label];
 }
 
 RCT_EXPORT_METHOD(trackWithParams: (NSString*)name
+                  label: (NSString*)label
                   params: (NSDictionary*)params)
 {
-  [TalkingData trackEvent:name label:name parameters:params];
+  [TalkingData trackEvent:name label:label parameters:params];
 }
 
 @end

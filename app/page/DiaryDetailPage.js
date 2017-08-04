@@ -190,7 +190,7 @@ class DiaryDetailPage extends Component {
     const diary = this.state.diary
     return {
       type: 'news',
-      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${diary.diary_id}`,
+      webpageUrl: `http://101.95.97.178/h5/diary.html?diary_id=${diary.diary_id}`,
       title: '来自' + diary.user.nickname + '的日记',
       description: diary.content
     }
