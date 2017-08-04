@@ -85,7 +85,7 @@ class Trash extends Component {
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <TrashModal
           _dialogVisible={this.state.showModal}
-          hide={() => this.toggleDialog()}
+          hide={() => this.toggleDialog(0)}
           recoverDiary={this._recoverDiary}
           deleteDiary={this._deleteDiary}/>
         {diaries && !!diaries.length && <FlatList

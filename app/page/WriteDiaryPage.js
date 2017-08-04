@@ -25,7 +25,7 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
-  allowsEditing: true,
+  allowsEditing: true
 }
 
 class WriteDiaryPage extends PureComponent {
@@ -176,6 +176,7 @@ class WriteDiaryPage extends PureComponent {
       } else {
         const source = { uri: response.uri }
         const imgBase64 = response.data
+        console.warn(response.fileSize);
         this.props.photoPicker({source, imgBase64})
       }
     })
