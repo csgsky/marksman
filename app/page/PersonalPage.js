@@ -104,6 +104,7 @@ class PersonalPage extends PureComponent {
       navigation={this.props.navigation}
       hasComment
       showUserInfo
+      come4="个人主页"
       showShare={() => this.showShare(index, item)}
       likeDiary={this._likeDiary}
       index={index}/>)

@@ -36,7 +36,7 @@ class SearchPage extends Component {
 
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment={false} showStamp />
+    return <DiaryItem item={item} navigation={navigation} hasComment={false} showStamp come4="搜索"/>
   }
 
   getItemSeparator = () => <ListSeparator />

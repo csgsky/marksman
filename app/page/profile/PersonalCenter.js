@@ -247,7 +247,10 @@ class PersonalCenter extends Component {
         <Separator />
         <View style={styles.view}>
           <TouchableOpacity style={styles.profile} onPress={this._routerProfilePage}>
-            <TouchableOpacity onPress={() => this.setState({showPhotoPickerModal: true})}>
+            <TouchableOpacity onPress={() => {
+              this.setState({showPhotoPickerModal: true})
+              NativeModules.TCAgent.track('我的', '头像')
+            }}>
               <Image style={styles.avatar} source={this.getSource()}/>
             </TouchableOpacity>
             <View style={styles.desc}>
