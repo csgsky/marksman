@@ -60,6 +60,8 @@ export default function topic (state = initState, action = {}) {
         ...state,
         topic: {...state.topic, my_like: 1, like: {num: state.topic.like.num + 1}}
       }
+    case types.TOPIC_DETAIL_CLEAR_DATA:
+      return initState
     default:
       return state
   }

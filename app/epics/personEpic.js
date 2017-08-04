@@ -39,8 +39,7 @@ function personInitEpic (action$) {
               }
             )
             .catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
           )
 }
@@ -70,8 +69,7 @@ function personDiaryMoreEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -103,8 +101,7 @@ function personFollowEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -133,8 +130,7 @@ function diaryLikeEpic (action$) {
                 }
                 return showError(OTHER_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 

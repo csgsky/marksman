@@ -25,6 +25,6 @@ export default class CommonWebviewPage extends Component {
 const styles = StyleSheet.create({
   lable: {
     width: theme.screenWidth,
-    height: theme.screenWidth
+    height: theme.screenHeight
   }
 })

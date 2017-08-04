@@ -13,6 +13,13 @@ import Footer from '../component/Footer'
 
 class DiscoveryFrament extends Component {
 
+  static navigationOptions = ({navigation}) => ({
+    title: '精选',
+    headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
+    headerRight: <View />,
+    headerLeft: <View />,
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+  })
   componentDidMount () {
     this.props.actions.discoveryInit()
     PubSub.subscribe('homefragment/init/data', this.onRefresh)
@@ -23,14 +30,9 @@ class DiscoveryFrament extends Component {
   }
 
   render () {
-    console.log('DiscoveryFrament render')
     const {talks, ranks, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
-        <View style={styles.toolbar}>
-          <View style={styles.titleView}><Text style={styles.title}>精选</Text></View>
-        </View>
-        <Separator/>
+      <View style={{flex: 1, backgroundColor: '#fafafa'}}>
         <SectionList
           ListHeaderComponent={this.getHeaderView}
           renderSectionHeader={this.getSectionView}
@@ -61,10 +63,7 @@ class DiscoveryFrament extends Component {
   }
 
   getFooterCompt = () => {
-
     const {talks, hasMoreData} = this.props
-    console.log('getFooter')
-    console.log(hasMoreData)
     if (talks.length > 0) {
       return <Footer hasMoreData={hasMoreData}/>
     }
@@ -79,7 +78,7 @@ class DiscoveryFrament extends Component {
   }
 
   getTalksItem = ({item}) => {
-    return <TalksItem item={item} navigation={this.props.navigation}/>
+    return <TalksItem item={item} come4="发现" navigation={this.props.navigation}/>
   }
 
   getRanksItem = ({item}) => {
@@ -197,6 +196,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   talksSection: {
+    backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'center',
     height: 55,
