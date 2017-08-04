@@ -7,6 +7,8 @@ import {SystemMessagesApi,
   MineMessageCommentApi,
   MineMessageUserApi} from '../api/apis'
 import * as actions from '../actions/message'
+import {showError} from '../actions/common'
+import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
 
 function systemMessageInitEpic (action$) {
   return action$.ofType(actions.MESSAGE_SYSTEM_NOTIFY_INIT)
@@ -27,7 +29,8 @@ function systemMessageInitEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
+              // console.log('epic error --> ' + error)
             })
        )
 }
@@ -51,7 +54,8 @@ function systemMessageMoreEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
+              // console.log('epic error --> ' + error)
             })
        )
 }
@@ -74,7 +78,7 @@ function mineMessageModeEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -98,7 +102,7 @@ function mineMessageNotifInitEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -122,7 +126,7 @@ function mineMessageNotifMoreEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -171,7 +175,8 @@ function mineMessageCommentMoreEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('mineMessageCommentMoreEpic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
+              // console.log('mineMessageCommentMoreEpic error --> ' + error)
             })
        )
 }
@@ -196,7 +201,7 @@ function mineMessageUserInitEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -220,7 +225,7 @@ function mineMessageUserMoreEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }

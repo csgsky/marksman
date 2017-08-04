@@ -36,8 +36,7 @@ function searchInitEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -69,8 +68,7 @@ function searchMoreEpic (action$) {
                 return actions.searchEmpty()
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
