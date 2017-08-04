@@ -29,12 +29,14 @@
 			<string>com.zhy.qianyan</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>qianyan</string>
+				<string>qianyanapp</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
 			<key>CFBundleURLName</key>
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
@@ -87,6 +89,8 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -95,8 +99,6 @@
 				<true/>
 			</dict>
 		</dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>此 App 需要您的同意才能访问相机</string>

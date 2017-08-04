@@ -10,7 +10,10 @@ export default class CommentItem extends Component {
     const userId = this.props.data.user_id;
     this.props.navigation.navigate('PersonalPage', {message: '评论', id: userId})
   }
-
+  photoView = () => {
+    const {navigation, data} = this.props
+    navigation.navigate('LightBoxPage', {img: data.img})
+  }
   render () {
     const {data, index, type, onPressCommentItem, onPressLike} = this.props
     return (
@@ -39,7 +42,9 @@ export default class CommentItem extends Component {
             {type === 'commentsList' && index !== 0 && <Text style={styles.recvName}>@{data.recv_name}：</Text>}
             {data.content}
           </Text>
-          {!!data.img && <Image source={{uri: data.img}} style={{width: 110, height: 110, marginBottom: 20}}/>}
+          {!!data.img && <TouchableOpacity onPress={this.photoView}>
+            <Image source={{uri: data.img}} style={{width: 110, height: 110, marginBottom: 20}}/>
+          </TouchableOpacity>}
           {type !== 'commentsList' && !!data.recomments && data.recomments.length > 0 && <View style={styles.comments}>
             <Text style={styles.link}>{data.recomments[0].nickname}</Text>
             <Text style={styles.subText}>等人 </Text>
