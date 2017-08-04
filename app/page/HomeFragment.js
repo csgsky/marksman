@@ -109,6 +109,7 @@ class HomeFragment extends Component {
         this.props.navigation.navigate('SearchPage', {message: '搜索'})
       }
     })
+    // console.log(this.props.navigation.navigate)
   }
 
   _onRouterWrite = () => {

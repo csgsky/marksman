@@ -35,8 +35,7 @@ function topicInitEpic (action$) {
               }
             )
             .catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
       )
 }
@@ -126,8 +125,7 @@ function topicUnfollowEpic (action$) {
                 }
                 return showError(OTHER_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 
@@ -155,8 +153,7 @@ function commentLikeEpic (action$) {
                 }
                 return showError(OTHER_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 
@@ -185,8 +182,7 @@ function commentUnlikeEpic (action$) {
                 }
                 return showError(OTHER_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 
@@ -214,8 +210,7 @@ function topicLikeEpic (action$) {
                 }
                 return showError(OTHER_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 

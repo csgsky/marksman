@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/homeActions'
 import {showError} from '../actions/common'
 import { MineDiaryApi } from '../api/apis'
-import {NET_WORK_ERROR, OTHER_ERROR} from '../constant/errors'
+import {NET_WORK_ERROR} from '../constant/errors'
 
 function homeInitEpic (action$) {
   return action$.ofType(actions.HOME_INIT)
@@ -17,11 +17,10 @@ function homeInitEpic (action$) {
                 (token, page, userId, net) => ({token, page, userId, net})
               ).flatMap(
                 (it) => {
-                  console.log('homeInitepic ---> ', it)
                   if (it.token && it.net === '1') {
                     return Observable.from(MineDiaryApi(it.token, it.page, it.userId))
                   }
-                  return Observable.of(2)
+                  return Observable.from(2)
                 }
               ).map((it) => {
                 if (it === 2) {
@@ -33,8 +32,7 @@ function homeInitEpic (action$) {
                 return actions.homeData(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR);
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -65,8 +63,7 @@ function homeMoreEpic (action$) {
                 return actions.homeLoadingMoreData(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
