@@ -1,11 +1,11 @@
 import React, {PureComponent} from 'react'
+import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage, NativeModules} from 'react-native'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import PubSub from 'pubsub-js'
 import theme from '../config/theme'
 import ListSeparator from '../component/ListSeparator'
 import CommentItem from '../component/item/CommentItem'
-import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage} from 'react-native'
 import * as actions from '../actions/topic'
 import CommentBar from '../component/CommentBar'
 import ShareModal from '../widget/ShareModal'
@@ -39,6 +39,7 @@ class Topic extends PureComponent {
     })
   }
   componentWillUnmount() {
+    this.props.clearData()
     PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
     PubSub.unsubscribe('commentsRefresh')
@@ -59,6 +60,7 @@ class Topic extends PureComponent {
     }
   }
   _onPressFollow = (focused, id) => {
+    NativeModules.TCAgent.track('发现', '日记详情页-关注')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'topic'})
@@ -69,6 +71,7 @@ class Topic extends PureComponent {
     })
   }
   _onPressLike = (diaryId, ownerId, myLike) => {
+    NativeModules.TCAgent.track('发现', '日记详情页-点赞')
     if (!myLike) {
       AsyncStorage.getItem('userId').then((result) => {
         if (result === null) {
@@ -80,6 +83,7 @@ class Topic extends PureComponent {
     }
   }
   _onPressComment = (topic) => {
+    NativeModules.TCAgent.track('发现', '日记详情页-评论')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'topic'})
@@ -101,9 +105,6 @@ class Topic extends PureComponent {
     })
   }
   renderHeader = (topic, comments) => {
-    console.log('topic')
-    console.log(topic)
-    console.log({focus: topic.my_focus})
     const {topicId} = this.props.navigation.state.params
     return (
       <View>
@@ -143,6 +144,7 @@ class Topic extends PureComponent {
     })
   }
   showShare = () => {
+    NativeModules.TCAgent.track('发现', '日记详情页-分享')
     const wechatMetadata = this.getWechatShareMeta()
     this.setState({
       shareVisible: true,

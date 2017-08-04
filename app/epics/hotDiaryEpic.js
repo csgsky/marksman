@@ -67,7 +67,7 @@ function hotDiaryMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -97,7 +97,7 @@ function diaryLikeEpic (action$) {
                 return null
               }).catch((error) => {
                 console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 

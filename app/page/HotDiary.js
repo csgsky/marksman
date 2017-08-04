@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, FlatList, RefreshControl, AsyncStorage} from 'react-native'
+import {View, FlatList, RefreshControl, AsyncStorage, NativeModules} from 'react-native'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
@@ -9,6 +9,7 @@ import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Footer from '../component/Footer'
 import ShareModal from '../widget/ShareModal'
+import theme from '../config/theme'
 
 
 class HotDiary extends Component {
@@ -20,11 +21,13 @@ class HotDiary extends Component {
     }
   }
   componentDidMount () {
+    NativeModules.TCAgent.track('足印', '热门')
     this.props.actions.hotDiaryInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
   }
 
   onRefresh = () => {
+    NativeModules.TCAgent.track('足印', '热门')
     this.props.actions.hotDiaryInit(0)
   }
 
@@ -35,8 +38,8 @@ class HotDiary extends Component {
     return (<DiaryItem item={item}
       navigation={navigation}
       hasComment
-      showRightTime
       showUserInfo
+      come4="热门"
       showShare={() => this.showShare(index, item)}
       likeDiary={this._likeDiary}
       index={index}/>)
@@ -62,7 +65,7 @@ class HotDiary extends Component {
   }
 
   _likeDiary = (diaryId, ownerId, myLike, index) => {
-    console.log({diaryId, ownerId, myLike, index})
+    NativeModules.TCAgent.track('足印', '点赞')
     if (myLike) {
       return
     }
@@ -103,7 +106,7 @@ class HotDiary extends Component {
   render () {
     const {diarys, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <ShareModal
           visible={this.state.shareVisible}
           hideShare={this.hideShare}

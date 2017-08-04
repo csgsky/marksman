@@ -5,15 +5,23 @@ const initState = {
   diarys: [],
   page: 0,
   hasMoreData: true,
-  isLoadingMore: false
+  isLoadingMore: false,
+  isLogin: true
 }
 
 
 export default function recentDiary (state = initState, action = {}) {
   switch (action.type) {
+    case types.HOME_VISITOR:
+      return {
+        ...state,
+        isLogin: false,
+        hasMoreData: false
+      }
     case types.HOME_INIT:
       return {
         ...state,
+        isLogin: true,
         isRefreshing: false,
         page: action.page
       }

@@ -36,7 +36,7 @@ function vertiCodeEpic (action$) {
                 }
               }
             ).catch((error) => {
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -82,8 +82,7 @@ function registerEpic (action$) {
                 return actions.registerError(it.return_msg)
               }
             ).catch((error) => {
-              console.warn('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }

@@ -155,6 +155,7 @@ const Tab = TabNavigator(
       screen: FooterTab,
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '足印',
+        header: null,
         tabBarIcon: ({ focused, tintColor }) => (
             <TabBarItem
               focused={focused}
@@ -237,10 +238,7 @@ const Navigator = StackNavigator(
         header: null
       }
     },
-    Tab: {screen: Tab,
-      navigationOptions: {
-        header: null
-      }
+    Tab: {screen: Tab
     },
     SearchPage: {
       screen: SearchPage,
