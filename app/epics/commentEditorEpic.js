@@ -38,8 +38,8 @@ function commentPostEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              // console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }

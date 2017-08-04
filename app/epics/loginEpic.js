@@ -36,7 +36,7 @@ function loginEpic (action$) {
                 }
               ).catch((error) => {
                 console.warn('epic error --> ' + error)
-                return showError(OTHER_ERROR)
+                return Observable.of(showError(NET_WORK_ERROR))
               })
         )
 }
