@@ -98,8 +98,8 @@ function commentsListLikeEpic (action$) {
                   return actions.commentsListLikeSuccess({index: action.payload.index})
                 }
               }).catch((error) => {
-                console.log('epic error --->' + error)
-                return showError(OTHER_ERROR)
+                // console.log('epic error --->' + error)
+                return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
 
@@ -133,8 +133,8 @@ function commentsCommentPostEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              // console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }

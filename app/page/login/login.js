@@ -4,6 +4,8 @@ import PubSub from 'pubsub-js'
 import CryptoJS from 'crypto-js'
 import { NavigationActions } from 'react-navigation'
 import { bindActionCreators } from 'redux'
+import * as WeChat from 'react-native-wechat'
+import * as QQAPI from 'react-native-qq';
 import { connect } from 'react-redux'
 import theme from '../../config/theme'
 import * as actions from '../../actions/loginActions'
@@ -58,55 +60,21 @@ class Login extends Component {
     await AsyncStorage.setItem('tags', info.tags + '')
   }
 
-  render () {
-    return (
-      <ScrollView>
-      <View style={styles.view}>
-        <Text style ={styles.title}>{consts.appName}</Text>
-        <View style={styles.itemView}>
-          <Image style={styles.icon} resizeMode="contain" source={require('../../img/tel.png')} />
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput style={styles.username}
-              placeholder={consts.USERNAME_PLACE_HOLDER}
-              placeholderTextColor="#8d8d8d"
-              underlineColorAndroid="transparent"
-              maxLength={11}
-              keyboardType="numeric"
-              onChangeText={(account) => {
-                this.props.actions.usernameChagnge(account)
-              }}/>
-          </View>
-        </View>
-        <View style={styles.underLine} />
-        <View style={[styles.itemView, {marginTop: 10}]}>
-          <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput style={styles.username}
-              placeholder={consts.PASSWORD_PLACE_HOLDER}
-              placeholderTextColor='#8d8d8d'
-              underlineColorAndroid="transparent"
-              secureTextEntry={this.props.securePassword}
-              onChangeText={(password) => {
-                this.props.actions.passwordChange(password)
-              }}/>
-          </View>
-          <TouchableOpacity
-            style={{flexDirection: 'column', justifyContent: 'center'}}
-            onPress={this.props.actions.changePasswordSecure}>
-            <Image source={this.props.securePassword ? PasswordInvisible : PasswordVisible} style={{width: 25, height: 12}}/>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.underLine} />
-        <TouchableOpacity style={styles.confirm} onPress={this._login}>
-          <Text style={styles.login}>{consts.CONFIRM}</Text>
-        </TouchableOpacity>
-        <Text onPress={this._forgetPassword} style={styles.register}>{consts.FORGET_PASSWORD}</Text>
-        <View style={styles.forgetView}>
-          <Text onPress={this._quickRegister}style={styles.forget}>{consts.QUICK_REGISTER}</Text>
-        </View>
-      </View>
-      </ScrollView>
-    )
+  loginWeChat = () => {
+    if (WeChat.isWXAppInstalled()) {
+      // alert('未安装 wechat')
+      WeChat.sendAuthRequest()
+    } else {
+      alert('未安装 wechat')
+    }
+  }
+
+  loginQQ = () => {
+    if (QQAPI.isQQInstalled()) {
+      // sss
+    } else {
+      alert('未安装 qq')
+    }
   }
 
   _login = () => {
@@ -130,6 +98,78 @@ class Login extends Component {
     const key = this.props.navigation.state.key
     this.props.navigation.navigate('RegisterPage', {key, type: 'forget'})
   }
+
+  render () {
+    return (
+      <ScrollView>
+        <View style={styles.view}>
+          <TouchableOpacity
+            style={{width: 18}}
+            onPress={() => this.props.navigation.goBack()}>
+            <Image resizeMode="contain"
+              style={{width: 18, height: 18}}
+              source={theme.imgs.PageBack} /></TouchableOpacity>
+          <Text style ={styles.title}>{consts.appName}</Text>
+          <View style={styles.itemView}>
+            <Image style={styles.icon} resizeMode="contain" source={require('../../img/tel.png')} />
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+              <TextInput style={styles.username}
+                placeholder={consts.USERNAME_PLACE_HOLDER}
+                placeholderTextColor="#8d8d8d"
+                underlineColorAndroid="transparent"
+                maxLength={11}
+                keyboardType="numeric"
+                onChangeText={(account) => {
+                  this.props.actions.usernameChagnge(account)
+                }}/>
+            </View>
+          </View>
+          <View style={styles.underLine} />
+          <View style={[styles.itemView, {marginTop: 10}]}>
+            <Image style={styles.icon} resizeMode='contain' source={require('../../img/password.png')} />
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+              <TextInput style={styles.username}
+                placeholder={consts.PASSWORD_PLACE_HOLDER}
+                placeholderTextColor='#8d8d8d'
+                underlineColorAndroid="transparent"
+                secureTextEntry={this.props.securePassword}
+                onChangeText={(password) => {
+                  this.props.actions.passwordChange(password)
+                }}/>
+            </View>
+            <TouchableOpacity
+              style={{flexDirection: 'column', justifyContent: 'center'}}
+              onPress={this.props.actions.changePasswordSecure}>
+              <Image source={this.props.securePassword ? PasswordInvisible : PasswordVisible} style={{width: 25, height: 12}}/>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.underLine} />
+          <TouchableOpacity style={styles.confirm} onPress={this._login}>
+            <Text style={styles.login}>{consts.CONFIRM}</Text>
+          </TouchableOpacity>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 22, marginBottom: 14, }}>
+            <View style={{width: 48, height: 1, backgroundColor: '#b2b2b2'}}/>
+            <Text style={{color: '#9d9d9d', marginLeft: 16, marginRight: 16, fontSize: 12}}>快速登录</Text>
+            <View style={{width: 48, height: 1, backgroundColor: '#b2b2b2'}}/>
+          </View>
+
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+             <TouchableOpacity style={{width: 50, height: 50, backgroundColor: 'red'}} onPress={this.loginWeChat}>
+
+             </TouchableOpacity>
+             <TouchableOpacity style={{width: 50, height: 50, backgroundColor: 'yellow', marginLeft: 43}} onPress={this.loginQQ}>
+
+             </TouchableOpacity>
+          </View>
+          <View style={styles.forgetView}>
+            <Text onPress={this._quickRegister}style={styles.register}>{consts.QUICK_REGISTER}</Text>
+            <Text onPress={this._forgetPassword} style={styles.forget}>{consts.FORGET_PASSWORD}</Text>
+          </View>
+        </View>
+      </ScrollView>
+    )
+  }
+
 }
 
 const mapStateToProps = (state) => {
@@ -163,7 +203,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     color: '#f89f33',
     fontSize: 36,
-    marginTop: 80,
+    marginTop: 60,
     marginBottom: 40,
     alignSelf: 'center'
   },
@@ -198,20 +238,20 @@ const styles = StyleSheet.create({
   register: {
     color: '#4990e2',
     fontSize: 17,
-    textAlign: 'right',
-    marginTop: 20
+    marginRight: 26
   },
   forgetView: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    marginBottom: 25,
-    alignContent: 'center'
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: 35,
+    alignContent: 'center',
+    justifyContent: 'center'
   },
   forget: {
     color: '#4990e2',
     fontSize: 17,
-    alignSelf: 'center'
+    marginLeft: 26
   }
 })
 

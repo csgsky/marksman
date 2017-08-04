@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: 44,
+    backgroundColor: 'white',
     flexDirection: 'row'
   },
   cell: {
