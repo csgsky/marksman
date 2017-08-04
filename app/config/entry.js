@@ -145,13 +145,12 @@ const Tab = TabNavigator(
         tabBarIcon: ({ focused, tintColor }) => (
           <TabBarItem
             focused={focused}
+            name="浅记"
+            label="浅记"
             normalImage={require('../img/qianyan@2x.png')}
             selectedImage={require('../img/qianyan-selected@2x.png')}
           />
-        ),
-        tabBarOnPress: (scene, jumpToIndex) => {
-          console.log('onPress 浅记');
-        },
+        )
       })
     },
     Footer: {
@@ -159,27 +158,25 @@ const Tab = TabNavigator(
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '足印',
         tabBarIcon: ({ focused, tintColor }) => (
-            <TabBarItem
-              focused={focused}
-              normalImage={require('../img/zy@2x.png')}
-              selectedImage={require('../img/zy-selected@2x.png')}
-            />
-        ),
-        tabBarOnPress: (scene, jumpToIndex) => {
-          console.log('onPress 足印');
-        },
+          <TabBarItem
+            focused={focused}
+            name="足印"
+            label="足印"
+            normalImage={require('../img/zy@2x.png')}
+            selectedImage={require('../img/zy-selected@2x.png')}
+          />
+        )
       })
     },
     Discovery: {
       screen: DiscoveryFrament,
       navigationOptions: ({ navigation }) => ({
-        tabBarOnPress: (scene, jumpToIndex) => {
-          console.log('onPress 发现');
-        },
         tabBarLabel: '发现',
         tabBarIcon: ({ focused, tintColor }) => (
           <TabBarItem
             focused={focused}
+            name="发现"
+            label="发现"
             normalImage={require('../img/find2x.png')}
             selectedImage={require('../img/find-selected@2x.png')}
           />
@@ -193,13 +190,12 @@ const Tab = TabNavigator(
         tabBarIcon: ({ focused, tintColor }) => (
           <TabBarItem
             focused={focused}
+            name="文集"
+            label="文集"
             normalImage={require('../img/wj@2x.png')}
             selectedImage={require('../img/wenji-selected@2x.png')}
           />
         ),
-        tabBarOnPress: (scene, jumpToIndex) => {
-          console.log('onPress 文集');
-        },
       })
     }
   },
