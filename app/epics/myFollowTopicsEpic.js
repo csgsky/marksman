@@ -34,8 +34,7 @@ function myFollowTopicsInitEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -67,8 +66,7 @@ function myFollowTopicsMoreEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -99,8 +97,7 @@ function myFollowTopicsFollowEpic(action$) {
         }
         return showError(OTHER_ERROR)
       }).catch((error) => {
-        console.log(error)
-        return showError(OTHER_ERROR)
+        return Observable.of(showError(NET_WORK_ERROR))
       })
     )
 }

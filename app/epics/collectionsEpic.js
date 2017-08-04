@@ -33,7 +33,7 @@ function collectionsInitEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              return showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -65,7 +65,7 @@ function collectionLoadingMoreEpic (action$) {
               }
             ).catch((error) => {
               console.log('epic error --> ' + error)
-              showError(OTHER_ERROR)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }

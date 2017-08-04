@@ -64,7 +64,7 @@ export default class Splash extends Component {
         })
         // 设置背景图
         AsyncStorage.getItem('splashImage').then((image) => {
-          alert('走的是登录')
+          // alert('走的是登录')
           if (image) {
             this.setState({
               img: {uri: image}
@@ -86,7 +86,7 @@ export default class Splash extends Component {
               if (devicedid != null) {
                 // 设置背景图
                 AsyncStorage.getItem('splashImage').then((image) => {
-                  alert('走的是未登录')
+                  // alert('走的是未登录')
                   if (image) {
                     this.setState({
                       img: {uri: image}
@@ -139,7 +139,7 @@ export default class Splash extends Component {
                             newOne: false,
                           })
                           AsyncStorage.getItem('splashImage').then((image) => {
-                            alert('走的接口，是未登录, 但是有信息')
+                            // alert('走的接口，是未登录, 但是有信息')
                             if (image) {
                               this.setState({
                                 img: {uri: image}
@@ -149,7 +149,6 @@ export default class Splash extends Component {
                             }
                           })
                         } else {
-                          // console.warn('未登录，并且没有信息，跳到 label 页面')
                           this.setState({
                             newOne: true,
                             img: defaultSplash
@@ -163,7 +162,6 @@ export default class Splash extends Component {
     Rx.Observable
       .from(splashApi(authorization))
       .subscribe((it) => {
-        alert(it.return_code)
         if (it.return_code === 1) {
           AsyncStorage.setItem('splashImage', it.img_url)
           this.setState({
