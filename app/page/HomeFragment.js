@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Image, TouchableOpacity, AsyncStorage, StyleSheet, Platform, FlatList, RefreshControl} from 'react-native'
+import {View, Image, TouchableOpacity, AsyncStorage, StyleSheet, FlatList, RefreshControl, NativeModules} from 'react-native'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
@@ -49,6 +49,7 @@ class HomeFragment extends Component {
   }
 
   componentDidMount () {
+    NativeModules.TCAgent.track('浅记', '浅记')
     this.initData()
     this.props.navigation.setParams({
       routerMine: this._onRouterMine,
@@ -60,6 +61,7 @@ class HomeFragment extends Component {
 
 
   onRefresh = () => {
+    NativeModules.TCAgent.track('浅记', '浅记')
     this.initData()
   }
 
@@ -109,10 +111,11 @@ class HomeFragment extends Component {
         this.props.navigation.navigate('SearchPage', {message: '搜索'})
       }
     })
-    // console.log(this.props.navigation.navigate)
+    NativeModules.TCAgent.track('浅记', '搜索')
   }
 
   _onRouterWrite = () => {
+    NativeModules.TCAgent.track('浅记', '写日记')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
@@ -123,6 +126,7 @@ class HomeFragment extends Component {
   }
 
   _onRouterMine = () => {
+    NativeModules.TCAgent.track('浅记', '个人中心')
     if (this.props.navigation.state.params.showReminder) {
       AsyncStorage.setItem('showHomeReminder', 'true').then(() => alert('ok'))
       this.props.navigation.setParams({

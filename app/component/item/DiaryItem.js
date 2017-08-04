@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM, recentTime} from '../../utils/TimeUtils'
 import CommentBar from '../CommentBar'
@@ -40,6 +40,7 @@ export default class DiaryItem extends Component {
     const content = item.content
     const img = item.img
     const hasComment = this.props.hasComment
+    const come4 = this.props.come4 || '浅记'
     return (
       <View>
         <TouchableOpacity activeOpacity={0.8}
@@ -82,7 +83,10 @@ export default class DiaryItem extends Component {
             likeNum={item.like.num}
             showShare={this.props.showShare}
             likeAction={() => { this.props.likeDiary(item.diary_id, item.user_id, item.my_like, index) }}
-            commentAction={() => this.routeDiaryDetails()}
+            commentAction={() => {
+              this.routeDiaryDetails()
+              NativeModules.TCAgent.track(come4, '评论')
+            }}
             commentsNum={item.comment.num}/>}
       </View>
     )
@@ -119,16 +123,18 @@ export default class DiaryItem extends Component {
   }
 
   routeDiaryDetails = () => {
+    const come4 = this.props.come4 || '浅记'
+    NativeModules.TCAgent.track(come4, '点日记进入日记详情页')
     const {navigation, item} = this.props
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        navigation.navigate('DiaryDetailPage', {me: false, item})
+        navigation.navigate('DiaryDetailPage', {me: false, item, come4})
       } else {
         if (result == item.user_id) {
-          navigation.navigate('DiaryDetailPage', {me: true, item})
+          navigation.navigate('DiaryDetailPage', {me: true, item, come4})
           return
         }
-        navigation.navigate('DiaryDetailPage', {me: false, item})
+        navigation.navigate('DiaryDetailPage', {me: false, item, come4})
       }
     })
   }

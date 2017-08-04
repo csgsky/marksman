@@ -63,10 +63,7 @@ class DiscoveryFrament extends Component {
   }
 
   getFooterCompt = () => {
-
     const {talks, hasMoreData} = this.props
-    console.log('getFooter')
-    console.log(hasMoreData)
     if (talks.length > 0) {
       return <Footer hasMoreData={hasMoreData}/>
     }
@@ -81,7 +78,7 @@ class DiscoveryFrament extends Component {
   }
 
   getTalksItem = ({item}) => {
-    return <TalksItem item={item} navigation={this.props.navigation}/>
+    return <TalksItem item={item} come4="发现" navigation={this.props.navigation}/>
   }
 
   getRanksItem = ({item}) => {
@@ -199,6 +196,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   talksSection: {
+    backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'center',
     height: 55,

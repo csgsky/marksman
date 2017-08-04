@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView} from 'react-native'
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView, NativeModules} from 'react-native'
 import { bindActionCreators } from 'redux'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
@@ -55,6 +55,7 @@ class WriteDiaryPage extends Component {
   }
 
   componentDidMount() {
+    NativeModules.TCAgent.track('写日记', '写日记')
     const diary = this.props.navigation.state.params.diary
     this.props.writeDiaryInit(diary)
     this.props.navigation.setParams({
@@ -65,6 +66,7 @@ class WriteDiaryPage extends Component {
   componentWillReceiveProps (nextProps) {
     const {success} = nextProps
     if (success) {
+      NativeModules.TCAgent.track('写日记', '保存成功')
       PubSub.publish('refreshDiaryList')
       dismissKeyboard()
       this.props.cleanWritePage()
@@ -79,6 +81,7 @@ class WriteDiaryPage extends Component {
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
     const come4 = navigation.state.params.come4
+    NativeModules.TCAgent.track('写日记', '日记保存')
     if (materialPosition >= 0) {
       console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
       const dataOne = this.props.diary === null ?
@@ -126,6 +129,7 @@ class WriteDiaryPage extends Component {
       } else if (response.customButton) {
         // console.log('User tapped custom button: ', response.customButton)
       } else {
+        NativeModules.TCAgent.track('写日记', '插入图片成功')
         const source = { uri: response.uri }
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
@@ -148,6 +152,7 @@ class WriteDiaryPage extends Component {
       } else if (response.customButton) {
         // console.log('User tapped custom button: ', response.customButton)
       } else {
+        NativeModules.TCAgent.track('写日记', '插入图片成功')
         const source = { uri: response.uri }
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
@@ -156,6 +161,7 @@ class WriteDiaryPage extends Component {
   }
 
   _onColorChanged = (color, feel) => {
+    NativeModules.TCAgent.track('写日记', '选择心情')
     this.props.writeDiaryColorChange({color, feel})
     this.setState({
       color2: color
@@ -163,6 +169,7 @@ class WriteDiaryPage extends Component {
   }
 
   selectMaterial = (index) => {
+    NativeModules.TCAgent.track('写日记', '插入图片成功')
     this.props.selectMaterial({index})
     this.setState({
       showModal: false
@@ -170,6 +177,7 @@ class WriteDiaryPage extends Component {
   }
 
   showDialog() {
+    NativeModules.TCAgent.track('写日记', '插入图片')
     this._closeKeyBoard()
     this.setState({
       showModal: true

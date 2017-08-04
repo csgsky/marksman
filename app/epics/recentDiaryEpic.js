@@ -16,7 +16,6 @@ function recentInitEpic (action$) {
                 (token, page, net) => ({token, page, net})
               ).flatMap(
                 (it) => {
-                  alert(it.net)
                   if (it.token && it.net === '1') {
                     // console.log('epic  --->  it token  ' + it.token)
                     return Observable.from(FooterRecentDiaryApi(it.token, it.page))
