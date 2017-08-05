@@ -116,7 +116,7 @@ export default class LabelPageTwo extends Component {
               }}/>
           </Image>
           <View style={styles.signView}>
-            <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>留下签名：</Text>
+            <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>留个签名：</Text>
             <Image
               style={{width: theme.screenWidth - 60, height: 180}}
               resizeMode="stretch"
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sign: {
-    width: theme.screenWidth - 60,
+    width: theme.screenWidth - 200,
     fontSize: 14,
     paddingTop: 30,
     paddingLeft: 16,

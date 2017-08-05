@@ -1,3 +1,5 @@
+import Toast from 'react-native-root-toast'
+
 export const REGISTER = 'REGISTER'
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const REGISTER_ERROR = 'REGISTER_ERROR'
@@ -31,7 +33,14 @@ export function registerSuccess (userId) {
 }
 
 export function registerError (returnMsg) {
-  alert(returnMsg)
+  Toast.show(returnMsg, {
+    duration: Toast.durations.SHORT,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0
+  })
   return {
     type: REGISTER_ERROR,
     returnMsg

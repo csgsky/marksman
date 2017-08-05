@@ -14,6 +14,7 @@ import Pen from '../img/pen.png'
 import Footer from '../component/Footer'
 import Reminder from '../component/Reminder'
 import defaultDiary from '../constant/defaultDiary.json'
+import EmptyView from '../component/EmptyPageView'
 
 class HomeFragment extends Component {
 
@@ -155,17 +156,28 @@ class HomeFragment extends Component {
     })
   }
 
+  getHeaderCompt = () => {
+    const {diarys, isRefreshing, isLogin} = this.props
+    if (!isRefreshing && diarys.length === 0 && isLogin) {
+      return <EmptyView come4="diary" message="这个人很懒，什么都没留下~~" />
+    }
+    return <View />
+  }
+
   render () {
     const {diarys, isRefreshing, isLogin} = this.props
+    console.log('HomeFragment', isRefreshing)
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
         <FlatList
+          style={{flex: 1}}
           data={isLogin ? diarys : defaultDiary}
           ref='_homefragmentlist'
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
           ListFooterComponent={this.getFooterCompt}
+          ListHeaderComponent={this.getHeaderCompt}
           onEndReachedThreshold={0.1}
           initialNumToRender={6}
           onEndReached={this.handleLoadingMore}

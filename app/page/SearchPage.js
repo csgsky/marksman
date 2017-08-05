@@ -21,7 +21,6 @@ class SearchPage extends Component {
   }
 
   componentWillUnmount() {
-    PubSub.unsubscribe('refreshDiaryList')
   }
 
   getFooterCompt = () => {
