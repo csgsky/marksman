@@ -32,7 +32,7 @@ export const getDotYYMMDD = (time) => {
 
 export const getHHMM = (time) => {
   const date = Moment(time)
-  return date.hour() + ':' + (date.minute() === 0 ? '00' : date.minute())
+  return (date.hour() < 10 ? '0' + date.hour() : date.hour())  + ':' + (date.minute() < 10 ? '0' + date.minute() : date.minute())
 }
 
 // 时间显示，一分以内为‘刚刚’，一小时以内为‘分钟前’，一天以内为‘小时前’，今年为‘月日’，往年为‘年月日’

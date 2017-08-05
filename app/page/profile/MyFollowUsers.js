@@ -25,13 +25,15 @@ class MyFollowUsers extends PureComponent {
         <View style={{
           flexDirection: 'row',
           justifyContent: 'center',
-          height: 55,
+          alignItems: 'flex-end',
+          height: 35,
           paddingLeft: 16,
-          paddingRight: 16
+          paddingRight: 16,
+          marginBottom: 10
         }}>
-          <View style={{width: 3, backgroundColor: '#aecc9a', marginTop: 15, marginBottom: 15}}/>
+          <View style={{width: 4, backgroundColor: '#aecc9a', height: 15}}/>
           <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
-            <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>{title}</Text>
+            <Text style={{fontSize: 15, fontWeight: '500', color: theme.text.globalSubTextColor}}>{title}</Text>
           </View>
         </View>
       </View>
@@ -40,8 +42,8 @@ class MyFollowUsers extends PureComponent {
   renderEmptyView = desc => (
     <View>
       {this.renderHeaderTitle('我的关注')}
-      <View style={{height: 187, justifyContent: 'center'}}>
-        <Text style={{fontSize: 12, color: '#9b9b9b', textAlign: 'center'}}>{desc}</Text>
+      <View style={{height: 187, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.border.color}}>
+        <Text style={{fontSize: 12, color: '#9b9b9b', textAlign: 'center', paddingBottom: 35}}>{desc}</Text>
       </View>
       {this.renderHeaderTitle('推荐关注')}
     </View>
