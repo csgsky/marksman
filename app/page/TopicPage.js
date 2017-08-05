@@ -133,7 +133,7 @@ class Topic extends PureComponent {
     const {topic} = this.props
     return {
       type: 'news',
-      webpageUrl: `http://101.95.97.178/h5/talk.html?talk_id=${topic.talk_id}`,
+      webpageUrl: `http://business.qianyan.zhuoyoutech.com:2003/h5/talk.html?talk_id=${topic.talk_id}`,
       title: topic.name,
       description: topic.content
     }

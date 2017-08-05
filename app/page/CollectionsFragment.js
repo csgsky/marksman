@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, FlatList, Platform, RefreshControl} from 'react-native'
+import {View, StyleSheet, FlatList, Platform, RefreshControl, NativeModules} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Rx from 'rxjs'
