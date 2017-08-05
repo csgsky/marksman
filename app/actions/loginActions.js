@@ -1,4 +1,5 @@
-import {Alert} from 'react-native'
+
+import Toast from 'react-native-root-toast'
 
 export const LOGIN = 'LOGIN'
 export const ACCOUNT_CHANGE = 'ACCOUNT_CHANGE'
@@ -51,7 +52,14 @@ export function changePasswordSecure () {
 }
 
 export function loginError (errorMsg) {
-  Alert.alert('用户名或密码错误！')
+  Toast.show('用户名或密码错误！', {
+    duration: Toast.durations.SHORT,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0
+  })
   return {
     type: LOGIN_ERROR,
     errorMsg

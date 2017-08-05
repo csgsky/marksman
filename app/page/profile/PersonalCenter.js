@@ -56,7 +56,7 @@ class PersonalCenter extends Component {
         this.props.profileMessageReminder()
       }
     })
-
+    PubSub.subscribe('dismissPersonalCenterMineMsg', this.props.dismissPersonalCenterMineMsg)
     PubSub.subscribe('loginRefresh', (come, data) => {
       Rx.Observable.of('refresh')
                       .delay(800)
@@ -97,7 +97,7 @@ class PersonalCenter extends Component {
   }
 
   componentWillUnmount() {
-    PubSub.unsubscribe('refresh')
+    // PubSub.unsubscribe('refresh')
   }
 
 
@@ -229,6 +229,17 @@ class PersonalCenter extends Component {
     })
   }
 
+  clickUserIcon = () => {
+    NativeModules.TCAgent.track('我的', '头像')
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result) {
+        this.setState({showPhotoPickerModal: true})
+      } else {
+        this.props.navigation.navigate('Login', {come4: 'profile'})
+      }
+    })
+  }
+
   render () {
     const {navigation} = this.props
     return (
@@ -247,10 +258,7 @@ class PersonalCenter extends Component {
         <Separator />
         <View style={styles.view}>
           <TouchableOpacity style={styles.profile} onPress={this._routerProfilePage}>
-            <TouchableOpacity onPress={() => {
-              this.setState({showPhotoPickerModal: true})
-              NativeModules.TCAgent.track('我的', '头像')
-            }}>
+            <TouchableOpacity onPress={this.clickUserIcon}>
               <Image style={styles.avatar} source={this.getSource()}/>
             </TouchableOpacity>
             <View style={styles.desc}>
@@ -271,7 +279,7 @@ class PersonalCenter extends Component {
           <ProfileItem navigation={navigation} value={consts.PROFILE_FEEDBACK}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_ABOUT_US}/>
           <TouchableOpacity style={styles.loginOut} onPress={this._loginOut}>
-            <Text style={{fontSize: theme.text.xxlgFontSize, color: 'white'}}>{this.state.isLogin ? '退出账号' : '登录'}</Text>
+            <Text style={{fontSize: theme.text.xxlgFontSize, color: 'white'}}>{this.state.isLogin ? '退出账号' : '注册/登录'}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
