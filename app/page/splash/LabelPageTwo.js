@@ -65,7 +65,7 @@ export default class LabelPageTwo extends Component {
       if (result) {
         Rx.Observable.from(CustomerRegisterApi(map, result)).subscribe(
                       (it) => {
-                        if (it.return_code === 1) {
+                        if (it.return_code === 1) {                          
                           this._saveUseInfo()
                           Rx.Observable.of('delay').delay(800).subscribe(() => {
                             this.props.navigation.dispatch(resetAction)

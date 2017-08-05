@@ -24,7 +24,7 @@ class HomeFragment extends Component {
       onPress={() => navigation.state.params.routerSearch()}>
       <Image source={Search} style={styles.search} />
     </TouchableOpacity>,
-    headerLeft: <TouchableOpacity style={{width: 30, height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
+    headerLeft: <TouchableOpacity style={{height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
       onPress={() => navigation.state.params.routerMine()}>
       <Image source={Mine} style={styles.profile} />
       {navigation.state.params && navigation.state.params.showReminder && <View style={{height: 15, marginLeft: 2}}>

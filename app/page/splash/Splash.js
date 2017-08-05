@@ -35,6 +35,7 @@ export default class Splash extends Component {
   }
 
   componentWillMount () {
+    // NativeModules.SplashScreen.hideSystemNavigationBar()
     NativeModules.TCAgent.track('启动页', '启动页展现')
     this._getDeviceUserInfo()
     // 倒计时
@@ -53,10 +54,9 @@ export default class Splash extends Component {
 
   componentWillUnmount() {
     this.state.timeSubscribe.unsubscribe()
+    // NativeModules.SplashScreen.showSystemNavigationBar()
   }
-
   _getDeviceUserInfo = () => {
-    const authorization = this._generateAuth()
     AsyncStorage.getItem('userId').then((userId) => {
       if (userId !== null) {
         // 登录状态
@@ -71,6 +71,7 @@ export default class Splash extends Component {
               img: {uri: image}
             })
           } else {
+            const authorization = this._generateAuth()
             this._getSplash(authorization)
           }
         })
@@ -79,20 +80,20 @@ export default class Splash extends Component {
         // 未登录状态
         Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
           .subscribe((imsi) => {
-            this.setState({
-              devicedid: imsi.split('-').join('')
-            })
+            // this.setState({
+            //   devicedid: imsi.split('-').join('')
+            // })
             AsyncStorage.getItem('devicedid').then((devicedid) => {
               // 未登录状态但已经有用户信息
               if (devicedid != null) {
                 // 设置背景图
                 AsyncStorage.getItem('splashImage').then((image) => {
-                  // alert('走的是未登录')
                   if (image) {
                     this.setState({
                       img: {uri: image}
                     })
                   } else {
+                    const authorization = this._generateAuth(devicedid)
                     this._getSplash(authorization)
                   }
                 })
@@ -101,11 +102,12 @@ export default class Splash extends Component {
                 })
               } else {
                 // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
-                
+                // alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
                 // console.warn('authorization  ==> ' + this._generateAuth())
+                const authorization = this._generateAuth(imsi.split('-').join(''))
                 AsyncStorage.setItem('token', authorization)
                   .then(() => {
-                    this._getUnLoginUserInfo(authorization)
+                    this._getUnLoginUserInfo(imsi.split('-').join(''), authorization)
                   })
               }
             })
@@ -114,8 +116,8 @@ export default class Splash extends Component {
     })
   }
 
-  _generateAuth = () => {
-    const rawStr = '/ZTE/ZTE1.1/' + this.state.devicedid + '012/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+  _generateAuth = (imsi) => {
+    const rawStr = '/ZTE/ZTE1.1/' + imsi + '012/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     const words = encodeURIComponent(rawStr)
     const base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
@@ -129,8 +131,8 @@ export default class Splash extends Component {
     await AsyncStorage.setItem('tags', customer.tags + '')
   }
 
-  _getUnLoginUserInfo = (authorization) => {
-    Rx.Observable.from(getUnloginInfo(this.state.devicedid + '012', authorization)).subscribe(
+  _getUnLoginUserInfo = (imsi, authorization) => {
+    Rx.Observable.from(getUnloginInfo(imsi + '012', authorization)).subscribe(
                       (it) => {
                         // alert(it.return_code)
                         this.setState({customer: it.customer, success: true})
@@ -203,7 +205,7 @@ export default class Splash extends Component {
     return (
       <View>
         <View style={styles.lable}>
-          <Image style={styles.lable} source={this.state.img} />
+          <Image style={styles.lable} resizeMode="stretch" source={this.state.img} />
         </View>
         <Text style={styles.skipText} onPress={this._onPress}>跳过 {this.state.time}</Text>
       </View>
@@ -214,7 +216,7 @@ export default class Splash extends Component {
 const styles = StyleSheet.create({
   lable: {
     width: theme.screenWidth,
-    height: theme.screenHeight
+    height: Platform.OS === 'ios' ? theme.screenHeight : theme.screenHeight - 20
   },
   skipText: {
     position: 'absolute',
