@@ -77,12 +77,15 @@ class WriteDiaryPage extends PureComponent {
       NativeModules.TCAgent.track('写日记', '保存成功')
       PubSub.publish('refreshDiaryList')
       dismissKeyboard()
-      this.props.cleanWritePage()
       this.props.navigation.goBack()
     }
     // const oldHeight = this.state.height;
     // const height = this.state.height;
   }
+  componentWillUnmount () {
+    this.props.cleanWritePage()
+  }
+
 
   // componentWillUnmount () {
   //   this.keyboardDidShowListener.remove();
