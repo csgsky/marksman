@@ -167,7 +167,6 @@ class WriteDiaryPage extends PureComponent {
 
 
   launchImageLibrary () {
-    console.log('launchImageLib')
     const that = this;
     ImagePicker.launchImageLibrary(options, (response) => {
       that.setState({
@@ -181,9 +180,8 @@ class WriteDiaryPage extends PureComponent {
         // console.log('User tapped custom button: ', response.customButton)
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
-        const source = { uri: response.uri }
+        const source = { uri: 'data:image/jpg;base64,' + response.data };
         const imgBase64 = response.data
-        console.warn(response.fileSize);
         this.props.photoPicker({source, imgBase64})
       }
     })
@@ -425,7 +423,7 @@ const styles = StyleSheet.create({
   save: {
     color: '#A4A3A5',
     marginRight: 18,
-    fontSize: theme.text.xxlgFontSize
+    fontSize: 16
   },
   view: {
     flex: 1,
