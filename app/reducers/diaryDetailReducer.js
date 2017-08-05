@@ -3,7 +3,7 @@ import {COMMENT_POST_SUCCESS} from '../actions/commentEditorAction'
 
 const initState = {
   isRefreshing: false,
-  comments: [],
+  comments: undefined,
   isLoadingMore: false,
   page: 0,
   hasMore: true,
@@ -44,6 +44,20 @@ export default function diaryDetail (state = initState, action = {}) {
       return {
         ...state,
         deleteSuccess: true
+      }
+    case types.DIARY_COMMENTS_LOAD_MORE:
+      return {
+        ...state,
+        isLoadingMore: true
+      }
+    case types.DIARY_COMMENTS_MORE_DATA:
+      console.log('epic ---> DIARY_COMMENTS_MORE_DATA', action)
+      return {
+        ...state,
+        isLoadingMore: false,
+        hasMore: action.hasMore,
+        page: state.page + 1,
+        comments: state.comments.concat(action.comments)
       }
     case types.CLEAR_DIARY:
       return initState

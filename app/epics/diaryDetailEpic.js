@@ -38,6 +38,36 @@ function diaryCommentInitEpic (action$) {
             })
        )
 }
+function commentsMoreEpic (action$) {
+  return action$.ofType(actions.DIARY_COMMENTS_LOAD_MORE)
+            .mergeMap(action =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                (token, net) => ({token, net})
+              ).flatMap(
+                (it) => {
+                  if (it.token && it.net === '1') {
+                    return Observable.from(CommentsApi({id: action.id, ownerId: action.ownerId, page: action.page + 1, userId: it.token}))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
+                if (it.return_code === 1) {
+                  return actions.diaryCommentsMoreData(it.comments)
+                }
+                return showError(OTHER_ERROR)
+              }
+            ).catch((error) => {
+              console.log('epic error --> ' + error)
+              return showError(OTHER_ERROR)
+            })
+       )
+}
+
 
 function diaryLikeEpic (action$) {
   return action$.ofType(actions.DIARY_LIKE)
@@ -134,4 +164,4 @@ function deleteDiaryEpic (action$) {
               }))
 }
 
-export default combineEpics(diaryCommentInitEpic, diaryLikeEpic, diaryCommentLikeEpic, deleteDiaryEpic)
+export default combineEpics(diaryCommentInitEpic, diaryLikeEpic, diaryCommentLikeEpic, deleteDiaryEpic, commentsMoreEpic)

@@ -26,7 +26,7 @@ class CommentEditor extends PureComponent {
   static navigationOptions = ({navigation}) => ({
     title: '发评论',
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
-    headerRight: <TouchableOpacity onPress={() => navigation.state.params.handleSubmit()}><Text style={styles.submit}>发送</Text></TouchableOpacity>,
+    headerRight: <TouchableOpacity onPress={() => navigation.state.params.handleSubmit()}><Text style={[styles.submit, {color: (navigation.state.params.content) ? '#c37f2e' : '#A4A3A5'}]}>发送</Text></TouchableOpacity>,
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
@@ -86,6 +86,10 @@ class CommentEditor extends PureComponent {
     const {diaryId, ownerId, commentId, pid} = this.props.navigation.state.params;
     this.props.navigation.setParams({
       handleSubmit: () => {
+        const {isLoading} = that.props;
+        if (isLoading) {
+          return;
+        }
         const data = {
           content: that.state.text,
           img_byte: that.state.data,
@@ -113,7 +117,6 @@ class CommentEditor extends PureComponent {
 
   componentWillUnmount() {
     this.props.clearCommentPost()
-    PubSub.unsubscribe('refreshDetailPage')
   }
   _closeKeyBoard = () => {
     dismissKeyboard()
@@ -126,17 +129,15 @@ class CommentEditor extends PureComponent {
         showModal: false
       })
       if (response.didCancel) {
-        console.log('User cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         this.setState({
           image: source,
           data: response.data,
-          suffix: response.fileName.split('.')[1]
+          suffix: 'JPEG'
+          //suffix: response.fileName.split('.')[1]
         });
       }
     })
@@ -158,7 +159,6 @@ class CommentEditor extends PureComponent {
         console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
-        console.log(response)
         this.setState({
           image: source,
           data: response.data,
@@ -199,7 +199,10 @@ class CommentEditor extends PureComponent {
           style={styles.input}
           multiline
           autoFocus
-          onChangeText={(text) => this.setState({text})}
+          onChangeText={(text) => {
+            this.setState({text});
+            this.props.navigation.setParams({content: text})
+          }}
           value={this.state.text}
           placeholderTextColor="#a3a3a3"
           underlineColorAndroid="transparent"
