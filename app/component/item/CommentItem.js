@@ -4,6 +4,7 @@ import CommentIcon from '../../img/comment.png'
 import LikeIcon from '../../img/like.png'
 import LikedIcon from '../../img/liked.png'
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
+import {recentTime} from '../../utils/TimeUtils';
 
 export default class CommentItem extends Component {
   _onPressUserAvatar = () => {
@@ -13,6 +14,16 @@ export default class CommentItem extends Component {
   photoView = () => {
     const {navigation, data} = this.props
     navigation.navigate('LightBoxPage', {img: data.img})
+  }
+  getIndexText = () => {
+    const {index, type} = this.props;
+    if (type === 'commentsList' && index === 0) {
+      return '楼主'
+    }
+    if(type === 'commentsList'){
+      return `${index}楼`
+    }
+    return `${index + 1}楼`
   }
   render () {
     const {data, index, type, onPressCommentItem, onPressLike} = this.props
@@ -26,7 +37,7 @@ export default class CommentItem extends Component {
             </TouchableOpacity>
             <View style={styles.infoContainer}>
               <Text style={styles.name}>{data.nickname}</Text>
-              <Text style={styles.time}>{data.create_time}</Text>
+              <Text style={styles.time}>{this.getIndexText()} {recentTime(data.create_time)}</Text>
             </View>
             <Image source={CommentIcon} style={styles.comment} resizeMode="contain"/>
             {!(type === 'commentsList' && index !== 0) && <TouchableOpacity style={{flexDirection: 'row'}}
