@@ -113,7 +113,7 @@ class PersonalCenter extends Component {
   getWechatShareMeta = () => {
     return {
       type: 'news',
-      webpageUrl: 'http://101.95.97.178/h5/app.html',
+      webpageUrl: 'http://business.qianyan.zhuoyoutech.com:2003/h5/app.html',
       title: '自从遇见了【浅言】，我用细节把生活串成了诗～...',
       description: '用细节把日子串成诗'
     }

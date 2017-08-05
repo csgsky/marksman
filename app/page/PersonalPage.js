@@ -137,7 +137,7 @@ class PersonalPage extends PureComponent {
     const user = item.user
     return {
       type: 'news',
-      webpageUrl: `http://101.95.97.178/h5/diary.html?diary_id=${item.diary_id}`,
+      webpageUrl: `http://business.qianyan.zhuoyoutech.com:2003/h5/diary.html?diary_id=${item.diary_id}`,
       title: '来自' + user.nickname + '的日记',
       description: item.content
     }

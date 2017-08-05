@@ -3,16 +3,16 @@ import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage, NativeMod
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM, recentTime} from '../../utils/TimeUtils'
 import CommentBar from '../CommentBar'
-import One from '../../img/diary_material_one.jpg'
-import Two from '../../img/diary_material_two.jpg'
-import Three from '../../img/diary_material_three.jpg'
-import Four from '../../img/diary_material_four.jpg'
-import Five from '../../img/diary_material_five.jpg'
-import Six from '../../img/diary_material_six.jpg'
-import Seven from '../../img/diary_material_seven.jpg'
-import Eight from '../../img/diary_material_eight.jpg'
-import Nine from '../../img/diary_material_nine.jpg'
-import Ten from '../../img/diary_material_ten.jpg'
+import One from '../../img/diary_material_one.png'
+import Two from '../../img/diary_material_two.png'
+import Three from '../../img/diary_material_three.png'
+import Four from '../../img/diary_material_four.png'
+import Five from '../../img/diary_material_five.png'
+import Six from '../../img/diary_material_six.png'
+import Seven from '../../img/diary_material_seven.png'
+import Eight from '../../img/diary_material_eight.png'
+import Nine from '../../img/diary_material_nine.png'
+import Ten from '../../img/diary_material_ten.png'
 import PublicStamp from '../../img/public_stamp.png'
 import PrivateStamp from '../../img/private_stamp.png'
 
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: theme.screenWidth - 32,
-    height: ((theme.screenWidth - 32) * 3) / 4
+    height: ((theme.screenWidth - 32) * 2) / 3
   },
   stamp: {
     width: 50,
