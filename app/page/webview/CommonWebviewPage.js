@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, WebView, TouchableOpacity, Image, Platform} from 'react-native'
+import {StyleSheet, View, WebView, TouchableOpacity, Image, Platform, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 import Protocol from '../../constant/agreement.html'
 
@@ -13,6 +13,14 @@ export default class CommonWebviewPage extends Component {
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
+
+  componentWillMount() {
+    NativeModules.SplashScreen.hideSystemNavigationBar()
+  }
+  componentWillUnmount() {
+    NativeModules.SplashScreen.showSystemNavigationBar()
+  }
+
   render () {
     const {state} = this.props.navigation
     if (state.params.type === 'protocol') {

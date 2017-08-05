@@ -1,11 +1,11 @@
 
-const baseUrlWithoutToken = path => 'http://101.95.97.178:2003' + path
+const baseUrlWithoutToken = path => 'http://business.qianyan.zhuoyoutech.com:2003' + path
 const accept = 'application/com.droi.qy-v1.0-1+json'
 const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
-  console.log('post Api path --->', path)
+  console.log('post Api path --->', baseUrlWithoutToken(path))
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -32,7 +32,7 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
-  console.log('getApi path ==> ', path)
+  console.log('getApi path ==> ', baseUrlWithoutToken(path))
   console.log('getApi userid ==> ', userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
