@@ -8,6 +8,7 @@ const initState = {
   modes: [],
   notifications: [],
   commemts: [],
+  isRefreshing: true,
   users: []
 }
 
@@ -18,6 +19,7 @@ export default function message (state = initState, action = {}) {
       return {
         ...state,
         hasMoreData: false,
+        isRefreshing: true,
         isLoadingMore: false,
         page: 0
       }
@@ -26,6 +28,7 @@ export default function message (state = initState, action = {}) {
         ...state,
         sysmsgs: action.payload,
         hasMoreData: action.payload.length >= 10,
+        isRefreshing: false,
         page: state.page + 1
       }
     case types.MESSAGE_SYSTEM_NOTIFY_MORE:
@@ -59,15 +62,16 @@ export default function message (state = initState, action = {}) {
         ...state,
         isLoadingMore: false,
         hasMoreData: false,
+        isRefreshing: true,
         page: 0
       }
     case types.MINE_MESSAGE_NOTIF_DATA:
-      console.log('reducer --> MINE_MESSAGE_NOTIF_DATA', action.payload)
       return {
         ...state,
         notifications: action.payload,
         hasMoreData: action.payload.length >= 10,
         isLoadingMore: false,
+        isRefreshing: false,
         page: state.page + 1
       }
     case types.MINE_MESSAGE_NOTIF_MORE:
@@ -76,8 +80,6 @@ export default function message (state = initState, action = {}) {
         isLoadingMore: true
       }
     case types.MINE_MESSAGE_NOTIF_MORE_DATA:
-      console.log('reducer --> MINE_MESSAGE_NOTIF_MORE_DATA', action.payload)
-      console.log('reducer --> MINE_MESSAGE_NOTIF_MORE_DATA', state.notifications.concat(action.payload))
       return {
         ...state,
         page: state.page + 1,
@@ -86,23 +88,22 @@ export default function message (state = initState, action = {}) {
         notifications: state.notifications.concat(action.payload)
       }
     case types.MINE_MESSAGE_COMMENT_INIT:
-      console.log('reducer --> MINE_MESSAGE_COMMENT_INIT', action.payload)
       return {
         ...state,
         isLoadingMore: false,
         hasMoreData: false,
+        isRefreshing: true,
         page: 0
       }
     case types.MINE_MESSAGE_COMMENT_DATA:
-      console.log('reducer --> MINE_MESSAGE_COMMENT_DATA', action.payload)
       return {
         ...state,
         commemts: action.payload,
         hasMoreData: action.payload.length >= 10,
+        isRefreshing: false,
         page: state.page + 1
       }
     case types.MINE_MESSAGE_COMMENT_MORE_DATA:
-      console.log('reducer --> MINE_MESSAGE_COMMENT_MORE_DATA', action.payload)
       return {
         ...state,
         commemts: state.commemts.concat(action.payload),
@@ -116,6 +117,7 @@ export default function message (state = initState, action = {}) {
         ...state,
         isLoadingMore: false,
         hasMoreData: false,
+        isRefreshing: true,
         page: 0
       }
     case types.MINE_MESSAGE_USER_DATA:
@@ -124,6 +126,7 @@ export default function message (state = initState, action = {}) {
         ...state,
         users: action.payload,
         hasMoreData: action.payload.length >= 10,
+        isRefreshing: false,
         page: state.page + 1
       }
     case types.MINE_MESSAGE_USER_MORE:

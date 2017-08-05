@@ -10,7 +10,7 @@ import theme from '../../config/theme'
 import Clear from '../../img/clear_search.png'
 import Next from '../../img/next.png'
 import * as actions from '../../actions/profile'
-import {getYYMMDD} from '../../utils/TimeUtils'
+import {getDotYYMMDD} from '../../utils/TimeUtils'
 
 const dismissKeyboard = require('dismissKeyboard')
 
@@ -105,11 +105,11 @@ class EditProfilePage extends Component {
   }
 
   _handleDatePicked = (date) => {
-    this.state.info.birthday = getYYMMDD(date)
+    this.state.info.birthday = getDotYYMMDD(date)
     this.setState({
       info: this.state.info
     })
-    console.warn('A date has been picked: ', getYYMMDD(date));
+    // console.warn('A date has been picked: ', getDotYYMMDD(date));
     this._hideDateTimePicker();
   }
 

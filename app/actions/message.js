@@ -19,6 +19,7 @@ export const MINE_MESSAGE_USER_DATA = 'MINE_MESSAGE_USER_DATA'
 export const MINE_MESSAGE_USER_MORE = 'MINE_MESSAGE_USER_MORE'
 export const MINE_MESSAGE_USER_MORE_DATA = 'MINE_MESSAGE_USER_MORE_DATA'
 
+
 export function profileMessageReminder (payload) {
   console.log('action --> MESSAGE_SYSTEM_NOTIFY_INIT')
   return {
@@ -161,7 +162,6 @@ export function mineMessageUserMore (payload) {
   }
 }
 export function mineMessageUserMoreData (payload) {
-  console.log('action ---> MINE_MESSAGE_USER_MORE_DATA', payload)
   return {
     type: MINE_MESSAGE_USER_MORE_DATA,
     payload
