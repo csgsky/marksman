@@ -65,13 +65,18 @@ class WriteDiaryPage extends PureComponent {
     NativeModules.TCAgent.track('写日记', '写日记')
     const diary = this.props.navigation.state.params.diary
     this.props.writeDiaryInit(diary)
+    if (this.props.navigation.state.params.come4 === 'edit') {
+      Rx.Observable.of('delay').delay(800).subscribe(() => {
+        this.props.navigation.setParams({content: diary.content})
+      })
+    }
+
     this.props.navigation.setParams({
       handleSubmit: this._postDiary
     })
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log('component will receive props')
     const {success} = nextProps
     if (success) {
       NativeModules.TCAgent.track('写日记', '保存成功')
@@ -79,32 +84,11 @@ class WriteDiaryPage extends PureComponent {
       dismissKeyboard()
       this.props.navigation.goBack()
     }
-    // const oldHeight = this.state.height;
-    // const height = this.state.height;
   }
   componentWillUnmount () {
     this.props.cleanWritePage()
   }
 
-
-  // componentWillUnmount () {
-  //   this.keyboardDidShowListener.remove();
-  //   this.keyboardDidHideListener.remove();
-  //   this.props.cleanWritePage()
-  // }
-  // _keyboardDidShow = (e) => {
-  //   console.log('did show', e)
-  //   this.setState({
-  //     screenHeight: screenHeight - 64 - e.startCoordinates.height
-  //   });
-  // }
-  // _keyboardDidHide = (e) => {
-  //   console.log('force update', e)
-  //   this.setState({
-  //     screenHeight: screenHeight - 64
-  //   });
-  //   // this.forceUpdate();
-  // }
 
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
@@ -295,7 +279,7 @@ class WriteDiaryPage extends PureComponent {
               underlineColorAndroid="transparent"
               autoFocus
               maxLength={1500}
-              placeholder="今天，你过得好么？"
+              placeholder="今天的你过得好吗？"
               onChangeText={(content) => {
                 this.props.diaryContentChange({content})
                 this.props.navigation.setParams({content})

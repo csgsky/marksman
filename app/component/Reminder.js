@@ -11,8 +11,8 @@ export default class Reminder extends Component {
 
 const styles = StyleSheet.create({
   separator: {
-    height: 9,
-    width: 9,
+    height: 8,
+    width: 8,
     borderRadius: 4,
     backgroundColor: 'red'
   }

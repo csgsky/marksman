@@ -32,7 +32,6 @@ export default function search (state = initState, action = {}) {
         ...state,
         searchText: '',
         searchInputClearShow: false,
-        empty: false
       }
     case types.SEARCH_PAGE_SEARCH_INIT:
       return {

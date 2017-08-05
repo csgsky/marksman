@@ -9,6 +9,8 @@ export const PERSONAL_INFO_SUBMIT_INIT = 'PERSONAL_INFO_SUBMIT_INIT'
 export const MESSAGE_PROFILECENER_REMINDER = 'MESSAGE_PROFILECENER_REMINDER'
 export const MESSAGE_PROFILECENER_REMINDER_DATA = 'MESSAGE_PROFILECENER_REMINDER_DATA'
 export const MESSAGE_PROFILE_ITEM_CLICK = 'MESSAGE_PROFILE_ITEM_CLICK'
+// 个人中心小红点的消失
+export const MINE_DISMISS_MINE_RED = 'MINE_DISMISS_MINE_RED'
 export function profileMessageReminder () {
   console.log('action --> MESSAGE_PROFILECENER_REMINDER')
   return {
@@ -88,6 +90,12 @@ export function profileItemClick(value) {
   return {
     type: MESSAGE_PROFILE_ITEM_CLICK,
     value
+  }
+}
+
+export function dismissPersonalCenterMineMsg () {
+  return {
+    type: MINE_DISMISS_MINE_RED
   }
 }
 

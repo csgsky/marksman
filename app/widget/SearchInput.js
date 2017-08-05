@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 16,
     marginRight: 16,
-    borderRadius: 14,
+    borderRadius: 8,
     flexDirection: 'row',
     alignItems: 'center',
     opacity: 0.9,
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     color: '#c37f2e',
     fontSize: 16,
     textAlign: 'left',
-    fontWeight: '600',
     lineHeight: 25
   }
 })
