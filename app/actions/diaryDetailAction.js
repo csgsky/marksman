@@ -1,5 +1,7 @@
 export const DIARY_COMMENT_INIT = 'DIARY_COMMENT_INIT'
 export const DIARY_COMMENT_DATA = 'DIARY_COMMENT_DATA'
+export const DIARY_COMMENTS_LOAD_MORE = 'DIARY_COMMENTS_LOAD_MORE'
+export const DIARY_COMMENTS_MORE_DATA = 'DIARY_COMMENTS_MORE_DATA'
 export const DIARY_LIKE = 'DIARY_LIKE'
 export const DIARY_COMMENT_LIKE = 'DIARY_COMMENT_LIKE'
 export const DIARY_LIKE_SUCCESS = 'DIARY_LIKE_SUCCESS'
@@ -22,6 +24,25 @@ export function diaryCommentData (data) {
   return {
     type: DIARY_COMMENT_DATA,
     comments: data.comments
+  }
+}
+export function diaryCommentsLoadMore ({ownerId, page, id}) {
+  console.log('action ---> Diary_COMMENTS_LOAD_MORE')
+  return {
+    type: DIARY_COMMENTS_LOAD_MORE,
+    ownerId,
+    page,
+    id
+  }
+}
+
+export function diaryCommentsMoreData (data) {
+  console.log('action ---> DIARY_COMMENTS_MORE_DATA')
+  return {
+    type: DIARY_COMMENTS_MORE_DATA,
+    isLoadingMore: false,
+    comments: data,
+    hasMore: data.length >= 10
   }
 }
 

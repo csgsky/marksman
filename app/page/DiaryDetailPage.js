@@ -147,7 +147,12 @@ class DiaryDetailPage extends Component {
 
 
   handleLoadingMore = () => {
-
+    const {isLoadingMore, hasMore, page} = this.props
+    const id = this.state.diary.diary_id
+    const ownerId = this.state.diary.user_id
+    if (!isLoadingMore && hasMore) {
+      this.props.diaryCommentsLoadMore({id, ownerId, page})
+    }
   }
 
   _onPressLike = (diaryId, ownerId, myLike) => {
@@ -192,7 +197,7 @@ class DiaryDetailPage extends Component {
     const diary = this.state.diary
     return {
       type: 'news',
-      webpageUrl: `http://business.qianyan.zhuoyoutech.com:2003/h5/diary.html?diary_id=${diary.diary_id}`,
+      webpageUrl: `http://101.95.97.178/h5/diary.html?diary_id=${diary.diary_id}`,
       title: '来自' + diary.user.nickname + '的日记',
       description: diary.content
     }

@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     color: theme.text.globalTextColor,
     fontSize: 15,
     marginTop: 8,
-    lineHeight: 24,
+    lineHeight: 26,
     marginBottom: 15
   },
   img: {

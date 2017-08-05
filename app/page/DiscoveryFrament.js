@@ -134,7 +134,7 @@ class DiscoveryFrament extends Component {
       <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>备受宠爱</Text>
     </View>
     <TouchableOpacity style={{flexDirection: 'column', justifyContent: 'center'}} onPress={this._routerToLovedList}>
-      <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多</Text>
+      <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多>></Text>
     </TouchableOpacity>
   </View>)
 
