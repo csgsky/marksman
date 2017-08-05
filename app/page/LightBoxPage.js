@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import theme from '../config/theme'
-import One from '../img/diary_material_one.png'
+import One from '../img/diary_material_one.jpg'
 import Two from '../img/diary_material_two.png'
 import Three from '../img/diary_material_three.png'
 import Four from '../img/diary_material_four.png'

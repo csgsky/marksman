@@ -18,7 +18,7 @@ export default class LabelPage extends Component {
       defaultTextColor: '#86b368',
       selectedBgColor: '#86b368',
       selectedTextColor: 'white',
-      tagsValues: ['家有宠物', '宅腐双修', '游戏一族', '单身汪', '时尚达人', '二次元', '小说迷', '星座控', '技术男女', '我任性，不告诉你~'],
+      tagsValues: ['家有宠物', '宅腐双修', '游戏一族', '单身汪', '时尚达人', '二次元', '小说迷', '技术男女', '星座控', '我任性，不告诉你~'],
       tagsState: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       sex: [null, null]
     }
@@ -143,10 +143,10 @@ export default class LabelPage extends Component {
           <Text style={{fontSize: 16, color: '#757575', marginTop: 25, backgroundColor: 'transparent'}}>请选择你的性别：</Text>
           <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 25}}>
             <TouchableOpacity activeOpacity={1} onPress={() => this._onPressSex(1)} style={{width: 28, height: 60, marginRight: 44}}>
-              <Image source={this.state.sex[1] === 1 ? girlPre : girl} resizeMode="contain"/>
+              <Image style={{width: 28, height: 60}} source={this.state.sex[1] === 1 ? girlPre : girl} resizeMode="contain"/>
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={1} onPress={() => this._onPressSex(0)} style={{width: 28, height: 60, marginLeft: 44}}>
-              <Image source={this.state.sex[0] === 1 ? boyPre : boy} resizeMode="contain"/>
+              <Image style={{width: 28, height: 60}} source={this.state.sex[0] === 1 ? boyPre : boy} resizeMode="contain"/>
             </TouchableOpacity>
           </View>
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

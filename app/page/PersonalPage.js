@@ -90,7 +90,7 @@ class PersonalPage extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.actions.clearPersonData()
+    // this.props.actions.clearPersonData()
   }
 
   onRefresh = () => {
