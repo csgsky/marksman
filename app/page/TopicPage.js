@@ -117,7 +117,7 @@ class Topic extends PureComponent {
               </View>
             </TouchableOpacity>
           </View>
-          <Text style={styles.counts}>{topic.comment.num}评论 | {topic.like.num}赞</Text>
+          <Text style={styles.counts}>{topic.views}浏览 | {topic.comment.num}评论</Text>
           <Text style={styles.content}>{topic.content}</Text>
           <View style={[styles.tag, {backgroundColor: topic.tag_color}]}>
             <Text style={styles.tagText}>{topic.tag}</Text>
@@ -219,7 +219,7 @@ const styles = {
   },
   content: {
     fontSize: theme.text.xlgFontSize,
-    color: '#7d7d7d',
+    color: '#afaa91',
     lineHeight: 25,
     paddingTop: 13,
     paddingBottom: 13

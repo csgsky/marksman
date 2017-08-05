@@ -116,7 +116,7 @@ const MyFollowTab = TabNavigator(
       navigationOptions: ({ navigation }) => ({
         tabBarLabel: '话题'
       })
-    }
+    },
   },
   {
     tabBarComponent: TabBarTop,
@@ -127,10 +127,11 @@ const MyFollowTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: 'white', height: 40},
-      indicatorStyle: {backgroundColor: '#f89f33'},
+      style: {backgroundColor: 'white', paddingLeft: (theme.screenWidth - 130) / 2, height: 40},
+      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
       tabStyle: {height: 40},
-      labelStyle: {fontSize: 15}
+      labelStyle: {fontSize: 15},
+      tabStyle: {width: 65}
     }
   }
 )

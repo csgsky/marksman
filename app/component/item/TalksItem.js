@@ -51,7 +51,7 @@ export default class TalksItem extends Component {
               </View>
             </View>
             <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => this._onPressFollow(item.talk_id, index, item.my_focus, 'topics')}>
-              <View style={styles.follow}>
+              <View style={[styles.follow, {backgroundColor: item.my_focus ? 'rgba(133, 179, 104, 0.57)' : 'rgba(133, 179, 104, 0.87)'}]}>
                 <Text style={styles.followText}>{item.my_focus ? '取消关注' : '关注'}</Text>
               </View>
             </TouchableOpacity>
@@ -84,7 +84,8 @@ const styles = StyleSheet.create({
     width: 70,
     backgroundColor: '#C5CAE9',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderRadius: 2
   },
   tag: {
     color: 'white',
@@ -95,11 +96,10 @@ const styles = StyleSheet.create({
     width: 75,
     height: 25,
     borderRadius: 2,
-    justifyContent: 'center',
-    backgroundColor: 'rgba(133, 179, 104, 0.57)'
+    justifyContent: 'center'
   },
   followText: {
-    fontSize: theme.text.mdFontSize,
+    fontSize: 14,
     textAlign: 'center',
     color: '#fff',
   },
