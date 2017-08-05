@@ -7,7 +7,7 @@ import * as actions from '../../actions/trashActions'
 import {deleteDiary} from '../../actions/diaryDetailAction'
 import DiaryItem from '../../component/item/DiaryItem'
 import ListSeparator from '../../component/ListSeparator'
-import EmptyView from '../../component/EmptyView'
+import EmptyView from '../../component/EmptyPageView'
 import theme from '../../config/theme'
 import TrashModal from '../../widget/TrashModal'
 import Footer from '../../component/Footer'
@@ -36,7 +36,7 @@ class Trash extends Component {
   }
 
   getItemCompt = ({item, index}) => {
-    return <DiaryItem item={item} hasComment={false} showDialog={() => this.toggleDialog(index)}/>
+    return <DiaryItem item={item} hasComment={false} showStamp showDialog={() => this.toggleDialog(index)}/>
   }
 
   getFooterCompt = () => {
@@ -82,7 +82,7 @@ class Trash extends Component {
   render () {
     const {diaries, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <TrashModal
           _dialogVisible={this.state.showModal}
           hide={() => this.toggleDialog(0)}
@@ -104,7 +104,7 @@ class Trash extends Component {
             />
           }
         />}
-        {diaries && diaries.length === 0 && <EmptyView message="这片角落与我无关，嘎嘎~"/>}
+        {diaries && diaries.length === 0 && <EmptyView message="这片角落与我无关，嘎嘎~" come4="trash"/>}
       </View>
     )
   }

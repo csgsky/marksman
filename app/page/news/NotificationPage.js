@@ -7,6 +7,7 @@ import theme from '../../config/theme'
 import ListSeparator from '../../component/ListSeparator'
 import Footer from '../../component/Footer'
 import NoticeIcon from '../../img/news_notice.png'
+import EmptyView from '../../component/EmptyPageView'
 
 class NotificationPage extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -26,6 +27,14 @@ class NotificationPage extends Component {
   }
 
   getItemSeparator = () => <ListSeparator />
+
+  getHeaderCompt = () => {
+    const {notifications, isRefreshing} = this.props
+    if (!isRefreshing && notifications.length === 0) {
+      return <EmptyView come4="msg" message="还没有消息哦~~" />
+    }
+    return <View />
+  }
 
   handleLoadingMore = () => {
     const {isLoadingMore, hasMoreData, page} = this.props
@@ -53,13 +62,15 @@ class NotificationPage extends Component {
   }
 
   render () {
-    return <View style={styles.view}>
-      <FlatList
+    const {isRefreshing} = this.props
+    return (<View style={styles.view}>
+      {!isRefreshing && this.props.notifications.length > 0 && <FlatList
         removeClippedSubviews={false}
         data={this.props.notifications}
         ItemSeparatorComponent={this.getItemSeparator}
         renderItem={({item}) => this.renderListItem(item)}
         ListFooterComponent={this.renderLoadMoreFooter}
+        ListHeaderComponent={this.getHeaderCompt}
         onEndReached={this.handleLoadingMore}
         refreshControl={
           <RefreshControl
@@ -68,8 +79,11 @@ class NotificationPage extends Component {
             refreshing={false}
           />
          }
-      />
-    </View>
+      />}
+      {
+        !isRefreshing && this.props.notifications.length === 0 && <EmptyView come4="diary" message="这个人很懒，什么都没留下~~" />
+      }
+    </View>)
   }
 }
 

@@ -1,7 +1,7 @@
 import * as types from '../actions/homeActions'
 
 const initState = {
-  isRefreshing: false,
+  isRefreshing: true,
   diarys: [],
   page: 0,
   hasMoreData: true,
@@ -16,21 +16,22 @@ export default function recentDiary (state = initState, action = {}) {
       return {
         ...state,
         isLogin: false,
+        isRefreshing: false,
         hasMoreData: false
       }
     case types.HOME_INIT:
       return {
         ...state,
         isLogin: true,
-        isRefreshing: false,
+        isRefreshing: true,
         page: action.page
       }
     case types.HOME_DATA:
       return {
         ...state,
-        isRefreshing: action.isRefreshing,
         diarys: action.diarys,
         page: state.page + 1,
+        isRefreshing: false,
         hasMoreData: action.hasMoreData,
       }
     case types.HOME_LOADING_MORE:

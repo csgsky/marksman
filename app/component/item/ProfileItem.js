@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
   next: {
     width: 8,
     height: 14,
-    marginRight: 16,
     marginLeft: 14,
   }
 })
