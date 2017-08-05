@@ -15,10 +15,14 @@ export default class CommonWebviewPage extends Component {
   })
 
   componentWillMount() {
-    NativeModules.SplashScreen.hideSystemNavigationBar()
+    if (Platform.OS === 'android') {
+      NativeModules.SplashScreen.hideSystemNavigationBar()
+    }
   }
   componentWillUnmount() {
-    NativeModules.SplashScreen.showSystemNavigationBar()
+    if (Platform.OS === 'android') {
+      NativeModules.SplashScreen.showSystemNavigationBar()
+    }
   }
 
   render () {

@@ -147,7 +147,7 @@ class CommentListPage extends PureComponent {
               underlineColorAndroid="transparent"
               value={this.state.comment}
               placeholderTextColor="#a3a3a3"
-              placeholder={`回复${this.state.recvName}：`}/>
+              placeholder={`回复@${this.state.recvName}：`}/>
             <TouchableOpacity onPress={() => this._onSubmit()}>
               <Text style={styles.submit}>发送</Text>
             </TouchableOpacity>
@@ -160,7 +160,7 @@ class CommentListPage extends PureComponent {
             underlineColorAndroid="transparent"
             value={this.state.comment}
             placeholderTextColor="#a3a3a3"
-            placeholder={`回复${this.state.recvName}：`}/>
+            placeholder={`回复@${this.state.recvName}：`}/>
           <TouchableOpacity onPress={() => this._onSubmit()}>
             <Text style={styles.submit}>发送</Text>
           </TouchableOpacity>
@@ -173,7 +173,7 @@ class CommentListPage extends PureComponent {
 const styles = StyleSheet.create({
   input: {
     flex: 1,
-    height: 30,
+    minHeight: 30,
     marginLeft: 20,
     marginRight: 20,
     marginTop: 10,
@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.border.color,
     borderRadius: 4,
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 6,
+    paddingBottom: 6,
     paddingLeft: 20,
     paddingRight: 20,
     backgroundColor: '#fff'
