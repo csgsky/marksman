@@ -61,10 +61,8 @@ function registerEpic (action$) {
               ).flatMap(
                 it => {
                   if (it.token && it.net === '1' && it.pageType === 'register') {
-                    console.warn('it RegisterApi code ==> ', it)
                     return Observable.from(RegisterApi(it.token, it.data))
                   } else if (it.token && it.net === '1' && it.pageType === 'forget') {
-                    console.warn('it ForgetPasswordApi code ==> ', it)
                     return Observable.from(ForgetPasswordApi(it.token, {account: it.data.account, password: it.data.password, message: it.data.message}))
                   }
                   return Observable.of(2)
@@ -73,7 +71,6 @@ function registerEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.warn('it return code ==> ', it)
                 if (it.return_code === 1) {
                   return actions.registerSuccess(it.user_id ? it.user_id + '' : null)
                 } else if (it.return_code === 6) {

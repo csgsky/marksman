@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, TextInput, Image, Alert, TouchableOpacity, Async
 import PubSub from 'pubsub-js'
 import CryptoJS from 'crypto-js'
 import { NavigationActions } from 'react-navigation'
+import Toast from 'react-native-root-toast'
 import { bindActionCreators } from 'redux'
 import * as WeChat from 'react-native-wechat'
 import * as QQAPI from 'react-native-qq';
@@ -83,9 +84,23 @@ class Login extends Component {
     if (correctAccount && correctPassword) {
       this.props.actions.login(account, password)
     } else if (!correctAccount) {
-      Alert.alert('提示', '请输入正确的手机号')
+      Toast.show('您输入的手机号码有误，请重新输入', {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
     } else if (!correctPassword) {
-      Alert.alert('提示', '请输入正确格式的密码')
+      Toast.show('密码长度不足6位，请重新输入', {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
     }
   }
 
@@ -109,7 +124,7 @@ class Login extends Component {
             <Image resizeMode="contain"
               style={{width: 18, height: 18}}
               source={theme.imgs.PageBack} /></TouchableOpacity>
-          <Text style ={styles.title}>{consts.appName}</Text>
+          <Text style ={styles.title}>浅 言</Text>
           <View style={styles.itemView}>
             <Image style={styles.icon} resizeMode="contain" source={require('../../img/tel.png')} />
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
@@ -163,6 +178,7 @@ class Login extends Component {
           </View>
           <View style={styles.forgetView}>
             <Text onPress={this._quickRegister}style={styles.register}>{consts.QUICK_REGISTER}</Text>
+            <View style={{width: 1, height: 16, marginBottom: 4, backgroundColor: '#b2b2b2'}}/>
             <Text onPress={this._forgetPassword} style={styles.forget}>{consts.FORGET_PASSWORD}</Text>
           </View>
         </View>

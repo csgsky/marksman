@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, TouchableOpacity, Text, Image, StyleSheet} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PubSub from 'pubsub-js'
 import * as actions from '../actions/message'
 import theme from '../config/theme'
 import PageBack from '../img/page_back.png'
@@ -27,6 +28,16 @@ class NewsCenterPage extends Component {
     this.props.mineMessageModeInit()
   }
 
+  componentWillUnmount() {
+    this.props.modes.forEach((value, index) => {
+      if (value.red_dot === 0 && index === 3) {
+        PubSub.publish('dismissPersonalCenterMineMsg')
+      } else if (value.red_dot === 1) {
+        return false
+      }
+    })
+  }
+
   _routerNotificationPage = () => {
     this.props.dismissReminder(3)
     this.props.navigation.navigate('NotificationPage')
@@ -49,7 +60,7 @@ class NewsCenterPage extends Component {
 
 
   render () {
-    return (<View style={{backgroundColor: 'white'}}>
+    return (<View style={{flex: 1, backgroundColor: '#fff'}}>
       <Separator />
       <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerTopicListPage}>
         <Image source={TopicIcon} style={styles.icon}/>

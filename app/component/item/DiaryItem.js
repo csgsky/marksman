@@ -3,7 +3,7 @@ import {View, StyleSheet, Text, TouchableOpacity, Image, AsyncStorage, NativeMod
 import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM, recentTime} from '../../utils/TimeUtils'
 import CommentBar from '../CommentBar'
-import One from '../../img/diary_material_one.png'
+import One from '../../img/diary_material_one.jpg'
 import Two from '../../img/diary_material_two.png'
 import Three from '../../img/diary_material_three.png'
 import Four from '../../img/diary_material_four.png'
@@ -61,13 +61,15 @@ export default class DiaryItem extends Component {
             </View>
             {this.props.showStamp && <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye(item)}/>}
           </View>}
-          {this.props.showUserInfo && <TouchableOpacity style={[styles.time, {alignItems: 'center', width: 180}]} onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
-            <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
+          {this.props.showUserInfo && <View activeOpacity={1} style={[styles.time, {alignItems: 'center', width: 300}]} >
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
+              <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
+            </TouchableOpacity>
             <View style={{flexDirection: 'column', marginLeft: 19}}>
               <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}} numberOfLines={1}>{item.user.nickname}</Text>
               <Text style={{marginTop: 4, fontSize: theme.text.mdFontSize, color: theme.text.globalSubTextColor}}>{recentTime(item.create_time)}</Text>
             </View>
-          </TouchableOpacity>}
+          </View>}
           {this.props.isDetail && <Text style={styles.body}>{content}</Text>}
           {!this.props.isDetail && <Text style={styles.body} numberOfLines={this.props.isDefault ? 10 : 5}>{content}</Text>}
           {img !== '' &&
@@ -175,7 +177,6 @@ const styles = StyleSheet.create({
   },
   stamp: {
     width: 50,
-    height: 30,
-    marginRight: 20
+    height: 30
   }
 })

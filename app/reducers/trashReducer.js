@@ -19,7 +19,8 @@ export default function trash (state = initState, action = {}) {
       return {
         ...state,
         isRefreshing: false,
-        diaries: action.diarys
+        diaries: action.diarys,
+        hasMore: action.diarys.length >= 10
       }
     case types.TRASH_MORE:
       return {

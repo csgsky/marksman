@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="114dp"
+        android:paddingTop="90dp"
         >
         <ImageView
             android:layout_width="100dp"

@@ -2,13 +2,15 @@ import React, {Component} from 'react'
 import {StyleSheet, View, WebView, TouchableOpacity, Image, Platform, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 import Protocol from '../../constant/agreement.html'
+import Share from '../../img/toolbar_share.png'
 
 export default class CommonWebviewPage extends Component {
 
   static navigationOptions = ({navigation}) => ({
     title: navigation.state.params.name,
     headerStyle: {elevation: 1, backgroundColor: '#fff'},
-    headerRight: <View />,
+    headerRight: navigation.state.params.type === 'protocol' ? <View /> : (<TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => { navigation.goBack() }}>
+      <Image resizeMode="contain" style={{width: 22, height: 22, marginRight: 16}} source={Share} /></TouchableOpacity>),
     gesturesEnabled: false,
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}} onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={require('../../img/page_back.png')} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}

@@ -26,19 +26,22 @@ export default function profile (state = initState, action = {}) {
         success: false
       }
     case types.MESSAGE_PROFILECENER_REMINDER_DATA:
-      console.log('reducer message ', action.message)
       return {
         ...state,
         message: action.message
       }
     case types.MESSAGE_PROFILE_ITEM_CLICK:
-      console.log('reducer MESSAGE_PROFILE_ITEM_CLICK ', action.value)
       return {
         ...state,
         message: {
           ...state.message,
           sysmsg_rd: 0
         }
+      }
+    case types.MINE_DISMISS_MINE_RED:
+      return {
+        ...state,
+        mymsg_rd: 0
       }
     default:
       return state

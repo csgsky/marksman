@@ -7,11 +7,6 @@ import {getUnloginInfo, splashApi} from '../../api/apis'
 import defaultSplash from '../../img/splash.png'
 
 const CryptoJS = require('crypto-js')
-// import consts from '../../utils/const'
-
-// import * as actions from '../../actions/loginActions'
-// import { bindActionCreators } from 'redux'
-// import { connect } from 'react-redux'
 
 const resetActionMain = NavigationActions.reset({
   index: 0,
@@ -86,6 +81,7 @@ export default class Splash extends Component {
             AsyncStorage.getItem('devicedid').then((devicedid) => {
               // 未登录状态但已经有用户信息
               if (devicedid != null) {
+                console.warn('未登录状态但已经有用户信息')
                 // 设置背景图
                 AsyncStorage.getItem('splashImage').then((image) => {
                   if (image) {
@@ -104,6 +100,7 @@ export default class Splash extends Component {
                 // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
                 // alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
                 // console.warn('authorization  ==> ' + this._generateAuth())
+                console.warn('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
                 const authorization = this._generateAuth(imsi.split('-').join(''))
                 AsyncStorage.setItem('token', authorization)
                   .then(() => {
@@ -117,7 +114,7 @@ export default class Splash extends Component {
   }
 
   _generateAuth = (imsi) => {
-    const rawStr = '/ZTE/ZTE1.1/' + imsi + '012/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    const rawStr = '/ZTE/ZTE1.1/' + imsi + '018/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     const words = encodeURIComponent(rawStr)
     const base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
@@ -132,9 +129,9 @@ export default class Splash extends Component {
   }
 
   _getUnLoginUserInfo = (imsi, authorization) => {
-    Rx.Observable.from(getUnloginInfo(imsi + '012', authorization)).subscribe(
+    Rx.Observable.from(getUnloginInfo(imsi + '018', authorization)).subscribe(
                       (it) => {
-                        // alert(it.return_code)
+                        console.log('用户信息')
                         this.setState({customer: it.customer, success: true})
                         if (it.customer) {
                           AsyncStorage.setItem('devicedid', it.customer.imsi)
