@@ -59,19 +59,7 @@ export function recoverDiarySuccess () {
     shadow: true,
     animation: true,
     hideOnPress: true,
-    delay: 0,
-    onShow: () => {
-        // calls on toast\`s appear animation start
-    },
-    onShown: () => {
-        // calls on toast\`s appear animation end.
-    },
-    onHide: () => {
-        // calls on toast\`s hide animation start.
-    },
-    onHidden: () => {
-        // calls on toast\`s hide animation end.
-    }
+    delay: 0
   })
   return {
     type: TRASH_RECOVER_SUCCESS
@@ -80,7 +68,14 @@ export function recoverDiarySuccess () {
 
 export function trashDeleteSuccess () {
   PubSub.publish('refreshTrashList')
-  console.warn('trash delete success')
+  Toast.show('日记已彻底删除~', {
+    duration: Toast.durations.LONG,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0
+  })
   return {
     type: TRASH_DELETE_SUCCESS
   }

@@ -11,7 +11,7 @@ import {
     StatusBar
 } from 'react-native'
 import theme from '../config/theme'
-import One from '../img/diary_material_one.png'
+import One from '../img/diary_material_one.jpg'
 import Two from '../img/diary_material_two.png'
 import Three from '../img/diary_material_three.png'
 import Four from '../img/diary_material_four.png'
@@ -51,11 +51,11 @@ export default class PhotoPickerModal extends Component {
         <TouchableOpacity activeOpacity={1} style={styles.bg} onPress={this.props.hide}>
           <TouchableOpacity activeOpacity={1} style={styles.dialog}>
             <TouchableOpacity activeOpacity={1} style={styles.launchCameraItem} onPress={this.props.launchCamera}>
-              <Text style={{fontSize: theme.text.xxlgFontSize}}>拍照</Text>
+              <Text style={{fontSize: theme.text.xxlgFontSize, color: '#4a4a4a'}}>拍照</Text>
             </TouchableOpacity>
             <View style={{height: 0.5, backgroundColor: '#f8f8f8'}} />
             <TouchableOpacity activeOpacity={1} style={styles.launchImageLibraryItem} onPress={this.props.launchImageLibrary}>
-              <Text style={{fontSize: theme.text.xxlgFontSize}}>从手机相册选择</Text>
+              <Text style={{fontSize: theme.text.xxlgFontSize, color: '#4a4a4a'}}>从手机相册选择</Text>
             </TouchableOpacity>
             <View style={{height: 0.5, backgroundColor: '#f8f8f8'}} />
             {this.props.selectMaterial && <FlatList
@@ -67,7 +67,7 @@ export default class PhotoPickerModal extends Component {
               renderItem={this.renderMaterialItem}
             />}
             <TouchableOpacity activeOpacity={1} style={styles.cancelItem} onPress={this.props.hide}>
-              <Text style={{fontSize: theme.text.xxlgFontSize}}>取消</Text>
+              <Text style={{fontSize: theme.text.xxlgFontSize, color: '#4a4a4a'}}>取消</Text>
             </TouchableOpacity>
           </TouchableOpacity>
         </TouchableOpacity>
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     height: 48,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 6,
     backgroundColor: 'white'
   },
   launchCameraItem: {

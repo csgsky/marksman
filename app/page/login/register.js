@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
 import Rx from 'rxjs'
+import Toast from 'react-native-root-toast'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
 import * as actions from '../../actions/registerAction'
@@ -18,7 +19,7 @@ class Register extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      timeSubscribe: '',
+      timeSubscribe: null,
       pageType: ''
     }
   }
@@ -35,16 +36,12 @@ class Register extends Component {
   componentWillReceiveProps (nextProps) {
     const {userId} = nextProps
     if (userId !== this.props.userId && userId !== '') {
-      // console.warn('componentWillReceiveProps ==> counter + 生成新的 token ', userId)
       var base64 = require('base-64')
       var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
       var words = encodeURIComponent(rawStr)
       var base64 = base64.encode(words)
       var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-      // console.log('userId ==>: ' + userId)
-      // console.log('hmacSHA1 ==>: ' + hmacSHA1)
-      // console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
       AsyncStorage.setItem('userId', userId)
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {
@@ -53,11 +50,11 @@ class Register extends Component {
           }
         )
     }
-    // console.warn('componentWillReceiveProps ==> codeStatus  ' + codeStatus)
-    // console.warn('componentWillReceiveProps ==> counter  ' + nextProps.counter)
 
     if (nextProps.counter === 0) {
-      this.state.timeSubscribe.unsubscribe()
+      if (this.state.timeSubscribe !== null && typeof (this.state.timeSubscribe) === 'object') {
+        this.state.timeSubscribe.unsubscribe()
+    }
       this.props.actions.codeTimeOver()
     }
   }
@@ -73,7 +70,7 @@ class Register extends Component {
           <Image resizeMode="contain"
             style={{width: 18, height: 18}}
             source={theme.imgs.PageBack} /></TouchableOpacity>
-        <Text style={styles.title}>{consts.appName}</Text>
+        <Text style={styles.title}>浅 言</Text>
         <View style={styles.itemView}>
           <View style={{flexDirection: 'column', justifyContent: 'center'}}>
             <Image style={styles.icon} resizeMode='contain' source={require('../../img/tel.png')} />
@@ -157,12 +154,19 @@ class Register extends Component {
         timeSubscribe: subscribe
       })
     } else {
-      Alert.alert('提示', '请输入正确的手机号')
+      Toast.show('您输入的手机号码有误，请重新输入', {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
     }
   }
 
   componentWillUnmount() {
-    if (typeof (this.state.timeSubscribe) === 'function') {
+    if (this.state.timeSubscribe !== null && typeof (this.state.timeSubscribe) === 'object') {
       this.state.timeSubscribe.unsubscribe()
     }
     this.props.actions.codeTimeOver()
@@ -171,16 +175,32 @@ class Register extends Component {
 
   _login = () => {
     const {correctUsername, correctPassword, correctCode} = this.props
-    console.warn('correctUsername: ' + correctUsername + ' correctPassword: ' + correctPassword + ' correctCode: ' + correctCode)
-    // this.props.navigation.goBack(this.props.navigation.state.params.key)
     if (correctUsername && correctPassword && correctCode) {
       const {username, password, code} = this.props
       this.props.actions.register(username, password, code, this.state.pageType)
+    } else if (!correctUsername) {
+      Toast.show('您输入的手机号码有误，请重新输入', {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
+    } else if (!correctPassword) {
+      Toast.show('密码长度不足6位，请重新输入', {
+        duration: Toast.durations.LONG,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
     }
   }
 
   _backPress = () => {
-    if (typeof (this.state.timeSubscribe) === 'function') {
+    if (this.state.timeSubscribe !== null && typeof (this.state.timeSubscribe) === 'object') {
       this.state.timeSubscribe.unsubscribe()
     }
     this.props.actions.codeTimeOver()
