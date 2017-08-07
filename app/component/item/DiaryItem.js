@@ -63,7 +63,7 @@ export default class DiaryItem extends Component {
           </View>}
           {this.props.showUserInfo && <View activeOpacity={1} style={[styles.time, {alignItems: 'center', width: 300}]} >
             <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
-              <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
+              <Image style={{width: 40, height: 40, borderRadius: 20}} resizeMode="contain" source={this.getIconSource(item.user.avtar)} />
             </TouchableOpacity>
             <View style={{flexDirection: 'column', marginLeft: 19}}>
               <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}} numberOfLines={1}>{item.user.nickname}</Text>
