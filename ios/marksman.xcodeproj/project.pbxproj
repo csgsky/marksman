@@ -50,6 +50,7 @@
 		C87883581F21A9BE00C5EA5A /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C87883551F21A96900C5EA5A /* libRCTWeChat.a */; };
 		C87FDB401F25D4FC002CA240 /* libRCTQQAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C87FDB2D1F25D4CD002CA240 /* libRCTQQAPI.a */; };
 		C87FDB421F25D50A002CA240 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C87FDB411F25D50A002CA240 /* libiconv.tbd */; };
+		C8EF329A1F3850FC009038EF /* SaveImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EF32991F3850FC009038EF /* SaveImage.m */; };
 		C8EF7EF71EF7B86800F57334 /* SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = C8EF7EF61EF7B86800F57334 /* SplashScreen.m */; };
 		C8EF7F5B1EF7E7E100F57334 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = C8EF7F591EF7E7E100F57334 /* assets */; };
 		C8EF7F5C1EF7E7E100F57334 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = C8EF7F5A1EF7E7E100F57334 /* main.jsbundle */; };
@@ -319,6 +320,8 @@
 		C878834E1F21A96900C5EA5A /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../../../../../../usr/local/lib/node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
 		C87FDB1E1F25D4CA002CA240 /* RCTQQAPI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTQQAPI.xcodeproj; path = "../node_modules/react-native-qq/ios/RCTQQAPI.xcodeproj"; sourceTree = "<group>"; };
 		C87FDB411F25D50A002CA240 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		C8EF327B1F3850E6009038EF /* SaveImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SaveImage.h; sourceTree = "<group>"; };
+		C8EF32991F3850FC009038EF /* SaveImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveImage.m; sourceTree = "<group>"; };
 		C8EF7EF61EF7B86800F57334 /* SplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SplashScreen.m; path = marksman/SplashScreen.m; sourceTree = "<group>"; };
 		C8EF7F111EF7B89300F57334 /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SplashScreen.h; path = marksman/SplashScreen.h; sourceTree = "<group>"; };
 		C8EF7F591EF7E7E100F57334 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
@@ -481,6 +484,8 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				C8EF7F111EF7B89300F57334 /* SplashScreen.h */,
 				C8EF7EF61EF7B86800F57334 /* SplashScreen.m */,
+				C8EF327B1F3850E6009038EF /* SaveImage.h */,
+				C8EF32991F3850FC009038EF /* SaveImage.m */,
 				C86354991F344515000FE291 /* TCAgent.h */,
 				C863549A1F34452B000FE291 /* TCAgent.m */,
 			);
@@ -1091,6 +1096,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				C80AC37E1F1A2150003E481D /* Reachability.m in Sources */,
 				C863549B1F34452B000FE291 /* TCAgent.m in Sources */,
+				C8EF329A1F3850FC009038EF /* SaveImage.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

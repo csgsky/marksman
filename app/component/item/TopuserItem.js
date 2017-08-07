@@ -36,6 +36,7 @@ export default class TopUserItem extends Component {
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
               <Text style={styles.name}>{item.nickname}</Text>
             </View>
+            <Text style={styles.sign} numberOfLines={1}>{item.sign === '' ? '这个人很懒，什么都没有留下哦~' : item.sign}</Text>
             <View style={{flex: 1}}>
               <Text style={styles.desc}>{desc}</Text>
             </View>
@@ -46,7 +47,6 @@ export default class TopUserItem extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.sign} numberOfLines={1}>{item.sign === '' ? '这个人很懒，什么都没有留下哦~' : item.sign}</Text>
       </View>
     </TouchableOpacity>
   }
@@ -57,8 +57,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 10,
-    paddingBottom: 10
+    paddingTop: 15,
+    paddingBottom: 15
   },
   itemT: {
     flexDirection: 'row',

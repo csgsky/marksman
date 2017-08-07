@@ -6,8 +6,8 @@
 //  Copyright © 2017年 Facebook. All rights reserved.
 //
 
-#ifndef SaveImage_h
-#define SaveImage_h
+#import <React/RCTBridgeModule.h>
+#import <React/RCTLog.h>
 
-
-#endif /* SaveImage_h */
+@interface SaveImage : NSObject <RCTBridgeModule>
+@end
