@@ -12,17 +12,15 @@ const initState = {
 export default function personalData (state = initState, action = {}) {
   switch (action.type) {
     case types.PERSON_INIT:
-      return {
-        ...state,
-        isRefreshing: false
-      }
+      return initState;
     case types.PERSON_DATA:
       console.log(action.person)
       return {
         ...state,
         isRefreshing: false,
         diaries: action.person.diaries,
-        info: action.person.info
+        info: action.person.info,
+        hasMore: action.person.diaries.length >= 10
       }
     case types.PERSON_DIARY_MORE:
       return {
