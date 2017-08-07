@@ -265,7 +265,7 @@ class WriteDiaryPage extends PureComponent {
               style={[styles.input, {height: Math.max(73, this.state.height)}]}
               value={this.props.content} />
             {this.props.source && <View style={styles.imageView}>
-              <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="stretch"/>
+              <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="cover"/>
               <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
                 <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
               </TouchableOpacity>
@@ -334,7 +334,7 @@ class WriteDiaryPage extends PureComponent {
               style={[styles.input, {height: Math.max(73, this.state.height)}]}
               value={this.props.content} />
             {this.props.source && <View style={styles.imageView}>
-              <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="stretch"/>
+              <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="cover"/>
               <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
                 <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
               </TouchableOpacity>
