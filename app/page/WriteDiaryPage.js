@@ -56,10 +56,6 @@ class WriteDiaryPage extends PureComponent {
       this.state.color2 = diary.feelcolor
     }
   }
-  // componentWillMount() {
-  //   this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this._keyboardDidShow);
-  //   this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this._keyboardDidHide);
-  // }
 
   componentDidMount() {
     NativeModules.TCAgent.track('写日记', '写日记')
@@ -135,11 +131,8 @@ class WriteDiaryPage extends PureComponent {
         showModal: false
       })
       if (response.didCancel) {
-        // console.log('User cancelled image picker')
       } else if (response.error) {
-        // console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        // console.log('User tapped custom button: ', response.customButton)
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
         const source = { uri: response.uri }
@@ -157,11 +150,8 @@ class WriteDiaryPage extends PureComponent {
         showModal: false
       })
       if (response.didCancel) {
-        // console.log('User cancelled image picker')
       } else if (response.error) {
-        // console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        // console.log('User tapped custom button: ', response.customButton)
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
         const source = { uri: 'data:image/jpg;base64,' + response.data };
@@ -222,12 +212,6 @@ class WriteDiaryPage extends PureComponent {
                 keyboardShow: true,
                 screenHeight: screenHeight - 64- 40 - frames.endCoordinates.height
               });
-              // const y = 60 + 36 + Math.max(this.state.height, 73) - (screenHeight - 64- 40 - frames.endCoordinates.height)
-              // if (this.props.source && y > 0) {
-              //   this.refs.scroll.scrollToPosition(0, y, false)
-              // } else {
-              //  this.refs.scroll.scrollToEnd(false)
-              //}
             }}
             onKeyboardWillHide={(frames) => {
               this.setState({
@@ -245,17 +229,6 @@ class WriteDiaryPage extends PureComponent {
                 }
               }
             }}
-            // onLayout={(event) => {
-            //  this.setState({
-            //    scrollHeight: event.nativeEvent.layout.height
-            //  });
-            //}}
-            //onContentSizeChange={(contentWidth, contentHeight) => {
-              // console.log(contentHeight, this.state.scrollHeight)
-              // if (contentHeight > this.state.scrollHeight) {
-              //  this.refs.scroll.scrollToEnd({animated: false});
-             // }
-            //}}
             >
             <TouchableOpacity activeOpacity={1} style={{height: 60, width: theme.screenWidth}}>
               <View style={styles.time}>
