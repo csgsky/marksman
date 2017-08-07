@@ -28,7 +28,18 @@ class PersonalPage extends PureComponent {
       wechatMetadata: null
     }
   }
-  componentWillMount () {
+  componentWillMount() {
+    console.log('component will mount')
+  }
+
+  componentDidMount () {
+    console.log('componentDidMount', this.props.navigation.state.params.id)
+    const {isRefreshing} = this.props;
+    if (!isRefreshing) {
+      this.props.actions.personInit(this.props.navigation.state.params.id)
+    }
+    PubSub.subscribe('refreshDetailPage', this.onRefresh)
+    PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null || result === this.props.navigation.state.params.id + '') {
         this.props.navigation.setParams({
@@ -42,11 +53,6 @@ class PersonalPage extends PureComponent {
         })
       }
     })
-  }
-  componentDidMount () {
-    this.props.actions.personInit(this.props.navigation.state.params.id)
-    PubSub.subscribe('refreshDetailPage', this.onRefresh)
-    PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
   }
   componentWillReceiveProps(nextProps) {
     console.log('component will receive props')
@@ -62,7 +68,7 @@ class PersonalPage extends PureComponent {
   render () {
     const {info, diaries, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <ShareModal
           visible={this.state.shareVisible}
           hideShare={this.hideShare}
@@ -73,7 +79,7 @@ class PersonalPage extends PureComponent {
           renderItem={this.getItemCompt}
           removeClippedSubviews={false}
           ItemSeparatorComponent={() => <ListSeparator/>}
-          ListHeaderComponent={() => <PersonalInfoView info={info}/>}
+          ListHeaderComponent={() => <PersonalInfoView info={info} diaries={diaries}/>}
           onEndReached={() => this.handleLoadingMore()}
           ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}
@@ -90,11 +96,15 @@ class PersonalPage extends PureComponent {
   }
 
   componentWillUnmount() {
+    console.log('component will unmount')
     // this.props.actions.clearPersonData()
   }
 
   onRefresh = () => {
-    this.props.actions.personInit(this.props.navigation.state.params.id)
+    const {isRefreshing} = this.props;
+    if (!isRefreshing) {
+      this.props.actions.personInit(this.props.navigation.state.params.id)
+    }
   }
 
   getItemCompt = ({item, index}) => {

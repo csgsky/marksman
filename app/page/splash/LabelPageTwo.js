@@ -163,7 +163,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sign: {
-    width: theme.screenWidth - 200,
+    width: theme.screenWidth - 140,
+    height: 160,
     fontSize: 14,
     paddingTop: 30,
     paddingLeft: 16,

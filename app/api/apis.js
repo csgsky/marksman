@@ -166,7 +166,7 @@ export const PersonalInfoApi = (userId, id) =>
 
 // 个人日记列表
 export const PersonalDiariesApi = (token, userId, page) =>
-  getApi(`/api/diary?p=${page}&rn=10&order_type=0&private=1&user_id=${userId}`, token)
+  getApi(`/api/diary?p=${page}&rn=10&order_type=0&ifprivate=1&user_id=${userId}`, token)
 
 // 反馈意见
 export const FeedbackApi = (data, userId) =>
