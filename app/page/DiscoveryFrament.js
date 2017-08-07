@@ -10,6 +10,7 @@ import Separator from '../component/Separator'
 import * as actions from '../actions/discoverAction'
 import RecommendUserItem from '../component/item/RecommondUsersItem'
 import Footer from '../component/Footer'
+import Next from '../img/next.png'
 
 class DiscoveryFrament extends Component {
 
@@ -133,8 +134,9 @@ class DiscoveryFrament extends Component {
     <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
       <Text style={{fontSize: 18, fontWeight: '500', color: theme.text.globalSubTextColor}}>备受宠爱</Text>
     </View>
-    <TouchableOpacity style={{flexDirection: 'column', justifyContent: 'center'}} onPress={this._routerToLovedList}>
-      <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多>></Text>
+    <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}} onPress={this._routerToLovedList}>
+      <Text style={{fontSize: 15, color: theme.text.globalSubTextColor}}>更多</Text>
+      <Image style={{width: 8, height: 12}} source={Next}/>
     </TouchableOpacity>
   </View>)
 
