@@ -11,9 +11,9 @@ class PersonalInfoView extends Component {
     </View>
   )
   render () {
-    const {info} = this.props
+    const {info, diaries} = this.props
     return (
-      <View>
+      <View style={{height: diaries.length === 0 ? theme.screenHeight - 64 : 'auto', backgroundColor: '#fff'}}>
         <View style={styles.container}>
           <Image source={this._getSource(info.avtar)} style={styles.img}/>
           <Text style={styles.nickname}>{info.nickname}</Text>
@@ -24,7 +24,7 @@ class PersonalInfoView extends Component {
           </View>
           <Text style={styles.sign} numberOfLines={2}>{info.sign || '慵懒~也是一种生活的姿态！'}</Text>
         </View>
-        {info.diary_num === 0 && this.renderEmptyView()}
+        {diaries.length === 0 && this.renderEmptyView()}
       </View>
     )
   }
@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomColor: theme.border.color,
     borderBottomWidth: 0.5,
-    paddingBottom: 16
+    paddingBottom: 16,
+    backgroundColor: '#fff',
   },
   nums: {
     flexDirection: 'row',
@@ -86,8 +87,8 @@ const styles = StyleSheet.create({
   },
   emptyView: {
     backgroundColor: 'white',
-    marginTop: 134,
-    marginBottom: 40,
+    paddingTop: 134,
+    flex: 1
   }
 })
 
