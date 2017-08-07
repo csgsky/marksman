@@ -157,8 +157,8 @@ class HomeFragment extends Component {
   }
 
   getHeaderCompt = () => {
-    const {diarys, isRefreshing, isLogin} = this.props
-    if (!isRefreshing && diarys.length === 0 && isLogin) {
+    const {diarys, isRefreshing, isLogin, loadingSuccess} = this.props
+    if (!isRefreshing && loadingSuccess && diarys.length === 0 && isLogin) {
       return <EmptyView come4="diary" message="这个人很懒，什么都没留下~~" />
     }
     return <View />
@@ -166,7 +166,7 @@ class HomeFragment extends Component {
 
   render () {
     const {diarys, isRefreshing, isLogin} = this.props
-    console.log('HomeFragment', isRefreshing)
+    console.warn('HomeFragment isRefreshing', isRefreshing)
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
         <FlatList
@@ -206,6 +206,7 @@ const mapStateToProps = (state) => {
     isLoadingMore: homePage.isLoadingMore,
     page: homePage.page,
     isLogin: homePage.isLogin,
+    loadingSuccess: homePage.loadingSuccess,
     common
   }
 }

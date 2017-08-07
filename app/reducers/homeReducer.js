@@ -1,10 +1,11 @@
 import * as types from '../actions/homeActions'
 
 const initState = {
-  isRefreshing: true,
+  isRefreshing: false,
   diarys: [],
   page: 0,
   hasMoreData: true,
+  loadingSuccess: false,
   isLoadingMore: false,
   isLogin: true
 }
@@ -23,7 +24,7 @@ export default function recentDiary (state = initState, action = {}) {
       return {
         ...state,
         isLogin: true,
-        isRefreshing: true,
+        isRefreshing: false,
         page: action.page
       }
     case types.HOME_DATA:
@@ -31,6 +32,7 @@ export default function recentDiary (state = initState, action = {}) {
         ...state,
         diarys: action.diarys,
         page: state.page + 1,
+        loadingSuccess: true,
         isRefreshing: false,
         hasMoreData: action.hasMoreData,
       }
