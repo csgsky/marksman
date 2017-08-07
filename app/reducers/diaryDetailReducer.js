@@ -16,10 +16,7 @@ export default function diaryDetail (state = initState, action = {}) {
   switch (action.type) {
     case types.DIARY_DETAIL_INIT:
       console.warn('reducer  --->  DIARY_DETAIL_INIT')
-      return {
-        ...state,
-        isRefreshing: false
-      }
+      return initState
     case types.DIARY_COMMENT_DATA:
       console.warn('reducer  --->  DIARY_DETAIL_INIT')
       return {
