@@ -4,15 +4,15 @@ import theme from '../../config/theme'
 import {getDay, getYYMM, getDate, getHHMM, recentTime} from '../../utils/TimeUtils'
 import CommentBar from '../CommentBar'
 import One from '../../img/diary_material_one.jpg'
-import Two from '../../img/diary_material_two.png'
-import Three from '../../img/diary_material_three.png'
-import Four from '../../img/diary_material_four.png'
-import Five from '../../img/diary_material_five.png'
-import Six from '../../img/diary_material_six.png'
-import Seven from '../../img/diary_material_seven.png'
-import Eight from '../../img/diary_material_eight.png'
-import Nine from '../../img/diary_material_nine.png'
-import Ten from '../../img/diary_material_ten.png'
+import Two from '../../img/diary_material_two.jpg'
+import Three from '../../img/diary_material_three.jpg'
+import Four from '../../img/diary_material_four.jpg'
+import Five from '../../img/diary_material_five.jpg'
+import Six from '../../img/diary_material_six.jpg'
+import Seven from '../../img/diary_material_seven.jpg'
+import Eight from '../../img/diary_material_eight.jpg'
+import Nine from '../../img/diary_material_nine.jpg'
+import Ten from '../../img/diary_material_ten.jpg'
 import PublicStamp from '../../img/public_stamp.png'
 import PrivateStamp from '../../img/private_stamp.png'
 
@@ -63,7 +63,7 @@ export default class DiaryItem extends Component {
           </View>}
           {this.props.showUserInfo && <View activeOpacity={1} style={[styles.time, {alignItems: 'center', width: 300}]} >
             <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
-              <Image style={{width: 40, height: 40, borderRadius: 20}} source={this.getIconSource(item.user.avtar)} />
+              <Image style={{width: 40, height: 40, borderRadius: 20}} resizeMode="cover" source={this.getIconSource(item.user.avtar)} />
             </TouchableOpacity>
             <View style={{flexDirection: 'column', marginLeft: 19}}>
               <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}} numberOfLines={1}>{item.user.nickname}</Text>
