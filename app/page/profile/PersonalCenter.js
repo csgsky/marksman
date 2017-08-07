@@ -259,7 +259,7 @@ class PersonalCenter extends Component {
         <View style={styles.view}>
           <TouchableOpacity style={styles.profile} onPress={this._routerProfilePage}>
             <TouchableOpacity onPress={this.clickUserIcon}>
-              <Image style={styles.avatar} resizeMode="contain" source={this.getSource()}/>
+              <Image style={styles.avatar} resizeMode="cover" source={this.getSource()}/>
             </TouchableOpacity>
             <View style={styles.desc}>
               <View style={styles.nicknameView}>
