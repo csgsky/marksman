@@ -66,9 +66,22 @@ class DiaryDetailPage extends Component {
     const id = this.state.diary.diary_id
     const ownerId = this.state.diary.user_id
     this.props.diaryCommentInit({id, ownerId})
-    PubSub.subscribe('refreshDetailPage', () => this.props.diaryCommentInit({id, ownerId}))
-    PubSub.subscribe('commentsLikeRefresh', () => this.props.diaryCommentInit({id, ownerId}))
-    PubSub.subscribe('commentsRefresh', () => this.props.diaryCommentInit({id, ownerId}))
+    PubSub.subscribe('refreshDetailPage', (msg) => {
+      console.log('pubsub', msg)
+      this.props.diaryCommentInit({id, ownerId});
+    })
+    PubSub.subscribe('commentsLikeRefresh', (msg) => {
+      console.log('pubsub', msg)
+      this.props.diaryCommentInit({id, ownerId})
+    })
+    PubSub.subscribe('commentsRefresh', (msg) => {
+      console.log('pubsub', msg)
+      this.props.diaryCommentInit({id, ownerId})
+    })
+    PubSub.subscribe('commentsListRefresh', (msg) => {
+      console.log('pubsub', msg)
+      this.props.diaryCommentInit({id, ownerId})
+    })
     // 跳转到个人主页
     this.props.navigation.setParams({
       routerToPersonalPage: this.routerToPersonalPage,
@@ -100,9 +113,10 @@ class DiaryDetailPage extends Component {
   }
 
   componentWillUnmount() {
-    // PubSub.unsubscribe('refreshDetailPage')
+    PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
     PubSub.unsubscribe('commentsRefresh')
+    PubSub.unsubscribe('commentsListRefresh')
     this.props.clearDiary()
   }
 
@@ -197,7 +211,7 @@ class DiaryDetailPage extends Component {
     const diary = this.state.diary
     return {
       type: 'news',
-      webpageUrl: `http://101.95.97.178/h5/diary.html?diary_id=${diary.diary_id}`,
+      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${diary.diary_id}`,
       title: '来自' + diary.user.nickname + '的日记',
       description: diary.content
     }
