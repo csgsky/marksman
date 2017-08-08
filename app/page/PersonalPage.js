@@ -38,8 +38,14 @@ class PersonalPage extends PureComponent {
     if (!isRefreshing) {
       this.props.actions.personInit(this.props.navigation.state.params.id)
     }
-    PubSub.subscribe('refreshDetailPage', this.onRefresh)
-    PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
+    PubSub.subscribe('refreshDetailPage', (msg) => {
+      console.log('personal page', msg)
+      this.onRefresh()
+    })
+    PubSub.subscribe('commentsLikeRefresh', (msg) => {
+      console.log('personal page', msg)
+      this.onRefresh()
+    })
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null || result === this.props.navigation.state.params.id + '') {
         this.props.navigation.setParams({
@@ -97,6 +103,8 @@ class PersonalPage extends PureComponent {
 
   componentWillUnmount() {
     console.log('component will unmount')
+    PubSub.unsubscribe('refreshDetailPage')
+    PubSub.unsubscribe('commentsLikeRefresh')
     // this.props.actions.clearPersonData()
   }
 
@@ -145,7 +153,7 @@ class PersonalPage extends PureComponent {
     const user = item.user
     return {
       type: 'news',
-      webpageUrl: `http://101.95.97.178/h5/diary.html?diary_id=${item.diary_id}`,
+      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
       title: '来自' + user.nickname + '的日记',
       description: item.content
     }

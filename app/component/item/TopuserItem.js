@@ -21,7 +21,9 @@ export default class TopUserItem extends Component {
   _routerToPersonalPage = () => {
     console.log('route to personal page')
     const userId = this.props.item.user_id
-    this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
+    setTimeout(() => {
+      this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
+    }, 300)
   }
 
   render () {

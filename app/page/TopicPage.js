@@ -34,6 +34,7 @@ class Topic extends PureComponent {
     PubSub.subscribe('refreshDetailPage', this.onRefresh)
     PubSub.subscribe('commentsLikeRefresh', this.onRefresh)
     PubSub.subscribe('commentsRefresh', this.onRefresh)
+    PubSub.subscribe('commentsListRefresh', this.onRefresh)
     this.props.navigation.setParams({
       back: this._goBack
     })
@@ -43,6 +44,7 @@ class Topic extends PureComponent {
     PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
     PubSub.unsubscribe('commentsRefresh')
+    PubSub.unsubscribe('commentsListRefresh')
   }
   onRefresh = () => {
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params
@@ -133,7 +135,7 @@ class Topic extends PureComponent {
     const {topic} = this.props
     return {
       type: 'news',
-      webpageUrl: `http://business.qianyan.zhuoyoutech.com:2003/h5/talk.html?talk_id=${topic.talk_id}`,
+      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/talk.html?talk_id=${topic.talk_id}`,
       title: topic.name,
       description: topic.content
     }
