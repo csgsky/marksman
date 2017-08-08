@@ -47,7 +47,7 @@ class CommentListPage extends PureComponent {
     const {diaryId, diaryOwnerId, commentId} = this.state;
     const mainComment = this.props.navigation.state.params.item
     this.props.commentsListInit({diaryId, ownerId: diaryOwnerId, commentId, mainComment})
-    PubSub.subscribe('commentsRefresh', () => this.props.commentsListInit({diaryId, ownerId: diaryOwnerId, commentId, mainComment}))
+    PubSub.subscribe('commentsListRefresh', () => this.props.commentsListInit({diaryId, ownerId: diaryOwnerId, commentId, mainComment}))
   }
   componentWillReceiveProps(nextProps) {
     const {count} = this.props;
@@ -58,7 +58,7 @@ class CommentListPage extends PureComponent {
   }
   componentWillUnmount() {
     this.props.clearCommentsList()
-    PubSub.unsubscribe('commentsRefresh')
+    PubSub.unsubscribe('commentsListRefresh')
   }
   onRefresh = () => {
     const {diaryId, diaryOwnerId, commentId} = this.state;

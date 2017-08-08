@@ -128,7 +128,7 @@ function commentsCommentPostEpic (action$) {
                 } else {
                   console.log('epic  ---> commentsCommentpostsuccess ')
                   console.log(it)
-                  PubSub.publish('commentsRefresh')
+                  PubSub.publish('commentsListRefresh')
                   return actions.commentsListCommentPostSuccess()
                 }
               }
