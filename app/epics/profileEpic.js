@@ -31,13 +31,11 @@ function getProfileEpic (action$) {
                 }
               ).map((it) => {
                 if (it === 2) {
-                  return showError(OTHER_ERROR)
+                  return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 1) {
-                  console.warn('getProfileEpic success ===>  ')
                   return actions.personalInfoData(it)
                 } else if (it.return_code === 10) {
-                  console.warn('getProfileEpic success unlogin ===>  ')
                   return actions.personalInfoData(it.info)
                 }
                 return action.personalInfoError(it.return_code)
@@ -99,8 +97,7 @@ function submitUserInfoEpic(action$) {
                   return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 1) {
-                  console.warn('submitUserInfoEpic success ===>  ')
-                  return actions.submitUserInfoSuccess(action.newInfo)
+                  return actions.submitUserInfoSuccess(action.newInfo, action.avtar)
                 }
                 return actions.submitUserInfoError(it.return_code)
               }

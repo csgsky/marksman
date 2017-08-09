@@ -25,7 +25,7 @@ export default class RecommendUserItem extends Component {
   render() {
     const {item, position} = this.props
     return (<TouchableOpacity>
-      <View style={styles.item}>
+      <View style={[styles.item, {marginLeft: position === 0 ? 16 : 0}]}>
         <TouchableOpacity style={{width: 75, height: 75}} onPress={this._routerToPersonalPage}>
           <Image style={styles.img} source={item.avtar === '' ? theme.imgs.DefaultUserAvatar : {uri: item.avtar}} />
         </TouchableOpacity>
@@ -43,10 +43,10 @@ export default class RecommendUserItem extends Component {
 const styles = StyleSheet.create({
   item: {
     backgroundColor: 'white',
-    width: 110,
-    padding: 16,
     justifyContent: 'center',
-    alignItems: 'center'
+    marginRight: 30,
+    alignItems: 'center',
+    marginBottom: 16
   },
   img: {
     width: 75,
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
   },
   name: {
     marginTop: 12,
-    color: theme.text.globalTextColor
+    color: theme.text.globalTextColor,
+    height: 18
   },
   follow: {
     width: 75,

@@ -137,6 +137,7 @@ export const CollectionsApi = (userId, page) =>
 // 发现、话题
 export const TopicsListApi = (userId, page, come4, tag) => {
   if (come4 === 'news') {
+    console.warn('TopicsListApi news')
     return getApi(`/api/mymsg?rn=10&mode=0&p=${page}`, userId)
   }
   return getApi(`/api/talk?rn=10&p=${page}`, userId)
