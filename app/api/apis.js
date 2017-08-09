@@ -200,6 +200,8 @@ export const ForgetPasswordApi = (userId, map) =>
 export const LoginApi = (userId, map) =>
   postApi(`/api/login`, map, userId)
 
+export const ThirdLoginApi = (userId, map) =>
+  postApi('/api/tplogin', map, userId)
 // 话题关注接口
 export const FollowTopicApi = (topicId, userId) =>
   postApi(`/api/talk/focus/${topicId}`, {}, userId)
@@ -305,3 +307,6 @@ export const MineMessageUserApi = (userId, page) =>
 export const splashApi = userId =>
   getApi('/api/startup', userId)
 
+// 自更新接口
+export const checkAndroidVersion = (userId, sdkVersion) =>
+  getApi(`/api/updateself?sdk_ver=${sdkVersion}`, userId)

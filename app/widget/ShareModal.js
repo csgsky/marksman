@@ -43,7 +43,6 @@ export default class ShareModal extends Component {
       ...this.state.wechatMetadata,
       description: this.fixDesc(this.state.wechatMetadata)
     }
-    console.log(wechatdata)
     WeChat.isWXAppInstalled()
       .then((installed) => {
         if (installed) {

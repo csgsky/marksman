@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, TextInput, Image, Alert, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
+import {StyleSheet, View, Text, TextInput, Image, Platform, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
 import PubSub from 'pubsub-js'
+import Rx from 'rxjs'
 import CryptoJS from 'crypto-js'
 import { NavigationActions } from 'react-navigation'
 import Toast from 'react-native-root-toast'
@@ -13,6 +14,9 @@ import * as actions from '../../actions/loginActions'
 import * as consts from '../../utils/const'
 import PasswordVisible from '../../img/password_visible.png'
 import PasswordInvisible from '../../img/password_invisible.png'
+import loginQQ from '../../img/login_qq.png'
+import loginWechat from '../../img/login_wechat.png'
+import AppConfig from '../../constant/config.json'
 
 var dismissKeyboard = require('dismissKeyboard')
 
@@ -25,11 +29,9 @@ class Login extends Component {
   componentWillReceiveProps (nextProps) {
     const {userId, info} = nextProps
     if (userId !== this.props.userId && userId !== '') {
-      var base64 = require('base-64')
-      var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
       var words = encodeURIComponent(rawStr)
-      var base64 = base64.encode(words)
+      var base64 = require('base-64').encode(words)
       var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
       // console.log('userId ==>: ' + userId)
       // console.log('hmacSHA1 ==>: ' + hmacSHA1)
@@ -60,22 +62,69 @@ class Login extends Component {
     await AsyncStorage.setItem('nickname', info.nickname + '')
     await AsyncStorage.setItem('tags', info.tags + '')
   }
-
+// https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx304eb8f40f7a2d88&secret=e19bae2990b22fafcc25f17c7b22650f&code=0715dpWH02XYrk2BVdZH0ydmWH05dpWy&grant_type=authorization_code
   loginWeChat = () => {
-    if (WeChat.isWXAppInstalled()) {
-      // alert('未安装 wechat')
-      WeChat.sendAuthRequest()
-    } else {
-      alert('未安装 wechat')
-    }
+    WeChat.isWXAppInstalled()
+      .then((installed) => {
+        if (installed) {
+          WeChat.sendAuthRequest('snsapi_userinfo')
+            .then((result) => {
+              this.getWechatOpenId(result.code)
+            })
+            .catch((e) => {
+              console.error(e);
+            })
+        } else {
+          Toast.show('未安装微信客户端', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.BOTTOM,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0
+          })
+        }
+      })
+  }
+
+  getWechatOpenId = (code) => {
+    const appid = Platform.OS === 'ios' ? AppConfig.wechat.appId.ios : AppConfig.wechat.appId.android
+    const appSecret = Platform.OS === 'ios' ? AppConfig.wechat.appSecret.ios : AppConfig.wechat.appSecret.android
+    const loginType = Platform.OS === 'ios' ? 1 : 2
+    const wechatUrl = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${appSecret}&code=${code}&grant_type=authorization_code`
+    Rx.Observable.from(fetch(wechatUrl)
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+        return 1
+      })).subscribe((it) => {
+        if (it === 1) {
+        } else {
+          this.props.actions.thirdLogin(loginType, code, it.openid)
+        }
+      })
   }
 
   loginQQ = () => {
-    if (QQAPI.isQQInstalled()) {
-      // sss
-    } else {
-      alert('未安装 qq')
-    }
+    const loginType = Platform.OS === 'ios' ? 3 : 4
+    QQAPI.isQQInstalled()
+      .then((installed) => {
+        if (installed) {
+          QQAPI.login().then((result) => {
+            this.props.actions.thirdLogin(loginType, result.access_token, result.openid)
+          })
+        } else {
+          Toast.show('未安装QQ客户端', {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0
+          })
+        }
+      })
   }
 
   _login = () => {
@@ -163,18 +212,18 @@ class Login extends Component {
             <Text style={styles.login}>{consts.CONFIRM}</Text>
           </TouchableOpacity>
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 22, marginBottom: 14, }}>
-            <View style={{width: 48, height: 1, backgroundColor: '#b2b2b2'}}/>
+            <View style={{width: 48, height: 0.5, backgroundColor: '#b2b2b2'}}/>
             <Text style={{color: '#9d9d9d', marginLeft: 16, marginRight: 16, fontSize: 12}}>快速登录</Text>
-            <View style={{width: 48, height: 1, backgroundColor: '#b2b2b2'}}/>
+            <View style={{width: 48, height: 0.5, backgroundColor: '#b2b2b2'}}/>
           </View>
 
           <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-             <TouchableOpacity style={{width: 50, height: 50, backgroundColor: 'red'}} onPress={this.loginWeChat}>
-
-             </TouchableOpacity>
-             <TouchableOpacity style={{width: 50, height: 50, backgroundColor: 'yellow', marginLeft: 43}} onPress={this.loginQQ}>
-
-             </TouchableOpacity>
+            <TouchableOpacity style={{width: 50, height: 50}} onPress={this.loginWeChat}>
+              <Image source={loginWechat} style={{width: 50, height: 50}} />
+            </TouchableOpacity>
+            <TouchableOpacity style={{width: 50, height: 50, marginLeft: 43}} onPress={this.loginQQ}>
+              <Image source={loginQQ} style={{width: 50, height: 50}} />
+            </TouchableOpacity>
           </View>
           <View style={styles.forgetView}>
             <Text onPress={this._quickRegister}style={styles.register}>{consts.QUICK_REGISTER}</Text>
