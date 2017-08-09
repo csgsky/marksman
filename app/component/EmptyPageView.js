@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     width: theme.screenWidth,
-    height: theme.screenHeight - 120,
+    height: theme.screenHeight - 80,
     backgroundColor: 'white',
     flexDirection: 'column',
     justifyContent: 'center',

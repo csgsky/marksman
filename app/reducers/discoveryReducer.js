@@ -16,7 +16,8 @@ export default function discovery (state = initState, action = {}) {
     case types.DISCOVERY_INIT:
       return {
         ...state,
-        isRefreshing: false
+        isRefreshing: false,
+        page: 0
       }
     case types.DISCOVERY_DATA:
       return {

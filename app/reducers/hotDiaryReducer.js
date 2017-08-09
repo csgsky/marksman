@@ -14,7 +14,8 @@ export default function hotDiary (state = initState, action = {}) {
     case types.HOTDIARY_INIT:
       return {
         ...state,
-        isRefreshing: false
+        isRefreshing: false,
+        page: 0
       }
     case types.HOTDIARY_DATA:
       return {

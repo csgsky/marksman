@@ -79,19 +79,7 @@ class PersonalCenter extends Component {
         shadow: true,
         animation: true,
         hideOnPress: true,
-        delay: 0,
-        onShow: () => {
-        // calls on toast\`s appear animation start
-        },
-        onShown: () => {
-        // calls on toast\`s appear animation end.
-        },
-        onHide: () => {
-        // calls on toast\`s hide animation start.
-        },
-        onHidden: () => {
-        // calls on toast\`s hide animation end.
-        }
+        delay: 0
       })
     }
   }
@@ -104,8 +92,8 @@ class PersonalCenter extends Component {
   getSource = () => {
     if (this.props.info.avtar === null || this.props.info.avtar === '') {
       return DefaultUserAvatar
-    } else if (this.state.avatar !== null) {
-      return this.state.avatar
+    } else if (typeof (this.props.info.avtar) === 'object') {
+      return this.props.info.avtar
     }
     return {uri: this.props.info.avtar}
   }
@@ -113,9 +101,10 @@ class PersonalCenter extends Component {
   getWechatShareMeta = () => {
     return {
       type: 'news',
-      webpageUrl: 'http://business.qianyan.zhuoyoutech.com:2003/h5/app.html',
+      webpageUrl: 'http://101.95.97.178:2003/h5/app.html',
       title: '自从遇见了【浅言】，我用细节把生活串成了诗～...',
-      description: '用细节把日子串成诗'
+      description: '用细节把日子串成诗',
+      thumbImage: 'http://101.95.97.178/h5share/android/logo.png'
     }
   }
 
@@ -140,14 +129,11 @@ class PersonalCenter extends Component {
       } else if (response.error) {
       } else if (response.customButton) {
       } else {
-        const source = { uri: 'data:image/jpg;base64,' + response.data };
-        this.setState({
-          avatar: source
-        });
+        const avtar = response.uri
         Rx.Observable.of('refresh')
                       .delay(100)
                       .subscribe((it) => {
-                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info)
+                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info, avtar)
                       })
       }
     })
@@ -163,14 +149,11 @@ class PersonalCenter extends Component {
       } else if (response.error) {
       } else if (response.customButton) {
       } else {
-        const source = { uri: 'data:image/jpg;base64,' + response.data };
-        this.setState({
-          avatar: source
-        });
+        const avtar = response.uri;
         Rx.Observable.of('refresh')
                       .delay(100)
                       .subscribe((it) => {
-                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info)
+                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info, avtar)
                       })
       }
     })

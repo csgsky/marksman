@@ -117,10 +117,11 @@ class RecentDiary extends Component {
         <FlatList
           data={diarys}
           renderItem={this.getItemCompt}
-          removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
           ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}
+          initialNumToRender={10}
+          keyExtractor={item => item.diary_id}
           onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl
