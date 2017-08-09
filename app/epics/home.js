@@ -3,7 +3,7 @@ import { combineEpics } from 'redux-observable'
 import { Observable } from 'rxjs/Rx'
 import * as actions from '../actions/homeActions'
 import {showError} from '../actions/common'
-import { MineDiaryApi } from '../api/apis'
+import { MineDiaryApi, checkAndroidVersion} from '../api/apis'
 import {NET_WORK_ERROR} from '../constant/errors'
 
 function homeInitEpic (action$) {
@@ -67,4 +67,39 @@ function homeMoreEpic (action$) {
             })
        )
 }
-export default combineEpics(homeInitEpic, homeMoreEpic)
+
+function checkVersion (action$) {
+  return action$.ofType(actions.HOME_CHECK_VERSION)
+            .mergeMap((action) =>
+              Observable.zip(
+                Observable.from(AsyncStorage.getItem('token')),
+                Observable.from(NativeModules.SplashScreen.getNetInfo()),
+                Observable.from(NativeModules.SplashScreen.getCurrentSdk()),
+                (token, net, sdkVersion) => ({token, net, sdkVersion})
+              ).flatMap(
+                (it) => {
+                  if (it.token && it.net === '1') {
+                    console.log('sdkVersion')
+                    console.log(it.sdkVersion)
+                    return Observable.from(checkAndroidVersion(it.token, it.sdkVersion))
+                  }
+                  return Observable.of(2)
+                }
+              ).map((it) => {
+                if (it === 2) {
+                  return showError(NET_WORK_ERROR)
+                }
+                if (it.return_code === 2) {
+                  return showError(NET_WORK_ERROR);
+                } else if(it.return_code === 0) {
+                  return showError(it.return_msg)
+                }
+                return actions.checkVersionData(it)
+              }
+            ).catch((error) => {
+              return Observable.of(showError(NET_WORK_ERROR))
+            })
+       )
+}
+
+export default combineEpics(homeInitEpic, homeMoreEpic, checkVersion)
