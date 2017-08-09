@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Alert, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity, ScrollView} from 'react-native'
+import {StyleSheet, View, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PubSub from 'pubsub-js'
 import Rx from 'rxjs'
 import Toast from 'react-native-root-toast'
@@ -63,7 +64,8 @@ class Register extends Component {
     const {actions, isCounting, btnCodeText, securePassword} = this.props
     console.warn('render ==> securePassword ', securePassword)
     return (
-      <TouchableOpacity style={styles.view} onPress={() => dismissKeyboard()} activeOpacity={1}>
+      <KeyboardAwareScrollView>
+        <TouchableOpacity style={styles.view} onPress={() => dismissKeyboard()} activeOpacity={1}>
         <TouchableOpacity
           style={{width: 18}}
           onPress={() => this.props.navigation.goBack()}>
@@ -140,6 +142,7 @@ class Register extends Component {
           </View>
         </View>}
       </TouchableOpacity>
+      </KeyboardAwareScrollView>
     )
   }
 
@@ -234,7 +237,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Register)
 
 const styles = StyleSheet.create({
   view: {
-    flex: 1,
+    width: theme.screenWidth,
+    height: theme.screenHeight,
     backgroundColor: 'white',
     padding: 30,
     paddingBottom: 15

@@ -97,6 +97,7 @@ class HotDiary extends Component {
   showShare = (index, item) => {
     // 将分享数据进行准备
     const wechatMetadata = this.getWechatShareMeta(index, item)
+    alert(wechatMetadata.description.length)
     this.setState({
       shareVisible: true,
       wechatMetadata
@@ -115,9 +116,10 @@ class HotDiary extends Component {
         <FlatList
           data={diarys}
           renderItem={this.getItemCompt}
-          removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
           onEndReachedThreshold={0.1}
+          initialNumToRender={10}
+          keyExtractor={item => item.diary_id}
           ListFooterComponent={this.getFooterCompt}
           onEndReached={this.handleLoadingMore}
           refreshControl={

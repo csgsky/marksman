@@ -14,26 +14,26 @@ export default function talkList (state = initState, action = {}) {
       return {
         ...state,
         isRefreshing: false,
-        page: action.page
+        page: 0
       }
     case types.TOPICS_DATA:
       return {
         ...state,
-        isRefreshing: action.isRefreshing,
+        isRefreshing: false,
         talks: action.talks,
-        hasMore: action.hasMore
+        hasMore: action.talks.length >= 10
       }
     case types.TOPICS_MORE:
       return {
         ...state,
-        isLoadingMore: action.isLoadingMore
+        isLoadingMore: true
       }
     case types.TOPICS_MORE_DATA:
       return {
         ...state,
-        isLoadingMore: action.isLoadingMore,
+        isLoadingMore: false,
         talks: state.talks.concat(action.talks),
-        hasMore: action.hasMore,
+        hasMore: action.talks.length >= 10,
         page: state.page + 1
       }
     case types.TOPIC_LIST_CLEAR_PAGE_DATA:

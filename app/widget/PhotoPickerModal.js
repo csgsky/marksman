@@ -76,8 +76,8 @@ export default class PhotoPickerModal extends Component {
   }
 
   renderMaterialItem = ({item, index}) => (<TouchableOpacity activeOpacity={1} style={styles.materialItem} onPress={() => this.props.selectMaterial(index)}>
-    <View style={{width: 115, height: 75}}>
-      <Image style={{width: 115, height: 75}} source={item.img} resizeMode="cover"/>
+    <View style={{width: 120, height: 80}}>
+      <Image style={{width: 120, height: 80}} source={item.img} resizeMode="cover"/>
       <Image style={{position: 'absolute', width: 17, height: 17, right: 6, top: 6}} source={this.getSource(index)} />
     </View>
   </TouchableOpacity>)
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     marginBottom: (Platform.OS === 'ios') ? 0 : StatusBar.currentHeight
   },
   materialItem: {
-    width: 115,
+    width: 120,
     marginBottom: 10,
     marginTop: 10,
     backgroundColor: 'white',
