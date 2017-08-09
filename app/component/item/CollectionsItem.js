@@ -22,7 +22,7 @@ export default class CollectionItem extends Component {
 
   _onRouterWrite = () => {
     const {item} = this.props
-    this.props.navigation.navigate('CommonWebviewPage', {url: item.link, name: item.name, desc: item.descn})
+    this.props.navigation.navigate('CommonWebviewPage', {url: item.link, name: item.name, desc: item.descn, shareImage: item.icon_url})
   }
 }
 
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   info: {
     flex: 1,
     flexDirection: 'column',
+    justifyContent: 'center',
     marginLeft: 12,
     paddingTop: 3
   },

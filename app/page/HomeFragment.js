@@ -174,12 +174,11 @@ class HomeFragment extends Component {
           data={isLogin ? diarys : defaultDiary}
           ref='_homefragmentlist'
           renderItem={this.getItemCompt}
-          removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
           ListFooterComponent={this.getFooterCompt}
           ListHeaderComponent={this.getHeaderCompt}
           onEndReachedThreshold={0.1}
-          initialNumToRender={6}
+          initialNumToRender={10}
           onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl

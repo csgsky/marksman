@@ -23,7 +23,8 @@ const initState = {
   ifprivate: 1,
   content: '',
   feel: 1,
-  success: false
+  success: false,
+  isPosting: false
 }
 
 
@@ -78,10 +79,16 @@ export default function writeDiary (state = initState, action = {}) {
         ...state,
         content: action.payload.content
       }
+    case types.WRITE_DIARY_POST_DIARY:
+      return {
+        ...state,
+        isPosting: true
+      }
     case types.WRITE_DIARY_POST_DIARY_SUCCESS:
       return {
         ...state,
-        success: true
+        success: true,
+        isPosting: false
       }
     case types.WRITE_DIARY_CLEAN_PAGE:
       return initState

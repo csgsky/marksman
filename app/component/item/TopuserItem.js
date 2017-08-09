@@ -36,7 +36,7 @@ export default class TopUserItem extends Component {
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
               <Text style={styles.name}>{item.nickname}</Text>
             </View>
-            <Text style={styles.sign} numberOfLines={1}>{item.sign === '' ? '这个人很懒，什么都没有留下哦~' : item.sign}</Text>
+            <Text style={styles.sign} numberOfLines={1}>{item.sign === '' ? '慵懒，也是一种生活姿态！' : item.sign}</Text>
             <View style={{flex: 1}}>
               <Text style={styles.desc}>{desc}</Text>
             </View>
