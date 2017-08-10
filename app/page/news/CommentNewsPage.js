@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {TouchableOpacity, StyleSheet, Alert, AsyncStorage, View, Text, Image, FlatList, RefreshControl} from 'react-native'
+import {TouchableOpacity, StyleSheet, Alert, AsyncStorage, View, Text, Image, FlatList, RefreshControl, Platform} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/message'
@@ -87,11 +87,11 @@ class CommentNewPage extends Component {
   render () {
     return (<View style={styles.view}>
       <FlatList
-        removeClippedSubviews={false}
         data={this.props.commemts}
         ItemSeparatorComponent={this.getItemSeparator}
         renderItem={({item}) => this.renderListItem(item)}
         ListFooterComponent={this.renderLoadMoreFooter}
+        removeClippedSubviews={Platform.OS === 'android'}
         onEndReached={this.handleLoadingMore}
         refreshControl={
           <RefreshControl
