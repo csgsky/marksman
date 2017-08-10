@@ -6,7 +6,9 @@ export default class TalksItem extends Component {
   _onPress = (topicId, ownerId, diaryId) => {
     const come4 = this.props.come4 || '发现'
     NativeModules.TCAgent.track(come4, '话题')
-    this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
+    setTimeout(() => {
+      this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
+    }, 300)
   }
 
   _onPressFollow = (id, position, myFocus, type) => {
