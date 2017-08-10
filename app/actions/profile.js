@@ -12,7 +12,6 @@ export const MESSAGE_PROFILE_ITEM_CLICK = 'MESSAGE_PROFILE_ITEM_CLICK'
 // 个人中心小红点的消失
 export const MINE_DISMISS_MINE_RED = 'MINE_DISMISS_MINE_RED'
 export function profileMessageReminder () {
-  console.log('action --> MESSAGE_PROFILECENER_REMINDER')
   return {
     type: MESSAGE_PROFILECENER_REMINDER,
   }
@@ -54,20 +53,22 @@ export function unLoginInfoInit () {
   }
 }
 
-export function submitUserInfo (payload, newInfo) {
+export function submitUserInfo (payload, newInfo, avtar) {
   console.warn('action submit user info ===> ', payload)
   return {
     type: PERSONAL_SUBMIT_USERINFO,
     payload,
-    newInfo
+    newInfo,
+    avtar
   }
 }
 
-export function submitUserInfoSuccess (newInfo) {
+export function submitUserInfoSuccess (newInfo, avtar) {
   console.warn('action submit user info success ===> ')
   return {
     type: PERSONAL_SUBMIT_USERINFO_SUCCESS,
-    newInfo
+    newInfo,
+    avtar
   }
 }
 

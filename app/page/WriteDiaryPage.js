@@ -49,7 +49,7 @@ class WriteDiaryPage extends PureComponent {
       avatarSource: null,
       color2: '#ffa3c5',
       screenHeight: screenHeight - 64 - 40,
-      keyboardHeight: 258,
+      keyboardHeight: 258
     };
     if (this.props.navigation.state.params.diary) {
       const diary = this.props.navigation.state.params.diary
@@ -87,8 +87,11 @@ class WriteDiaryPage extends PureComponent {
 
 
   _postDiary = () => {
-    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
+    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation, isPosting} = this.props
     const come4 = navigation.state.params.come4
+    if (isPosting) {
+      return;
+    }
     NativeModules.TCAgent.track('写日记', '日记保存')
     if (materialPosition >= 0) {
       console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})

@@ -1,8 +1,10 @@
 package com.zhy.qianyan.module;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.zhy.qianyan.MainActivity;
+import com.zhy.qianyan.utils.ApkUtils;
 import com.zhy.qianyan.utils.SplashScreen;
 
 /**
@@ -88,10 +91,11 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
                         View decorView = getCurrentActivity().getWindow().getDecorView();
                         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                                | View.SYSTEM_UI_FLAG_IMMERSIVE;
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE
+                                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
                         decorView.setSystemUiVisibility(uiOptions);
                     }
                 });
@@ -126,6 +130,51 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
         }
 
     }
+//    public static void toChrome(Activity activity, String url) {
+//        try {
+//            Uri uri = Uri.parse(url);
+//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//            activity.startActivity(intent);
+//        } catch (Exception e) {
+//            ToastUtils.show(activity, "无法下载");
+//        }
+//    }
+    @ReactMethod
+    public void toChrome (String url) {
+        try {
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            getCurrentActivity().startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ReactMethod
+    public void getCurrentVersion (Promise promise) {
+        try {
+            int versionCode = ApkUtils.getVersion(getCurrentActivity()).versionCode;
+            promise.resolve(versionCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            promise.reject(e.getMessage(), e);
+        }
+    }
+
+    @ReactMethod
+    public void getCurrentSdk (Promise promise) {
+        try {
+            promise.resolve(Build.VERSION.SDK_INT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            promise.reject(e.getMessage(), e);
+        }
+    }
+
+
+
+
+
 
 //    @ReactMethod
 //    public void getBrand(Promise promise) {

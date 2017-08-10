@@ -4,6 +4,7 @@ import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import Toast from 'react-native-root-toast'
 import ConstellationPickerModal from '../../widget/ConstellationPickerModal'
 import SexModal from '../../widget/SexModal'
 import theme from '../../config/theme'
@@ -88,6 +89,29 @@ class EditProfilePage extends Component {
 
   handleSubmit = () => {
     const info = this.state.info
+    if (info.nickname === '') {
+      Toast.show('用户名不能为空', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
+      return
+    }
+    if (info.sign === '') {
+      Toast.show('签名不能为空', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
+      return
+    }
+
     this.props.submitUserInfo({nickname: info.nickname,
       sign: info.sign,
       sex: info.sex,
@@ -95,7 +119,7 @@ class EditProfilePage extends Component {
       constellation: info.constellation,
       addr: info.addr,
       job: info.job
-    }, this.state.info)
+    }, this.state.info, null)
   }
 
   _hideDateTimePicker = () => {

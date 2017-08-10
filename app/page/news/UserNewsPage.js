@@ -7,6 +7,7 @@ import theme from '../../config/theme'
 import ListSeparator from '../../component/ListSeparator'
 import Sepatator from '../../component/Separator'
 import Footer from '../../component/Footer'
+import EmptyView from '../../component/EmptyPageView'
 
 class UserNewsPage extends Component {
   static navigationOptions = ({navigation}) => ({
@@ -37,6 +38,13 @@ class UserNewsPage extends Component {
     }
   }
 
+  getHeaderCompt = () => {
+    const {users, isRefreshing} = this.props
+    if (!isRefreshing && users.length === 0) {
+      return <EmptyView come4="msg" message="还没有消息哦~~" />
+    }
+    return <View />
+  }
 
   _routerToPersonalPage = (owner) => {
     if (owner) {
@@ -51,7 +59,6 @@ class UserNewsPage extends Component {
     }
     return <View />
   }
-
 
   renderListItem = (item) => {
     return (<TouchableOpacity style={styles.itemView} onPress={() => this._routerToPersonalPage(item.owner)}>
@@ -73,6 +80,7 @@ class UserNewsPage extends Component {
         renderItem={({item}) => this.renderListItem(item)}
         onEndReachedThreshold={0.1}
         onEndReached={this.handleLoadingMore}
+        ListHeaderComponent={this.getHeaderCompt}
         ListFooterComponent={this.renderLoadMoreFooter}
         refreshControl={
           <RefreshControl
