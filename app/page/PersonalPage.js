@@ -46,18 +46,8 @@ class PersonalPage extends PureComponent {
       console.log('personal page', msg)
       this.onRefresh()
     })
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result === null || result === this.props.navigation.state.params.id + '') {
-        this.props.navigation.setParams({
-          onPressFollow: this._onPressFollow,
-          me: true
-        })
-      } else {
-        this.props.navigation.setParams({
-          onPressFollow: this._onPressFollow,
-          me: false
-        })
-      }
+    this.props.navigation.setParams({
+      onPressFollow: this._onPressFollow,
     })
   }
   componentWillReceiveProps(nextProps) {
