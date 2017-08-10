@@ -121,6 +121,7 @@ class HotDiary extends Component {
           initialNumToRender={10}
           keyExtractor={item => item.diary_id}
           ListFooterComponent={this.getFooterCompt}
+          removeClippedSubviews={Platform.OS === 'android'}
           onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl

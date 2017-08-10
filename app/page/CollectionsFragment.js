@@ -61,6 +61,7 @@ class MeFragment extends Component {
           ItemSeparatorComponent={this.getItemSeparator}
           removeClippedSubviews={false}
           onEndReachedThreshold={0.1}
+          removeClippedSubviews={Platform.OS === 'android'}
           ListFooterComponent={this.getFooterCompt}
           onEndReached={this.handleLoadingMore}
           refreshControl={

@@ -121,6 +121,7 @@ class RecentDiary extends Component {
           ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}
           initialNumToRender={10}
+          removeClippedSubviews={Platform.OS === 'android'}
           keyExtractor={item => item.diary_id}
           onEndReached={this.handleLoadingMore}
           refreshControl={
