@@ -62,7 +62,7 @@ export default class DiaryItem extends Component {
             {this.props.showStamp && <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye(item)}/>}
           </View>}
           {this.props.showUserInfo && <View activeOpacity={1} style={[styles.time, {alignItems: 'center', width: 300}]} >
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('PersonalPage', {message: '日记', id: item.user.user_id})}>
+            <TouchableOpacity onPress={this.routePersonalPage}>
               <Image style={{width: 40, height: 40, borderRadius: 20}} resizeMode="cover" source={this.getIconSource(item.user.avtar)} />
             </TouchableOpacity>
             <View style={{flexDirection: 'column', marginLeft: 19}}>
@@ -122,6 +122,23 @@ export default class DiaryItem extends Component {
   photoView = () => {
     const {navigation, item} = this.props
     navigation.navigate('LightBoxPage', {img: item.img})
+  }
+
+  routePersonalPage = () => {
+    const {navigation, item} = this.props
+    setTimeout(() => {
+      AsyncStorage.getItem('userId').then((result) => {
+        if (result === null) {
+          navigation.navigate('PersonalPage', {me: true, message: '日记', id: item.user.user_id})
+        } else {
+          if (result == item.user_id) {
+            navigation.navigate('PersonalPage', {me: true, message: '日记', id: item.user.user_id})
+            return
+          }
+          navigation.navigate('PersonalPage', {me: false, message: '日记', id: item.user.user_id})
+        }
+      })
+    }, 200)
   }
 
   routeDiaryDetails = () => {

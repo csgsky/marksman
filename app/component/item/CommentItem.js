@@ -3,13 +3,23 @@ import theme from '../../config/theme'
 import CommentIcon from '../../img/comment.png'
 import LikeIcon from '../../img/like.png'
 import LikedIcon from '../../img/liked.png'
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
+import {View, Text, Image, TouchableOpacity, StyleSheet, AsyncStorage} from 'react-native'
 import {recentTime} from '../../utils/TimeUtils';
 
 export default class CommentItem extends Component {
   _onPressUserAvatar = () => {
     const userId = this.props.data.user_id;
-    this.props.navigation.navigate('PersonalPage', {message: '评论', id: userId})
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.navigation.navigate('PersonalPage', {me: true, message: '评论', id: userId})
+      } else {
+        if (result == userId) {
+          this.props.navigation.navigate('PersonalPage', {me: true, message: '评论', id: userId})
+          return
+        }
+        this.props.navigation.navigate('PersonalPage', {me: false, message: '评论', id: userId})
+      }
+    })
   }
   photoView = () => {
     const {navigation, data} = this.props
