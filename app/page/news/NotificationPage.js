@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {TouchableOpacity, StyleSheet, View, Text, Image, FlatList, RefreshControl} from 'react-native'
+import {TouchableOpacity, StyleSheet, View, Text, Image, FlatList, RefreshControl, Platform} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../../actions/message'
@@ -65,7 +65,7 @@ class NotificationPage extends Component {
     const {isRefreshing} = this.props
     return (<View style={styles.view}>
       {!isRefreshing && this.props.notifications.length > 0 && <FlatList
-        removeClippedSubviews={false}
+        removeClippedSubviews={Platform.OS === 'android'}
         data={this.props.notifications}
         ItemSeparatorComponent={this.getItemSeparator}
         renderItem={({item}) => this.renderListItem(item)}

@@ -91,7 +91,7 @@ class SearchPage extends Component {
           data={diarys}
           style={{flex: 1}}
           renderItem={this.getItemCompt}
-          removeClippedSubviews={false}
+          removeClippedSubviews={Platform.OS === 'android'}
           ItemSeparatorComponent={this.getItemSeparator}
           ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}

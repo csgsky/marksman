@@ -128,7 +128,7 @@ class CommentListPage extends PureComponent {
                 onPressCommentItem={() => this._onPressCommentItem(item)}/>)}
             onEndReachedThreshold={0.1}
             onEndReached={() => this.handleLoadingMore()}
-            removeClippedSubviews={false}
+            removeClippedSubviews={Platform.OS === 'android'}
             ItemSeparatorComponent={() => <ListSeparator/>}
             refreshControl={
               <RefreshControl
