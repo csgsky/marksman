@@ -254,6 +254,12 @@ class WriteDiaryPage extends PureComponent {
               placeholderTextColor="#a3a3a3"
               underlineColorAndroid="transparent"
               autoFocus
+              focus
+              ref={function(input) {
+                if (input != null) {
+                  input.focus();
+                }
+              }}
               maxLength={1500}
               placeholder="今天的你过得好吗？"
               onChangeText={(content) => {
@@ -323,6 +329,11 @@ class WriteDiaryPage extends PureComponent {
               placeholderTextColor="#a3a3a3"
               underlineColorAndroid="transparent"
               autoFocus
+              ref={function(input) {
+                if (input != null) {
+                  input.focus();
+                }
+              }}
               maxLength={1500}
               placeholder="今天，你过得好么？"
               onChangeText={(content) => {

@@ -409,7 +409,17 @@ const Navigator = StackNavigator(
       headerBackTitle: null,
       headerTintColor: '#333333',
       showIcon: true
-    }
+    },
+    mode: 'modal',
+    onTransitionStart: (route => {
+      console.log('开始动画')
+    }),
+    onTransitionEnd: (route => {
+      console.log('结束动画')
+    }),
+    transitionConfig: (() => ({
+      // duration: 80
+    }))
   }
 )
 
