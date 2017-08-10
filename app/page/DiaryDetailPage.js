@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, NativeModules, FlatList, AsyncStorage, Alert} from 'react-native'
+import {View, Text, TouchableOpacity, Image, RefreshControl, StyleSheet, Platform, NativeModules, FlatList, AsyncStorage, Alert} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
@@ -253,6 +253,7 @@ class DiaryDetailPage extends Component {
               onPressCommentItem={() => { this._onPressCommentItem(item) }}
               onPressLike={this._onPressCommentLike}/>)}
           onEndReachedThreshold={0.1}
+          removeClippedSubviews={Platform.OS === 'android'}
           ListHeaderComponent={this.getHeaderView}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={this.handleLoadingMore}

@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage, NativeModules} from 'react-native'
+import {View, Text, TouchableOpacity, Image, FlatList, RefreshControl, AsyncStorage, NativeModules, Platform} from 'react-native'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import PubSub from 'pubsub-js'
@@ -173,7 +173,7 @@ class Topic extends PureComponent {
               index={index}
               onPressCommentItem={() => { this._onPressCommentItem(item) }}
               onPressLike={this._onPressCommentLike}/>)}
-          removeClippedSubviews={false}
+          removeClippedSubviews={Platform.OS === 'android'}
           ListHeaderComponent={() => this.renderHeader(topic, comments)}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={() => this.handleLoadingMore()}
