@@ -53,8 +53,8 @@ export default class CommentItem extends Component {
             {type === 'commentsList' && index !== 0 && <Text style={styles.recvName}>@{data.recv_name}：</Text>}
             {data.content}
           </Text>
-          {!!data.img && <TouchableOpacity style={{width: 110, height: 110}} onPress={this.photoView}>
-            <Image source={{uri: data.img}} style={{width: 110, height: 110, marginBottom: 20}}/>
+          {!!data.simg && <TouchableOpacity style={{width: 110, height: 110}} onPress={this.photoView}>
+            <Image source={{uri: data.simg}} style={{width: 110, height: 110, marginBottom: 20}}/>
           </TouchableOpacity>}
           {type !== 'commentsList' && !!data.recomments && data.recomments.length > 0 && <View style={styles.comments}>
             <Text style={styles.link}>{data.recomments[0].nickname}</Text>

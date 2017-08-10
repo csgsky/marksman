@@ -19,9 +19,11 @@ export default class RecommendUserItem extends Component {
   }
   _routerToPersonalPage = () => {
     const userId = this.props.item.user_id
-    this.props.navigation.navigate('PersonalPage', {message: '备受宠爱', id: userId})
+    setTimeout(() => {
+      this.props.navigation.navigate('PersonalPage', {message: '备受宠爱', id: userId})
+    }, 300)
   }
-
+ 
   render() {
     const {item, position} = this.props
     return (<TouchableOpacity>

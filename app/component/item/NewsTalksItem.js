@@ -6,7 +6,9 @@ import {getMMDD} from '../../utils/TimeUtils'
 export default class NewsTalksItem extends Component {
 
   _onPress = (topicId, ownerId, diaryId) => {
-    this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
+    setTimeout(() => {
+      this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
+    }, 300)
   }
 
   render() {
