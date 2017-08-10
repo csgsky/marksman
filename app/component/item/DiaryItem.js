@@ -128,16 +128,18 @@ export default class DiaryItem extends Component {
     const come4 = this.props.come4 || '浅记'
     NativeModules.TCAgent.track(come4, '点日记进入日记详情页')
     const {navigation, item} = this.props
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result === null) {
-        navigation.navigate('DiaryDetailPage', {me: false, item, come4})
-      } else {
-        if (result == item.user_id) {
-          navigation.navigate('DiaryDetailPage', {me: true, item, come4})
-          return
+    setTimeout(() => {
+      AsyncStorage.getItem('userId').then((result) => {
+        if (result === null) {
+          navigation.navigate('DiaryDetailPage', {me: false, item, come4})
+        } else {
+          if (result == item.user_id) {
+            navigation.navigate('DiaryDetailPage', {me: true, item, come4})
+            return
+          }
+          navigation.navigate('DiaryDetailPage', {me: false, item, come4})
         }
-        navigation.navigate('DiaryDetailPage', {me: false, item, come4})
-      }
+      }, 200)
     })
   }
 }

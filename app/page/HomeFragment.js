@@ -182,6 +182,7 @@ class HomeFragment extends Component {
           ListHeaderComponent={this.getHeaderCompt}
           onEndReachedThreshold={0.1}
           initialNumToRender={10}
+          removeClippedSubviews={Platform.OS === 'android'}
           onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl
