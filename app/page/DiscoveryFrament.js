@@ -41,6 +41,7 @@ class DiscoveryFrament extends Component {
           stickySectionHeadersEnabled={false}
           ListFooterComponent={this.getFooterCompt}
           onEndReached={this.handleLoadingMore}
+          removeClippedSubviews={Platform.OS === 'android'}
           SectionSeparatorComponent={() => <Separator />}
           onEndReachedThreshold={0.1}
           sections={[
