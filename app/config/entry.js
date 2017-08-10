@@ -410,7 +410,7 @@ const Navigator = StackNavigator(
       headerTintColor: '#333333',
       showIcon: true
     },
-    mode: 'modal',
+    mode: 'card',
     onTransitionStart: (route => {
       console.log('开始动画')
     }),
