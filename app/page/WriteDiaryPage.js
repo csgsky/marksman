@@ -138,6 +138,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
+        this._input.focus()
         const source = { uri: response.uri }
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
@@ -157,6 +158,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
+        this._input.focus()
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         const imgBase64 = response.data
         this.props.photoPicker({source, imgBase64})
@@ -174,6 +176,7 @@ class WriteDiaryPage extends PureComponent {
 
   selectMaterial = (index) => {
     NativeModules.TCAgent.track('写日记', '插入图片成功')
+    this._input.focus()
     this.props.selectMaterial({index})
     this.setState({
       showModal: false
@@ -255,11 +258,7 @@ class WriteDiaryPage extends PureComponent {
               underlineColorAndroid="transparent"
               autoFocus
               focus
-              ref={function(input) {
-                if (input != null) {
-                  input.focus();
-                }
-              }}
+              ref={(c) => this._input = c}
               maxLength={1500}
               placeholder="今天的你过得好吗？"
               onChangeText={(content) => {
@@ -329,11 +328,7 @@ class WriteDiaryPage extends PureComponent {
               placeholderTextColor="#a3a3a3"
               underlineColorAndroid="transparent"
               autoFocus
-              ref={function(input) {
-                if (input != null) {
-                  input.focus();
-                }
-              }}
+              ref={(c) => this._input = c}
               maxLength={1500}
               placeholder="今天，你过得好么？"
               onChangeText={(content) => {

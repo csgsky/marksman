@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import {View, FlatList, RefreshControl, TouchableOpacity, Image, AsyncStorage} from 'react-native'
+import {View, FlatList, RefreshControl, TouchableOpacity, Image, AsyncStorage, Platform} from 'react-native'
 // import * as actions from '../../actions/loginActions'
 import { bindActionCreators } from 'redux'
 import PubSub from 'pubsub-js'
@@ -73,7 +73,7 @@ class PersonalPage extends PureComponent {
         {diaries && info && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
-          removeClippedSubviews={false}
+          removeClippedSubviews={Platform.OS === 'android'}
           ItemSeparatorComponent={() => <ListSeparator/>}
           ListHeaderComponent={() => <PersonalInfoView info={info} diaries={diaries}/>}
           onEndReached={() => this.handleLoadingMore()}

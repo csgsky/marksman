@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, FlatList, RefreshControl, TouchableOpacity, Image} from 'react-native'
+import {View, FlatList, RefreshControl, TouchableOpacity, Image, Platform} from 'react-native'
 import {connect} from 'react-redux'
 import PubSub from 'pubsub-js'
 import {bindActionCreators} from 'redux'
@@ -91,7 +91,7 @@ class Trash extends Component {
         {diaries && !!diaries.length && <FlatList
           data={diaries}
           renderItem={this.getItemCompt}
-          removeClippedSubviews={false}
+          removeClippedSubviews={Platform.OS === 'android'}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={() => this.handleLoadingMore()}
           ListFooterComponent={this.getFooterCompt}

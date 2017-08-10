@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, FlatList, RefreshControl, TouchableOpacity, Image} from 'react-native'
+import {StyleSheet, View, FlatList, RefreshControl, TouchableOpacity, Image, Platform} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import theme from '../config/theme'
@@ -77,7 +77,7 @@ class TopicListPage extends Component {
           renderItem={this.renderListItem}
           onEndReachedThreshold={0.1}
           onEndReached={(e) => this.handleLoadingMore(e)}
-          removeClippedSubviews={false}
+          removeClippedSubviews={Platform.OS === 'android'}
           ListFooterComponent={this.renderLoadMoreFooter}
           ListHeaderComponent={this.getHeaderCompt}
           refreshControl={
