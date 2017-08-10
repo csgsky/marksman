@@ -73,6 +73,7 @@ export default class ColorPicker extends Component {
   }
 
   componentWillMount() {
+    console.log('ColorPicker componentWillMount')
     const handleColorChange = ({ x, y }) => {
       const { s, v } = this._getColor()
       const relativeX = x - this._pageX;
