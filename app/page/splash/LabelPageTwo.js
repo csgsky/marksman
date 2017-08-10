@@ -61,19 +61,21 @@ export default class LabelPageTwo extends Component {
   _registerCustomUser = () => {
     NativeModules.TCAgent.track('引导页', '进入浅言')
     const map = {sex: this.state.sex, tags: this.state.tags, nickname: this.state.nickname, sign: this.state.sign}
-    AsyncStorage.getItem('token').then((result) => {
-      if (result) {
-        Rx.Observable.from(CustomerRegisterApi(map, result)).subscribe(
-                      (it) => {
-                        if (it.return_code === 1) {                          
-                          this._saveUseInfo()
-                          Rx.Observable.of('delay').delay(800).subscribe(() => {
-                            this.props.navigation.dispatch(resetAction)
-                          })
+    Rx.Observable.from(NativeModules.SplashScreen.getNetInfo()).subscribe(it => {
+      AsyncStorage.getItem('token').then((result) => {
+        if (result) {
+          Rx.Observable.from(CustomerRegisterApi(map, result)).subscribe(
+                        (it) => {
+                          if (it.return_code === 1) {
+                            this._saveUseInfo()
+                            Rx.Observable.of('delay').delay(800).subscribe(() => {
+                              this.props.navigation.dispatch(resetAction)
+                            })
+                          }
                         }
-                      }
-                    )
-      }
+                      )
+        }
+      })
     })
   }
 

@@ -137,7 +137,8 @@ class Topic extends PureComponent {
       type: 'news',
       webpageUrl: `http://qycdn.zhuoyoutech.com/h5/talk.html?talk_id=${topic.talk_id}`,
       title: topic.name,
-      description: topic.content
+      description: topic.content,
+      thumbImage: topic.icon_url
     }
   }
   hideShare = () => {

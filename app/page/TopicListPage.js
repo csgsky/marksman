@@ -7,6 +7,7 @@ import * as actions from '../actions/topicsAction'
 import TalksItem from '../component/item/TalksItem'
 import Footer from '../component/Footer'
 import NewsTalksItem from '../component/item/NewsTalksItem'
+import EmptyView from '../component/EmptyPageView'
 
 class TopicListPage extends Component {
 
@@ -28,6 +29,14 @@ class TopicListPage extends Component {
 
   onRefresh = () => {
     this.initData()
+  }
+
+  getHeaderCompt = () => {
+    const {talks, isRefreshing} = this.props
+    if (!isRefreshing && talks.length === 0) {
+      return <EmptyView come4="msg" message="还没有消息哦~~" />
+    }
+    return <View />
   }
 
   initData = () => {
@@ -70,6 +79,7 @@ class TopicListPage extends Component {
           onEndReached={(e) => this.handleLoadingMore(e)}
           removeClippedSubviews={false}
           ListFooterComponent={this.renderLoadMoreFooter}
+          ListHeaderComponent={this.getHeaderCompt}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}

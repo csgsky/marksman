@@ -51,22 +51,27 @@ export default class CommonWebviewPage extends Component {
       type: 'news',
       webpageUrl: state.params.url,
       title: state.params.name,
-      description: state.params.desc
+      description: state.params.desc,
+      thumbImage: state.params.shareImage
     }
   }
   hideShare = () => {
     this.setState({
       shareVisible: false
     })
+    if (Platform.OS === 'android') {
+      NativeModules.SplashScreen.hideSystemNavigationBar()
+    }
   }
 
   showShare = () => {
-    // 将分享数据进行准备
+    // 分享数据
     const wechatMetadata = this.getWechatShareMeta()
     this.setState({
       shareVisible: true,
       wechatMetadata
     })
+
   }
 
   render () {
