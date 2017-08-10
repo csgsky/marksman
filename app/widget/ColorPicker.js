@@ -73,13 +73,12 @@ export default class ColorPicker extends Component {
   }
 
   componentWillMount() {
-    console.log('ColorPicker componentWillMount')
     const handleColorChange = ({ x, y }) => {
       const { s, v } = this._getColor()
       const relativeX = x - this._pageX;
       const relativeY = y - this._pageY;
       const h = this._computeHValue(relativeX, relativeY)
-      this._onColorChange({ h, s, v })
+      this._onColorChange({ h: h || 338, s, v })
     }
     this._pickerResponder = createPanResponder({
       onStart: handleColorChange,
