@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Image, TouchableOpacity, AsyncStorage, StyleSheet, FlatList, RefreshControl, NativeModules} from 'react-native'
+import {View, Image, TouchableOpacity, AsyncStorage, StyleSheet, FlatList, RefreshControl, NativeModules, Platform} from 'react-native'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
@@ -51,6 +51,9 @@ class HomeFragment extends Component {
 
   componentDidMount () {
     NativeModules.TCAgent.track('浅记', '浅记')
+    if (Platform.OS === 'android') {
+      // this.props.actions.checkVersion()
+    }
     this.initData()
     this.props.navigation.setParams({
       routerMine: this._onRouterMine,
@@ -174,12 +177,11 @@ class HomeFragment extends Component {
           data={isLogin ? diarys : defaultDiary}
           ref='_homefragmentlist'
           renderItem={this.getItemCompt}
-          removeClippedSubviews={false}
           ItemSeparatorComponent={this.getItemSeparator}
           ListFooterComponent={this.getFooterCompt}
           ListHeaderComponent={this.getHeaderCompt}
           onEndReachedThreshold={0.1}
-          initialNumToRender={6}
+          initialNumToRender={10}
           onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl

@@ -127,11 +127,10 @@ const MyFollowTab = TabNavigator(
     tabBarOptions: {
       activeTintColor: 'black',
       inactiveTintColor: '#9b9b9b',
-      style: {backgroundColor: 'white', paddingLeft: (theme.screenWidth - 130) / 2, height: 40},
-      indicatorStyle: {backgroundColor: '#f89f33', marginLeft: (theme.screenWidth - 130) / 2},
+      style: {backgroundColor: 'white', height: 40},
+      indicatorStyle: {backgroundColor: '#f89f33', width: 60, marginLeft: ((theme.screenWidth / 2) - 60) / 2},
       tabStyle: {height: 40},
-      labelStyle: {fontSize: 15},
-      tabStyle: {width: 65}
+      labelStyle: {fontSize: 15}
     }
   }
 )

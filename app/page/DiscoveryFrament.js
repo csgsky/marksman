@@ -85,6 +85,7 @@ class DiscoveryFrament extends Component {
   getRanksItem = ({item}) => {
     const {navigation} = this.props
     return (<FlatList
+      style={{backgroundColor: 'white'}}
       horizontal
       removeClippedSubviews={false}
       data={item.data}

@@ -17,8 +17,19 @@ export default function profile (state = initState, action = {}) {
       console.warn('reducer personal info ==> PERSONAL_SUBMIT_USERINFO_SUCCESS')
       return {
         ...state,
-        info: action.newInfo,
+        info: action.avtar === null ? action.newInfo : {
+          ...state.info
+        },
         success: true
+      }
+    case types.PERSONAL_SUBMIT_USERINFO:
+      console.warn('reducer personal info ==> PERSONAL_SUBMIT_USERINFO')
+      return {
+        ...state,
+        info: action.avtar === null ? state.info : {
+          ...state.info,
+          avtar: action.avtar
+        }
       }
     case types.PERSONAL_INFO_SUBMIT_INIT:
       return {
