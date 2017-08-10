@@ -60,14 +60,23 @@ function talksMoreEpic (action$) {
                 (token, page, come4, net, tags) => ({token, page, come4, net, tags})
               ).flatMap(
                 (it) => {
+                  console.log('talksMoreEpic ===> it ', it)
                   if (it.token && it.net === '1') {
+                    console.log('talksMoreEpic ===> has net', it.come4)
                     return Observable.from(TopicsListApi(it.token, it.page, it.come4, it.tags))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
+                console.warn(it)
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
+                }
+                if (action.come4 === 'news') {
+                  if (it.return_code === 1) {
+                    return actions.topicListMoreData(it.mymsgs)
+                  }
+                  return showError(OTHER_ERROR)
                 }
                 if (it.return_code === 1) {
                   return actions.topicListMoreData(it.talks)

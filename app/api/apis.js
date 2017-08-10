@@ -137,6 +137,7 @@ export const CollectionsApi = (userId, page) =>
 // 发现、话题
 export const TopicsListApi = (userId, page, come4, tag) => {
   if (come4 === 'news') {
+    console.warn('TopicsListApi news')
     return getApi(`/api/mymsg?rn=10&mode=0&p=${page}`, userId)
   }
   return getApi(`/api/talk?rn=10&p=${page}`, userId)
@@ -199,6 +200,8 @@ export const ForgetPasswordApi = (userId, map) =>
 export const LoginApi = (userId, map) =>
   postApi(`/api/login`, map, userId)
 
+export const ThirdLoginApi = (userId, map) =>
+  postApi('/api/tplogin', map, userId)
 // 话题关注接口
 export const FollowTopicApi = (topicId, userId) =>
   postApi(`/api/talk/focus/${topicId}`, {}, userId)
@@ -304,3 +307,6 @@ export const MineMessageUserApi = (userId, page) =>
 export const splashApi = userId =>
   getApi('/api/startup', userId)
 
+// 自更新接口
+export const checkAndroidVersion = (userId, sdkVersion) =>
+  getApi(`/api/updateself?sdk_ver=${sdkVersion}`, userId)

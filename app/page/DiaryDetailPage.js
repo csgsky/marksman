@@ -256,7 +256,6 @@ class DiaryDetailPage extends Component {
           ListHeaderComponent={this.getHeaderView}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={this.handleLoadingMore}
-          removeClippedSubviews={false}
           refreshControl={
             <RefreshControl
               onRefresh={this.onRefresh}
