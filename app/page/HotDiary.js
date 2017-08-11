@@ -90,14 +90,15 @@ class HotDiary extends Component {
       type: 'news',
       webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
       title: '来自' + user.nickname + '的日记',
-      description: item.content
+      description: item.content,
+      thumbImage: item.img === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.img
     }
   }
 
   showShare = (index, item) => {
     // 将分享数据进行准备
     const wechatMetadata = this.getWechatShareMeta(index, item)
-    alert(wechatMetadata.description.length)
+    // alert(wechatMetadata.description.length)
     this.setState({
       shareVisible: true,
       wechatMetadata
@@ -119,7 +120,6 @@ class HotDiary extends Component {
           ItemSeparatorComponent={this.getItemSeparator}
           onEndReachedThreshold={0.1}
           initialNumToRender={10}
-          keyExtractor={item => item.diary_id}
           ListFooterComponent={this.getFooterCompt}
           removeClippedSubviews={Platform.OS === 'android'}
           onEndReached={this.handleLoadingMore}
