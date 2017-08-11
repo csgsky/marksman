@@ -56,11 +56,13 @@ export default class TopUserItem extends Component {
 }
 const styles = StyleSheet.create({
   item: {
+    flex: 1,
     flexDirection: 'column',
     paddingLeft: 16,
     paddingRight: 16,
     paddingTop: 15,
-    paddingBottom: 15
+    paddingBottom: 15,
+    width: theme.screenWidth
   },
   itemT: {
     flexDirection: 'row',
