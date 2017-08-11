@@ -92,7 +92,8 @@ class RecentDiary extends Component {
       type: 'news',
       webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
       title: '来自' + user.nickname + '的日记',
-      description: item.content
+      description: item.content,
+      thumbImage: item.img === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.img
     }
   }
 
@@ -122,7 +123,6 @@ class RecentDiary extends Component {
           onEndReachedThreshold={0.1}
           initialNumToRender={10}
           removeClippedSubviews={Platform.OS === 'android'}
-          keyExtractor={item => item.diary_id}
           onEndReached={this.handleLoadingMore}
           refreshControl={
             <RefreshControl

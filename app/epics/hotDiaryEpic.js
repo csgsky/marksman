@@ -61,7 +61,7 @@ function hotDiaryMoreEpic (action$) {
                   return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 2) {
-                  return null
+                  return showError(NET_WORK_ERROR)
                 }
                 return actions.hotDiaryLoadingMoreData(it)
               }
@@ -90,13 +90,12 @@ function diaryLikeEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it.return_msg)
                 if (it.return_code === 1) {
                   return actions.hotDiaryLikeSuccess({index: action.payload.index})
                 }
-                return null
+                return showError(NET_WORK_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
+                // console.log('epic error --->' + error)
                 return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
