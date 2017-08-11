@@ -97,7 +97,6 @@ class HotDiary extends Component {
   showShare = (index, item) => {
     // 将分享数据进行准备
     const wechatMetadata = this.getWechatShareMeta(index, item)
-    alert(wechatMetadata.description.length)
     this.setState({
       shareVisible: true,
       wechatMetadata
