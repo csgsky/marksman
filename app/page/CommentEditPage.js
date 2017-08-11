@@ -162,7 +162,7 @@ class CommentEditor extends PureComponent {
         this.setState({
           image: source,
           data: response.data,
-          suffix: response.fileName.split('.')[1]
+          suffix: 'JPEG'
         });
       }
     })
