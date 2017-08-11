@@ -33,7 +33,9 @@ export default class TopUserItem extends Component {
     return <TouchableOpacity onPress={this._routerToPersonalPage}>
       <View style={styles.item}>
         <View style={styles.itemT}>
-          <Image style={styles.img} source={item.avtar === '' ? theme.imgs.DefaultUserAvatar : {uri: item.avtar}} />
+          <View style={{width: 52, height: 52, borderRadius: 26}}>
+            <Image style={styles.img} source={item.avtar === '' ? theme.imgs.DefaultUserAvatar : {uri: item.avtar}} />
+          </View>
           <View style={{flex: 1, paddingLeft: 13}}>
             <View style={{flex: 1, flexDirection: 'column', justifyContent: 'flex-end'}}>
               <Text style={styles.name}>{item.nickname}</Text>
@@ -56,6 +58,7 @@ export default class TopUserItem extends Component {
 }
 const styles = StyleSheet.create({
   item: {
+    flex: 1,
     flexDirection: 'column',
     paddingLeft: 16,
     paddingRight: 16,
