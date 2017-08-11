@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as actions from '../../actions/myFollowTopicsAction'
 import TopicItem from '../../component/item/TalksItem'
+import Footer from '../../component/Footer'
 import theme from '../../config/theme'
 
 class MyFollowTopics extends PureComponent {
@@ -14,6 +15,7 @@ class MyFollowTopics extends PureComponent {
     this.props.myFollowTopicsInit()
   }
   handleLoadingMore = () => {
+    console.log(this.props.hasMore, this.props.isLoadingMore)
     if (this.props.hasMore && !this.props.isLoadingMore) {
       this.props.myFollowTopicsLoadMore({page: this.props.page})
     }
@@ -53,6 +55,13 @@ class MyFollowTopics extends PureComponent {
       {!isEmpty && this.renderHeaderTitle('我的关注')}
     </View>
   )
+  getFooterCompt = () => {
+    const {topics, hasMore} = this.props
+    if (topics.length > 0) {
+      return <Footer hasMoreData={hasMore}/>
+    }
+    return <View />
+  }
   render() {
     const {topics, isRefreshing, isEmpty} = this.props
     return (
@@ -63,6 +72,7 @@ class MyFollowTopics extends PureComponent {
             <TopicItem item={item} index={index} type="followed" navigation={this.props.navigation} onPressFollow={this.props.myFollowTopicsFollow}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader(isEmpty)}
+          ListFooterComponent={this.getFooterCompt}
           onEndReached={() => this.handleLoadingMore()}
           onEndReachedThreshold={0.1}
           refreshControl={
