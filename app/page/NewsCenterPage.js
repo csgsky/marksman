@@ -29,13 +29,16 @@ class NewsCenterPage extends Component {
   }
 
   componentWillUnmount() {
-    this.props.modes.forEach((value, index) => {
-      if (value.red_dot === 0 && index === 3) {
-        PubSub.publish('dismissPersonalCenterMineMsg')
-      } else if (value.red_dot === 1) {
-        return false
+    let hasRed = false
+    for (let i = 0; i < this.props.modes.length; i++) {
+      if (this.props.modes[i].red_dot === 1) {
+        hasRed = true
+        break;
       }
-    })
+    }
+    if (!hasRed) {
+      PubSub.publish('dismissPersonalCenterMineMsg')
+    }
   }
 
   _routerNotificationPage = () => {
