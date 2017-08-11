@@ -52,7 +52,7 @@ class HomeFragment extends Component {
   componentDidMount () {
     NativeModules.TCAgent.track('浅记', '浅记')
     if (Platform.OS === 'android') {
-      // this.props.actions.checkVersion()
+      this.props.actions.checkVersion()
     }
     this.initData()
     this.props.navigation.setParams({
