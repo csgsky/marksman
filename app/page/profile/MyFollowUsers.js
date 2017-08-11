@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import * as actions from '../../actions/myFollowUsersAction'
 import UserItem from '../../component/item/TopuserItem'
+import Footer from '../../component/Footer'
 import theme from '../../config/theme'
 import ListSeparator from '../../component/ListSeparator'
 
@@ -54,6 +55,13 @@ class MyFollowUsers extends PureComponent {
       {!isEmpty && this.renderHeaderTitle('我的关注')}
     </View>
   )
+  getFooterCompt = () => {
+    const {users, hasMore} = this.props
+    if (users.length > 0) {
+      return <Footer hasMoreData={hasMore}/>
+    }
+    return <View />
+  }
   render() {
     const {users, isRefreshing, isEmpty, navigation} = this.props
     console.log(this.props)
@@ -65,6 +73,7 @@ class MyFollowUsers extends PureComponent {
             <UserItem item={item} position={index} navigation={navigation} LovedFollowed={this.props.myFollowUsersFollow}/>)}
           removeClippedSubviews={false}
           ListHeaderComponent={() => this.renderHeader(isEmpty)}
+          ListFooterComponent={this.getFooterCompt}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={() => this.handleLoadingMore()}
           onEndReachedThreshold={0.1}
