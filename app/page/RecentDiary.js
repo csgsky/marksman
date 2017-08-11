@@ -93,7 +93,7 @@ class RecentDiary extends Component {
       webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
       title: '来自' + user.nickname + '的日记',
       description: item.content,
-      thumbImage: item.img === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.img
+      thumbImage: item.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.user.avtar
     }
   }
 
