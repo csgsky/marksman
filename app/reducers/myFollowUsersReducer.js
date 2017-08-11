@@ -22,7 +22,7 @@ export default function myFollowUsers (state = initState, action = {}) {
       return {
         ...state,
         isRefreshing: false,
-        hasMore: true,
+        hasMore: !action.payload.isEmpty,
         isLoadingMore: false,
         page: 0,
         users: action.payload.users,

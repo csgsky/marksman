@@ -22,7 +22,7 @@ export default function myFollowTopics (state = initState, action = {}) {
       return {
         ...state,
         isRefreshing: false,
-        hasMore: true,
+        hasMore: !action.payload.isEmpty,
         isLoadingMore: false,
         page: 0,
         topics: action.payload.topics,
