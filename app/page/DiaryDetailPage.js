@@ -215,7 +215,8 @@ class DiaryDetailPage extends Component {
       type: 'news',
       webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${diary.diary_id}`,
       title: '来自' + diary.user.nickname + '的日记',
-      description: diary.content
+      description: diary.content,
+      thumbImage: diary.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : diary.user.avtar
     }
   }
   routerToPersonalPage = (userId) => {
