@@ -35,9 +35,9 @@ export default class Splash extends Component {
     this._getDeviceUserInfo()
     // 倒计时
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
-      this.setState({
-        time: 3 - it
-      })
+      // this.setState({
+      //   time: 3 - it
+      // })
       if ((it + 1) === 4) {
         this._splashRouter()
       }
@@ -204,7 +204,7 @@ export default class Splash extends Component {
         <View style={styles.lable}>
           <Image style={styles.lable} resizeMode="stretch" source={this.state.img} />
         </View>
-        <Text style={styles.skipText} onPress={this._onPress}>跳过 {this.state.time}</Text>
+        <Text style={styles.skipText} onPress={this._onPress}>跳过</Text>
       </View>
     )
   }
@@ -213,6 +213,7 @@ export default class Splash extends Component {
 const styles = StyleSheet.create({
   lable: {
     width: theme.screenWidth,
+    backgroundColor: 'white',
     height: Platform.OS === 'ios' ? theme.screenHeight : theme.screenHeight - 20
   },
   skipText: {

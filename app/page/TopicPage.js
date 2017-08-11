@@ -17,6 +17,7 @@ class Topic extends PureComponent {
     title: '话题',
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: <View />,
+    gesturesEnabled: false,
     headerLeft: <TouchableOpacity onPress={() => { navigation.goBack() }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={theme.imgs.PageBack} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
