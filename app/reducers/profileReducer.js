@@ -8,13 +8,11 @@ const initState = {
 export default function profile (state = initState, action = {}) {
   switch (action.type) {
     case types.PERSONAL_INFO_DATA:
-      console.warn('personal center ==> ', action.info.nickname)
       return {
         ...state,
         info: action.info
       }
     case types.PERSONAL_SUBMIT_USERINFO_SUCCESS:
-      console.warn('reducer personal info ==> PERSONAL_SUBMIT_USERINFO_SUCCESS')
       return {
         ...state,
         info: action.avtar === null ? action.newInfo : {
@@ -23,7 +21,6 @@ export default function profile (state = initState, action = {}) {
         success: true
       }
     case types.PERSONAL_SUBMIT_USERINFO:
-      console.warn('reducer personal info ==> PERSONAL_SUBMIT_USERINFO')
       return {
         ...state,
         info: action.avtar === null ? state.info : {
@@ -52,7 +49,10 @@ export default function profile (state = initState, action = {}) {
     case types.MINE_DISMISS_MINE_RED:
       return {
         ...state,
-        mymsg_rd: 0
+        message: {
+          ...state.message,
+          mymsg_rd: 0
+        }
       }
     default:
       return state

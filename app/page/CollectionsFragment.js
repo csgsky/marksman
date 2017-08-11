@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, StyleSheet, FlatList, Platform, RefreshControl, NativeModules} from 'react-native'
+import {View, StyleSheet, FlatList, Platform, RefreshControl, NativeModules, AsyncStorage} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Rx from 'rxjs'
@@ -8,6 +8,7 @@ import ListSeparator from '../component/ListSeparator'
 import * as actions from '../actions/collectionsAction'
 import Footer from '../component/Footer'
 import theme from '../config/theme'
+import {splashApi} from '../api/apis'
 
 class MeFragment extends Component {
   static navigationOptions = () => ({
@@ -19,11 +20,20 @@ class MeFragment extends Component {
   })
   componentDidMount () {
     this.props.actions.collectionsInit(0)
+    this.getSplashImg()
   }
+
 
   onRefresh = () => {
     this.props.actions.collectionsInit(0)
   }
+
+  getSplashImg = () => {
+    Rx.Observable.from(AsyncStorage.getItem('token')).subscribe((it) => {
+      this._getSplash(it)
+    })
+  }
+
 
   getItemSeparator = () => <ListSeparator />
 
@@ -40,6 +50,16 @@ class MeFragment extends Component {
     return <View />
   }
 
+  _getSplash = (authorization) => {
+    Rx.Observable
+      .from(splashApi(authorization))
+      .subscribe((it) => {
+        if (it.return_code === 1) {
+          AsyncStorage.setItem('splashImage', it.img_url)
+        }
+      })
+  }
+
   handleLoadingMore = () => {
     const {page, hasMoreData, isLoadingMore} = this.props
     if (hasMoreData && !isLoadingMore) {
@@ -54,7 +74,7 @@ class MeFragment extends Component {
   render() {
     const {collections, isRefreshing} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <FlatList
           data={collections}
           renderItem={this.getItemCompt}

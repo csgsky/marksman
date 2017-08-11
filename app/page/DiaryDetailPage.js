@@ -42,7 +42,8 @@ class DiaryDetailPage extends Component {
         style={{width: 18, height: 18, marginLeft: 16}}
         source={theme.imgs.PageBack} />
     </TouchableOpacity>,
-    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
+    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18},
+    gesturesEnabled: false
   })
 
   constructor(props) {
@@ -156,7 +157,8 @@ class DiaryDetailPage extends Component {
 
   editDiary = () => {
     NativeModules.TCAgent.track('日记详情页', '编辑')
-    this.props.navigation.navigate('WriteDiaryPage', {diary: this.state.diary, come4: 'edit'})
+    const key = this.props.navigation.state.key
+    this.props.navigation.navigate('WriteDiaryPage', {diary: this.state.diary, come4: 'edit', key})
   }
 
 
