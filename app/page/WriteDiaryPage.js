@@ -100,7 +100,7 @@ class WriteDiaryPage extends PureComponent {
     }
     NativeModules.TCAgent.track('写日记', '日记保存')
     if (materialPosition >= 0) {
-      console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
+      // console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
       const dataOne = this.props.diary === null ?
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2} :
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}

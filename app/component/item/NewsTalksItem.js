@@ -15,7 +15,7 @@ export default class NewsTalksItem extends Component {
     const {item} = this.props
     const createdTime = getMMDD(item.create_time)
     return (<TouchableOpacity style={styles.item}
-      onPress={() => this._onPress(item.obj_id, item.user_id, item.msg_id)}>
+      onPress={() => this._onPress(item.talk.talk_id, item.talk.user_id, item.talk.diary_id)}>
       <View style={{backgroundColor: theme.pageBackgroundColor, height: 65, width: 65}}>
         <Image style={styles.img} source={{uri: item.obj_img}}/>
       </View>

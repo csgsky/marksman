@@ -62,14 +62,14 @@ export default class ShareModal extends Component {
 
   shreWeChatM = () => {
     this.props.hideShare()
-    const qqData = {
+    const wechatdata = {
       ...this.state.wechatMetadata,
-      imageUrl: this.state.wechatMetadata.thumbImage
+      description: this.fixDesc(this.state.wechatMetadata)
     }
     WeChat.isWXAppInstalled()
       .then((installed) => {
         if (installed) {
-          WeChat.shareToTimeline(qqData)
+          WeChat.shareToTimeline(wechatdata)
         } else {
           Toast.show('未安装微信客户端', {
             duration: Toast.durations.SHORT,
@@ -87,7 +87,8 @@ export default class ShareModal extends Component {
     this.props.hideShare()
     const qqData = {
       ...this.state.wechatMetadata,
-      imageUrl: this.state.wechatMetadata.thumbImage
+      imageUrl: this.state.wechatMetadata.thumbImage,
+      description: this.fixDesc(this.state.wechatMetadata)
     }
     QQAPI.isQQInstalled()
       .then((installed) => {
@@ -117,9 +118,14 @@ export default class ShareModal extends Component {
 
   shareToQQZ = () => {
     this.props.hideShare()
+    const qqData = {
+      ...this.state.wechatMetadata,
+      imageUrl: this.state.wechatMetadata.thumbImage,
+      description: this.fixDesc(this.state.wechatMetadata)
+    }
     QQAPI.isQQInstalled().then((installed) => {
       if (installed) {
-        QQAPI.shareToQzone(this.state.wechatMetadata).then((result) => {
+        QQAPI.shareToQzone(qqData).then((result) => {
           if (result) {
             Toast.show('分享成功', {
               duration: Toast.durations.LONG,
