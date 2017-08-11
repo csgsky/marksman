@@ -138,7 +138,7 @@ export default class DiaryItem extends Component {
           navigation.navigate('PersonalPage', {me: false, message: '日记', id: item.user.user_id})
         }
       })
-    }, 200)
+    }, 300)
   }
 
   routeDiaryDetails = () => {
