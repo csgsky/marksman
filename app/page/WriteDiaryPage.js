@@ -74,11 +74,17 @@ class WriteDiaryPage extends PureComponent {
 
   componentWillReceiveProps (nextProps) {
     const {success} = nextProps
+    const come4 = this.props.navigation.state.params.come4
+    const key = this.props.navigation.state.params.key
     if (success) {
       NativeModules.TCAgent.track('写日记', '保存成功')
       PubSub.publish('refreshDiaryList')
       dismissKeyboard()
-      this.props.navigation.goBack()
+      if (come4 === 'edit') {
+        this.props.navigation.goBack(key)
+      } else {
+        this.props.navigation.goBack()
+      }
     }
   }
   componentWillUnmount () {

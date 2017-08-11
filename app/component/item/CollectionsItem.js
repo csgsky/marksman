@@ -28,6 +28,7 @@ export default class CollectionItem extends Component {
 
 const styles = StyleSheet.create({
   item: {
+    backgroundColor: 'white',
     flexDirection: 'row',
     paddingTop: 18,
     paddingLeft: 12,

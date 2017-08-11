@@ -205,7 +205,7 @@ const Tab = TabNavigator(
     tabBarPosition: 'bottom',
     swipeEnabled: false,
     animationEnabled: false,
-    lazy: true,
+    lazy: false,
     initialRouteName: 'Home',
     tabBarOptions: {
       activeTintColor: '#ffa3c4',
