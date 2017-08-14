@@ -96,7 +96,9 @@ class Topic extends PureComponent {
     })
   }
   _onPressCommentItem = (item) => {
-    this.props.navigation.navigate('CommentsListPage', {com4: 'comment', item})
+    setTimeout(() => {
+      this.props.navigation.navigate('CommentsListPage', {com4: 'comment', item})
+    }, 300)
   }
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
     AsyncStorage.getItem('userId').then((result) => {
