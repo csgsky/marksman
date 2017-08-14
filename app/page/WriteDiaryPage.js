@@ -113,8 +113,18 @@ class WriteDiaryPage extends PureComponent {
     } else {
       const dataThree = this.props.diary === null ?
         {content, ifprivate, feel, feelcolor: this.state.color2} :
-        {content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
+        {content, img: 'DELETE', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
       postDiary(dataThree, come4)
+    }
+    // 返回到日记列表页
+    const key = this.props.navigation.state.params.key
+    NativeModules.TCAgent.track('写日记', '保存成功')
+    PubSub.publish('refreshDiaryList')
+    dismissKeyboard()
+    if (come4 === 'edit') {
+      this.props.navigation.goBack(key)
+    } else {
+      this.props.navigation.goBack()
     }
   }
 
