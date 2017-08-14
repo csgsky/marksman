@@ -66,7 +66,17 @@ class HomeFragment extends Component {
 
   onRefresh = () => {
     NativeModules.TCAgent.track('浅记', '浅记')
-    this.initData()
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.actions.visitor()
+      } else {
+        Rx.Observable.of('delay').delay(1000).subscribe(
+          () => {
+            this.props.actions.homeInit(0)
+          }
+        )
+      }
+    })
   }
 
   getItemCompt = ({item, index}) => {
@@ -86,15 +96,6 @@ class HomeFragment extends Component {
     return <View />
   }
 
-  initData = () => {
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result === null) {
-        this.props.actions.visitor()
-      } else {
-        this.props.actions.homeInit(0)
-      }
-    })
-  }
 
   handleLoadingMore = () => {
     const {page, hasMoreData, isLoadingMore} = this.props
@@ -165,6 +166,16 @@ class HomeFragment extends Component {
       return <EmptyView come4="diary" message="这个人很懒，什么都没留下~~" />
     }
     return <View />
+  }
+
+  initData = () => {
+    AsyncStorage.getItem('userId').then((result) => {
+      if (result === null) {
+        this.props.actions.visitor()
+      } else {
+        this.props.actions.homeInit(0)
+      }
+    })
   }
 
   render () {
