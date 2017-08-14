@@ -156,8 +156,8 @@ export default class DiaryItem extends Component {
           }
           navigation.navigate('DiaryDetailPage', {me: false, item, come4})
         }
-      }, 200)
-    })
+      })
+    }, 300)
   }
 }
 

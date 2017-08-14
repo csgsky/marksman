@@ -64,8 +64,8 @@ class DiaryDetailPage extends Component {
 
   componentDidMount () {
     NativeModules.TCAgent.track('日记详情页', '日记详情')
-    const id = this.state.diary.diary_id
-    const ownerId = this.state.diary.user_id
+    const id = this.props.navigation.state.params.item.diary_id
+    const ownerId = this.props.navigation.state.params.item.user_id
     this.props.diaryCommentInit({id, ownerId})
     PubSub.subscribe('refreshDetailPage', (msg) => {
       console.log('pubsub', msg)
@@ -196,7 +196,9 @@ class DiaryDetailPage extends Component {
   }
 
   _onPressCommentItem = (item) => {
-    this.props.navigation.navigate('CommentsListPage', {com4: 'diary', item})
+    setTimeout(() => {
+      this.props.navigation.navigate('CommentsListPage', {com4: 'diary', item})
+    }, 300)
   }
 
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
