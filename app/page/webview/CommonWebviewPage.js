@@ -49,7 +49,7 @@ export default class CommonWebviewPage extends Component {
     const {state} = this.props.navigation
     return {
       type: 'news',
-      webpageUrl: state.params.url,
+      webpageUrl: state.params.shareUrl,
       title: state.params.name,
       description: state.params.desc,
       thumbImage: state.params.shareImage
