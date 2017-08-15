@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 
 import com.facebook.react.bridge.Promise;
@@ -154,6 +155,7 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
     public void getCurrentVersion (Promise promise) {
         try {
             int versionCode = ApkUtils.getVersion(getCurrentActivity()).versionCode;
+            Log.i("getCurrentVersion", versionCode+"");
             promise.resolve(versionCode);
         } catch (Exception e) {
             e.printStackTrace();

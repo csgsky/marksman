@@ -117,15 +117,15 @@ class WriteDiaryPage extends PureComponent {
       postDiary(dataThree, come4)
     }
     // 返回到日记列表页
-    const key = this.props.navigation.state.params.key
-    NativeModules.TCAgent.track('写日记', '保存成功')
-    PubSub.publish('refreshDiaryList')
-    dismissKeyboard()
-    if (come4 === 'edit') {
-      this.props.navigation.goBack(key)
-    } else {
-      this.props.navigation.goBack()
-    }
+    // const key = this.props.navigation.state.params.key
+    // NativeModules.TCAgent.track('写日记', '保存成功')
+    // PubSub.publish('refreshDiaryList')
+    // dismissKeyboard()
+    // if (come4 === 'edit') {
+    //   this.props.navigation.goBack(key)
+    // } else {
+    //   this.props.navigation.goBack()
+    // }
   }
 
   _closeKeyBoard = () => {

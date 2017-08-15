@@ -1,4 +1,5 @@
 import {Alert, NativeModules} from 'react-native'
+import Rx from 'rxjs'
 
 export const HOME_INIT = 'HOME_INIT'
 export const HOME_DATA = 'HOME_DATA'
@@ -57,13 +58,17 @@ export function checkVersion () {
 
 export function checkVersionData (data) {
   // NativeModules.SplashScreen.toChrome(data.download_url)
-  Alert.alert(data.title,
-    data.content,
-    [
-      {text: '取消'},
-      {text: '确定', onPress: () => NativeModules.SplashScreen.toChrome(data.download_url)}
-    ],
-    { cancelable: true })
+  Rx.Observable.from(NativeModules.SplashScreen.getCurrentVersion()).subscribe(it => {
+    if (it < data.current_ver) {
+      Alert.alert(data.title,
+        data.content,
+        [
+          {text: '取消'},
+          {text: '确定', onPress: () => NativeModules.SplashScreen.toChrome(data.download_url)}
+        ],
+        { cancelable: true })
+    }
+  })
   return {
     type: HOME_CHECK_VERSION_DATA
   }
