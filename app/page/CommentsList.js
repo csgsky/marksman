@@ -82,7 +82,7 @@ class CommentListPage extends PureComponent {
     if (isPostingComment) {
       return
     }
-    this.setState({recvName: item.nickname, pid: item.user_id})
+    this.setState({recvName: item.nickname, pid: item.user_id, commentOwnerId: item.user_id})
   }
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
     AsyncStorage.getItem('userId').then((result) => {
