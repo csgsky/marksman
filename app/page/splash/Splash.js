@@ -35,9 +35,6 @@ export default class Splash extends Component {
     this._getDeviceUserInfo()
     // 倒计时
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
-      // this.setState({
-      //   time: 3 - it
-      // })
       if ((it + 1) === 4) {
         this._splashRouter()
       }
@@ -204,7 +201,9 @@ export default class Splash extends Component {
         <View style={styles.lable}>
           <Image style={styles.lable} resizeMode="stretch" source={this.state.img} />
         </View>
-        <Text style={styles.skipText} onPress={this._onPress}>跳过</Text>
+        <View style={[styles.skipText, {alignItems: 'center', justifyContent: 'center'}]}>
+          <Text style={{color: 'white', fontSize: 13}} onPress={this._onPress}>跳过</Text>
+        </View>
       </View>
     )
   }
@@ -218,18 +217,14 @@ const styles = StyleSheet.create({
   },
   skipText: {
     position: 'absolute',
+    backgroundColor: 'rgba(52,52,52,0.4)',
     top: Platform.OS === 'ios' ? 40 : 20,
     right: 20,
-    height: 26,
+    height: 28,
     borderRadius: 13,
     borderWidth: 1,
     borderColor: '#dcdddd',
-    fontSize: 13,
-    color: '#ffffff',
-    alignSelf: 'center',
-    paddingTop: 4,
     paddingLeft: 12,
-    paddingRight: 10,
-    backgroundColor: 'transparent'
+    paddingRight: 10
   }
 })
