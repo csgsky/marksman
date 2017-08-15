@@ -79,8 +79,6 @@ function checkVersion (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    console.log('sdkVersion')
-                    console.log(it.sdkVersion)
                     return Observable.from(checkAndroidVersion(it.token, it.sdkVersion))
                   }
                   return Observable.of(2)
@@ -91,9 +89,10 @@ function checkVersion (action$) {
                 }
                 if (it.return_code === 2) {
                   return showError(NET_WORK_ERROR);
-                } else if(it.return_code === 0) {
+                } else if (it.return_code === 0) {
                   return showError(it.return_msg)
                 }
+                // console.log({version: it})
                 return actions.checkVersionData(it)
               }
             ).catch((error) => {

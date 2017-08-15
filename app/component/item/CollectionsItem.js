@@ -22,7 +22,7 @@ export default class CollectionItem extends Component {
 
   _onRouterWrite = () => {
     const {item} = this.props
-    this.props.navigation.navigate('CommonWebviewPage', {url: item.link, name: item.name, desc: item.descn, shareImage: item.icon_url})
+    this.props.navigation.navigate('CommonWebviewPage', {url: item.link, name: item.name, desc: item.descn, shareImage: item.icon_url, shareUrl: item.share})
   }
 }
 
