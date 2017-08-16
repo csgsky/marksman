@@ -14,30 +14,25 @@ const initState = {
 
 export default function diaryDetail (state = initState, action = {}) {
   switch (action.type) {
-    case types.DIARY_DETAIL_INIT:
-      console.warn('reducer  --->  DIARY_DETAIL_INIT')
-      return initState
     case types.DIARY_COMMENT_DATA:
-      console.warn('reducer  --->  DIARY_DETAIL_INIT')
       return {
         ...state,
         isRefreshing: false,
-        comments: action.comments
+        comments: action.comments,
+        hasMore: action.comments.length >= 10,
+        page: 1
       }
     case types.DIARY_LIKE_SUCCESS:
-      console.log('reducer ---> DIARY_LIKE_SUCCESS')
       return {
         ...state,
         likeSuccess: true
       }
     case types.DIARY_COMMENT_LIKE_SUCCESS:
-      console.log('reducer ---> DIARY_COMMENT_LIKE_SUCCESS')
       return {
         ...state,
         comments: likeSuccess(state.comments, action.payload.index)
       }
     case types.DIARY_DETAIL_DELETE_DIARY_SUCCESS:
-      console.log('reducer ---> DIARY_COMMENT_LIKE_SUCCESS')
       return {
         ...state,
         deleteSuccess: true
@@ -48,7 +43,6 @@ export default function diaryDetail (state = initState, action = {}) {
         isLoadingMore: true
       }
     case types.DIARY_COMMENTS_MORE_DATA:
-      console.log('epic ---> DIARY_COMMENTS_MORE_DATA', action)
       return {
         ...state,
         isLoadingMore: false,
@@ -74,7 +68,6 @@ function likeSuccess(data, index) {
     newData[index].my_like = 1
     newData[index].like.num += 1
   } else if (newData[index].my_like === 1) {
-    console.warn('hahahahhahah ' + newData[index].my_like)
     newData[index].my_like = 0
   }
   return newData

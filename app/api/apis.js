@@ -32,8 +32,8 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
-  // console.log('getApi path ==> ', baseUrlWithoutToken(path))
-  // console.log('getApi userid ==> ', userId)
+  console.log('getApi path ==> ', baseUrlWithoutToken(path))
+  console.log('getApi userid ==> ', userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
@@ -45,7 +45,7 @@ export function getApi (path, userId) {
   }).then((response) => {
     return response.json()
   }).then((responseJson) => {
-    // console.log('responseJson ==> ' + responseJson.return_msg)
+    console.log('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
     // console.log('getApi error ==> ' + error)
