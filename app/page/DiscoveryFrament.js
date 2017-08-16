@@ -23,11 +23,11 @@ class DiscoveryFrament extends Component {
   })
   componentDidMount () {
     this.props.actions.discoveryInit()
-    PubSub.subscribe('homefragment/init/data', this.onRefresh)
+    PubSub.subscribe('discoveryfragment/init/data', this.onRefresh)
   }
 
   componentWillUnmount() {
-    PubSub.unsubscribe('homefragment/init/data')
+    PubSub.unsubscribe('discoveryfragment/init/data')
   }
 
   render () {
@@ -37,7 +37,6 @@ class DiscoveryFrament extends Component {
         <SectionList
           ListHeaderComponent={this.getHeaderView}
           renderSectionHeader={this.getSectionView}
-          removeClippedSubviews={false}
           stickySectionHeadersEnabled={false}
           ListFooterComponent={this.getFooterCompt}
           onEndReached={this.handleLoadingMore}

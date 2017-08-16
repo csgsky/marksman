@@ -72,9 +72,6 @@ export default class Splash extends Component {
         // 未登录状态
         Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
           .subscribe((imsi) => {
-            // this.setState({
-            //   devicedid: imsi.split('-').join('')
-            // })
             AsyncStorage.getItem('devicedid').then((devicedid) => {
               // 未登录状态但已经有用户信息
               if (devicedid != null) {
@@ -156,6 +153,7 @@ export default class Splash extends Component {
   }
 
   _getSplash = (authorization) => {
+    alert('splash')
     Rx.Observable
       .from(splashApi(authorization))
       .subscribe((it) => {
@@ -223,7 +221,7 @@ const styles = StyleSheet.create({
     height: 28,
     borderRadius: 13,
     borderWidth: 1,
-    borderColor: '#dcdddd',
+    borderColor: 'rgba(52,52,52,0.4)',
     paddingLeft: 12,
     paddingRight: 10
   }
