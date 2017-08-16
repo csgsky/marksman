@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet, View, FlatList, RefreshControl, TouchableOpacity, Image} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import PubSub from 'pubsub-js'
 import * as actions from '../actions/lovedActions'
 import TopUserItem from '../component/item/TopuserItem'
 import theme from '../config/theme'
@@ -23,6 +24,9 @@ class LovedListPage extends Component {
     this.props.actions.LovedListInit(0)
   }
 
+  componentWillUnmount() {
+    PubSub.publish('discoveryfragment/init/data')
+  }
 
   onRefresh = () => {
     this.props.actions.LovedListInit(0)

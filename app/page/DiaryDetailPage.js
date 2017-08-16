@@ -68,15 +68,14 @@ class DiaryDetailPage extends Component {
     const ownerId = this.props.navigation.state.params.item.user_id
     this.props.diaryCommentInit({id, ownerId})
     PubSub.subscribe('refreshDetailPage', (msg) => {
-      console.log('pubsub', msg)
+      // console.log('pubsub', msg)
       this.props.diaryCommentInit({id, ownerId});
     })
     PubSub.subscribe('commentsLikeRefresh', (msg) => {
-      console.log('pubsub', msg)
+      // console.log('pubsub', msg)
       this.props.diaryCommentInit({id, ownerId})
     })
     PubSub.subscribe('commentsRefresh', (msg) => {
-      console.log('pubsub', msg)
       this.props.diaryCommentInit({id, ownerId})
     })
     PubSub.subscribe('commentsListRefresh', (msg) => {
@@ -96,7 +95,6 @@ class DiaryDetailPage extends Component {
     const newLikeSuccess = nextProps.likeSuccess;
     const newCommentSuccess = nextProps.commentSuccess;
     const newDeleteSuccess = nextProps.deleteSuccess;
-    console.log({likeSuccess, newLikeSuccess})
     if (likeSuccess !== newLikeSuccess && newLikeSuccess) {
       this.setState({
         diary: {...this.state.diary, my_like: 1, like: {num: this.state.diary.like.num + 1}}
@@ -163,6 +161,7 @@ class DiaryDetailPage extends Component {
 
 
   handleLoadingMore = () => {
+    // alert('到底了')
     const {isLoadingMore, hasMore, page} = this.props
     const id = this.state.diary.diary_id
     const ownerId = this.state.diary.user_id
