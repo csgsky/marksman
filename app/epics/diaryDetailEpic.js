@@ -48,7 +48,7 @@ function commentsMoreEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    return Observable.from(CommentsApi({id: action.id, ownerId: action.ownerId, page: action.page + 1, userId: it.token}))
+                    return Observable.from(CommentsApi({id: action.id, ownerId: action.ownerId, page: action.page, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
