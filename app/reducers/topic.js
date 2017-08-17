@@ -20,7 +20,9 @@ export default function topic (state = initState, action = {}) {
         ...state,
         isRefreshing: false,
         topic: action.topic,
-        comments: action.comments
+        comments: action.comments,
+        hasMore: action.comments.length >= 10,
+        page: 1
       }
     case types.TOPIC_COMMENTS_LOAD_MORE:
       return {

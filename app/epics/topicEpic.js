@@ -30,7 +30,6 @@ function topicInitEpic (action$) {
                 if (it.return_code === 1) {
                   return actions.topicData(it)
                 }
-                console.log(it)
                 return showError(OTHER_ERROR)
               }
             )
@@ -51,7 +50,7 @@ function commentsMoreEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    return Observable.from(CommentsApi({id: action.diaryId, ownerId: action.ownerId, page: action.page + 1, userId: it.token}))
+                    return Observable.from(CommentsApi({id: action.diaryId, ownerId: action.ownerId, page: action.page, userId: it.token}))
                   }
                   return Observable.of(2)
                 }
@@ -65,7 +64,6 @@ function commentsMoreEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -110,7 +108,6 @@ function topicUnfollowEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    // 此处调用unfollo topic api
                     return Observable.from(UnfollowTopicApi(action.diaryId, it.token))
                   }
                   return Observable.of(2)
@@ -119,7 +116,6 @@ function topicUnfollowEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it.return_code)
                 if (it.return_code === 1) {
                   return actions.topicUnfollowSuccess()
                 }
@@ -147,7 +143,6 @@ function commentLikeEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it.return_msg)
                 if (it.return_code === 1) {
                   return actions.topicCommentLikeSuccess(action.index)
                 }
@@ -167,7 +162,6 @@ function commentUnlikeEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    // 此处调用unfollo topic api
                     return Observable.from(UnlikeCommentApi({id: action.diaryId, ownerId: action.ownerId, commentId: action.commentId, userId: it.token}))
                   }
                   return Observable.of(2)
@@ -176,7 +170,6 @@ function commentUnlikeEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it)
                 if (it === 1) {
                   return actions.topicCommentUnlikeSuccess(action.index)
                 }
@@ -204,7 +197,6 @@ function topicLikeEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it.return_msg)
                 if (it.return_code === 1) {
                   return actions.topicLikeSuccess()
                 }

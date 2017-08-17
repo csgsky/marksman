@@ -11,6 +11,7 @@ import CommentBar from '../component/CommentBar'
 import ShareModal from '../widget/ShareModal'
 import EmptyView from '../component/CommentEmptyView'
 import Separator from '../component/Separator'
+import Footer from '../component/Footer'
 // homefragment/init/data
 class Topic extends PureComponent {
   static navigationOptions = ({navigation}) => ({
@@ -112,7 +113,7 @@ class Topic extends PureComponent {
   renderHeader = (topic, comments) => {
     const {topicId} = this.props.navigation.state.params
     return (
-      <View>
+      <View style={{backgroundColor: 'white'}}>
         <View style={styles.header}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{topic.name}</Text>
@@ -133,6 +134,15 @@ class Topic extends PureComponent {
       </View>
     )
   }
+
+  getFooterCompt = () => {
+    const {comments, hasMore} = this.props
+    if (comments.length > 0) {
+      return <Footer hasMoreData={hasMore}/>
+    }
+    return <View />
+  }
+
 
   getWechatShareMeta = () => {
     const {topic} = this.props
@@ -167,6 +177,7 @@ class Topic extends PureComponent {
           visible={this.state.shareVisible}
           hideShare={this.hideShare}
           wechatMetadata={this.state.wechatMetadata}
+          come4="话题分享"
         />
         {topic && topic.name && <FlatList
           data={comments}
@@ -180,6 +191,7 @@ class Topic extends PureComponent {
           ListHeaderComponent={() => this.renderHeader(topic, comments)}
           ItemSeparatorComponent={() => <ListSeparator/>}
           onEndReached={() => this.handleLoadingMore()}
+          ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}
           refreshControl={
             <RefreshControl
@@ -204,7 +216,7 @@ class Topic extends PureComponent {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: theme.pageBackgroundColor
   },
   header: {
     padding: 16,

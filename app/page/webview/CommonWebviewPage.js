@@ -37,11 +37,13 @@ export default class CommonWebviewPage extends Component {
       this.props.navigation.setParams({
         share: this.showShare
       })
+      NativeModules.SplashScreen.setCurrentPage('collection')
     }
   }
   componentWillUnmount() {
     if (Platform.OS === 'android') {
       NativeModules.SplashScreen.showSystemNavigationBar()
+      NativeModules.SplashScreen.setCurrentPage('')
     }
   }
 
@@ -85,6 +87,7 @@ export default class CommonWebviewPage extends Component {
         visible={this.state.shareVisible}
         hideShare={this.hideShare}
         wechatMetadata={this.state.wechatMetadata}
+        come4="文集分享"
       />
       <WebView style={styles.container} source={{uri: state.params.url}}/>
     </View>)

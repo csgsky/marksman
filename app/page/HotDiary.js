@@ -112,6 +112,7 @@ class HotDiary extends Component {
           visible={this.state.shareVisible}
           hideShare={this.hideShare}
           wechatMetadata={this.state.wechatMetadata}
+          come4="日记分享"
         />
         <FlatList
           data={diarys}

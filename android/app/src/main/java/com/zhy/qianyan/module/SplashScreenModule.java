@@ -15,6 +15,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.zhy.qianyan.MainActivity;
+import com.zhy.qianyan.utils.ApiSp;
 import com.zhy.qianyan.utils.ApkUtils;
 import com.zhy.qianyan.utils.SplashScreen;
 
@@ -173,16 +174,13 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void setCurrentPage(String page) {
+        if (page != null) {
+            Log.i("qianyan", page);
+            new ApiSp(getCurrentActivity()).setCurrentPage(page);
+        }
 
-
-
-
-
-//    @ReactMethod
-//    public void getBrand(Promise promise) {
-////        try {
-////
-////        }
-//    }
+    }
 
 }
