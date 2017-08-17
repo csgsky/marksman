@@ -30,7 +30,7 @@ export default class CommentItem extends Component {
     if (type === 'commentsList' && index === 0) {
       return '楼主'
     }
-    if(type === 'commentsList'){
+    if (type === 'commentsList') {
       return `${index}楼`
     }
     return `${index + 1}楼`
@@ -38,7 +38,8 @@ export default class CommentItem extends Component {
   render () {
     const {data, index, type, onPressCommentItem, onPressLike} = this.props
     return (
-      <TouchableOpacity onPress={onPressCommentItem}
+      <TouchableOpacity style={{backgroundColor: 'white'}}
+        onPress={onPressCommentItem}
         activeOpacity={0.3}>
         <View style={styles.item}>
           <View style={styles.header}>

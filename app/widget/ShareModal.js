@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Image,
     Platform,
-    StatusBar
+    StatusBar,
+    NativeModules
 } from 'react-native'
 import * as WeChat from 'react-native-wechat'
 import * as QQAPI from 'react-native-qq';
@@ -39,6 +40,7 @@ export default class ShareModal extends Component {
 
   shareWeChatF = () => {
     this.props.hideShare()
+    NativeModules.TCAgent.track('分享', this.props.come4 + '微信好友')
     const wechatdata = {
       ...this.state.wechatMetadata,
       description: this.fixDesc(this.state.wechatMetadata)
@@ -46,7 +48,25 @@ export default class ShareModal extends Component {
     WeChat.isWXAppInstalled()
       .then((installed) => {
         if (installed) {
-          WeChat.shareToSession(wechatdata)
+          WeChat.shareToSession(wechatdata).then((result) => {
+            if (result) {
+              NativeModules.TCAgent.track('分享', this.props.come4 + '微信好友成功')
+              Toast.show('分享成功', {
+                duration: Toast.durations.shor,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true
+              })
+            } else {
+              NativeModules.TCAgent.track('分享', this.props.come4 + '微信好友取消')
+              Toast.show('取消分享', {
+                duration: Toast.durations.shor,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true
+              })
+            }
+          })
         } else {
           Toast.show('未安装微信客户端', {
             duration: Toast.durations.LONG,
@@ -66,10 +86,29 @@ export default class ShareModal extends Component {
       ...this.state.wechatMetadata,
       description: this.fixDesc(this.state.wechatMetadata)
     }
+    NativeModules.TCAgent.track('分享', this.props.come4 + '朋友圈')
     WeChat.isWXAppInstalled()
       .then((installed) => {
         if (installed) {
-          WeChat.shareToTimeline(wechatdata)
+          WeChat.shareToTimeline(wechatdata).then((result) => {
+            if (result) {
+              NativeModules.TCAgent.track('分享', this.props.come4 + '朋友圈成功')
+              Toast.show('分享成功', {
+                duration: Toast.durations.shor,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true
+              })
+            } else {
+              NativeModules.TCAgent.track('分享', this.props.come4 + '朋友圈取消')
+              Toast.show('取消分享', {
+                duration: Toast.durations.shor,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true
+              })
+            }
+          })
         } else {
           Toast.show('未安装微信客户端', {
             duration: Toast.durations.SHORT,
@@ -90,12 +129,22 @@ export default class ShareModal extends Component {
       imageUrl: this.state.wechatMetadata.thumbImage,
       description: this.fixDesc(this.state.wechatMetadata)
     }
+    NativeModules.TCAgent.track('分享', this.props.come4 + 'QQ好友')
     QQAPI.isQQInstalled()
       .then((installed) => {
         if (installed) {
           QQAPI.shareToQQ(qqData).then((result) => {
             if (result) {
+              NativeModules.TCAgent.track('分享', this.props.come4 + 'QQ好友成功')
               Toast.show('分享成功', {
+                duration: Toast.durations.shor,
+                position: Toast.positions.BOTTOM,
+                shadow: true,
+                animation: true
+              })
+            } else {
+              NativeModules.TCAgent.track('分享', this.props.come4 + 'QQ好友取消')
+              Toast.show('取消分享', {
                 duration: Toast.durations.shor,
                 position: Toast.positions.BOTTOM,
                 shadow: true,
@@ -123,10 +172,12 @@ export default class ShareModal extends Component {
       imageUrl: this.state.wechatMetadata.thumbImage,
       description: this.fixDesc(this.state.wechatMetadata)
     }
+    NativeModules.TCAgent.track('分享', this.props.come4 + 'QQ空间')
     QQAPI.isQQInstalled().then((installed) => {
       if (installed) {
         QQAPI.shareToQzone(qqData).then((result) => {
           if (result) {
+            NativeModules.TCAgent.track('分享', this.props.come4 + 'QQ空间成功')
             Toast.show('分享成功', {
               duration: Toast.durations.LONG,
               position: Toast.positions.BOTTOM,
@@ -134,6 +185,14 @@ export default class ShareModal extends Component {
               animation: true,
               hideOnPress: true,
               delay: 0
+            })
+          } else {
+            NativeModules.TCAgent.track('分享', this.props.come4 + 'QQ空间取消')
+            Toast.show('取消分享', {
+              duration: Toast.durations.shor,
+              position: Toast.positions.BOTTOM,
+              shadow: true,
+              animation: true
             })
           }
         })
