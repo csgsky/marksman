@@ -65,7 +65,7 @@ class MyFollowTopics extends PureComponent {
   render() {
     const {topics, isRefreshing, isEmpty} = this.props
     return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <FlatList
           data={topics}
           renderItem={({item, index}) => (
