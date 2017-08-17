@@ -37,7 +37,9 @@ export default class CommonWebviewPage extends Component {
       this.props.navigation.setParams({
         share: this.showShare
       })
-      NativeModules.SplashScreen.setCurrentPage('collection')
+      if (Platform.OS === 'android') {
+        NativeModules.SplashScreen.setCurrentPage('collection')
+      }
     }
   }
   componentWillUnmount() {
@@ -73,7 +75,6 @@ export default class CommonWebviewPage extends Component {
       shareVisible: true,
       wechatMetadata
     })
-
   }
 
   render () {
