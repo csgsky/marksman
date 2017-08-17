@@ -50,7 +50,7 @@ class DiaryDetailPage extends Component {
     super(props)
     this.state = {
       diary: undefined,
-      shareVisible: false, // 显示分享
+      shareVisible: false,
       wechatMetadata: null
     }
   }
@@ -68,18 +68,16 @@ class DiaryDetailPage extends Component {
     const ownerId = this.props.navigation.state.params.item.user_id
     this.props.diaryCommentInit({id, ownerId})
     PubSub.subscribe('refreshDetailPage', (msg) => {
-      // console.log('pubsub', msg)
       this.props.diaryCommentInit({id, ownerId});
     })
     PubSub.subscribe('commentsLikeRefresh', (msg) => {
-      // console.log('pubsub', msg)
+
       this.props.diaryCommentInit({id, ownerId})
     })
     PubSub.subscribe('commentsRefresh', (msg) => {
       this.props.diaryCommentInit({id, ownerId})
     })
     PubSub.subscribe('commentsListRefresh', (msg) => {
-      console.log('pubsub', msg)
       this.props.diaryCommentInit({id, ownerId})
     })
     // 跳转到个人主页
@@ -161,7 +159,6 @@ class DiaryDetailPage extends Component {
 
 
   handleLoadingMore = () => {
-    // alert('到底了')
     const {isLoadingMore, hasMore, page} = this.props
     const id = this.state.diary.diary_id
     const ownerId = this.state.diary.user_id
@@ -240,13 +237,13 @@ class DiaryDetailPage extends Component {
   render () {
     const {isRefreshing, comments} = this.props
     const diary = this.state.diary
-    console.log(comments)
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
         <ShareModal
           visible={this.state.shareVisible}
           hideShare={this.hideShare}
           wechatMetadata={this.state.wechatMetadata}
+          come4="日记分享"
         />
         <FlatList
           data={comments}

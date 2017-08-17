@@ -153,7 +153,7 @@ export default class Splash extends Component {
   }
 
   _getSplash = (authorization) => {
-    alert('splash')
+    // alert('splash')
     Rx.Observable
       .from(splashApi(authorization))
       .subscribe((it) => {

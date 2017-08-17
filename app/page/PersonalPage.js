@@ -69,6 +69,7 @@ class PersonalPage extends PureComponent {
           visible={this.state.shareVisible}
           hideShare={this.hideShare}
           wechatMetadata={this.state.wechatMetadata}
+          come4="日记分享"
         />
         {diaries && info && <FlatList
           data={diaries}
