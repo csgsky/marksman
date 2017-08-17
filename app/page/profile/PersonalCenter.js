@@ -237,6 +237,7 @@ class PersonalCenter extends Component {
           visible={this.state.shareVisible}
           hideShare={this.hideShare}
           wechatMetadata={this.state.wechatMetadata}
+          come4="App分享"
         />
         <Separator />
         <View style={styles.view}>
