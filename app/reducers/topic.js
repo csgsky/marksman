@@ -5,7 +5,9 @@ const initState = {
   comments: [],
   isLoadingMore: false,
   page: 0,
-  hasMore: true
+  hasMore: true,
+  isLikingComment: false,
+  isLikingTopic: false
 }
 
 export default function topic (state = initState, action = {}) {
@@ -50,16 +52,28 @@ export default function topic (state = initState, action = {}) {
         ...state,
         topic: {...state.topic, my_focus: 0}
       }
+    case types.TOPIC_COMMENT_LIKE:
+      return {
+        ...state,
+        isLikingComment: true,
+      }
     case types.TOPIC_COMMENT_LIKE_SUCCESS:
       console.log('epic ---> TOPIC_COMMENT_LIEK_SUCCESS')
       return {
         ...state,
+        isLikingComment: true,
         comments: likeCommentSuccess(state.comments, action.index)
+      }
+    case types.TOPIC_LIKE:
+      return {
+        ...state,
+        isLikingTopic: true
       }
     case types.TOPIC_LIKE_SUCCESS:
       console.log('epic ---> TOPIC_LIKE_SUCCESS')
       return {
         ...state,
+        isLikingTopic: false,
         topic: {...state.topic, my_like: 1, like: {num: state.topic.like.num + 1}}
       }
     case types.TOPIC_DETAIL_CLEAR_DATA:

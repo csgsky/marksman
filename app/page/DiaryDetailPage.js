@@ -167,9 +167,9 @@ class DiaryDetailPage extends Component {
     }
   }
 
-  _onPressLike = (diaryId, ownerId, myLike) => {
+  _onPressLike = (diaryId, ownerId, myLike, isLikingDiary) => {
     NativeModules.TCAgent.track('日记详情页', '点赞')
-    if (!myLike) {
+    if (!myLike && !isLikingDiary) {
       AsyncStorage.getItem('userId').then((result) => {
         if (result === null) {
           this.props.navigation.navigate('Login', {come4: 'diary'})
@@ -235,7 +235,7 @@ class DiaryDetailPage extends Component {
   }
 
   render () {
-    const {isRefreshing, comments} = this.props
+    const {isRefreshing, comments, isLikingDiary, isLikingComment} = this.props
     const diary = this.state.diary
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -251,6 +251,7 @@ class DiaryDetailPage extends Component {
             <CommentItem data={item}
               navigation={this.props.navigation}
               index={index}
+              isLikingComment={isLikingComment}
               onPressCommentItem={() => { this._onPressCommentItem(item) }}
               onPressLike={this._onPressCommentLike}/>)}
           onEndReachedThreshold={0.1}
@@ -268,7 +269,7 @@ class DiaryDetailPage extends Component {
         />
         <CommentBar
           myLike={diary.my_like}
-          likeAction={() => this._onPressLike(diary.diary_id, diary.user_id, diary.my_like)}
+          likeAction={() => this._onPressLike(diary.diary_id, diary.user_id, diary.my_like, isLikingDiary)}
           likeNum={diary.like.num}
           showShare={this.showShare}
           commentAction={() => this._onPressComment(diary)}

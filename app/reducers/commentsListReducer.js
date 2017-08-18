@@ -9,7 +9,8 @@ const initialState = {
   isPostingComment: false,
   success: false,
   count: NaN,
-  comments: []
+  comments: [],
+  isLiking: false
 }
 
 export default function commentsList(state = initialState, action = {}) {
@@ -42,10 +43,16 @@ export default function commentsList(state = initialState, action = {}) {
       }
     case types.CLEAR_COMMENTS_LIST:
       return initialState
+    case types.COMMENTS_LIST_LIKE:
+      return {
+        ...state,
+        isLiking: true
+      }
     case types.COMMENTS_LIST_LIKE_SUCCESS:
       console.log('epic ---> COMMENTS_LIST_LIKE_SUCCESS')
       return {
         ...state,
+        isLiking: false,
         comments: likeCommentSuccess(state.comments, action.payload.index)
       }
     case types.COMMENTS_LIST_COMMENT_POST:

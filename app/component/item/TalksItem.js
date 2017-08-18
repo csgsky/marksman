@@ -67,7 +67,8 @@ export default class TalksItem extends Component {
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
-    height: 100
+    height: 100,
+    backgroundColor: '#fff'
   },
   img: {
     width: 100,
