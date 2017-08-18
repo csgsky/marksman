@@ -85,6 +85,10 @@ class CommentListPage extends PureComponent {
     this.setState({recvName: item.nickname, pid: item.user_id, commentOwnerId: item.user_id})
   }
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
+    const {isLiking} = this.props;
+    if (isLiking) {
+      return
+    }
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'commentsList'})

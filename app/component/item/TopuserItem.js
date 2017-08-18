@@ -58,6 +58,7 @@ export default class TopUserItem extends Component {
 }
 const styles = StyleSheet.create({
   item: {
+    backgroundColor: '#fff',
     flex: 1,
     flexDirection: 'column',
     paddingLeft: 16,
