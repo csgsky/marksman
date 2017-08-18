@@ -136,8 +136,8 @@ class CommentEditor extends PureComponent {
         this.setState({
           image: source,
           data: response.data,
-          suffix: 'JPEG'
-          //suffix: response.fileName.split('.')[1]
+          // suffix: 'JPEG'
+          suffix: response.uri.split('.')[1]
         });
       }
     })
@@ -162,7 +162,7 @@ class CommentEditor extends PureComponent {
         this.setState({
           image: source,
           data: response.data,
-          suffix: 'JPEG'
+          suffix: response.uri.split('.')[1]
         });
       }
     })
