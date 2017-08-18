@@ -25,6 +25,7 @@ const optionsiOS = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
+  quality: 0.5,
   allowsEditing: true
 }
 
@@ -34,9 +35,7 @@ const optionsAndroid = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
-  quality: 1,
-  maxWidth: Math.round(theme.screenWidth) * 2,
-  maxHeight: Math.round(theme.screenWidth) * 2,
+  quality: 0.5,
   allowsEditing: true
 }
 
@@ -62,7 +61,8 @@ class WriteDiaryPage extends PureComponent {
       avatarSource: null,
       color2: '#ffa3c5',
       screenHeight: screenHeight - 64 - 40,
-      keyboardHeight: 258
+      keyboardHeight: 258,
+      suffix: ''
     };
     if (this.props.navigation.state.params.diary) {
       const diary = this.props.navigation.state.params.diary
@@ -121,14 +121,14 @@ class WriteDiaryPage extends PureComponent {
       postDiary(dataOne, come4)
     } else if (imgBase64 !== null) {
       const dataTwo = this.props.diary === null ?
-        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2} :
-        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
+        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, img_suffix: this.state.suffix} :
+        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id, img_suffix: this.state.suffix}
       postDiary(dataTwo, come4)
     } else if (this.props.navigation.state.params.come4 === 'edit') {
-      if (diary.img !== null || diary.img !== '') {
-        postDiary({content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
-      } else {
+      if (this.props.source === null) {
         postDiary({content, img: 'DELETE', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
+      } else {
+        postDiary({content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
       }
     } else {
       postDiary({content, ifprivate, feel, feelcolor: this.state.color2}, come4)
@@ -173,7 +173,10 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
-        // alert(response.fileSize)
+        const suffix = response.uri.split('.')
+        this.setState({
+          suffix: suffix[suffix.length - 1]
+        })
         this._input.focus()
         const source = { uri: response.uri }
         const imgBase64 = response.data
@@ -195,7 +198,10 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
-        // alert(response.fileSize)
+        const suffix = response.uri.split('.')
+        this.setState({
+          suffix: suffix[suffix.length - 1]
+        })
         this._input.focus()
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         const imgBase64 = response.data
