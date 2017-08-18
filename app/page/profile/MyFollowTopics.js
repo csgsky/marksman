@@ -22,7 +22,7 @@ class MyFollowTopics extends PureComponent {
   }
   renderHeaderTitle = (title) => {
     return (
-      <View>
+      <View style={{backgroundColor: '#fff'}}>
         <View style={{
           flexDirection: 'row',
           justifyContent: 'center',
@@ -30,7 +30,7 @@ class MyFollowTopics extends PureComponent {
           height: 35,
           paddingLeft: 16,
           paddingRight: 16,
-          marginBottom: 10
+          marginBottom: 10,
         }}>
           <View style={{width: 4, backgroundColor: '#aecc9a', height: 15}}/>
           <View style={{flex: 1, marginLeft: 16, flexDirection: 'column', justifyContent: 'center'}}>
@@ -43,7 +43,7 @@ class MyFollowTopics extends PureComponent {
   renderEmptyView = desc => (
     <View>
       {this.renderHeaderTitle('我的关注')}
-      <View style={{height: 187, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.border.color}}>
+      <View style={{height: 187, justifyContent: 'center', borderBottomWidth: 1, borderBottomColor: theme.border.color, backgroundColor: '#fff'}}>
         <Text style={{fontSize: 12, color: '#9b9b9b', textAlign: 'center', paddingBottom: 35}}>{desc}</Text>
       </View>
       {this.renderHeaderTitle('推荐关注')}

@@ -5,7 +5,8 @@ const initState = {
   diarys: [],
   page: 0,
   hasMoreData: true,
-  isLoadingMore: false
+  isLoadingMore: false,
+  isLiking: false
 }
 
 
@@ -37,9 +38,15 @@ export default function hotDiary (state = initState, action = {}) {
         hasMoreData: action.hasMoreData,
         page: state.page + 1
       }
+    case types.HOTDIARY_LIKE:
+      return {
+        ...state,
+        isLiking: true
+      }
     case types.HOTDIARY_LIKE_SUCCESS:
       return {
         ...state,
+        isLiking: false,
         diarys: likeSuccess(state.diarys, action.payload.index)
       }
     default:

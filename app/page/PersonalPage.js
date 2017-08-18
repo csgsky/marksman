@@ -152,7 +152,8 @@ class PersonalPage extends PureComponent {
   }
 
   _likeDiary = (diaryId, ownerId, myLike, index) => {
-    if (myLike) {
+    const {isLiking} = this.props;
+    if (myLike || isLiking) {
       return
     }
     AsyncStorage.getItem('userId').then((result) => {
@@ -182,14 +183,15 @@ class PersonalPage extends PureComponent {
 }
 
 const mapStateToProps = (state) => {
-  const {personalData: {info, diaries, isRefreshing, isLoadingMore, hasMore, page}} = state
+  const {personalData: {info, diaries, isRefreshing, isLoadingMore, hasMore, page, isLiking}} = state
   return {
     info,
     diaries,
     isRefreshing,
     isLoadingMore,
     hasMore,
-    page
+    page,
+    isLiking
   }
 }
 
