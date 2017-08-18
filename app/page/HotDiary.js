@@ -65,10 +65,11 @@ class HotDiary extends Component {
   }
 
   _likeDiary = (diaryId, ownerId, myLike, index) => {
-    NativeModules.TCAgent.track('足印', '点赞')
-    if (myLike) {
+    const {isLiking} = this.props;
+    if (isLiking || myLike) {
       return
     }
+    NativeModules.TCAgent.track('足印', '点赞')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'recentDiary'})
@@ -144,7 +145,8 @@ const mapStateToProps = (state) => {
     diarys: hotDiary.diarys,
     hasMoreData: hotDiary.hasMoreData,
     isLoadingMore: hotDiary.isLoadingMore,
-    page: hotDiary.page
+    page: hotDiary.page,
+    isLiking: hotDiary.isLiking
   }
 }
 

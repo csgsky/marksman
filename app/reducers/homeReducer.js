@@ -7,7 +7,7 @@ const initState = {
   hasMoreData: true,
   loadingSuccess: false,
   isLoadingMore: false,
-  isLogin: true
+  isLogin: true,
 }
 
 

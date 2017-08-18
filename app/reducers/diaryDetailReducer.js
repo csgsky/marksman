@@ -9,7 +9,9 @@ const initState = {
   hasMore: true,
   likeSuccess: false,
   commentSuccess: false,
-  deleteSuccess: false
+  deleteSuccess: false,
+  isLikingDiary: false,
+  isLikingComment: false
 }
 
 export default function diaryDetail (state = initState, action = {}) {
@@ -22,14 +24,26 @@ export default function diaryDetail (state = initState, action = {}) {
         hasMore: action.comments.length >= 10,
         page: 1
       }
+    case types.DIARY_LIKE:
+      return {
+        ...state,
+        isLikingDiary: true
+      }
     case types.DIARY_LIKE_SUCCESS:
       return {
         ...state,
+        isLikingDiary: false,
         likeSuccess: true
+      }
+    case types.DIARY_COMMENT_LIKE:
+      return {
+        ...state,
+        isLikingComment: true,
       }
     case types.DIARY_COMMENT_LIKE_SUCCESS:
       return {
         ...state,
+        isLikingComment: false,
         comments: likeSuccess(state.comments, action.payload.index)
       }
     case types.DIARY_DETAIL_DELETE_DIARY_SUCCESS:
