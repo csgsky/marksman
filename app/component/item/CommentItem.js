@@ -36,7 +36,7 @@ export default class CommentItem extends Component {
     return `${index + 1}楼`
   }
   render () {
-    const {data, index, type, onPressCommentItem, onPressLike} = this.props
+    const {data, index, type, onPressCommentItem, onPressLike, isLikingComment} = this.props
     return (
       <TouchableOpacity style={{backgroundColor: 'white'}}
         onPress={onPressCommentItem}
@@ -53,6 +53,9 @@ export default class CommentItem extends Component {
             <Image source={CommentIcon} style={styles.comment} resizeMode="contain"/>
             {!(type === 'commentsList' && index !== 0) && <TouchableOpacity style={{flexDirection: 'row'}}
               onPress={() => {
+                if (isLikingComment) {
+                  return
+                }
                 onPressLike({diaryId: data.diary_id, ownerId: data.owner_id, commentId: data.comment_id, index, myLike: data.my_like})
               }}>
               <Image source={data.my_like ? LikedIcon : LikeIcon} style={styles.like} resizeMode="contain"/>

@@ -6,7 +6,8 @@ const initState = {
   isLoadingMore: false,
   hasMore: true,
   page: 0,
-  info: {}
+  info: {},
+  isLiking: false
 }
 
 export default function personalData (state = initState, action = {}) {
@@ -40,9 +41,15 @@ export default function personalData (state = initState, action = {}) {
         ...state,
         info: {...state.info, my_focus: !state.info.my_focus}
       }
+    case types.PERSON_DIARY_LIKE:
+      return {
+        ...state,
+        isLiking: true
+      }
     case types.PERSON_DIARY_LIKE_SUCCESS:
       return {
         ...state,
+        isLiking: false,
         diaries: likeSuccess(state.diaries, action.payload.index)
       }
     case types.CLEAR_PERSON_DATA:

@@ -74,7 +74,10 @@ class Topic extends PureComponent {
       this.props.topicUnfollow(id)
     })
   }
-  _onPressLike = (diaryId, ownerId, myLike) => {
+  _onPressLike = (diaryId, ownerId, myLike, isLikingTopic) => {
+    if (isLikingTopic) {
+      return
+    }
     NativeModules.TCAgent.track('发现', '日记详情页-点赞')
     if (!myLike) {
       AsyncStorage.getItem('userId').then((result) => {
@@ -102,6 +105,10 @@ class Topic extends PureComponent {
     }, 300)
   }
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
+    const {isLikingComment} = this.props;
+    if (isLikingComment) {
+      return
+    }
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'topic'})
@@ -169,7 +176,7 @@ class Topic extends PureComponent {
   }
 
   render () {
-    const {topic, comments, isRefreshing} = this.props;
+    const {topic, comments, isRefreshing, isLikingTopic, isLikingComment} = this.props;
     console.log({topic})
     return (
       <View style={styles.container}>
@@ -203,7 +210,7 @@ class Topic extends PureComponent {
         />}
         {topic && <CommentBar
           myLike={topic.my_like}
-          likeAction={() => this._onPressLike(topic.diary_id, topic.user_id, topic.my_like)}
+          likeAction={() => this._onPressLike(topic.diary_id, topic.user_id, topic.my_like, isLikingTopic)}
           likeNum={topic.like.num}
           showShare={this.showShare}
           commentAction={() => this._onPressComment(topic)}
