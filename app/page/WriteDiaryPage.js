@@ -173,7 +173,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
-        alert(response.fileSize)
+        // alert(response.fileSize)
         this._input.focus()
         const source = { uri: response.uri }
         const imgBase64 = response.data
@@ -195,7 +195,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
-        alert(response.fileSize)
+        // alert(response.fileSize)
         this._input.focus()
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         const imgBase64 = response.data
