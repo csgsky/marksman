@@ -25,6 +25,7 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
+  quality: 0.1,
   allowsEditing: true
 }
 
@@ -60,6 +61,7 @@ class WriteDiaryPage extends PureComponent {
   componentDidMount() {
     NativeModules.TCAgent.track('写日记', '写日记')
     const diary = this.props.navigation.state.params.diary
+    // console.log({diary})
     this.props.writeDiaryInit(diary)
     if (this.props.navigation.state.params.come4 === 'edit') {
       Rx.Observable.of('delay').delay(800).subscribe(() => {
@@ -95,12 +97,12 @@ class WriteDiaryPage extends PureComponent {
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation, isPosting} = this.props
     const come4 = navigation.state.params.come4
+    const diary = this.props.navigation.state.params.diary
     if (isPosting) {
       return;
     }
     NativeModules.TCAgent.track('写日记', '日记保存')
     if (materialPosition >= 0) {
-      // console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
       const dataOne = this.props.diary === null ?
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2} :
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
@@ -110,11 +112,15 @@ class WriteDiaryPage extends PureComponent {
         {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2} :
         {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
       postDiary(dataTwo, come4)
+    } else if (this.props.navigation.state.params.come4 === 'edit') {
+      if (diary.img !== null || diary.img !== '') {
+        postDiary({content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
+      } else {
+        postDiary({content, img: 'DELETE', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
+      }
     } else {
-      const dataThree = this.props.diary === null ?
-        {content, ifprivate, feel, feelcolor: this.state.color2} :
-        {content, img: 'DELETE', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
-      postDiary(dataThree, come4)
+      postDiary({content, ifprivate, feel, feelcolor: this.state.color2}, come4)
+      // postDiary({content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
     }
     // 返回到日记列表页
     // const key = this.props.navigation.state.params.key
