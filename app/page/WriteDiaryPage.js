@@ -19,15 +19,27 @@ import DeletePhoto from '../img/photo_delete.png'
 
 const dismissKeyboard = require('dismissKeyboard')
 const screenHeight = Dimensions.get('window').height
-const options = {
+const optionsiOS = {
   title: '图片选择',
   cancelButtonTitle: '取消',
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
-  quality: 0.1,
   allowsEditing: true
 }
+
+const optionsAndroid = {
+  title: '图片选择',
+  cancelButtonTitle: '取消',
+  takePhotoButtonTitle: '拍照',
+  chooseFromLibraryButtonTitle: '图片库',
+  mediaType: 'photo',
+  quality: 1,
+  maxWidth: Math.round(theme.screenWidth) * 2,
+  maxHeight: Math.round(theme.screenWidth) * 2,
+  allowsEditing: true
+}
+
 
 class WriteDiaryPage extends PureComponent {
 // color: '#c37f2e',
@@ -151,6 +163,7 @@ class WriteDiaryPage extends PureComponent {
 
   launchCamera () {
     const that = this;
+    const options = Platform.OS === 'android' ? optionsAndroid : optionsiOS
     ImagePicker.launchCamera(options, (response) => {
       that.setState({
         showModal: false
@@ -160,6 +173,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
+        alert(response.fileSize)
         this._input.focus()
         const source = { uri: response.uri }
         const imgBase64 = response.data
@@ -171,6 +185,7 @@ class WriteDiaryPage extends PureComponent {
 
   launchImageLibrary () {
     const that = this;
+    const options = Platform.OS === 'android' ? optionsAndroid : optionsiOS
     ImagePicker.launchImageLibrary(options, (response) => {
       that.setState({
         showModal: false
@@ -180,6 +195,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
+        alert(response.fileSize)
         this._input.focus()
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         const imgBase64 = response.data
