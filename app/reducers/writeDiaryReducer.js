@@ -31,7 +31,6 @@ const initState = {
 export default function writeDiary (state = initState, action = {}) {
   switch (action.type) {
     case types.WRITE_DIARY_INIT:
-      // console.log('writeDiary reducer WRITE_DIARY_INIT -> img ', getMaterialPosition(action.payload.img))
       return {
         ...state,
         diary: action.payload,

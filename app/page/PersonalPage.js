@@ -28,22 +28,17 @@ class PersonalPage extends PureComponent {
       wechatMetadata: null
     }
   }
-  componentWillMount() {
-    console.log('component will mount')
-  }
 
   componentDidMount () {
-    console.log('componentDidMount', this.props.navigation.state.params.id)
     const {isRefreshing} = this.props;
     if (!isRefreshing) {
       this.props.actions.personInit(this.props.navigation.state.params.id)
     }
     PubSub.subscribe('refreshDetailPage', (msg) => {
-      console.log('personal page', msg)
+
       this.onRefresh()
     })
     PubSub.subscribe('commentsLikeRefresh', (msg) => {
-      console.log('personal page', msg)
       this.onRefresh()
     })
     this.props.navigation.setParams({
@@ -51,7 +46,6 @@ class PersonalPage extends PureComponent {
     })
   }
   componentWillReceiveProps(nextProps) {
-    console.log('component will receive props')
     const oldMyFocus = this.props.info.my_focus;
     const myFocus = nextProps.info.my_focus;
     if (oldMyFocus !== myFocus) {
@@ -93,7 +87,6 @@ class PersonalPage extends PureComponent {
   }
 
   componentWillUnmount() {
-    console.log('component will unmount')
     PubSub.unsubscribe('refreshDetailPage')
     PubSub.unsubscribe('commentsLikeRefresh')
     // this.props.actions.clearPersonData()

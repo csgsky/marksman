@@ -20,7 +20,6 @@ function postWriteDiary (action$) {
                     if (action.come4 === 'write') {
                       return Observable.from(PostDiaryApi(it.payload, it.token))
                     } else if (action.come4 === 'edit') {
-                      console.log('postWriteDiary --- epic--->  ', it.payload)
                       return Observable.from(PostEditDiaryApi(it.payload, it.token))
                     }
                   }
@@ -38,7 +37,6 @@ function postWriteDiary (action$) {
                 return null
               }
             ).catch((error) => {
-              // console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )

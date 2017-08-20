@@ -23,8 +23,6 @@ export function homeInit (page) {
 }
 
 export function homeData (data) {
-  // console.log('action  --->  HOME_DATA')
-  // console.log('action  --->  HOME_DATA diary length ' + data.diarys.length)
   return {
     type: HOME_DATA,
     isRefreshing: false,

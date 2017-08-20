@@ -14,8 +14,6 @@ export function recentDiaryInit(page) {
 }
 
 export function recentDiaryData (data) {
-  console.log('action  --->  RECENTDIARY_DATA')
-  console.log('action  --->  RECENTDIARY_DATA diary length ' + data.diarys.length)
   return {
     type: RECENTDIARY_DATA,
     isRefreshing: false,
@@ -43,7 +41,6 @@ export function recentDiaryLoadingMoreData (data) {
 }
 
 export function rencentDiaryLike(payload) {
-  console.log('action ---> RECENT_DIARY_LIKE')
   return {
     type: RECENTDIARY_LIKE,
     payload
@@ -51,7 +48,6 @@ export function rencentDiaryLike(payload) {
 }
 
 export function recentDiaryLikeSuccess(payload) {
-  console.log('action ---> RECENT_DIARY_LIKE_SUCCESS')
   return {
     type: RECENTDIARY_LIKE_SUCCESS,
     payload

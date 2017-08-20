@@ -29,11 +29,9 @@ function diaryCommentInitEpic (action$) {
                 if (it.return_code === 2) {
                   return null
                 }
-                // console.log('epic  ---> topic ' + it.topic)
                 return actions.diaryCommentData(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -62,7 +60,6 @@ function commentsMoreEpic (action$) {
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -93,7 +90,6 @@ function diaryLikeEpic (action$) {
                 }
                 return null
               }).catch((error) => {
-                console.log('epic error --->' + error)
                 return showError(OTHER_ERROR)
               }))
 }
@@ -107,7 +103,6 @@ function diaryCommentLikeEpic (action$) {
                 (token, net) => ({token, net})
               ).flatMap(
                 (it) => {
-                  console.log({token: it.token})
                   if (it.token && it.net === '1') {
                     const {diaryId, ownerId, commentId} = action.payload
                     return Observable.from(LikeCommentApi({diaryId, ownerId, commentId, userId: it.token}))
@@ -118,13 +113,11 @@ function diaryCommentLikeEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it.return_msg)
                 if (it.return_code === 1) {
                   return actions.diaryCommentLikeSuccess({index: action.payload.index})
                 }
                 return null
               }).catch((error) => {
-                console.log('epic error --->' + error)
                 return showError(OTHER_ERROR)
               }))
 }
@@ -159,7 +152,6 @@ function deleteDiaryEpic (action$) {
                 }
                 return null
               }).catch((error) => {
-                console.log('epic error --->' + error)
                 return showError(OTHER_ERROR)
               }))
 }

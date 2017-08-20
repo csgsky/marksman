@@ -15,7 +15,6 @@ class MyFollowTopics extends PureComponent {
     this.props.myFollowTopicsInit()
   }
   handleLoadingMore = () => {
-    console.log(this.props.hasMore, this.props.isLoadingMore)
     if (this.props.hasMore && !this.props.isLoadingMore) {
       this.props.myFollowTopicsLoadMore({page: this.props.page})
     }

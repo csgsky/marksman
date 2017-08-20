@@ -27,8 +27,6 @@ export function topicListMore (page, come4) {
 }
 
 export function topicListMoreData (data) {
-  console.log('topicListMoreData')
-  console.warn(data)
   return {
     type: TOPICS_MORE_DATA,
     talks: data

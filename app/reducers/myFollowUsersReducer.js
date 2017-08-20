@@ -17,8 +17,6 @@ export default function myFollowUsers (state = initState, action = {}) {
         isRefreshing: false
       }
     case types.MY_FOLLOW_USERS_INIT_SUCCESS:
-      console.log('reducer ---> MY_FOLLOW_USERS_INIT_SUCCESS')
-      console.log(action.payload)
       return {
         ...state,
         isRefreshing: false,
@@ -42,7 +40,6 @@ export default function myFollowUsers (state = initState, action = {}) {
         page: state.page + 1
       }
     case types.MY_FOLLOW_USERS_FOLLOW_SUCCESS:
-      console.warn('reducer MY_FOLLOW_FOLLOW_SUCCESS ==> action.position ' + action.payload.position)
       return {
         ...state,
         users: updateFollow(state.users, action.payload.position),

@@ -25,14 +25,11 @@ function myFollowUsersInitEpic (action$) {
                   return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 1) {
-                  console.log(it)
-                  console.log('epic  ---> MY_FOLLOW_USERS_INIT_SUCCESS ' + it.return_code)
                   return actions.myFollowUsersInitSuccess({users: it.users, isEmpty: it.isnull})
                 }
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -57,15 +54,12 @@ function myFollowUsersMoreEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log('epic ---> MY_FOLLOW_USERS_MORE_SUCCESS')
-                console.log(it)
                 if (it.return_code === 1) {
                   return actions.myFollowUsersMoreSuccess({users: it.users})
                 }
                 return showError(OTHER_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
@@ -79,7 +73,6 @@ function myFollowUsersFollowEpic(action$) {
          Observable.from(NativeModules.SplashScreen.getNetInfo()),
          (token, net) => ({token, net})
       ).flatMap((it) => {
-        console.log(action.payload)
         if (it.token && it.net === '1') {
           if (action.payload.myFocus) {
             return Observable.from(UnFollowUserApi(action.payload.id, it.token))
@@ -92,7 +85,6 @@ function myFollowUsersFollowEpic(action$) {
           return showError(NET_WORK_ERROR)
         }
         if (it.return_code === 1) {
-          console.warn('my follow follow epic ==> ' + action.payload.position)
           return actions.myFollowUsersFollowSuccess({position: action.payload.position, type: action.payload.type})
         }
         return showError(OTHER_ERROR)

@@ -30,7 +30,6 @@ function systemMessageInitEpic (action$) {
               }
             ).catch((error) => {
               return Observable.of(showError(NET_WORK_ERROR))
-              // console.log('epic error --> ' + error)
             })
        )
 }
@@ -55,7 +54,6 @@ function systemMessageMoreEpic (action$) {
               }
             ).catch((error) => {
               return Observable.of(showError(NET_WORK_ERROR))
-              // console.log('epic error --> ' + error)
             })
        )
 }
@@ -150,7 +148,7 @@ function mineMessageCommentInitEpic (action$) {
                 }
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
+              return Observable.of(showError(NET_WORK_ERROR))
             })
        )
 }
@@ -165,7 +163,6 @@ function mineMessageCommentMoreEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token) {
-                    console.log('mineMessageCommentMoreEpic page --> ', it.payload.page)
                     return Observable.from(MineMessageCommentApi(it.token, it.payload.page))
                   }
                 }
@@ -176,7 +173,6 @@ function mineMessageCommentMoreEpic (action$) {
               }
             ).catch((error) => {
               return Observable.of(showError(NET_WORK_ERROR))
-              // console.log('mineMessageCommentMoreEpic error --> ' + error)
             })
        )
 }

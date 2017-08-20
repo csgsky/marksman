@@ -16,7 +16,6 @@ function personInitEpic (action$) {
                 (token, net) => ({token, net})
               ).flatMap(
                 (it) => {
-                  console.log(action)
                   if (it.token && it.net === '1') {
                     return Observable.zip(
                     Observable.from(PersonalInfoApi(it.token, action.id)),
@@ -31,8 +30,6 @@ function personInitEpic (action$) {
                   return showError(NET_WORK_ERROR)
                 }
                 if (it.info.return_code === 1) {
-                  console.log('epic  ---> personal info ' + it.info.return_code)
-                  console.log('epic  ---> personal diaries ' + it.diaries)
                   return actions.personData(it)
                 }
                 return showError(OTHER_ERROR)
@@ -124,7 +121,6 @@ function diaryLikeEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it.return_msg)
                 if (it.return_code === 1) {
                   return actions.personDiaryLikeSuccess({index: action.payload.index})
                 }

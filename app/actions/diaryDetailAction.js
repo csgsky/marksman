@@ -11,7 +11,6 @@ export const DIARY_DETAIL_DELETE_DIARY = 'DIARY_DETAIL_DELETE_DIARY'
 export const DIARY_DETAIL_DELETE_DIARY_SUCCESS = 'DIARY_DETAIL_DELETE_DIARY_SUCCESS'
 
 export function diaryCommentInit ({id, ownerId}) {
-  console.warn('action  --->  DIARY_COMMENT_INIT')
   return {
     type: DIARY_COMMENT_INIT,
     id,
@@ -20,14 +19,12 @@ export function diaryCommentInit ({id, ownerId}) {
 }
 
 export function diaryCommentData (data) {
-  console.log('action  --->  DIARY_COMMENT_DATA')
   return {
     type: DIARY_COMMENT_DATA,
     comments: data.comments
   }
 }
 export function diaryCommentsLoadMore ({ownerId, page, id}) {
-  console.log('action ---> Diary_COMMENTS_LOAD_MORE')
   return {
     type: DIARY_COMMENTS_LOAD_MORE,
     ownerId,
@@ -37,7 +34,6 @@ export function diaryCommentsLoadMore ({ownerId, page, id}) {
 }
 
 export function diaryCommentsMoreData (data) {
-  console.log('action ---> DIARY_COMMENTS_MORE_DATA')
   return {
     type: DIARY_COMMENTS_MORE_DATA,
     isLoadingMore: false,
@@ -47,7 +43,6 @@ export function diaryCommentsMoreData (data) {
 }
 
 export function diaryLike (payload) {
-  console.log('action ---> DIARY_LIKE')
   return {
     type: DIARY_LIKE,
     payload
@@ -55,7 +50,6 @@ export function diaryLike (payload) {
 }
 
 export function diaryLikeSuccess(payload) {
-  console.log('action ---> DIARY_LIKE_SUCCESS')
   return {
     type: DIARY_LIKE_SUCCESS,
     payload
@@ -63,7 +57,6 @@ export function diaryLikeSuccess(payload) {
 }
 
 export function diaryCommentLike(payload) {
-  console.log('action ---> DIARY_COMMENT_LIKE')
   return {
     type: DIARY_COMMENT_LIKE,
     payload
@@ -71,7 +64,6 @@ export function diaryCommentLike(payload) {
 }
 
 export function diaryCommentLikeSuccess(payload) {
-  console.log('action ---> DIARY_COMMENT_LIKE_SUCCESS')
   return {
     type: DIARY_COMMENT_LIKE_SUCCESS,
     payload
@@ -92,7 +84,6 @@ export function deleteDiary (payload) {
 }
 
 export function deleteDiarySuccess () {
-  console.warn('action delete success')
   return {
     type: DIARY_DETAIL_DELETE_DIARY_SUCCESS
   }

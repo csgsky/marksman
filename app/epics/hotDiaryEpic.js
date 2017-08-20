@@ -17,7 +17,6 @@ function hotDiaryInitEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    console.log('epic  --->  it token  ' + it.token)
                     return Observable.from(FooterHotDiaryApi(it.token, it.page))
                   }
                   return Observable.of(2)
@@ -29,12 +28,9 @@ function hotDiaryInitEpic (action$) {
                 if (it.return_code === 2) {
                   return null
                 }
-                console.log('epic  ---> return_code ' + it.return_code)
-                console.log('epic  ---> diary ' + it.diarys.length)
                 return actions.hotDiaryData(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -66,7 +62,6 @@ function hotDiaryMoreEpic (action$) {
                 return actions.hotDiaryLoadingMoreData(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
@@ -95,7 +90,6 @@ function diaryLikeEpic (action$) {
                 }
                 return showError(NET_WORK_ERROR)
               }).catch((error) => {
-                // console.log('epic error --->' + error)
                 return Observable.of(showError(NET_WORK_ERROR))
               }))
 }

@@ -17,8 +17,6 @@ export default function myFollowTopics (state = initState, action = {}) {
         isRefreshing: false
       }
     case types.MY_FOLLOW_TOPICS_INIT_SUCCESS:
-      console.log('reducer ---> MY_FOLLOW_TOPICS_INIT_SUCCESS')
-      console.log(action.payload)
       return {
         ...state,
         isRefreshing: false,
@@ -42,7 +40,6 @@ export default function myFollowTopics (state = initState, action = {}) {
         page: state.page + 1
       }
     case types.MY_FOLLOW_TOPICS_FOLLOW_SUCCESS:
-      console.warn('reducer MY_FOLLOW_TOPICS_FOLLOW_SUCCESS ==> action.position ' + action.payload.position)
       return {
         ...state,
         topics: updateFollow(state.topics, action.payload.position),

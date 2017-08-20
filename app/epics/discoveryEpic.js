@@ -15,7 +15,6 @@ function discoveryInitEpic (action$) {
                 (token, net) => ({token, net})
               ).flatMap(
                 (it) => {
-                  console.log(action)
                   if (it.token && it.net === '1') {
                     return Observable.zip(
                         Observable.from(TopicsListApi(it.token, 0)),
@@ -31,12 +30,10 @@ function discoveryInitEpic (action$) {
                   if (it.topics.return_code === 1 && it.topUsers.return_code === 1) {
                     return actions.discoveryData(it.topics.talks, it.topUsers.ranks, it.topUsers.banners)
                   }
-                  console.log('epic  ---> return_code mistake')
                   return showError(NET_WORK_ERROR)
                 }
             )
             .catch((error) => {
-              // console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
         )
@@ -67,7 +64,6 @@ function discoveryMoreEpic (action$) {
                 return showError(NET_WORK_ERROR)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
@@ -84,10 +80,8 @@ function recommendUserFollowEpic(action$) {
       ).flatMap((it) => {
         if (it.token && it.net === '1') {
           if (action.myFocus === 0) {
-            console.log('走关注的接口')
             return Observable.from(FollowUserApi(it.followedId, it.token))
           } else if (action.myFocus === 1) {
-            console.log('走取消关注的接口')
             return Observable.from(UnFollowUserApi(it.followedId, it.token))
           }
         }
@@ -105,7 +99,6 @@ function recommendUserFollowEpic(action$) {
         }
         return showError(OTHER_ERROR)
       }).catch((error) => {
-        // console.log(error)
         return Observable.of(showError(NET_WORK_ERROR))
       })
     )

@@ -31,7 +31,6 @@ function lovedInitEpic (action$) {
                 return actions.LovedListData(it.ranks)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
@@ -63,7 +62,6 @@ function lovedMoreEpic (action$) {
                 return actions.LovedListMoreData(it.ranks)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
@@ -93,13 +91,12 @@ function lovedFollowedEpic(action$) {
         if (it.return_code === 1) {
           if (action.myFocus === 0) {
             return actions.LovedFollowSuccess(action.position)
-          } else if(action.myFocus === 1) {
+          } else if (action.myFocus === 1) {
             return actions.LovedUnFollowSuccess(action.position)
           }
         }
         return showError(OTHER_ERROR)
       }).catch((error) => {
-        console.log(error)
         return Observable.of(showError(NET_WORK_ERROR))
       })
     )

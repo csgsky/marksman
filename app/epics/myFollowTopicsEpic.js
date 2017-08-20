@@ -27,8 +27,6 @@ function myFollowTopicsInitEpic (action$) {
                   return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 1) {
-                  console.log('epic  ---> MY_FOLLOW_TOPICS_INIT_SUCCESS ' + it.return_code)
-                  console.log(it)
                   return actions.myFollowTopicsInitSuccess({topics: it.talks, isEmpty: it.isnull})
                 }
                 return showError(OTHER_ERROR)
@@ -58,8 +56,6 @@ function myFollowTopicsMoreEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log('epic ---> MY_FOLLOW_TOPICS_MORE_SUCCESS')
-                console.log(it)
                 if (it.return_code === 1) {
                   return actions.myFollowTopicsMoreSuccess({topics: it.talks})
                 }
@@ -79,7 +75,6 @@ function myFollowTopicsFollowEpic(action$) {
          Observable.from(NativeModules.SplashScreen.getNetInfo()),
          (token, net) => ({token, net})
       ).flatMap((it) => {
-        console.log(action.payload)
         if (it.token && it.net === '1') {
           if (action.payload.myFocus) {
             return Observable.from(UnfollowTopicApi(action.payload.id, it.token))
@@ -92,7 +87,6 @@ function myFollowTopicsFollowEpic(action$) {
           return showError(NET_WORK_ERROR)
         }
         if (it.return_code === 1) {
-          console.warn('my follow follow epic ==> ' + action.payload.position)
           return actions.myFollowTopicsFollowSuccess({position: action.payload.position})
         }
         return showError(OTHER_ERROR)

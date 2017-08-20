@@ -92,7 +92,6 @@ function checkVersion (action$) {
                 } else if (it.return_code === 0) {
                   return showError(it.return_msg)
                 }
-                // console.log({version: it})
                 return actions.checkVersionData(it)
               }
             ).catch((error) => {

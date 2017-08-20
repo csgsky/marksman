@@ -19,7 +19,6 @@ export default class TopUserItem extends Component {
   }
 
   _routerToPersonalPage = () => {
-    console.log('route to personal page')
     const userId = this.props.item.user_id
     setTimeout(() => {
       this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
@@ -27,7 +26,6 @@ export default class TopUserItem extends Component {
   }
 
   render () {
-    console.log('TopUserItem render')
     const {item, position} = this.props
     const desc = '公开日记 ' + item.diary_num + '   粉丝 ' + item.focus_num + '   收获赞 ' + item.like_num
     return <TouchableOpacity onPress={this._routerToPersonalPage}>
