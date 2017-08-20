@@ -17,8 +17,6 @@ export function trashInit () {
 }
 
 export function trashData (data) {
-  console.log('action  --->  TRASH_DATA')
-  console.log('action  --->  TRASH_DATA diary length ' + data.diarys.length)
   return {
     type: TRASH_DATA,
     isRefreshing: false,
@@ -27,7 +25,6 @@ export function trashData (data) {
 }
 
 export function trashMore (page) {
-  console.log('action ---> LOADING_MORE_TRASH')
   return {
     type: TRASH_MORE,
     isLoadingMore: true,

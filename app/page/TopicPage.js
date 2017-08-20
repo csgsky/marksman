@@ -177,7 +177,6 @@ class Topic extends PureComponent {
 
   render () {
     const {topic, comments, isRefreshing, isLikingTopic, isLikingComment} = this.props;
-    console.log({topic})
     return (
       <View style={styles.container}>
         <ShareModal

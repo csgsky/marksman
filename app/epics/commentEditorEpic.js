@@ -30,15 +30,12 @@ function commentPostEpic (action$) {
                 }
                 if (it.return_code === 2) {
                 } else {
-                  console.log('epic  ---> commentpostsuccess ')
-                  console.log(it)
                   PubSub.publish('refreshDetailPage')
                   PubSub.publish('refreshDiaryList')
                   return actions.commentPostSuccess()
                 }
               }
             ).catch((error) => {
-              // console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )

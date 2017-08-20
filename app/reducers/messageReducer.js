@@ -32,13 +32,11 @@ export default function message (state = initState, action = {}) {
         page: state.page + 1
       }
     case types.MESSAGE_SYSTEM_NOTIFY_MORE:
-      console.log('reducer --> MESSAGE_SYSTEM_NOTIFY_MORE', action.payload)
       return {
         ...state,
         isLoadingMore: true
       }
     case types.MESSAGE_SYSTEM_NOTIFY_MORE_DATA:
-      console.log('reducer --> MESSAGE_SYSTEM_NOTIFY_MORE_DATA', action.payload)
       return {
         ...state,
         sysmsgs: state.sysmsgs.concat(action.payload),
@@ -47,7 +45,6 @@ export default function message (state = initState, action = {}) {
         hasMoreData: action.payload.length >= 10
       }
     case types.MINE_MESSAGE_MODE_DATA:
-      console.log('reducer --> MINE_MESSAGE_MODE_DATA', action.payload)
       return {
         ...state,
         modes: action.payload
@@ -112,7 +109,6 @@ export default function message (state = initState, action = {}) {
         page: state.page + 1
       }
     case types.MINE_MESSAGE_USER_INIT:
-      console.log('reducer --> MINE_MESSAGE_USER_INIT', action.payload)
       return {
         ...state,
         isLoadingMore: false,
@@ -121,7 +117,6 @@ export default function message (state = initState, action = {}) {
         page: 0
       }
     case types.MINE_MESSAGE_USER_DATA:
-      console.log('reducer --> MINE_MESSAGE_USER_DATA', action.payload)
       return {
         ...state,
         users: action.payload,
@@ -130,13 +125,11 @@ export default function message (state = initState, action = {}) {
         page: state.page + 1
       }
     case types.MINE_MESSAGE_USER_MORE:
-      console.log('reducer --> MINE_MESSAGE_USER_MORE', action.payload)
       return {
         ...state,
         isLoadingMore: true
       }
     case types.MINE_MESSAGE_USER_MORE_DATA:
-      console.log('reducer --> MINE_MESSAGE_USER_MORE_DATA', state.users.concat(action.payload))
       return {
         ...state,
         users: state.users.concat(action.payload),

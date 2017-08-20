@@ -73,7 +73,6 @@ class WriteDiaryPage extends PureComponent {
   componentDidMount() {
     NativeModules.TCAgent.track('写日记', '写日记')
     const diary = this.props.navigation.state.params.diary
-    // console.log({diary})
     this.props.writeDiaryInit(diary)
     if (this.props.navigation.state.params.come4 === 'edit') {
       Rx.Observable.of('delay').delay(800).subscribe(() => {
@@ -256,7 +255,6 @@ class WriteDiaryPage extends PureComponent {
         {Platform.OS === 'ios' && <View style={{flex: 1}}>
           <KeyboardAwareScrollView style={styles.view} ref="scroll"
             onKeyboardWillShow={(frames) => {
-              console.log('keyboard will show', frames);
               this.setState({
                 keyboardHeight: frames.endCoordinates.height,
                 keyboardShow: true,
@@ -273,7 +271,6 @@ class WriteDiaryPage extends PureComponent {
               const imageHeight = this.props.source ? ((theme.screenWidth - 32) * 3) / 4 : 0
               if ((contentHeight - imageHeight) > this.state.screenHeight) {
                 const y = 60 + 16 + Math.max(this.state.height, 73) - this.state.screenHeight
-                console.log(y);
                 if (y > 0) {
                   this.refs.scroll.scrollToPosition(0, y, false)
                 }

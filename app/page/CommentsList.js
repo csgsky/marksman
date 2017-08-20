@@ -33,7 +33,6 @@ class CommentListPage extends PureComponent {
   }
   componentWillMount() {
     const mainComment = this.props.navigation.state.params.item
-    console.log({mainComment})
     this.setState({
       diaryId: mainComment.diary_id,
       commentOwnerId: mainComment.user_id,
@@ -63,7 +62,6 @@ class CommentListPage extends PureComponent {
   onRefresh = () => {
     const {diaryId, diaryOwnerId, commentId} = this.state;
     const {isRefreshing} = this.props;
-    console.log('refreshing', {diaryId, ownerId: diaryOwnerId, commentId, isRefreshing})
     if (isRefreshing) {
       return
     }
@@ -102,7 +100,7 @@ class CommentListPage extends PureComponent {
     this.setState({
       comment: ''
     })
-    console.log({diaryId, commentOwnerId, commentId, comment, pid})
+    // console.log({diaryId, commentOwnerId, commentId, comment, pid})
     dismissKeyboard()
     if (!comment) {
       return

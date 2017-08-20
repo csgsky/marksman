@@ -125,7 +125,6 @@ export default class Splash extends Component {
   _getUnLoginUserInfo = (imsi, authorization) => {
     Rx.Observable.from(getUnloginInfo(imsi + '018', authorization)).subscribe(
                       (it) => {
-                        console.log('用户信息')
                         this.setState({customer: it.customer, success: true})
                         if (it.customer) {
                           AsyncStorage.setItem('devicedid', it.customer.imsi)
@@ -196,9 +195,7 @@ export default class Splash extends Component {
   render () {
     return (
       <View>
-        <View style={styles.lable}>
-          <Image style={styles.lable} resizeMode="stretch" source={this.state.img} />
-        </View>
+        <Image style={styles.lable} resizeMode="stretch" source={this.state.img} />
         <View style={[styles.skipText, {alignItems: 'center', justifyContent: 'center'}]}>
           <Text style={{color: 'white', fontSize: 13}} onPress={this._onPress}>跳过</Text>
         </View>

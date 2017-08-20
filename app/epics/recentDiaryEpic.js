@@ -17,7 +17,6 @@ function recentInitEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    // console.log('epic  --->  it token  ' + it.token)
                     return Observable.from(FooterRecentDiaryApi(it.token, it.page))
                   }
                   return Observable.from(2)
@@ -32,8 +31,6 @@ function recentInitEpic (action$) {
                 return actions.recentDiaryData(it)
               }
             ).catch((error) => {
-              // console.log('epic error --> ' + error)
-              // return showError(OTHER_ERROR)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
@@ -64,7 +61,6 @@ function recentMoreEpic (action$) {
                 return actions.recentDiaryLoadingMoreData(it)
               }
             ).catch((error) => {
-              // console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
@@ -88,7 +84,6 @@ function diaryLikeEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
-                console.log(it.return_msg)
                 if (it.return_code === 1) {
                   return actions.recentDiaryLikeSuccess({index: action.payload.index})
                 }

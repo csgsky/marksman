@@ -18,7 +18,6 @@ const initState = {
 export default function register (state = initState, action = {}) {
   switch (action.type) {
     case types.REGISTER_NICKNAME_CHANGE:
-      console.log('correct username ==> ' + testMobile(action.username))
       return {
         ...state,
         username: action.username,
@@ -37,7 +36,6 @@ export default function register (state = initState, action = {}) {
         correctCode: action.code.length === 6
       }
     case types.REGISTER_SUCCESS:
-      console.log('reducer userId => ' + action.userId)
       return {
         ...state,
         userId: action.userId

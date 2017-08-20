@@ -49,7 +49,6 @@ export default function commentsList(state = initialState, action = {}) {
         isLiking: true
       }
     case types.COMMENTS_LIST_LIKE_SUCCESS:
-      console.log('epic ---> COMMENTS_LIST_LIKE_SUCCESS')
       return {
         ...state,
         isLiking: false,

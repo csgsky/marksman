@@ -42,37 +42,6 @@ class CommentEditor extends PureComponent {
     }
   }
 
-  // chooseImge = () => {
-  //   if (this.state.image) {
-  //     return
-  //   }
-  //   const options = {
-  //     title: '选择图片',
-  //     storageOptions: {
-  //       skipBackup: true,
-  //       path: 'images'
-  //     }
-  //   }
-  //   ImagePicker.showImagePicker(options, (response) => {
-  //     console.log('Response = ', response);
-
-  //     if (response.didCancel) {
-  //       console.log('User cancelled image picker');
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error);
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton);
-  //     } else {
-  //       const source = { uri: 'data:image/jpg;base64,' + response.data };
-
-  //       this.setState({
-  //         image: source,
-  //         data: response.data,
-  //         suffix: response.fileName.split('.')[1]
-  //       });
-  //     }
-  //   });
-  // }
   componentWillMount() {
     const {nickname, type} = this.props.navigation.state.params;
     this.setState({
@@ -146,18 +115,17 @@ class CommentEditor extends PureComponent {
 
 
   launchImageLibrary () {
-    console.log('launchImageLib')
     const that = this;
     ImagePicker.launchImageLibrary(options, (response) => {
       that.setState({
         showModal: false
       })
       if (response.didCancel) {
-        console.log('User cancelled image picker')
+        // console.log('User cancelled image picker')
       } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error)
+        // console.log('ImagePicker Error: ', response.error)
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton)
+        // console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         const suffix = response.uri.split('.')

@@ -84,7 +84,6 @@ function topicFollowEpic (action$) {
                   return Observable.of(2)
                 }
               ).map((it) => {
-                console.log(it.return_msg)
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
@@ -93,7 +92,6 @@ function topicFollowEpic (action$) {
                 }
                 return showError(OTHER_ERROR)
               }).catch((error) => {
-                console.log('epic error --->' + error)
                 return showError(OTHER_ERROR)
               }))
 }

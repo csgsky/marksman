@@ -15,7 +15,6 @@ export default function personalData (state = initState, action = {}) {
     case types.PERSON_INIT:
       return initState;
     case types.PERSON_DATA:
-      console.log(action.person)
       return {
         ...state,
         isRefreshing: false,

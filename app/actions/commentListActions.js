@@ -9,7 +9,6 @@ export const COMMENTS_LIST_COMMENT_POST = 'COMMENTS_LIST_COMMENT_POST'
 export const COMMENTS_LIST_COMMENT_POST_SUCCESS = 'COMMENTS_LIST_COMMENT_POST_SUCCESS'
 
 export function commentsListInit(payload) {
-  console.log('COMMENT_LIST_INIT')
   return {
     type: COMMENTS_LIST_INIT,
     payload
@@ -58,7 +57,6 @@ export function commentsListLikeSuccess(payload) {
 }
 
 export function commentsListCommentPost(payload) {
-  console.log('action ===> COMMENTS_LIST_COMMENT_POST')
   return {
     type: COMMENTS_LIST_COMMENT_POST,
     payload
@@ -66,7 +64,6 @@ export function commentsListCommentPost(payload) {
 }
 
 export function commentsListCommentPostSuccess(payload) {
-  console.log('action ===> COMMENTS_LIST_COMMENT_POST_SUCCESS')
   return {
     type: COMMENTS_LIST_COMMENT_POST_SUCCESS,
     payload

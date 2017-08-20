@@ -20,7 +20,6 @@ class TopicListPage extends Component {
   })
 
   componentDidMount () {
-    console.log('componentDidMount', this.props.navigation.state.params.come4)
     this.initData()
   }
   componentWillUnmount() {

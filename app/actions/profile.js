@@ -18,7 +18,6 @@ export function profileMessageReminder () {
 }
 
 export function profileMessageReminderData(message) {
-  console.log('action --> MESSAGE_PROFILECENER_REMINDER_DATA', message)
   return {
     type: MESSAGE_PROFILECENER_REMINDER_DATA,
     message
@@ -26,7 +25,6 @@ export function profileMessageReminderData(message) {
 }
 
 export function personalInfoInit (userId) {
-  console.log('action ==> PERSONAL_INFO_INIT ', userId)
   return {
     type: PERSONAL_INFO_INIT,
     userId
@@ -64,7 +62,6 @@ export function submitUserInfo (payload, newInfo, avtar) {
 }
 
 export function submitUserInfoSuccess (newInfo, avtar) {
-  console.warn('action submit user info success ===> ')
   return {
     type: PERSONAL_SUBMIT_USERINFO_SUCCESS,
     newInfo,
@@ -73,21 +70,18 @@ export function submitUserInfoSuccess (newInfo, avtar) {
 }
 
 export function submitUserInfoError() {
-  console.warn('action submit user info success ===> ')
   return {
     type: PERSONAL_SUBMIT_USERINFO_ERROR
   }
 }
 
 export function submitInitPage() {
-  console.warn('action submit init info ')
   return {
     type: PERSONAL_INFO_SUBMIT_INIT
   }
 }
 
 export function profileItemClick(value) {
-  console.warn('action profileItemClick ')
   return {
     type: MESSAGE_PROFILE_ITEM_CLICK,
     value

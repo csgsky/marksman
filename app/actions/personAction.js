@@ -17,7 +17,6 @@ export function personInit (id) {
 }
 
 export function personData (data) {
-  console.log('action  --->  PERSON_DATA')
   return {
     type: PERSON_DATA,
     person: data,
@@ -26,7 +25,6 @@ export function personData (data) {
 }
 
 export function personDiaryMore (page, id) {
-  console.log('action ---> PERSON_DIARY_LOAD_MORE')
   return {
     type: PERSON_DIARY_MORE,
     isLoadingMore: true,
@@ -45,7 +43,6 @@ export function personDiaryMoreData (data) {
 }
 
 export function personFollow(payload) {
-  console.log('action ---> PERSON_FOLLOW')
   return {
     type: PERSON_FOLLOW,
     payload
@@ -53,14 +50,12 @@ export function personFollow(payload) {
 }
 
 export function personFollowSuccess() {
-  console.log('action ---> PERSON_FOLLOW_SUCCESS')
   return {
     type: PERSON_FOLLOW_SUCCESS
   }
 }
 
 export function personDiaryLike(payload) {
-  console.log('action ---> PERSON_DIARY_LIKE')
   return {
     type: PERSON_DIARY_LIKE,
     payload

@@ -14,7 +14,6 @@ export const REGISTER_CODE_COUNTER = 'REGISTER_CODE_COUNTER'
 export const CLEAR_REGISTER_DATA = 'CLEAR_REGISTER_DATA'
 export const REGISTER_CHANGE_SECURE = 'REGISTER_CHANGE_SECURE'
 export function register (account, password, message, pageType) {
-  console.log('action REGISTER ===> ')
   return {
     type: REGISTER,
     account,
@@ -25,7 +24,6 @@ export function register (account, password, message, pageType) {
 }
 
 export function registerSuccess (userId) {
-  console.log('action REGISTER_SUCCESS userId ===> ' + userId)
   return {
     type: REGISTER_SUCCESS,
     userId
@@ -48,7 +46,6 @@ export function registerError (returnMsg) {
 }
 
 export function getVerCode (account, pageType) {
-  // console.log('action account REGISTER_GET_CODE ===> ' + account)
   return {
     type: REGISTER_GET_CODE,
     account,
@@ -57,7 +54,6 @@ export function getVerCode (account, pageType) {
 }
 
 export function codeCounter (it) {
-  console.log('action REGISTER_CODE_COUNTER ===> ')
   return {
     type: REGISTER_CODE_COUNTER,
     it
@@ -65,21 +61,18 @@ export function codeCounter (it) {
 }
 
 export function codeTimeOver () {
-  console.log('action REGISTER_CODE_TIME_OVER ===> ')
   return {
     type: REGISTER_CODE_TIME_OVER
   }
 }
 
 export function codeData () {
-  console.log('action REGISTER_CODE_DATA ===> ')
   return {
     type: REGISTER_CODE_DATA
   }
 }
 
 export function codeSuccess () {
-  console.log('action codeSuccess ===> ')
   return {
     type: REGISTER_CODE_SUCCESS
   }
@@ -113,7 +106,6 @@ export function clearData () {
 }
 
 export function changeSecure () {
-  console.warn('action change secure ')
   return {
     type: REGISTER_CHANGE_SECURE
   }

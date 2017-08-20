@@ -14,7 +14,6 @@ export function discoveryInit () {
 }
 
 export function discoveryData (talks, ranks, banners) {
-  console.log('action  --->  DISCOVER_DATA')
   return {
     type: DISCOVERY_DATA,
     isRefreshing: false,
@@ -25,7 +24,6 @@ export function discoveryData (talks, ranks, banners) {
 }
 
 export function discoveryMore (page) {
-  console.log('action  --->  DISCOVERY_MORE')
   return {
     type: DISCOVERY_MORE,
     page
@@ -33,7 +31,6 @@ export function discoveryMore (page) {
 }
 
 export function discoveryMoreData (payload) {
-  console.log('action  --->  DISCOVERY_MORE_ data', payload)
   return {
     type: DISCOVERY_MORE_DATA,
     payload

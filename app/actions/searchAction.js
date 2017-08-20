@@ -44,14 +44,12 @@ export function searchDiary (kw) {
 }
 
 export function searchEmpty () {
-  console.log('searchEmpty ====> ')
   return {
     type: SEARCH_RESULT_EMPTY
   }
 }
 
 export function searchDiaryData (diarys) {
-  console.warn('searchDiaryData ===> ' + diarys.length)
   return {
     type: SEARCH_PAGE_SEARCH_DATA,
     diarys

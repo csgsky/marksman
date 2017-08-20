@@ -33,9 +33,6 @@ class Login extends Component {
       var words = encodeURIComponent(rawStr)
       var base64 = require('base-64').encode(words)
       var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
-      // console.log('userId ==>: ' + userId)
-      // console.log('hmacSHA1 ==>: ' + hmacSHA1)
-      // console.log('Authorization ==>: ' + 'param=' + rawStr + '/' + hmacSHA1)
       this._saveUserInfo(info)
       AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
           () => {

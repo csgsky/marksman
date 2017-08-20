@@ -14,7 +14,6 @@ export const WRITE_DIARY_POST_DIARY_SUCCESS = 'WRITE_DIARY_POST_DIARY_SUCCESS'
 export const WRITE_DIARY_CLEAN_PAGE = 'WRITE_DIARY_CLEAN_PAGE'
 
 export function writeDiaryInit (payload) {
-  console.log('action  --->  WRITE_DIARY_INIT')
   return {
     type: WRITE_DIARY_INIT,
     payload
@@ -22,7 +21,6 @@ export function writeDiaryInit (payload) {
 }
 
 export function writeDiaryColorChange (payload) {
-  console.log('action  --->  WRITE_DIARY_INIT')
   return {
     type: WRITE_DIARY_COLOR_CHANGE,
     payload

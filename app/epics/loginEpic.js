@@ -18,14 +18,12 @@ function loginEpic (action$) {
                     return {token, data: {account, password}, net}
                   }
                 ).flatMap(it => {
-                  console.log('loginEpic', it)
                   if (it.token && it.net === '1') {
                     return Observable.from(LoginApi(it.token, it.data))
                   }
                   return Observable.of(2)
                 }
                 ).map(it => {
-                  console.log('loginEpic', it)
                   if (it === 2) {
                     return showError(NET_WORK_ERROR)
                   }
@@ -35,7 +33,6 @@ function loginEpic (action$) {
                   return actions.loginError(it)
                 }
               ).catch((error) => {
-                console.warn('epic error --> ' + error)
                 return Observable.of(showError(NET_WORK_ERROR))
               })
         )
@@ -60,15 +57,12 @@ function thirdLoginEpic (action$) {
                 }
               ).flatMap(
                 (it) => {
-                  console.log('thirdLoginEpic')
-                  console.log(it)
                   if (it.token && it.net === '1') {
                     return Observable.from(ThirdLoginApi(it.token, it.data))
                   }
                   return Observable.of(2)
                 }
               ).map((it) => {
-                console.log(it)
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }

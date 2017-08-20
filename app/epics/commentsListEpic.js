@@ -29,11 +29,9 @@ function commentsListInitEpic (action$) {
                 if (it.return_code === 2) {
                   return null
                 }
-                console.log(it)
                 return actions.commentsListInitSuccess(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -62,11 +60,9 @@ function commentsListMoreEpic (action$) {
                 if (it.return_code === 2) {
                   return null
                 }
-                console.log(it)
                 return actions.commentsListMoreSuccess(it)
               }
             ).catch((error) => {
-              console.log('epic error --> ' + error)
               return showError(OTHER_ERROR)
             })
        )
@@ -98,7 +94,6 @@ function commentsListLikeEpic (action$) {
                   return actions.commentsListLikeSuccess({index: action.payload.index})
                 }
               }).catch((error) => {
-                // console.log('epic error --->' + error)
                 return Observable.of(showError(NET_WORK_ERROR))
               }))
 }
@@ -126,14 +121,11 @@ function commentsCommentPostEpic (action$) {
                 }
                 if (it.return_code === 2) {
                 } else {
-                  console.log('epic  ---> commentsCommentpostsuccess ')
-                  console.log(it)
                   PubSub.publish('commentsListRefresh')
                   return actions.commentsListCommentPostSuccess()
                 }
               }
             ).catch((error) => {
-              // console.log('epic error --> ' + error)
               return Observable.of(showError(NET_WORK_ERROR))
             })
        )
