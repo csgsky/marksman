@@ -133,11 +133,12 @@ class CommentEditor extends PureComponent {
       } else if (response.customButton) {
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
+        const suffix = response.uri.split('.')
         this.setState({
           image: source,
           data: response.data,
-          suffix: 'JPEG'
-          //suffix: response.fileName.split('.')[1]
+          // suffix: 'JPEG'
+          suffix: suffix[suffix.length - 1]
         });
       }
     })
@@ -159,10 +160,11 @@ class CommentEditor extends PureComponent {
         console.log('User tapped custom button: ', response.customButton)
       } else {
         const source = { uri: 'data:image/jpg;base64,' + response.data };
+        const suffix = response.uri.split('.')
         this.setState({
           image: source,
           data: response.data,
-          suffix: 'JPEG'
+          suffix: suffix[suffix.length - 1]
         });
       }
     })
