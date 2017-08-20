@@ -21,8 +21,10 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
+  quality: 0.5,
   allowsEditing: true
 }
+
 
 class PersonalCenter extends Component {
 
@@ -130,10 +132,11 @@ class PersonalCenter extends Component {
       } else if (response.customButton) {
       } else {
         const avtar = response.uri
+        const suffix = response.uri.split('.')
         Rx.Observable.of('refresh')
                       .delay(100)
                       .subscribe((it) => {
-                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info, avtar)
+                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: suffix[suffix.length - 1]}, this.props.info, avtar)
                       })
       }
     })
@@ -150,10 +153,11 @@ class PersonalCenter extends Component {
       } else if (response.customButton) {
       } else {
         const avtar = response.uri;
+        const suffix = response.uri.split('.')
         Rx.Observable.of('refresh')
                       .delay(100)
                       .subscribe((it) => {
-                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: 'png'}, this.props.info, avtar)
+                        this.props.submitUserInfo({avtar_byte: response.data, avtar_suffix: suffix[suffix.length - 1]}, this.props.info, avtar)
                       })
       }
     })
