@@ -19,14 +19,26 @@ import DeletePhoto from '../img/photo_delete.png'
 
 const dismissKeyboard = require('dismissKeyboard')
 const screenHeight = Dimensions.get('window').height
-const options = {
+const optionsiOS = {
   title: '图片选择',
   cancelButtonTitle: '取消',
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
+  quality: 0.5,
   allowsEditing: true
 }
+
+const optionsAndroid = {
+  title: '图片选择',
+  cancelButtonTitle: '取消',
+  takePhotoButtonTitle: '拍照',
+  chooseFromLibraryButtonTitle: '图片库',
+  mediaType: 'photo',
+  quality: 0.5,
+  allowsEditing: true
+}
+
 
 class WriteDiaryPage extends PureComponent {
 // color: '#c37f2e',
@@ -49,7 +61,8 @@ class WriteDiaryPage extends PureComponent {
       avatarSource: null,
       color2: '#ffa3c5',
       screenHeight: screenHeight - 64 - 40,
-      keyboardHeight: 258
+      keyboardHeight: 258,
+      suffix: ''
     };
     if (this.props.navigation.state.params.diary) {
       const diary = this.props.navigation.state.params.diary
@@ -60,6 +73,7 @@ class WriteDiaryPage extends PureComponent {
   componentDidMount() {
     NativeModules.TCAgent.track('写日记', '写日记')
     const diary = this.props.navigation.state.params.diary
+    // console.log({diary})
     this.props.writeDiaryInit(diary)
     if (this.props.navigation.state.params.come4 === 'edit') {
       Rx.Observable.of('delay').delay(800).subscribe(() => {
@@ -95,26 +109,30 @@ class WriteDiaryPage extends PureComponent {
   _postDiary = () => {
     const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation, isPosting} = this.props
     const come4 = navigation.state.params.come4
+    const diary = this.props.navigation.state.params.diary
     if (isPosting) {
       return;
     }
     NativeModules.TCAgent.track('写日记', '日记保存')
     if (materialPosition >= 0) {
-      // console.log({content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2})
       const dataOne = this.props.diary === null ?
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2} :
         {content, img: materialPosition + '', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
       postDiary(dataOne, come4)
     } else if (imgBase64 !== null) {
       const dataTwo = this.props.diary === null ?
-        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2} :
-        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
+        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, img_suffix: this.state.suffix} :
+        {content, img_byte: imgBase64, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id, img_suffix: this.state.suffix}
       postDiary(dataTwo, come4)
+    } else if (this.props.navigation.state.params.come4 === 'edit') {
+      if (this.props.source === null) {
+        postDiary({content, img: 'DELETE', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
+      } else {
+        postDiary({content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
+      }
     } else {
-      const dataThree = this.props.diary === null ?
-        {content, ifprivate, feel, feelcolor: this.state.color2} :
-        {content, img: 'DELETE', ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}
-      postDiary(dataThree, come4)
+      postDiary({content, ifprivate, feel, feelcolor: this.state.color2}, come4)
+      // postDiary({content, ifprivate, feel, feelcolor: this.state.color2, diary_id: this.props.diary.diary_id}, come4)
     }
     // 返回到日记列表页
     // const key = this.props.navigation.state.params.key
@@ -145,6 +163,7 @@ class WriteDiaryPage extends PureComponent {
 
   launchCamera () {
     const that = this;
+    const options = Platform.OS === 'android' ? optionsAndroid : optionsiOS
     ImagePicker.launchCamera(options, (response) => {
       that.setState({
         showModal: false
@@ -154,6 +173,10 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
+        const suffix = response.uri.split('.')
+        this.setState({
+          suffix: suffix[suffix.length - 1]
+        })
         this._input.focus()
         const source = { uri: response.uri }
         const imgBase64 = response.data
@@ -165,6 +188,7 @@ class WriteDiaryPage extends PureComponent {
 
   launchImageLibrary () {
     const that = this;
+    const options = Platform.OS === 'android' ? optionsAndroid : optionsiOS
     ImagePicker.launchImageLibrary(options, (response) => {
       that.setState({
         showModal: false
@@ -174,6 +198,10 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.customButton) {
       } else {
         NativeModules.TCAgent.track('写日记', '插入图片成功')
+        const suffix = response.uri.split('.')
+        this.setState({
+          suffix: suffix[suffix.length - 1]
+        })
         this._input.focus()
         const source = { uri: 'data:image/jpg;base64,' + response.data };
         const imgBase64 = response.data
