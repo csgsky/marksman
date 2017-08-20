@@ -64,9 +64,8 @@ class MyFollowUsers extends PureComponent {
   }
   render() {
     const {users, isRefreshing, isEmpty, navigation} = this.props
-    console.log(this.props)
     return (
-      <View style={{flex: 1, backgroundColor: '#fafafa'}}>
+      <View style={{flex: 1, backgroundColor: theme.pageBackgroundColor}}>
         <FlatList
           data={users}
           renderItem={({item, index}) => (
