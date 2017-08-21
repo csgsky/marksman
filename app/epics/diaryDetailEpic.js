@@ -85,7 +85,7 @@ function diaryLikeEpic (action$) {
                   return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 1) {
-                  PubSub.publish('refreshDiaryList')
+                  PubSub.publish('refreshDiaryListLike', action.payload.id)
                   return actions.diaryLikeSuccess()
                 }
                 return null

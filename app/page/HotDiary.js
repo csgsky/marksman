@@ -24,6 +24,9 @@ class HotDiary extends Component {
     NativeModules.TCAgent.track('足印', '热门')
     this.props.actions.hotDiaryInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
+    PubSub.subscribe('refreshDiaryListLike', (msg, diaryId) => {
+      this.props.actions.updateDiaryLike(diaryId)
+    })
   }
 
   onRefresh = () => {
