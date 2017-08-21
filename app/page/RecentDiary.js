@@ -25,6 +25,9 @@ class RecentDiary extends Component {
     NativeModules.TCAgent.track('足印', '最新')
     this.props.actions.recentDiaryInit(0)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
+    PubSub.subscribe('refreshDiaryListLike', (msg, diaryId) => {
+      this.props.actions.updateDiaryLike(diaryId)
+    })
   }
 
   onRefresh = () => {

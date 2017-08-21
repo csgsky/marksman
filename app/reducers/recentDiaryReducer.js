@@ -50,6 +50,11 @@ export default function getArticles (state = initState, action = {}) {
         isLiking: false,
         diarys: likeSuccess(state.diarys, action.payload.index)
       }
+    case types.RECENTDIARY_UPDATE_LIKE_COUNT:
+      return {
+        ...state,
+        diarys: updateDiaryLike(state.diarys, action.diaryId)
+      }
     default:
       return state
   }
@@ -61,8 +66,19 @@ function likeSuccess(data, index) {
     newData[index].my_like = 1
     newData[index].like.num += 1
   } else if (newData[index].my_like === 1) {
-    console.warn('hahahahhahah ' + newData[index].my_like)
     newData[index].my_like = 0
+  }
+  return newData
+}
+
+function updateDiaryLike(diarys, diaryId) {
+  const newData = diarys.slice(0)
+  for (let i = 0; i < newData.length; i++) {
+    if (newData[i].diary_id === diaryId) {
+      newData[i].my_like = 1
+      newData[i].like.num += 1
+      break;
+    }
   }
   return newData
 }

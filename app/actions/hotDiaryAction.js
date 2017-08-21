@@ -4,7 +4,7 @@ export const HOTDIARY_LOADING_MORE = 'HOTDIARY_LOADING_MORE'
 export const HOTDIARY_LOADING_MORE_DATA = 'HOTDIARY_LOADING_MORE_DATA'
 export const HOTDIARY_LIKE = 'HOTDIARY_LIKE'
 export const HOTDIARY_LIKE_SUCCESS = 'HOTDIARY_LIKE_SUCCESS'
-
+export const HOTDIARY_UPDATE_LIKE_COUNT = 'HOTDIARY_UPDATE_LIKE_COUNT'
 export function hotDiaryInit (page) {
   return {
     type: HOTDIARY_INIT,
@@ -51,3 +51,11 @@ export function hotDiaryLikeSuccess(payload) {
     payload
   }
 }
+
+export function updateDiaryLike (diaryId) {
+  return {
+    type: HOTDIARY_UPDATE_LIKE_COUNT,
+    diaryId
+  }
+}
+
