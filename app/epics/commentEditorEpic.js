@@ -31,7 +31,7 @@ function commentPostEpic (action$) {
                 if (it.return_code === 2) {
                 } else {
                   PubSub.publish('refreshDetailPage')
-                  PubSub.publish('refreshDiaryList')
+                  PubSub.publish('refreshDiaryListComment', action.payload.diaryId)
                   return actions.commentPostSuccess()
                 }
               }

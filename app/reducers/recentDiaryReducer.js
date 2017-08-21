@@ -55,6 +55,11 @@ export default function getArticles (state = initState, action = {}) {
         ...state,
         diarys: updateDiaryLike(state.diarys, action.diaryId)
       }
+    case types.RECENTDIARY_UPDATE_COMMENT:
+      return {
+        ...state,
+        diarys: updateDiaryComment(state.diarys, action.diaryId)
+      }
     default:
       return state
   }
@@ -77,6 +82,17 @@ function updateDiaryLike(diarys, diaryId) {
     if (newData[i].diary_id === diaryId) {
       newData[i].my_like = 1
       newData[i].like.num += 1
+      break;
+    }
+  }
+  return newData
+}
+
+function updateDiaryComment(diarys, diaryId) {
+  const newData = diarys.slice(0)
+  for (let i = 0; i < newData.length; i++) {
+    if (newData[i].diary_id === diaryId) {
+      newData[i].comment.num += 1
       break;
     }
   }

@@ -5,6 +5,8 @@ export const RECENTDIARY_LOADING_MORE_DATA = 'RECENTDIARY_LOADING_MORE_DATA'
 export const RECENTDIARY_LIKE = 'RECENTDIARY_LIKE'
 export const RECENTDIARY_LIKE_SUCCESS = 'RECENTDIARY_LIKE_SUCCESS'
 export const RECENTDIARY_UPDATE_LIKE_COUNT = 'RECENTDIARY_UPDATE_LIKE_COUNT'
+export const RECENTDIARY_UPDATE_COMMENT = 'RECENTDIARY_UPDATE_COMMENT'
+
 export function recentDiaryInit(page) {
   return {
     type: RECENTDIARY_INIT,
@@ -57,6 +59,13 @@ export function recentDiaryLikeSuccess(payload) {
 export function updateDiaryLike (diaryId) {
   return {
     type: RECENTDIARY_UPDATE_LIKE_COUNT,
+    diaryId
+  }
+}
+
+export function updateDiaryComment (diaryId) {
+  return {
+    type: RECENTDIARY_UPDATE_COMMENT,
     diaryId
   }
 }
