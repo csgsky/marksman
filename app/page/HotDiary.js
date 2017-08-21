@@ -27,6 +27,9 @@ class HotDiary extends Component {
     PubSub.subscribe('refreshDiaryListLike', (msg, diaryId) => {
       this.props.actions.updateDiaryLike(diaryId)
     })
+    PubSub.subscribe('refreshDiaryListComment', (msg, diaryId) => {
+      this.props.actions.updateDiaryComment(diaryId)
+    })
   }
 
   onRefresh = () => {
