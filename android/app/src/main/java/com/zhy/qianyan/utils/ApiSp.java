@@ -34,11 +34,11 @@ public class ApiSp {
     // 记录当前 RN 页面, 主要是配合前端隐藏状态栏和虚拟键盘，在 app 从后台进程到主进程，会显示状态栏，这个时候在
     // onResume 的方法里面，再次隐藏状态栏
     public void setCurrentPage(String value) {
-        getSp().edit().putString("0X001", value).apply();
+        getSp().edit().putString("0X000001", value).apply();
     }
 
     public String getCurrentPage() {
-        return getSp().getString("0X001", null);
+        return getSp().getString("0X000001", null);
     }
 
 
