@@ -6,11 +6,11 @@
 
 import React, { Component } from 'react'
 import { AppRegistry } from 'react-native'
-import ErrorUtils from './node_modules/react-native/Libraries/Core/ErrorUtils'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { createEpicMiddleware } from 'redux-observable'
+import ErrorUtils from './node_modules/react-native/Libraries/Core/ErrorUtils'
 import Navigation from './app/config/entry'
 
 import rootEpic from './app/epics/index'
