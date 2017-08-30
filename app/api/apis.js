@@ -5,7 +5,6 @@ const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
-  // console.log('post Api path --->', baseUrlWithoutToken(path))
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -17,14 +16,8 @@ export function postApi (path, map, userId) {
     },
     body: JSON.stringify(map)
   }).then((response) => {
-    if (response.ok) {
-      // console.log('ok')
-    } else {
-      // console.log('error')
-    }
     return response.json()
   }).then((responseJson) => {
-    // console.log('post responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
     return error
@@ -32,8 +25,6 @@ export function postApi (path, map, userId) {
 }
 // get 请求
 export function getApi (path, userId) {
-  console.log('getApi path ==> ', baseUrlWithoutToken(path))
-  console.log('getApi userid ==> ', userId)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
@@ -45,17 +36,14 @@ export function getApi (path, userId) {
   }).then((response) => {
     return response.json()
   }).then((responseJson) => {
-    console.log('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
-    // console.log('getApi error ==> ' + error)
     return error
   })
 }
 
 // delete 请求
 export function deleteApi (path, userId, map) {
-  // console.log('delete Api ---> path', path)
   return fetch(baseUrlWithoutToken(path), {
     method: 'DELETE',
     headers: {
@@ -66,23 +54,15 @@ export function deleteApi (path, userId, map) {
     },
     body: JSON.stringify(map)
   }).then((response) => {
-    // if (response.ok) {
-    //   console.log('DELETE ok')
-    // } else {
-    //   console.log('DELETE error')
-    // }
     return response.json()
   }).then((responseJson) => {
-    // console.log('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
-    // console.log('deleteApi error ==> ' + error)
     return error
   })
 }
 // put 请求
 export function putApi (path, userId, map) {
-  // console.log('put api map ==> ', map)
   return fetch(baseUrlWithoutToken(path), {
     method: 'PUT',
     headers: {
@@ -93,17 +73,10 @@ export function putApi (path, userId, map) {
     },
     body: JSON.stringify(map)
   }).then((response) => {
-    if (response.ok) {
-      // console.log('PUT ok')
-    } else {
-      // console.log('PUT error')
-    }
     return response.json()
   }).then((responseJson) => {
-    // console.log('responseJson ==> ' + responseJson.return_msg)
     return responseJson
   }).catch((error) => {
-    // console.log('putApi error ==> ' + error)
     return error
   })
 }
@@ -132,7 +105,7 @@ export const CollectionsApi = (userId, page) =>
 // 发现、话题
 export const TopicsListApi = (userId, page, come4, tag) => {
   if (come4 === 'news') {
-    console.warn('TopicsListApi news')
+    // console.warn('TopicsListApi news')
     return getApi(`/api/mymsg?rn=10&mode=0&p=${page}`, userId)
   }
   return getApi(`/api/talk?rn=10&p=${page}`, userId)
