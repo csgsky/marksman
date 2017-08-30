@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Image, Text, TouchableOpacity, NativeModules} from 'react-native'
+import {StyleSheet, View, Image, Text, TouchableOpacity, NativeModules, ScrollView} from 'react-native'
 import Toast from 'react-native-root-toast'
 import chooseTagBg from '../../img/choose_tag_bg.png'
 import selected from '../../img/splash_selected.png'
@@ -116,7 +116,7 @@ export default class LabelPage extends Component {
   }
   render () {
     return (
-      <View style={{flex: 1}}>
+      <ScrollView style={{height: theme.screenHeight}}>
         <Image style={{flex: 1, width: theme.screenWidth, height: theme.screenHeight}}
           resizeMode="cover"
           source={chooseTagBg} />
@@ -156,7 +156,7 @@ export default class LabelPage extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     )
   }
 }
