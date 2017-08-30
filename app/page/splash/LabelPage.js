@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Image, Text, TouchableOpacity, NativeModules} from 'react-native'
+import {StyleSheet, View, Image, Text, TouchableOpacity, NativeModules, ScrollView} from 'react-native'
 import Toast from 'react-native-root-toast'
 import chooseTagBg from '../../img/choose_tag_bg.png'
 import selected from '../../img/splash_selected.png'
@@ -116,10 +116,10 @@ export default class LabelPage extends Component {
   }
   render () {
     return (
-      <View style={{flex: 1}}>
-        <Image style={{flex: 1, width: theme.screenWidth, height: theme.screenHeight}}
+      <ScrollView style={{flex: 1}} bounces={false}>
+        <Image style={{width: theme.screenWidth, height: (theme.screenHeight > 600 ? theme.screenHeight : 600)}}
           resizeMode="cover"
-          source={chooseTagBg} />
+          source={chooseTagBg}>
         <View style={styles.tagView}>
           <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>留下你身边的元素</Text>
           <View style={{flexDirection: 'row', marginTop: 15}}>
@@ -156,7 +156,8 @@ export default class LabelPage extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+        </Image>
+      </ScrollView>
     )
   }
 }

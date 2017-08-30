@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, Image, NativeModules, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Text, Image, NativeModules, TextInput, AsyncStorage, TouchableOpacity, ScrollView} from 'react-native'
 import Rx from 'rxjs'
 import { NavigationActions } from 'react-navigation'
 import Toast from 'react-native-root-toast'
@@ -94,55 +94,56 @@ export default class LabelPageTwo extends Component {
   render() {
     return (
       <TouchableOpacity style={{flex: 1}} activeOpacity={1} onPress={this.closeKeyBoard}>
-        <View style ={{flex: 1, position: 'absolute'}}>
-          <Image style={{flex: 1, width: theme.screenWidth, height: theme.screenHeight}}
-            esizeMode="stretch"
-            source={WriteNickASign} />
-        </View>
-        <TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.closeKeyBoard}>
-          <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>写下昵称：</Text>
-          <Image style={{width: theme.screenWidth - 60, height: 60, marginTop: 20}}
-            resizeMode="stretch"
-            source={NickNameBg}>
-            <TextInput style={{fontSize: 14, height: 45, marginLeft: 16}}
-              placeholder={'请写下你的昵称'}
-              autoFocus
-              placeholderTextColor="#a0be8a"
-              underlineColorAndroid="transparent"
-              maxLength={20}
-              onChangeText={(nickname) => {
-                NativeModules.TCAgent.track('引导页', '填写昵称')
-                this.setState({
-                  nickname
-                })
-              }}/>
+        <ScrollView style={{flex: 1}} bounces={false}>
+          <Image style={{flex: 1, width: theme.screenWidth, height: theme.screenHeight > 600 ? theme.screenHeight : 600}}
+            esizeMode="strech"
+            source={WriteNickASign}>
+            <TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.closeKeyBoard}>
+              <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>写下昵称：</Text>
+              <Image style={{width: theme.screenWidth - 60, height: 60, marginTop: 20}}
+                resizeMode="stretch"
+                source={NickNameBg}>
+                <TextInput style={{fontSize: 14, height: 45, marginLeft: 16}}
+                  placeholder={'请写下你的昵称'}
+                  autoFocus
+                  placeholderTextColor="#a0be8a"
+                  underlineColorAndroid="transparent"
+                  maxLength={20}
+                  onChangeText={(nickname) => {
+                    NativeModules.TCAgent.track('引导页', '填写昵称')
+                    this.setState({
+                      nickname
+                    })
+                  }}/>
+              </Image>
+              <View style={styles.signView}>
+                <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>留个签名：</Text>
+                <Image
+                  style={{width: theme.screenWidth - 60, height: 180}}
+                  resizeMode="stretch"
+                  source={SignBg}>
+                  <TextInput style={styles.sign}
+                    placeholder={'慵懒~是一种生活的姿态！'}
+                    placeholderTextColor="#a0be8a"
+                    multiline
+                    maxLength={20}
+                    underlineColorAndroid="transparent"
+                    onChangeText={(sign) => {
+                      NativeModules.TCAgent.track('引导页', '填写签名')
+                      this.setState({
+                        sign
+                      })
+                    }}/>
+                </Image>
+              </View>
+              <TouchableOpacity activeOpacity={1} onPress={this._onPressNext} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Image style={{width: 160, height: 36}}
+                  source={selected}
+                  resizeMode="stretch"/>
+              </TouchableOpacity>
+            </TouchableOpacity>
           </Image>
-          <View style={styles.signView}>
-            <Text style={{fontSize: 16, color: '#757575', backgroundColor: 'transparent'}}>留个签名：</Text>
-            <Image
-              style={{width: theme.screenWidth - 60, height: 180}}
-              resizeMode="stretch"
-              source={SignBg}>
-              <TextInput style={styles.sign}
-                placeholder={'慵懒~是一种生活的姿态！'}
-                placeholderTextColor="#a0be8a"
-                multiline
-                maxLength={20}
-                underlineColorAndroid="transparent"
-                onChangeText={(sign) => {
-                  NativeModules.TCAgent.track('引导页', '填写签名')
-                  this.setState({
-                    sign
-                  })
-                }}/>
-            </Image>
-          </View>
-          <TouchableOpacity activeOpacity={1} onPress={this._onPressNext} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <Image style={{width: 160, height: 36}}
-              source={selected}
-              resizeMode="stretch"/>
-          </TouchableOpacity>
-        </TouchableOpacity>
+        </ScrollView>
       </TouchableOpacity>
     )
   }

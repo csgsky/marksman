@@ -162,6 +162,18 @@ export default class ShareModal extends Component {
             delay: 0
           })
         }
+      }).catch((error) => {
+        // 未安装QQ客户端的情况下promise 返回了 reject，所以需要在catch中提示未安装
+        if (error) {
+          Toast.show('未安装QQ客户端', {
+            duration: Toast.durations.LONG,
+            position: Toast.positions.BOTTOM,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0
+          })
+        }
       })
   }
 
@@ -174,6 +186,7 @@ export default class ShareModal extends Component {
     }
     NativeModules.TCAgent.track('分享', this.props.come4 + 'QQ空间')
     QQAPI.isQQInstalled().then((installed) => {
+      console.log({installed})
       if (installed) {
         QQAPI.shareToQzone(qqData).then((result) => {
           if (result) {
@@ -197,6 +210,18 @@ export default class ShareModal extends Component {
           }
         })
       } else {
+        Toast.show('未安装QQ客户端', {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.BOTTOM,
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+          delay: 0
+        })
+      }
+    }).catch((error) => {
+      // 未安装QQ客户端的情况下promise 返回了 reject，所以需要在catch中提示未安装
+      if (error) {
         Toast.show('未安装QQ客户端', {
           duration: Toast.durations.LONG,
           position: Toast.positions.BOTTOM,
