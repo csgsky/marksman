@@ -30,7 +30,6 @@ export default class Splash extends Component {
   }
 
   componentWillMount () {
-    // NativeModules.SplashScreen.hideSystemNavigationBar()
     NativeModules.TCAgent.track('启动页', '启动页展现')
     this._getDeviceUserInfo()
     // 倒计时
@@ -46,7 +45,6 @@ export default class Splash extends Component {
 
   componentWillUnmount() {
     this.state.timeSubscribe.unsubscribe()
-    // NativeModules.SplashScreen.showSystemNavigationBar()
   }
   _getDeviceUserInfo = () => {
     AsyncStorage.getItem('userId').then((userId) => {
@@ -68,44 +66,36 @@ export default class Splash extends Component {
           }
         })
       } else {
-        console.warn('user id null ')
         // 未登录状态
         Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
           .subscribe((imsi) => {
-            if (imsi !== 'rejected') {
-              AsyncStorage.getItem('devicedid').then((devicedid) => {
+            AsyncStorage.getItem('devicedid').then((devicedid) => {
                 // 未登录状态但已经有用户信息
-                if (devicedid != null) {
-                  console.warn('未登录状态但已经有用户信息')
+              if (devicedid != null) {
                   // 设置背景图
-                  AsyncStorage.getItem('splashImage').then((image) => {
-                    if (image) {
-                      this.setState({
-                        img: {uri: image}
-                      })
-                    } else {
-                      const authorization = this._generateAuth(devicedid)
-                      this._getSplash(authorization)
-                    }
-                  })
-                  this.setState({
-                    success: true
-                  })
-                } else {
+                AsyncStorage.getItem('splashImage').then((image) => {
+                  if (image) {
+                    this.setState({
+                      img: {uri: image}
+                    })
+                  } else {
+                    const authorization = this._generateAuth(devicedid)
+                    this._getSplash(authorization)
+                  }
+                })
+                this.setState({
+                  success: true
+                })
+              } else {
                   // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
                   // alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
-                  // console.warn('authorization  ==> ' + this._generateAuth())
-                  console.warn('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
-                  const authorization = this._generateAuth(imsi.split('-').join(''))
-                  AsyncStorage.setItem('token', authorization)
-                    .then(() => {
-                      this._getUnLoginUserInfo(imsi.split('-').join(''), authorization)
-                    })
-                }
-              })
-            } else {
-              // alert('rejected')
-            }
+                const authorization = this._generateAuth(imsi.split('-').join(''))
+                AsyncStorage.setItem('token', authorization)
+                  .then(() => {
+                    this._getUnLoginUserInfo(imsi.split('-').join(''), authorization)
+                  })
+              }
+            })
           })
       }
     })

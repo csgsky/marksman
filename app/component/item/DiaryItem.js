@@ -15,6 +15,7 @@ import Nine from '../../img/diary_material_nine.jpg'
 import Ten from '../../img/diary_material_ten.jpg'
 import PublicStamp from '../../img/public_stamp.png'
 import PrivateStamp from '../../img/private_stamp.png'
+import Report from '../../img/report.png'
 
 export default class DiaryItem extends Component {
 
@@ -61,14 +62,17 @@ export default class DiaryItem extends Component {
             </View>
             {this.props.showStamp && <Image style={styles.stamp} resizeMode="contain" source={this.getDiaryTpye(item)}/>}
           </View>}
-          {this.props.showUserInfo && <View activeOpacity={1} style={[styles.time, {alignItems: 'center', width: 300}]} >
+          {this.props.showUserInfo && <View activeOpacity={1} style={[styles.time, {alignItems: 'center', flex: 1}]} >
             <TouchableOpacity onPress={this.routePersonalPage}>
               <Image style={{width: 40, height: 40, borderRadius: 20}} resizeMode="cover" source={this.getIconSource(item.user.avtar)} />
             </TouchableOpacity>
-            <View style={{flexDirection: 'column', marginLeft: 19}}>
+            <View style={{flex: 1, flexDirection: 'column', marginLeft: 19}}>
               <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}} numberOfLines={1}>{item.user.nickname}</Text>
               <Text style={{marginTop: 4, fontSize: theme.text.mdFontSize, color: theme.text.globalSubTextColor}}>{recentTime(item.create_time)}</Text>
             </View>
+            <TouchableOpacity style={{marginLeft: 16, width: 18, height: 18}} onPress={this.props.showReport}>
+              <Image source={Report}/>
+            </TouchableOpacity>
           </View>}
           {this.props.isDetail && <Text style={styles.body}>{content}</Text>}
           {!this.props.isDetail && <Text style={styles.body} numberOfLines={this.props.isDefault ? 10 : 5}>{content}</Text>}

@@ -10,6 +10,7 @@ import ListSeparator from '../component/ListSeparator'
 import Footer from '../component/Footer'
 import ShareModal from '../widget/ShareModal'
 import theme from '../config/theme'
+import Reporter from '../widget/ReportModal'
 
 class RecentDiary extends Component {
 
@@ -17,6 +18,7 @@ class RecentDiary extends Component {
     super(props)
     this.state = {
       shareVisible: false, // 显示分享
+      reportVisible: false,
       wechatMetadata: null
     }
   }
@@ -63,6 +65,7 @@ class RecentDiary extends Component {
       showUserInfo
       come4="最新"
       showShare={() => this.showShare(index, item)}
+      showReport={() => this.showReport(item)}
       likeDiary={this._likeDiary}
       index={index}/>)
   }
@@ -90,6 +93,25 @@ class RecentDiary extends Component {
   hideShare = () => {
     this.setState({
       shareVisible: false
+    })
+  }
+
+  hideReport = () => {
+    this.setState({
+      reportVisible: false
+    })
+  }
+
+  showReport = (item) => {
+    this.setState({
+      reportVisible: true
+    })
+  }
+
+  report = () => {
+    alert('举报')
+    this.setState({
+      reportVisible: false
     })
   }
 
@@ -123,6 +145,11 @@ class RecentDiary extends Component {
           wechatMetadata={this.state.wechatMetadata}
           come4="日记分享"
         />
+        <Reporter
+          visible={this.state.reportVisible}
+          hideReport={this.hideReport}
+          report={this.report}
+          />
         <FlatList
           data={diarys}
           renderItem={this.getItemCompt}
