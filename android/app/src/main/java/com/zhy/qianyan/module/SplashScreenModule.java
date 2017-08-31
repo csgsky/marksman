@@ -1,12 +1,13 @@
 package com.zhy.qianyan.module;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 
@@ -14,6 +15,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhy.qianyan.MainActivity;
 import com.zhy.qianyan.utils.ApiSp;
 import com.zhy.qianyan.utils.ApkUtils;
@@ -42,11 +44,18 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getDeviceId(Promise promise) {
         try {
+            RxPermissions rxPermissions = new RxPermissions(getCurrentActivity());
+            rxPermissions.request(Manifest.permission.READ_PHONE_STATE)
+                    .subscribe(granted -> {
+                        if (granted) {
+                            TelephonyManager telManager = (TelephonyManager) getCurrentActivity().getSystemService(Context.TELEPHONY_SERVICE);
+                            String imsi = telManager.getSubscriberId();
+                            promise.resolve(imsi);
+                        } else {
+                            promise.resolve("rejected");
+                        }
+                    });
 
-            String androidId = Settings.Secure.getString(
-                    getCurrentActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
-//            Log.i("getIMSI"," androidId ===>  " + androidId);
-            promise.resolve(androidId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,15 +141,7 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
         }
 
     }
-//    public static void toChrome(Activity activity, String url) {
-//        try {
-//            Uri uri = Uri.parse(url);
-//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//            activity.startActivity(intent);
-//        } catch (Exception e) {
-//            ToastUtils.show(activity, "无法下载");
-//        }
-//    }
+
     @ReactMethod
     public void toChrome (String url) {
         try {
@@ -177,7 +178,6 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setCurrentPage(String page) {
         if (page != null) {
-            Log.i("qianyan", page);
             new ApiSp(getCurrentActivity()).setCurrentPage(page);
         }
 
