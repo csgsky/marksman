@@ -25,7 +25,7 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isWechatInstalled: false,
+      isWeChatInstalled: false,
       isQQInstalled: false
     }
   }
@@ -241,17 +241,17 @@ class Login extends Component {
           <TouchableOpacity style={styles.confirm} onPress={this._login}>
             <Text style={styles.login}>{consts.CONFIRM}</Text>
           </TouchableOpacity>
-          {(this.state.isQQInstalled || this.state.isWechatInstalled) && <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 22, marginBottom: 14, }}>
+          {(this.state.isQQInstalled || this.state.isWeChatInstalled) && <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 22, marginBottom: 14, }}>
             <View style={{width: 48, height: 0.5, backgroundColor: '#b2b2b2'}}/>
             <Text style={{color: '#9d9d9d', marginLeft: 16, marginRight: 16, fontSize: 12}}>快速登录</Text>
             <View style={{width: 48, height: 0.5, backgroundColor: '#b2b2b2'}}/>
           </View>}
 
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-            {this.state.isWechatInstalled && <TouchableOpacity style={{width: 50, height: 50}} onPress={this.loginWeChat}>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: 143, alignSelf: 'center'}}>
+            {this.state.isWeChatInstalled && <TouchableOpacity style={{width: 50, height: 50}} onPress={this.loginWeChat}>
               <Image source={loginWechat} style={{width: 50, height: 50}} />
             </TouchableOpacity>}
-            {this.state.isQQInstalled && <TouchableOpacity style={{width: 50, height: 50, marginLeft: 43}} onPress={this.loginQQ}>
+            {this.state.isQQInstalled && <TouchableOpacity style={{width: 50, height: 50}} onPress={this.loginQQ}>
               <Image source={loginQQ} style={{width: 50, height: 50}} />
             </TouchableOpacity>}
           </View>
