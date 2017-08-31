@@ -22,6 +22,19 @@ var dismissKeyboard = require('dismissKeyboard')
 
 class Login extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isWeChatInstalled: false,
+      isQQInstalled: false
+    }
+  }
+
+  componentWillMount() {
+    this.isWeChatInstalled();
+    this.isQQInstalled();
+  }
+
   componentDidMount () {
     this.props.actions.initPage()
   }
@@ -58,6 +71,26 @@ class Login extends Component {
     await AsyncStorage.setItem('sign', info.sign + '')
     await AsyncStorage.setItem('nickname', info.nickname + '')
     await AsyncStorage.setItem('tags', info.tags + '')
+  }
+  isWeChatInstalled = () => {
+    WeChat.isWXAppInstalled()
+      .then((installed) => {
+        if (installed) {
+          this.setState({
+            isWeChatInstalled: true
+          })
+        }
+      })
+  }
+  isQQInstalled = () => {
+    QQAPI.isQQInstalled()
+      .then((installed) => {
+        if (installed) {
+          this.setState({
+            isQQInstalled: true
+          })
+        }
+      })
   }
 // https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx304eb8f40f7a2d88&secret=e19bae2990b22fafcc25f17c7b22650f&code=0715dpWH02XYrk2BVdZH0ydmWH05dpWy&grant_type=authorization_code
   loginWeChat = () => {
@@ -208,19 +241,19 @@ class Login extends Component {
           <TouchableOpacity style={styles.confirm} onPress={this._login}>
             <Text style={styles.login}>{consts.CONFIRM}</Text>
           </TouchableOpacity>
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 22, marginBottom: 14, }}>
+          {(this.state.isQQInstalled || this.state.isWeChatInstalled) && <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 22, marginBottom: 14, }}>
             <View style={{width: 48, height: 0.5, backgroundColor: '#b2b2b2'}}/>
             <Text style={{color: '#9d9d9d', marginLeft: 16, marginRight: 16, fontSize: 12}}>快速登录</Text>
             <View style={{width: 48, height: 0.5, backgroundColor: '#b2b2b2'}}/>
-          </View>
+          </View>}
 
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-            <TouchableOpacity style={{width: 50, height: 50}} onPress={this.loginWeChat}>
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', width: 143, alignSelf: 'center'}}>
+            {this.state.isWeChatInstalled && <TouchableOpacity style={{width: 50, height: 50}} onPress={this.loginWeChat}>
               <Image source={loginWechat} style={{width: 50, height: 50}} />
-            </TouchableOpacity>
-            <TouchableOpacity style={{width: 50, height: 50, marginLeft: 43}} onPress={this.loginQQ}>
+            </TouchableOpacity>}
+            {this.state.isQQInstalled && <TouchableOpacity style={{width: 50, height: 50}} onPress={this.loginQQ}>
               <Image source={loginQQ} style={{width: 50, height: 50}} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
           <View style={styles.forgetView}>
             <Text onPress={this._quickRegister}style={styles.register}>{consts.QUICK_REGISTER}</Text>
