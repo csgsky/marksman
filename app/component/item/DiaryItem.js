@@ -70,7 +70,7 @@ export default class DiaryItem extends Component {
               <Text style={{marginBottom: 3, fontSize: theme.text.xlgFontSize, color: theme.text.globalTextColor}} numberOfLines={1}>{item.user.nickname}</Text>
               <Text style={{marginTop: 4, fontSize: theme.text.mdFontSize, color: theme.text.globalSubTextColor}}>{recentTime(item.create_time)}</Text>
             </View>
-            <TouchableOpacity style={{marginLeft: 16, width: 18, height: 18}} onPress={this.props.showReport}>
+            <TouchableOpacity style={{marginLeft: 16, width: 25, height: 25}} onPress={this.props.showReport}>
               <Image source={Report}/>
             </TouchableOpacity>
           </View>}

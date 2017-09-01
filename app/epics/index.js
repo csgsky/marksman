@@ -21,10 +21,12 @@ import commentPostEpic from './commentEditorEpic'
 import commentsListEpic from './commentsListEpic'
 import diaryDetailEpic from './diaryDetailEpic'
 import messageEpic from './messageEpic'
+import reportEpic from './reportEpic'
 
 export default combineEpics(
   loginEpic, homeInitEpic, recentInitEpic, hotDiaryInitEpic, collectionInitEpic,
   discoveryInitEpic, lovedInitEpic, talksEpic, searchInitEpic, trashEpic, personalEpic,
   feedbackEpic, topicEpic, registerEpic, profileEpic, diaryCommentEpic, myFollowTopicsEpic,
-  myFollowUsersEpic, commentPostEpic, commentsListEpic, diaryDetailEpic, messageEpic
+  myFollowUsersEpic, commentPostEpic, commentsListEpic, diaryDetailEpic, messageEpic,
+  reportEpic
 )

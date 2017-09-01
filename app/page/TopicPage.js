@@ -7,12 +7,15 @@ import theme from '../config/theme'
 import ListSeparator from '../component/ListSeparator'
 import CommentItem from '../component/item/CommentItem'
 import * as actions from '../actions/topic'
+import * as reportActions from '../actions/reportAction'
 import CommentBar from '../component/CommentBar'
 import ShareModal from '../widget/ShareModal'
 import EmptyView from '../component/CommentEmptyView'
 import Separator from '../component/Separator'
 import Footer from '../component/Footer'
-// homefragment/init/data
+import Reporter from '../widget/ReportModal'
+import CheckReport from '../widget/CheckReportModal'
+
 class Topic extends PureComponent {
   static navigationOptions = ({navigation}) => ({
     title: '话题',
@@ -27,6 +30,9 @@ class Topic extends PureComponent {
     super(props)
     this.state = {
       shareVisible: false, // 显示分享
+      reportVisible: false,
+      reportedUserId: 0,
+      checkReportVisible: false,
       wechatMetadata: null
     }
   }
@@ -161,11 +167,13 @@ class Topic extends PureComponent {
       thumbImage: topic.icon_url
     }
   }
+
   hideShare = () => {
     this.setState({
       shareVisible: false
     })
   }
+
   showShare = () => {
     NativeModules.TCAgent.track('发现', '日记详情页-分享')
     const wechatMetadata = this.getWechatShareMeta()
@@ -173,6 +181,44 @@ class Topic extends PureComponent {
       shareVisible: true,
       wechatMetadata
     })
+  }
+
+  hideReport = () => {
+    this.setState({
+      reportVisible: false
+    })
+  }
+
+  showReport = (item) => {
+    const id = item.user_id ? item.user_id : 0
+    this.setState({
+      reportVisible: true,
+      reportedUserId: id
+    })
+  }
+
+  showCheckReporter = () => {
+    this.setState({
+      checkReportVisible: true
+    })
+  }
+
+  hideCheckReport = () => {
+    this.setState({
+      checkReportVisible: false
+    })
+  }
+
+  report = () => {
+    this.setState({
+      reportVisible: false
+    })
+    this.showCheckReporter()
+  }
+
+  confirmReport = (index) => {
+    this.hideCheckReport()
+    this.props.reportInit({obj_type: 1, obj_id: this.state.reportedUserId, type: index})
   }
 
   render () {
@@ -185,12 +231,23 @@ class Topic extends PureComponent {
           wechatMetadata={this.state.wechatMetadata}
           come4="话题分享"
         />
+        <Reporter
+          visible={this.state.reportVisible}
+          hideReport={this.hideReport}
+          report={this.report}
+          />
+        <CheckReport
+          visible={this.state.checkReportVisible}
+          hideCheckReport={this.hideCheckReport}
+          confirmReport={this.confirmReport}
+        />
         {topic && topic.name && <FlatList
           data={comments}
           renderItem={({item, index}) => (
             <CommentItem data={item}
               navigation={this.props.navigation}
               index={index}
+              showReport={() => this.showReport(item)}
               onPressCommentItem={() => { this._onPressCommentItem(item) }}
               onPressLike={this._onPressCommentLike}/>)}
           removeClippedSubviews={Platform.OS === 'android'}
@@ -277,6 +334,6 @@ const styles = {
 
 const mapStateToProps = ({topic}) => topic
 
-const mapDispatchToProps = dispatch => (bindActionCreators(actions, dispatch))
+const mapDispatchToProps = dispatch => (bindActionCreators({...actions, ...reportActions}, dispatch))
 
 export default connect(mapStateToProps, mapDispatchToProps)(Topic)
