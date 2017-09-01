@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
 import * as actions from '../actions/diaryDetailAction'
+import * as reportActions from '../actions/reportAction'
 import theme from '../config/theme'
 import CommentItem from '../component/item/CommentItem'
 import ListSeparator from '../component/ListSeparator'
@@ -15,6 +16,8 @@ import Separator from '../component/Separator'
 import Delete from '../img/diary_delete.png'
 import Edit from '../img/diary_edit.png'
 import ShareModal from '../widget/ShareModal'
+import Reporter from '../widget/ReportModal'
+import CheckReport from '../widget/CheckReportModal'
 
 class DiaryDetailPage extends Component {
 
@@ -51,6 +54,9 @@ class DiaryDetailPage extends Component {
     this.state = {
       diary: undefined,
       shareVisible: false,
+      reportVisible: false,
+      reportedUserId: 0,
+      checkReportVisible: false,
       wechatMetadata: null
     }
   }
@@ -220,6 +226,7 @@ class DiaryDetailPage extends Component {
   routerToPersonalPage = (userId) => {
     this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
   }
+
   hideShare = () => {
     this.setState({
       shareVisible: false
@@ -234,6 +241,44 @@ class DiaryDetailPage extends Component {
     })
   }
 
+  hideReport = () => {
+    this.setState({
+      reportVisible: false
+    })
+  }
+
+  showReport = (item) => {
+    const id = item.user_id ? item.user_id : 0
+    this.setState({
+      reportVisible: true,
+      reportedUserId: id
+    })
+  }
+
+  showCheckReporter = () => {
+    this.setState({
+      checkReportVisible: true
+    })
+  }
+
+  hideCheckReport = () => {
+    this.setState({
+      checkReportVisible: false
+    })
+  }
+
+  report = () => {
+    this.setState({
+      reportVisible: false
+    })
+    this.showCheckReporter()
+  }
+
+  confirmReport = (index) => {
+    this.hideCheckReport()
+    this.props.reportInit({obj_type: 1, obj_id: this.state.reportedUserId, type: index})
+  }
+
   render () {
     const {isRefreshing, comments, isLikingDiary, isLikingComment} = this.props
     const diary = this.state.diary
@@ -245,6 +290,16 @@ class DiaryDetailPage extends Component {
           wechatMetadata={this.state.wechatMetadata}
           come4="日记分享"
         />
+        <Reporter
+          visible={this.state.reportVisible}
+          hideReport={this.hideReport}
+          report={this.report}
+          />
+        <CheckReport
+          visible={this.state.checkReportVisible}
+          hideCheckReport={this.hideCheckReport}
+          confirmReport={this.confirmReport}
+          />
         <FlatList
           data={comments}
           renderItem={({item, index}) => (
@@ -252,6 +307,7 @@ class DiaryDetailPage extends Component {
               navigation={this.props.navigation}
               index={index}
               isLikingComment={isLikingComment}
+              showReport={() => this.showReport(item)}
               onPressCommentItem={() => { this._onPressCommentItem(item) }}
               onPressLike={this._onPressCommentLike}/>)}
           onEndReachedThreshold={0.1}
@@ -282,6 +338,6 @@ class DiaryDetailPage extends Component {
 
 const mapStateToProps = ({diaryDetail}) => diaryDetail
 
-const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({...actions, ...reportActions}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(DiaryDetailPage)

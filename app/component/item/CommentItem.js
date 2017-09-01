@@ -40,6 +40,7 @@ export default class CommentItem extends Component {
     return (
       <TouchableOpacity style={{backgroundColor: 'white'}}
         onPress={onPressCommentItem}
+        onLongPress={this.props.showReport}
         activeOpacity={0.3}>
         <View style={styles.item}>
           <View style={styles.header}>

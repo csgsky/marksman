@@ -5,18 +5,23 @@ import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/hotDiaryAction'
+import * as reportActions from '../actions/reportAction'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Footer from '../component/Footer'
 import ShareModal from '../widget/ShareModal'
 import theme from '../config/theme'
-
+import Reporter from '../widget/ReportModal'
+import CheckReport from '../widget/CheckReportModal'
 
 class HotDiary extends Component {
   constructor (props) {
     super(props)
     this.state = {
       shareVisible: false, // 显示分享
+      reportVisible: false,
+      reportedUserId: 0,
+      checkReportVisible: false,
       wechatMetadata: null
     }
   }
@@ -47,6 +52,7 @@ class HotDiary extends Component {
       showUserInfo
       come4="热门"
       showShare={() => this.showShare(index, item)}
+      showReport={() => this.showReport(item)}
       likeDiary={this._likeDiary}
       index={index}/>)
   }
@@ -91,6 +97,44 @@ class HotDiary extends Component {
     })
   }
 
+  hideReport = () => {
+    this.setState({
+      reportVisible: false
+    })
+  }
+
+  showReport = (item) => {
+    const id = item.user ? item.user.user_id : 0
+    this.setState({
+      reportVisible: true,
+      reportedUserId: id
+    })
+  }
+
+  showCheckReporter = () => {
+    this.setState({
+      checkReportVisible: true
+    })
+  }
+
+  hideCheckReport = () => {
+    this.setState({
+      checkReportVisible: false
+    })
+  }
+
+  report = () => {
+    this.setState({
+      reportVisible: false
+    })
+    this.showCheckReporter()
+  }
+
+  confirmReport = (index) => {
+    this.hideCheckReport()
+    this.props.actions.reportInit({obj_type: 0, obj_id: this.state.reportedUserId, type: index})
+  }
+
   getWechatShareMeta = (index, item) => {
     const user = item.user
     return {
@@ -120,6 +164,16 @@ class HotDiary extends Component {
           hideShare={this.hideShare}
           wechatMetadata={this.state.wechatMetadata}
           come4="日记分享"
+        />
+        <Reporter
+          visible={this.state.reportVisible}
+          hideReport={this.hideReport}
+          report={this.report}
+          />
+        <CheckReport
+          visible={this.state.checkReportVisible}
+          hideCheckReport={this.hideCheckReport}
+          confirmReport={this.confirmReport}
         />
         <FlatList
           data={diarys}
@@ -157,7 +211,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators({...actions, ...reportActions}, dispatch)
 })
 
 

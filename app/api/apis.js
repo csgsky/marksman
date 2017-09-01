@@ -278,3 +278,7 @@ export const splashApi = userId =>
 // 自更新接口
 export const checkAndroidVersion = (userId, sdkVersion) =>
   getApi(`/api/updateself?sdk_ver=${sdkVersion}`, userId)
+
+// 举报的接口
+export const ReportApi = (userId, map) =>
+  postApi('/api/tipoff', map, userId)

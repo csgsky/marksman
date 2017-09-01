@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import PubSub from 'pubsub-js'
 import { connect } from 'react-redux'
 import * as actions from '../actions/personAction'
+import * as reportActions from '../actions/reportAction'
 import DiaryItem from '../component/item/DiaryItem'
 import PersonalInfoView from '../component/PersonalInfo'
 import ListSeparator from '../component/ListSeparator'
@@ -12,6 +13,8 @@ import CustomButton from '../component/Button'
 import Footer from '../component/Footer'
 import ShareModal from '../widget/ShareModal'
 import theme from '../config/theme'
+import Reporter from '../widget/ReportModal'
+import CheckReport from '../widget/CheckReportModal'
 
 class PersonalPage extends PureComponent {
 
@@ -25,6 +28,9 @@ class PersonalPage extends PureComponent {
     super(props)
     this.state = {
       shareVisible: false, // 显示分享
+      reportVisible: false,
+      reportedUserId: 0,
+      checkReportVisible: false,
       wechatMetadata: null
     }
   }
@@ -64,6 +70,16 @@ class PersonalPage extends PureComponent {
           hideShare={this.hideShare}
           wechatMetadata={this.state.wechatMetadata}
           come4="日记分享"
+        />
+        <Reporter
+          visible={this.state.reportVisible}
+          hideReport={this.hideReport}
+          report={this.report}
+          />
+        <CheckReport
+          visible={this.state.checkReportVisible}
+          hideCheckReport={this.hideCheckReport}
+          confirmReport={this.confirmReport}
         />
         {diaries && info && <FlatList
           data={diaries}
@@ -106,6 +122,7 @@ class PersonalPage extends PureComponent {
       showUserInfo
       come4="个人主页"
       showShare={() => this.showShare(index, item)}
+      showReport={() => this.showReport(item)}
       likeDiary={this._likeDiary}
       index={index}/>)
   }
@@ -118,10 +135,16 @@ class PersonalPage extends PureComponent {
     return <View />
   }
 
-  hideShare = () => {
-    this.setState({
-      shareVisible: false
-    })
+
+  getWechatShareMeta = (index, item) => {
+    const user = item.user
+    return {
+      type: 'news',
+      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
+      title: '来自' + user.nickname + '的日记',
+      description: item.content,
+      thumbImage: item.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.user.avtar
+    }
   }
 
   showShare = (index, item) => {
@@ -133,15 +156,48 @@ class PersonalPage extends PureComponent {
     })
   }
 
-  getWechatShareMeta = (index, item) => {
-    const user = item.user
-    return {
-      type: 'news',
-      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
-      title: '来自' + user.nickname + '的日记',
-      description: item.content,
-      thumbImage: item.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.user.avtar
-    }
+  hideReport = () => {
+    this.setState({
+      reportVisible: false
+    })
+  }
+
+  showReport = (item) => {
+    const id = item.user ? item.user.user_id : 0
+    this.setState({
+      reportVisible: true,
+      reportedUserId: id
+    })
+  }
+
+  showCheckReporter = () => {
+    this.setState({
+      checkReportVisible: true
+    })
+  }
+
+  hideCheckReport = () => {
+    this.setState({
+      checkReportVisible: false
+    })
+  }
+
+  report = () => {
+    this.setState({
+      reportVisible: false
+    })
+    this.showCheckReporter()
+  }
+
+  confirmReport = (index) => {
+    this.hideCheckReport()
+    this.props.actions.reportInit({obj_type: 0, obj_id: this.state.reportedUserId, type: index})
+  }
+
+  hideShare = () => {
+    this.setState({
+      shareVisible: false
+    })
   }
 
   _likeDiary = (diaryId, ownerId, myLike, index) => {
@@ -189,7 +245,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators({...actions, ...reportActions}, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonalPage)

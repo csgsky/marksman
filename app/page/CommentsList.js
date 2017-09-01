@@ -1,16 +1,19 @@
 import React, {PureComponent} from 'react'
 import {View, FlatList, RefreshControl, Platform, TextInput, Image, StyleSheet, KeyboardAvoidingView, Text, TouchableOpacity, AsyncStorage } from 'react-native'
 import {connect} from 'react-redux'
+import dismissKeyboard from 'dismissKeyboard'
 import {bindActionCreators} from 'redux'
 import PubSub from 'pubsub-js'
 import PageBack from '../img/page_back.png'
 import * as actions from '../actions/commentListActions'
-import dismissKeyboard from 'dismissKeyboard'
+import * as reportActions from '../actions/reportAction'
 import {commentPost, clearCommentPost} from '../actions/commentEditorAction'
 import theme from '../config/theme'
 import CommentItem from '../component/item/CommentItem'
 import ListSeparator from '../component/ListSeparator'
 import AutoInputText from '../widget/AutoGrowingTextInput'
+import Reporter from '../widget/ReportModal'
+import CheckReport from '../widget/CheckReportModal'
 
 class CommentListPage extends PureComponent {
   static navigationOptions = ({navigation}) => ({
@@ -28,7 +31,10 @@ class CommentListPage extends PureComponent {
       commentId: undefined,
       diaryOwnerId: undefined,
       commentOwnerId: undefined,
-      pid: undefined
+      pid: undefined,
+      reportVisible: false,
+      reportedUserId: 0,
+      checkReportVisible: false,
     }
   }
   componentWillMount() {
@@ -113,10 +119,58 @@ class CommentListPage extends PureComponent {
     }
     this.props.commentsListCommentPost({diaryId, ownerId: commentOwnerId, commentId, data})
   }
+
+  hideReport = () => {
+    this.setState({
+      reportVisible: false
+    })
+  }
+
+  showReport = (item) => {
+    const id = item.user_id ? item.user_id : 0
+    this.setState({
+      reportVisible: true,
+      reportedUserId: id
+    })
+  }
+
+  showCheckReporter = () => {
+    this.setState({
+      checkReportVisible: true
+    })
+  }
+
+  hideCheckReport = () => {
+    this.setState({
+      checkReportVisible: false
+    })
+  }
+
+  report = () => {
+    this.setState({
+      reportVisible: false
+    })
+    this.showCheckReporter()
+  }
+
+  confirmReport = (index) => {
+    this.hideCheckReport()
+    this.props.reportInit({obj_type: 1, obj_id: this.state.reportedUserId, type: index})
+  }
   render() {
     const {comments, navigation, isRefreshing} = this.props
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
+        <Reporter
+          visible={this.state.reportVisible}
+          hideReport={this.hideReport}
+          report={this.report}
+          />
+        <CheckReport
+          visible={this.state.checkReportVisible}
+          hideCheckReport={this.hideCheckReport}
+          confirmReport={this.confirmReport}
+        />
         <View style={{flex: 1}}>
           {comments && <FlatList style={{flex: 1}}
             data={comments}
@@ -126,6 +180,7 @@ class CommentListPage extends PureComponent {
                 index={index}
                 navigation={navigation}
                 type="commentsList"
+                showReport={() => this.showReport(item)}
                 onPressLike={this._onPressCommentLike}
                 onPressCommentItem={() => this._onPressCommentItem(item)}/>)}
             onEndReachedThreshold={0.1}
@@ -198,4 +253,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect(({commentsList}) => commentsList, dispatch => bindActionCreators({...actions, clearCommentPost}, dispatch))(CommentListPage)
+export default connect(({commentsList}) => commentsList, dispatch => bindActionCreators({...actions, clearCommentPost, ...reportActions}, dispatch))(CommentListPage)

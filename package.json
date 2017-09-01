@@ -13,6 +13,7 @@
     "pubsub-js": "^1.5.7",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
+    "react-native-check-box": "^2.0.1",
     "react-native-image-picker": "^0.26.3",
     "react-native-keyboard-aware-scroll-view": "^0.2.9",
     "react-native-lightbox": "^0.6.0",
