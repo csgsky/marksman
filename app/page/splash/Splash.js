@@ -3,7 +3,7 @@ import { NavigationActions } from 'react-navigation'
 import Rx from 'rxjs'
 import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules, Platform} from 'react-native'
 import theme from '../../config/theme'
-import {getUnloginInfo, splashApi} from '../../api/apis'
+import {getUnloginInfo, splashApi, CustomerRegisterApi} from '../../api/apis'
 import defaultSplash from '../../img/splash.png'
 
 const CryptoJS = require('crypto-js')
@@ -88,7 +88,7 @@ export default class Splash extends Component {
                 })
               } else {
                   // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
-                  // alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
+                  alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
                 const authorization = this._generateAuth(imsi.split('-').join(''))
                 AsyncStorage.setItem('token', authorization)
                   .then(() => {
@@ -162,9 +162,30 @@ export default class Splash extends Component {
         }
       })
   }
+
   _onPress = () => {
     NativeModules.TCAgent.track('启动页', '启动页跳过')
     this._splashRouter()
+  }
+
+  _registerCustomUser = () => {
+    NativeModules.TCAgent.track('引导页', '进入浅言')
+    const map = {sex: 1, tags: '9', nickname: '尚未填写昵称', sign: '慵懒~是一种生活的姿态！'}
+    Rx.Observable.from(NativeModules.SplashScreen.getNetInfo()).subscribe(it => {
+      AsyncStorage.getItem('token').then((result) => {
+        if (result) {
+          Rx.Observable.from(CustomerRegisterApi(map, result))
+            .subscribe((it) => {
+              console.log({it})
+              if (it.return_code === 1) {
+                Rx.Observable.of('delay').delay(800).subscribe(() => {
+                  this.props.navigation.dispatch(resetActionMain)
+                })
+              }
+            })
+        }
+      })
+    })
   }
   _splashRouter = () => {
     if (this.state.success) {
@@ -172,13 +193,14 @@ export default class Splash extends Component {
         this._saveUserInfo(this.state.customer)
         this.props.navigation.dispatch(resetActionMain)
       } else if (this.state.newOne) {
-        const resetAction = NavigationActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({routeName: 'LabelPage'})
-          ]
-        })
-        this.props.navigation.dispatch(resetAction)
+        this._registerCustomUser()
+        // const resetAction = NavigationActions.reset({
+        //   index: 0,
+        //   actions: [
+        //     NavigationActions.navigate({routeName: 'LabelPage'})
+        //   ]
+        // })
+        // this.props.navigation.dispatch(resetAction)
       }
     } else {
       // 重新获取设备绑定的信息
