@@ -227,6 +227,20 @@ class PersonalCenter extends Component {
     })
   }
 
+  getNickName = () => {
+    if (this.props.info && this.props.info.nickname) {
+      return this.props.info.nickname
+    }
+    return '尚未填写昵称'
+  }
+
+  getSign = () => {
+    if (this.props.info && this.props.info.sign) {
+      return this.props.info.sign
+    }
+    return '慵懒~是一种生活的姿态！'
+  }
+
   render () {
     const {navigation} = this.props
     return (
@@ -251,10 +265,10 @@ class PersonalCenter extends Component {
             </TouchableOpacity>
             <View style={styles.desc}>
               <View style={styles.nicknameView}>
-                <Text style={styles.nickname}>{this.props.info && this.props.info.nickname}</Text>
+                <Text style={styles.nickname}>{this.getNickName()}</Text>
               </View>
               <View style={styles.signatureView}>
-                <Text style={styles.signature} numberOfLines={1}>{this.props.info && this.props.info.sign}</Text>
+                <Text style={styles.signature} numberOfLines={1}>{this.getSign()}</Text>
               </View>
             </View>
           </TouchableOpacity>
