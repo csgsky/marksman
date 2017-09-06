@@ -21,9 +21,6 @@ export default class Splash extends Component {
     this.state = {
       time: 3,
       timeSubscribe: '',
-      devicedid: null,
-      newOne: false,
-      customer: null,
       success: false,
       img: null
     }
@@ -32,7 +29,6 @@ export default class Splash extends Component {
   componentWillMount () {
     NativeModules.TCAgent.track('启动页', '启动页展现')
     this._getDeviceUserInfo()
-    // 倒计时
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
       if ((it + 1) === 4) {
         this._splashRouter()
@@ -46,113 +42,59 @@ export default class Splash extends Component {
   componentWillUnmount() {
     this.state.timeSubscribe.unsubscribe()
   }
+
+
+  setSplashImg = () => {
+     // 设置背景图
+    AsyncStorage.getItem('splashImage').then((image) => {
+      if (image) {
+        this.setState({
+          img: {uri: image}
+        })
+      } else {
+        const authorization = this._generateAuth()
+        this._getSplash(authorization)
+      }
+    })
+  }
+
   _getDeviceUserInfo = () => {
+    this.setSplashImg()
     AsyncStorage.getItem('userId').then((userId) => {
       if (userId !== null) {
-        // 登录状态
         this.setState({
           success: true
         })
-        // 设置背景图
-        AsyncStorage.getItem('splashImage').then((image) => {
-          // alert('走的是登录')
-          if (image) {
-            this.setState({
-              img: {uri: image}
-            })
-          } else {
-            const authorization = this._generateAuth()
-            this._getSplash(authorization)
-          }
-        })
       } else {
-        // 未登录状态
         Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
           .subscribe((imsi) => {
+            const token = this.unLoginToken(imsi.split('-').join(''))
+            this._saveUserInfo(token)
             this.setState({
-              devicedid: imsi.split('-').join('')
-            })
-            AsyncStorage.getItem('devicedid').then((devicedid) => {
-                // 未登录状态但已经有用户信息
-              if (devicedid != null) {
-                  // 设置背景图
-                AsyncStorage.getItem('splashImage').then((image) => {
-                  if (image) {
-                    this.setState({
-                      img: {uri: image}
-                    })
-                  } else {
-                    const authorization = this._generateAuth(devicedid)
-                    this._getSplash(authorization)
-                  }
-                })
-                this.setState({
-                  success: true
-                })
-              } else {
-                  // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
-                  // alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
-                const authorization = this._generateAuth(imsi.split('-').join(''))
-                AsyncStorage.setItem('token', authorization)
-                  .then(() => {
-                    this._getUnLoginUserInfo(imsi.split('-').join(''), authorization)
-                  }).catch((err) => {
-                  })
-              }
+              success: true
             })
           })
       }
     })
   }
 
-  _generateAuth = (imsi) => {
-    const rawStr = '/ZTE/ZTE1.1/' + imsi + '/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+  unLoginToken = (imsi) => {
+    const rawStr = '/ZTE/ZTE1.1/' + imsi + 'dsdds/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     const words = encodeURIComponent(rawStr)
     const base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
     return authorization
   }
 
-  _saveUserInfo = async (customer) => {
-    await AsyncStorage.setItem('sex', customer.sex + '')
-    await AsyncStorage.setItem('sign', customer.sign + '')
-    await AsyncStorage.setItem('nickname', customer.nickname + '')
-    await AsyncStorage.setItem('tags', customer.tags + '')
-  }
-
-  _getUnLoginUserInfo = (imsi, authorization) => {
-    Rx.Observable.from(getUnloginInfo(imsi + '', authorization)).subscribe(
-                      (it) => {
-                        console.warn('custom')
-                        console.warn(it.customer)
-                        this.setState({customer: it.customer, success: true})
-                        if (it.customer) {
-                          AsyncStorage.setItem('devicedid', it.customer.imsi)
-                          this.setState({
-                            newOne: false,
-                          })
-                          AsyncStorage.getItem('splashImage').then((image) => {
-                            // alert('走的接口，是未登录, 但是有信息')
-                            if (image) {
-                              this.setState({
-                                img: {uri: image}
-                              })
-                            } else {
-                              this._getSplash(authorization)
-                            }
-                          })
-                        } else {
-                          this.setState({
-                            newOne: true,
-                            img: defaultSplash
-                          })
-                        }
-                      }
-                    )
+  _saveUserInfo = async (token) => {
+    await AsyncStorage.setItem('sex', '1')
+    await AsyncStorage.setItem('sign', '慵懒~是一种生活的姿态！')
+    await AsyncStorage.setItem('nickname', '尚未填写昵称')
+    await AsyncStorage.setItem('tags', '9')
+    await AsyncStorage.setItem('token', token)
   }
 
   _getSplash = (authorization) => {
-    // alert('splash')
     Rx.Observable
       .from(splashApi(authorization))
       .subscribe((it) => {
@@ -174,39 +116,29 @@ export default class Splash extends Component {
     this._splashRouter()
   }
 
-  _registerCustomUser = () => {
-    NativeModules.TCAgent.track('引导页', '进入浅言')
-    const map = {sex: 1, tags: '9', nickname: '尚未填写昵称', sign: '慵懒~是一种生活的姿态！'}
-    Rx.Observable.from(NativeModules.SplashScreen.getNetInfo()).subscribe(it => {
-      const auth =  this._generateAuth(this.state.devicedid)
-      Rx.Observable.from(CustomerRegisterApi(map, auth))
-      .subscribe((it) => {
-        console.log({it})
-        if (it.return_code === 1) {
-          Rx.Observable.of('delay').delay(800).subscribe(() => {
-            this.props.navigation.dispatch(resetActionMain)
-          })
-        }
-      })
-    })
-  }
+  // _registerCustomUser = () => {
+  //   NativeModules.TCAgent.track('引导页', '进入浅言')
+  //   const map = {sex: 1, tags: '9', nickname: '尚未填写昵称', sign: '慵懒~是一种生活的姿态！'}
+  //   Rx.Observable.from(NativeModules.SplashScreen.getNetInfo()).subscribe(it => {
+  //     AsyncStorage.getItem('token').then((result) => {
+  //       if (result) {
+  //         Rx.Observable.from(CustomerRegisterApi(map, result))
+  //           .subscribe((it) => {
+  //             if (it.return_code === 1) {
+  //               Rx.Observable.of('delay').delay(800).subscribe(() => {
+  //                 this.props.navigation.dispatch(resetActionMain)
+  //               })
+  //             }
+  //           })
+  //       }
+  //     })
+  //   })
+  // }
+
   _splashRouter = () => {
     if (this.state.success) {
-      if (!this.state.newOne) {
-        this._saveUserInfo(this.state.customer)
-        this.props.navigation.dispatch(resetActionMain)
-      } else if (this.state.newOne) {
-        this._registerCustomUser()
-        // const resetAction = NavigationActions.reset({
-        //   index: 0,
-        //   actions: [
-        //     NavigationActions.navigate({routeName: 'LabelPage'})
-        //   ]
-        // })
-        // this.props.navigation.dispatch(resetAction)
-      }
+      this.props.navigation.dispatch(resetActionMain)
     } else {
-      // 重新获取设备绑定的信息
       this._getDeviceUserInfo()
     }
   }
