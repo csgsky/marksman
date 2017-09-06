@@ -53,7 +53,7 @@ function thirdLoginEpic (action$) {
                 Observable.from(AsyncStorage.getItem('tags')),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
                 (token, login_type, login_code, open_id, sex, sign, nickname, tags, net) => {
-                  return {token, data: {login_type, login_code, open_id, sex, sign, nickname, tags}, net}
+                  return {token, data: {login_type, login_code, open_id, sex: sex || '1', sign: sign || '慵懒~是一种生活的姿态！', nickname: nickname || '尚未填写昵称', tags: tags || '9'}, net}
                 }
               ).flatMap(
                 (it) => {

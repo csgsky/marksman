@@ -155,9 +155,9 @@ class DiscoveryFrament extends Component {
       this.props.navigation.navigate('CommonWebviewPage', {url: banners[index].link, name: ''})
       // navigation.navigate('DiaryDetailPage', {me: false, item: item})
     } else if (banners[index].type === 1) {
-      alert('1')
+      // alert('1')
     } else if (banners[index].type === 2) {
-      alert('2')
+      // alert('2')
     }
     // this.props.navigation
   }

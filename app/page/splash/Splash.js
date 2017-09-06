@@ -69,6 +69,9 @@ export default class Splash extends Component {
         // 未登录状态
         Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
           .subscribe((imsi) => {
+            this.setState({
+              devicedid: imsi.split('-').join('')
+            })
             AsyncStorage.getItem('devicedid').then((devicedid) => {
                 // 未登录状态但已经有用户信息
               if (devicedid != null) {
@@ -88,11 +91,12 @@ export default class Splash extends Component {
                 })
               } else {
                   // 未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息
-                  alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
+                  // alert('未登录状态，并且没有用户信息,网络请求，判断当前设备是否提交过信息')
                 const authorization = this._generateAuth(imsi.split('-').join(''))
                 AsyncStorage.setItem('token', authorization)
                   .then(() => {
                     this._getUnLoginUserInfo(imsi.split('-').join(''), authorization)
+                  }).catch((err) => {
                   })
               }
             })
@@ -119,6 +123,8 @@ export default class Splash extends Component {
   _getUnLoginUserInfo = (imsi, authorization) => {
     Rx.Observable.from(getUnloginInfo(imsi + '', authorization)).subscribe(
                       (it) => {
+                        console.warn('custom')
+                        console.warn(it.customer)
                         this.setState({customer: it.customer, success: true})
                         if (it.customer) {
                           AsyncStorage.setItem('devicedid', it.customer.imsi)
@@ -172,17 +178,14 @@ export default class Splash extends Component {
     NativeModules.TCAgent.track('引导页', '进入浅言')
     const map = {sex: 1, tags: '9', nickname: '尚未填写昵称', sign: '慵懒~是一种生活的姿态！'}
     Rx.Observable.from(NativeModules.SplashScreen.getNetInfo()).subscribe(it => {
-      AsyncStorage.getItem('token').then((result) => {
-        if (result) {
-          Rx.Observable.from(CustomerRegisterApi(map, result))
-            .subscribe((it) => {
-              console.log({it})
-              if (it.return_code === 1) {
-                Rx.Observable.of('delay').delay(800).subscribe(() => {
-                  this.props.navigation.dispatch(resetActionMain)
-                })
-              }
-            })
+      const auth =  this._generateAuth(this.state.devicedid)
+      Rx.Observable.from(CustomerRegisterApi(map, auth))
+      .subscribe((it) => {
+        console.log({it})
+        if (it.return_code === 1) {
+          Rx.Observable.of('delay').delay(800).subscribe(() => {
+            this.props.navigation.dispatch(resetActionMain)
+          })
         }
       })
     })

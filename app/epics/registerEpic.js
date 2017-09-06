@@ -56,7 +56,7 @@ function registerEpic (action$) {
                 Observable.of(action.pageType),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
                 (token, account, password, message, sex, sign, nickname, tags, pageType, net) => {
-                  return {token, data: {account, password, message, sex, sign, nickname, tags}, pageType, net}
+                  return {token, data: {account, password, message, sex: sex || '1', sign: sign || '慵懒~是一种生活的姿态！', nickname: nickname || '尚未填写昵称', tags: tags || '9'}, pageType, net}
                 }
               ).flatMap(
                 it => {
