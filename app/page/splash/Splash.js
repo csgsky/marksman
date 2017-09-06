@@ -70,16 +70,13 @@ export default class Splash extends Component {
           .subscribe((imsi) => {
             const token = this.unLoginToken(imsi.split('-').join(''))
             this._saveUserInfo(token)
-            this.setState({
-              success: true
-            })
           })
       }
     })
   }
 
   unLoginToken = (imsi) => {
-    const rawStr = '/ZTE/ZTE1.1/' + imsi + 'dsdds/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    const rawStr = '/ZTE/ZTE1.1/' + imsi + 'oppppo/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     const words = encodeURIComponent(rawStr)
     const base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
@@ -92,6 +89,9 @@ export default class Splash extends Component {
     await AsyncStorage.setItem('nickname', '尚未填写昵称')
     await AsyncStorage.setItem('tags', '9')
     await AsyncStorage.setItem('token', token)
+    this.setState({
+      success: true
+    })
   }
 
   _getSplash = (authorization) => {

@@ -5,8 +5,6 @@ const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
-  console.warn('post', baseUrlWithoutToken(path))
-  console.warn({map})
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
