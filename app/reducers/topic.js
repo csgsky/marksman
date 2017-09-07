@@ -57,7 +57,7 @@ export default function topic (state = initState, action = {}) {
     case types.TOPIC_COMMENT_LIKE_SUCCESS:
       return {
         ...state,
-        isLikingComment: true,
+        isLikingComment: false,
         comments: likeCommentSuccess(state.comments, action.index)
       }
     case types.TOPIC_LIKE:
