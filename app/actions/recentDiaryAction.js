@@ -7,11 +7,12 @@ export const RECENTDIARY_LIKE_SUCCESS = 'RECENTDIARY_LIKE_SUCCESS'
 export const RECENTDIARY_UPDATE_LIKE_COUNT = 'RECENTDIARY_UPDATE_LIKE_COUNT'
 export const RECENTDIARY_UPDATE_COMMENT = 'RECENTDIARY_UPDATE_COMMENT'
 
-export function recentDiaryInit(page) {
+export function recentDiaryInit(page, timeStap) {
   return {
     type: RECENTDIARY_INIT,
     isRefreshing: true,
-    page
+    page,
+    timeStap
   }
 }
 
@@ -25,11 +26,12 @@ export function recentDiaryData (data) {
   }
 }
 
-export function recentDiaryLoadingMore(page) {
+export function recentDiaryLoadingMore(page, timeStap) {
   return {
     type: RECENTDIARY_LOADING_MORE,
     isLoadingMore: true,
-    page
+    page,
+    timeStap
   }
 }
 

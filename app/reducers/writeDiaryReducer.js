@@ -88,6 +88,11 @@ export default function writeDiary (state = initState, action = {}) {
         ...state,
         isPosting: true
       }
+    case types.WRITE_DIARY_POST_DIARY_ERROR:
+      return {
+        ...state,
+        isPosting: false
+      }
     case types.WRITE_DIARY_POST_DIARY_SUCCESS:
       return {
         ...state,

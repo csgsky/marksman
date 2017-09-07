@@ -30,11 +30,11 @@ function postWriteDiary (action$) {
                   return showError(NET_WORK_ERROR)
                 }
                 if (it.return_code === 2) {
-                  return null
+                  return actions.postDiaryError()
                 } else if (it.return_code === 1) {
                   return actions.postDiarySuccess()
                 }
-                return null
+                return actions.postDiaryError()
               }
             ).catch((error) => {
               return Observable.of(showError(NET_WORK_ERROR))

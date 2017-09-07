@@ -27,7 +27,7 @@ class HotDiary extends Component {
   }
   componentDidMount () {
     NativeModules.TCAgent.track('足印', '热门')
-    this.props.actions.hotDiaryInit(0)
+    this.props.actions.hotDiaryInit(0, new Date().getTime())
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('refreshDiaryListLike', (msg, diaryId) => {
       this.props.actions.updateDiaryLike(diaryId)
@@ -39,7 +39,7 @@ class HotDiary extends Component {
 
   onRefresh = () => {
     NativeModules.TCAgent.track('足印', '热门')
-    this.props.actions.hotDiaryInit(0)
+    this.props.actions.hotDiaryInit(0, new Date().getTime())
   }
 
   getItemSeparator = () => <ListSeparator />
@@ -70,7 +70,7 @@ class HotDiary extends Component {
     if (hasMoreData && !isLoadingMore) {
       Rx.Observable.of('refresh').delay(800).subscribe(
         (it) => {
-          this.props.actions.hotDiaryLoadingMore(page)
+          this.props.actions.hotDiaryLoadingMore(page, new Date().getTime())
         }
       )
     }
