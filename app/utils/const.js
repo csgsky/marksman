@@ -14,6 +14,8 @@ export const PROFILE_RECOMMOND_F = '推荐给好友'
 export const PROFILE_NOTIFICATION = '系统通知'
 export const PROFILE_FEEDBACK = '反馈问题'
 export const PROFILE_ABOUT_US = '关于我们'
+export const PROFILE_MINE_HOME_PAGE = '我的主页'
+
 
 // AsyncStorage 变量
 export const TOKEN = 'token'

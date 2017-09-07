@@ -74,12 +74,11 @@ export default class DiaryItem extends Component {
               <Image source={Report} style={{marginTop: 4}}/>
             </TouchableOpacity>
           </View>}
-          {this.props.isDetail && <Text style={styles.body}>{content}</Text>}
-          {!this.props.isDetail && <Text style={styles.body} numberOfLines={this.props.isDefault ? 10 : 5}>{content}</Text>}
+          <Text style={styles.body} numberOfLines={this.props.isDetail ? 100 : 5}>{content}</Text>
           {img !== '' &&
-            <View style={{backgroundColor: '#EEEEEE', marginBottom: hasComment ? 0 : 15}}><Image style={[styles.img]}
+            <TouchableOpacity onPress={this.photoView} activeOpacity={1} style={{backgroundColor: '#EEEEEE', marginBottom: hasComment ? 0 : 15}}><Image style={[styles.img]}
               source={this.getSource(img)}
-              resizeMode="cover"/></View>
+              resizeMode="cover"/></TouchableOpacity>
           }
         </TouchableOpacity>
         {hasComment &&
@@ -124,8 +123,12 @@ export default class DiaryItem extends Component {
   }
 
   photoView = () => {
-    const {navigation, item} = this.props
-    navigation.navigate('LightBoxPage', {img: item.img})
+    if (this.props.isDetail) {
+      const {navigation, item} = this.props
+      navigation.navigate('LightBoxPage', {img: item.img})
+    } else if (!this.props.isDetail && !this.props.isDefault) {
+      this.routeDiaryDetails()
+    }
   }
 
   routePersonalPage = () => {
@@ -154,7 +157,7 @@ export default class DiaryItem extends Component {
         if (result === null) {
           navigation.navigate('DiaryDetailPage', {me: false, item, come4})
         } else {
-          if (result == item.user_id) {
+          if (result === item.user_id) {
             navigation.navigate('DiaryDetailPage', {me: true, item, come4})
             return
           }

@@ -15,9 +15,8 @@ import Ten from '../img/diary_material_ten.jpg'
 export default class LightBoxPage extends Component {
   render () {
     const {state} = this.props.navigation
-    console.warn('LightBoxPage ==> render ==> ' + state.params.img)
     return (<TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.back}>
-      <Image style={styles.img} source={this.getSource(state.params.img)} />
+      <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img)} />
     </TouchableOpacity>)
   }
 
@@ -61,6 +60,6 @@ const styles = StyleSheet.create({
   },
   img: {
     width: theme.screenWidth - 32,
-    height: ((theme.screenWidth - 32) * 3) / 4
+    height: theme.screenHeight - 32
   }
 })
