@@ -26,7 +26,7 @@ class HomeFragment extends Component {
     headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
     headerRight: <TouchableOpacity style={{width: 40, height: 40, marginRight: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
       onPress={() => navigation.state.params.routerNews()}>
-      <Image source={(navigation.state.params && navigation.state.params.showMsgReminder) ? MsgP : Msg} style={styles.search} />
+      <Image source={(navigation.state.params && navigation.state.params.showMsgReminder) ? MsgP : Msg} style={styles.msg} />
     </TouchableOpacity>,
     headerLeft: <TouchableOpacity style={{height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
       onPress={() => navigation.state.params.routerMine()}>
@@ -69,26 +69,16 @@ class HomeFragment extends Component {
   componentWillReceiveProps (nextProps) {
     const newMessage = nextProps.message
     const {message} = this.props
-    console.log({message})
-    console.log({newMessage})
-    console.log('componentWillReceiveProps')
     if (message && newMessage) {
-      // console.log('lalal')
-      // if (newMessage.mymsg_rd === 0 && message.mymsg_rd === 1) {
-      //   console.log('无消息了')
-      //   this.props.navigation.setParams({
-      //     showMsgReminder: false
-      //   })
-      // } else if (newMessage.mymsg_rd === 1 && message.mymsg_rd === 0) {
-      //   console.log('有消息了')
-      //   this.props.navigation.setParams({
-      //     showMsgReminder: true
-      //   })
-      // } else {
-      //   this.props.navigation.setParams({
-      //     showMsgReminder: true
-      //   })
-      // }
+      if (newMessage.mymsg_rd === 0 && message.mymsg_rd === 1) {
+        this.props.navigation.setParams({
+          showMsgReminder: false
+        })
+      } else if (newMessage.mymsg_rd === 1 && message.mymsg_rd === 0) {
+        this.props.navigation.setParams({
+          showMsgReminder: true
+        })
+      }
     }
   }
 
@@ -152,7 +142,12 @@ class HomeFragment extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
       } else {
-        this.props.navigation.navigate('NewsCenterPage', {come4: 'profile'})
+        this.props.navigation.navigate('NewsCenterPage', {come4: 'profile',
+          callback: (hasRed) => {
+            if (!hasRed) {
+              this.props.actions.dismissPersonalCenterMineMsg()
+            }
+          }})
       }
     })
   }
@@ -213,7 +208,7 @@ class HomeFragment extends Component {
       } else {
         this.props.actions.homeInit(0)
         Rx.Observable.timer(0, 1000).subscribe((it) => {
-          if (it % 5 === 0) {
+          if (it % 50 === 0) {
             this.props.actions.profileMessageReminder()
           }
         })
@@ -278,7 +273,7 @@ const styles = StyleSheet.create({
     height: 15,
     marginLeft: 16
   },
-  search: {
+  msg: {
     width: 18,
     height: 18,
     marginRight: 4

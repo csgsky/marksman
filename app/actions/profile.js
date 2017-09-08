@@ -52,7 +52,6 @@ export function unLoginInfoInit () {
 }
 
 export function submitUserInfo (payload, newInfo, avtar) {
-  console.warn('action submit user info ===> ', payload)
   return {
     type: PERSONAL_SUBMIT_USERINFO,
     payload,
