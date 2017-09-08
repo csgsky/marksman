@@ -3,8 +3,9 @@ import { NavigationActions } from 'react-navigation'
 import Rx from 'rxjs'
 import {StyleSheet, View, Text, Image, AsyncStorage, NativeModules, Platform} from 'react-native'
 import theme from '../../config/theme'
-import {getUnloginInfo, splashApi, CustomerRegisterApi} from '../../api/apis'
+import {splashApi} from '../../api/apis'
 import defaultSplash from '../../img/splash.png'
+import * as consts from '../../utils/const'
 
 const CryptoJS = require('crypto-js')
 
@@ -14,6 +15,14 @@ const resetActionMain = NavigationActions.reset({
     NavigationActions.navigate({routeName: 'Tab'})
   ]
 })
+
+const resetActionToGuide = NavigationActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({routeName: 'Guide'})
+  ]
+})
+
 export default class Splash extends Component {
 
   constructor (props) {
@@ -22,7 +31,8 @@ export default class Splash extends Component {
       time: 3,
       timeSubscribe: '',
       success: false,
-      img: null
+      img: null,
+      toGuide: false
     }
   }
 
@@ -30,7 +40,7 @@ export default class Splash extends Component {
     NativeModules.TCAgent.track('启动页', '启动页展现')
     this._getDeviceUserInfo()
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
-      if ((it + 1) === 4) {
+      if ((it + 1) === 3) {
         this._splashRouter()
       }
     })
@@ -66,7 +76,8 @@ export default class Splash extends Component {
           success: true
         })
       } else {
-        Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
+        AsyncStorage.getItem(consts.GUIDETAG).then((guide) => {
+          Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
           .subscribe((imsi) => {
             const token = this.unLoginToken(imsi.split('-').join(''))
             this._saveUserInfo(token)
@@ -74,6 +85,16 @@ export default class Splash extends Component {
               success: true
             })
           })
+          if (guide) {
+            this.setState({
+              toGuide: false
+            })
+          } else {
+            this.setState({
+              toGuide: true
+            })
+          }
+        })
       }
     })
   }
@@ -136,8 +157,10 @@ export default class Splash extends Component {
   // }
 
   _splashRouter = () => {
-    if (this.state.success) {
+    if (this.state.success && !this.state.toGuide) {
       this.props.navigation.dispatch(resetActionMain)
+    } else if (this.state.success && this.state.toGuide) {
+      this.props.navigation.dispatch(resetActionToGuide)
     } else {
       this._getDeviceUserInfo()
     }

@@ -78,7 +78,7 @@ export default class ProfileItem extends Component {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
       } else {
-        this.props.navigation.navigate('PersonalPage', {message: '个人中心', id: result})
+        this.props.navigation.navigate('PersonalPage', {message: '个人中心', id: result, me: true})
       }
     })
   }
