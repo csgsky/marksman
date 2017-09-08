@@ -15,15 +15,19 @@ function loginEpic (action$) {
                   Observable.of(action.password),
                   Observable.from(NativeModules.SplashScreen.getNetInfo()),
                   (token, account, password, net) => {
+                    // alert(token);
                     return {token, data: {account, password}, net}
                   }
                 ).flatMap(it => {
+                  // alert('flat map' + it.net)
                   if (it.token && it.net === '1') {
                     return Observable.from(LoginApi(it.token, it.data))
+                    // return Observable.of({return_code: 3})
                   }
                   return Observable.of(2)
                 }
-                ).map(it => {
+                ).map((it) => {
+                  // console.log('alert login' + it.return_code)
                   if (it === 2) {
                     return showError(NET_WORK_ERROR)
                   }
@@ -33,7 +37,7 @@ function loginEpic (action$) {
                   return actions.loginError(it)
                 }
               ).catch((error) => {
-                return Observable.of(showError(NET_WORK_ERROR))
+                return Observable.of(showError('系统错误'))
               })
         )
 }
@@ -53,7 +57,7 @@ function thirdLoginEpic (action$) {
                 Observable.from(AsyncStorage.getItem('tags')),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
                 (token, login_type, login_code, open_id, sex, sign, nickname, tags, net) => {
-                  return {token, data: {login_type, login_code, open_id, sex: sex || '1', sign: sign || '慵懒~是一种生活的姿态！', nickname: nickname || '尚未填写昵称', tags: tags || '9'}, net}
+                  return {token, data: {login_type, login_code, open_id, sex, sign, nickname, tags}, net}
                 }
               ).flatMap(
                 (it) => {
@@ -73,7 +77,9 @@ function thirdLoginEpic (action$) {
                 }
                 return actions.loginError(it.return_msg)
               }
-            ).catch(() => Observable.of(showError(NET_WORK_ERROR))
+            ).catch((error) => {
+              Observable.of(showError('系统错误'))
+            }
             )
        )
 }
