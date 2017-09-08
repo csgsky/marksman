@@ -43,4 +43,28 @@ RCT_REMAP_METHOD(getNetInfo,
   resolve(netInfo);
 }
 
+
+RCT_EXPORT_METHOD(saveImg: (NSString*)url)
+{
+  NSData *data = [NSData dataWithContentsOfURL:[NSURL  URLWithString:url]];
+  UIImage * currentImage = [UIImage imageWithData:data];
+  NSLog(@"%@", url);
+  UIImageWriteToSavedPhotosAlbum(currentImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+  
+  if (error == nil) {
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"已存入手机相册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
+    
+  }else{
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存失败" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    [alert show];
+  }
+  
+}
+
 @end
