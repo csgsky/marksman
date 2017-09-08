@@ -76,7 +76,7 @@ export default class Splash extends Component {
   }
 
   unLoginToken = (imsi) => {
-    const rawStr = '/ZTE/ZTE1.1/' + imsi + 'oppppo/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
+    const rawStr = '/ZTE/ZTE1.1/' + imsi + '/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/null'
     const words = encodeURIComponent(rawStr)
     const base64 = require('base-64').encode(words)
     const authorization = 'param=' + rawStr + '/' + CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
