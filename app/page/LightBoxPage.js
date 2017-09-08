@@ -17,6 +17,9 @@ export default class LightBoxPage extends Component {
     const {state} = this.props.navigation
     return (<TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.back}>
       <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img)} />
+      <TouchableOpacity style={{position: 'absolute', bottom: 16, right: 16, left: 0, height: 30, alignItems: 'flex-end', justifyContent: 'flex-end'}}>
+        <Text style={{color: 'white'}}>保存</Text>
+      </TouchableOpacity>
     </TouchableOpacity>)
   }
 
