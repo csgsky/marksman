@@ -39,6 +39,8 @@ export default class DiaryItem extends Component {
     const yymm = getYYMM(item.create_time)
     const hhmm = getHHMM(item.create_time)
     const content = item.content
+    const imgD = item.img_d
+    const imgR = item.img_r
     const img = item.img
     const hasComment = this.props.hasComment
     const come4 = this.props.come4 || '浅记'
@@ -74,12 +76,12 @@ export default class DiaryItem extends Component {
               <Image source={Report} style={{marginTop: 4}}/>
             </TouchableOpacity>
           </View>}
-          {this.props.isDetail && <Text style={styles.body}>{content}</Text>}
-          {!this.props.isDetail && <Text style={styles.body} numberOfLines={this.props.isDefault ? 10 : 5}>{content}</Text>}
+          <Text style={styles.body} numberOfLines={this.props.isDetail ? 100 : 5}>{content}</Text>
           {img !== '' &&
-            <View style={{backgroundColor: '#EEEEEE', marginBottom: hasComment ? 0 : 15}}><Image style={[styles.img]}
-              source={this.getSource(img)}
-              resizeMode="cover"/></View>
+            <TouchableOpacity onPress={this.photoView} activeOpacity={1} style={{backgroundColor: '#EEEEEE', marginBottom: hasComment ? 0 : 15}}>
+              <Image style={styles.img}
+                source={this.getSource(img, imgD)}
+                resizeMode="cover"/></TouchableOpacity>
           }
         </TouchableOpacity>
         {hasComment &&
@@ -98,7 +100,7 @@ export default class DiaryItem extends Component {
     )
   }
 
-  getSource = (img) => {
+  getSource = (img, imgD) => {
     if (img === '0') {
       return One
     } else if (img === '1') {
@@ -120,12 +122,16 @@ export default class DiaryItem extends Component {
     } else if (img === '9') {
       return Ten
     }
-    return {uri: img}
+    return {uri: imgD}
   }
 
   photoView = () => {
-    const {navigation, item} = this.props
-    navigation.navigate('LightBoxPage', {img: item.img})
+    if (this.props.isDetail) {
+      const {navigation, item} = this.props
+      navigation.navigate('LightBoxPage', {imgR: item.img_r, img: item.img})
+    } else if (!this.props.isDetail && !this.props.isDefault) {
+      this.routeDiaryDetails()
+    }
   }
 
   routePersonalPage = () => {
@@ -154,7 +160,7 @@ export default class DiaryItem extends Component {
         if (result === null) {
           navigation.navigate('DiaryDetailPage', {me: false, item, come4})
         } else {
-          if (result == item.user_id) {
+          if (result === item.user_id) {
             navigation.navigate('DiaryDetailPage', {me: true, item, come4})
             return
           }

@@ -17,9 +17,9 @@ import rootEpic from './app/epics/index'
 import rootReducer from './app/reducers/index'
 
 console.disableYellowBox = true
-ErrorUtils.setGlobalHandler((error) => {
-  console.log(error)
-})
+// ErrorUtils.setGlobalHandler((error) => {
+//   console.log(error)
+// })
 const epicMiddleware = createEpicMiddleware(rootEpic)
 const store = createStore(
   rootReducer,

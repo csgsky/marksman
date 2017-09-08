@@ -223,6 +223,7 @@ class PersonalPage extends PureComponent {
       }
     })
   }
+
   handleLoadingMore = () => {
     const {isLoadingMore, hasMore, page} = this.props
     if (!isLoadingMore && hasMore) {

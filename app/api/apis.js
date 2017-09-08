@@ -1,6 +1,8 @@
+const dev = 'http://101.95.97.178:2003'
+const product = 'http://business.qianyan.zhuoyoutech.com:2003'
+const baseUrlWithoutToken = path => dev + path
 
-const baseUrlWithoutToken = path => 'http://business.qianyan.zhuoyoutech.com:2003' + path
-const accept = 'application/com.droi.qy-v1.0-1+json'
+const accept = 'application/com.droi.qy-v2.0-3+json'
 const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
@@ -26,6 +28,7 @@ export function postApi (path, map, userId) {
 // get 请求
 export function getApi (path, userId) {
   console.warn('get', baseUrlWithoutToken(path))
+  console.log('accept: ', accept)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
@@ -92,12 +95,12 @@ export const MineDiaryApi = (token, page, userId) => {
 }
 
 // 足迹、最新
-export const FooterRecentDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=10&order_type=0&ifprivate=1&p=${page}`, userId)
+export const FooterRecentDiaryApi = (userId, page, timeStap) =>
+  getApi(`/api/diary?rn=10&order_type=0&ifprivate=1&p=${page}&cur_time=${timeStap}`, userId)
 
 // 足迹、热门
-export const FooterHotDiaryApi = (userId, page) =>
-  getApi(`/api/diary?rn=10&order_type=2&ifprivate=1&p=${page}`, userId)
+export const FooterHotDiaryApi = (userId, page, timeStap) =>
+  getApi(`/api/diary?rn=10&order_type=2&ifprivate=1&p=${page}&cur_time=${timeStap}`, userId)
 
 // 文集
 export const CollectionsApi = (userId, page) =>

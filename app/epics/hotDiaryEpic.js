@@ -13,11 +13,12 @@ function hotDiaryInitEpic (action$) {
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, page, net) => ({token, page, net})
+                Observable.of(action.timeStap),
+                (token, page, net, timeStap) => ({token, page, net, timeStap})
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    return Observable.from(FooterHotDiaryApi(it.token, it.page))
+                    return Observable.from(FooterHotDiaryApi(it.token, it.page, it.timeStap))
                   }
                   return Observable.of(2)
                 }
@@ -44,11 +45,12 @@ function hotDiaryMoreEpic (action$) {
                 Observable.from(AsyncStorage.getItem('token')),
                 Observable.of(action.page),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, page, net) => ({token, page, net})
+                Observable.of(action.timeStap),
+                (token, page, net, timeStap) => ({token, page, net, timeStap})
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
-                    return Observable.from(FooterHotDiaryApi(it.token, it.page))
+                    return Observable.from(FooterHotDiaryApi(it.token, it.page, it.timeStap))
                   }
                   return Observable.of(2)
                 }

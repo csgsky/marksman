@@ -6,11 +6,12 @@ export const HOTDIARY_LIKE = 'HOTDIARY_LIKE'
 export const HOTDIARY_LIKE_SUCCESS = 'HOTDIARY_LIKE_SUCCESS'
 export const HOTDIARY_UPDATE_LIKE_COUNT = 'HOTDIARY_UPDATE_LIKE_COUNT'
 export const HOTDIARY_UPDATE_COMMENT = 'HOTDIARY_UPDATE_COMMENT'
-export function hotDiaryInit (page) {
+export function hotDiaryInit (page, timeStap) {
   return {
     type: HOTDIARY_INIT,
     isRefreshing: true,
-    page
+    page,
+    timeStap
   }
 }
 
@@ -23,11 +24,12 @@ export function hotDiaryData (data) {
   }
 }
 
-export function hotDiaryLoadingMore (page) {
+export function hotDiaryLoadingMore (page, timeStap) {
   return {
     type: HOTDIARY_LOADING_MORE,
     isLoadingMore: true,
-    page
+    page,
+    timeStap
   }
 }
 

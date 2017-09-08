@@ -12,6 +12,8 @@ export const WRITE_DIARY_CONTENT_CHANGE = 'WRITE_DIARY_CONTENT_CHANGE'
 export const WRITE_DIARY_POST_DIARY = 'WRITE_DIARY_POST_DIARY'
 export const WRITE_DIARY_POST_DIARY_SUCCESS = 'WRITE_DIARY_POST_DIARY_SUCCESS'
 export const WRITE_DIARY_CLEAN_PAGE = 'WRITE_DIARY_CLEAN_PAGE'
+export const SET_POSTING_STATUS = 'SET_POSTING_STATUS'
+export const WRITE_DIARY_POST_DIARY_ERROR = 'WRITE_DIARY_POST_DIARY_ERROR'
 
 export function writeDiaryInit (payload) {
   return {
@@ -75,8 +77,20 @@ export function postDiarySuccess () {
   }
 }
 
+export function postDiaryError () {
+  return {
+    type: WRITE_DIARY_POST_DIARY_ERROR
+  }
+}
+
 export function cleanWritePage () {
   return {
     type: WRITE_DIARY_CLEAN_PAGE
+  }
+}
+
+export function setPostingStatus () {
+  return {
+    type: SET_POSTING_STATUS
   }
 }

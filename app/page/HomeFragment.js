@@ -5,11 +5,14 @@ import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/homeActions'
+import * as profileAction from '../actions/profile'
 import theme from '../config/theme'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
 import Mine from '../img/mine.png'
-import Search from '../img/search.png'
+// import Search from '../img/search.png'
+import Msg from '../img/msg.png'
+import MsgP from '../img/message_prompt.png'
 import Pen from '../img/pen.png'
 import Footer from '../component/Footer'
 import Reminder from '../component/Reminder'
@@ -22,8 +25,8 @@ class HomeFragment extends Component {
     title: '浅言',
     headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
     headerRight: <TouchableOpacity style={{width: 40, height: 40, marginRight: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
-      onPress={() => navigation.state.params.routerSearch()}>
-      <Image source={Search} style={styles.search} />
+      onPress={() => navigation.state.params.routerNews()}>
+      <Image source={(navigation.state.params && navigation.state.params.showMsgReminder) ? MsgP : Msg} style={styles.msg} />
     </TouchableOpacity>,
     headerLeft: <TouchableOpacity style={{height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
       onPress={() => navigation.state.params.routerMine()}>
@@ -57,12 +60,27 @@ class HomeFragment extends Component {
     this.initData()
     this.props.navigation.setParams({
       routerMine: this._onRouterMine,
-      routerSearch: this._onRouterSearch
+      routerNews: this._routerNews
     })
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('loginRefresh', this.onRefresh)
   }
 
+  componentWillReceiveProps (nextProps) {
+    const newMessage = nextProps.message
+    const {message} = this.props
+    if (message && newMessage) {
+      if (newMessage.mymsg_rd === 0 && message.mymsg_rd === 1) {
+        this.props.navigation.setParams({
+          showMsgReminder: false
+        })
+      } else if (newMessage.mymsg_rd === 1 && message.mymsg_rd === 0) {
+        this.props.navigation.setParams({
+          showMsgReminder: true
+        })
+      }
+    }
+  }
 
   onRefresh = () => {
     NativeModules.TCAgent.track('浅记', '浅记')
@@ -108,15 +126,30 @@ class HomeFragment extends Component {
     }
   }
 
-  _onRouterSearch = () => {
+  // _routerSearch = () => {
+  //   AsyncStorage.getItem('userId').then((result) => {
+  //     if (result === null) {
+  //       this.props.navigation.navigate('Login', {come4: 'profile'})
+  //     } else {
+  //       this.props.navigation.navigate('SearchPage', {message: '搜索'})
+  //     }
+  //   })
+  //   NativeModules.TCAgent.track('浅记', '搜索')
+  // }
+
+  _routerNews = () => {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
       } else {
-        this.props.navigation.navigate('SearchPage', {message: '搜索'})
+        this.props.navigation.navigate('NewsCenterPage', {come4: 'profile',
+          callback: (hasRed) => {
+            if (!hasRed) {
+              this.props.actions.dismissPersonalCenterMineMsg()
+            }
+          }})
       }
     })
-    NativeModules.TCAgent.track('浅记', '搜索')
   }
 
   _onRouterWrite = () => {
@@ -174,13 +207,17 @@ class HomeFragment extends Component {
         this.props.actions.visitor()
       } else {
         this.props.actions.homeInit(0)
+        Rx.Observable.timer(0, 1000).subscribe((it) => {
+          if (it % 50 === 0) {
+            this.props.actions.profileMessageReminder()
+          }
+        })
       }
     })
   }
 
   render () {
     const {diarys, isRefreshing, isLogin} = this.props
-    console.warn('HomeFragment isRefreshing', isRefreshing)
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
         <FlatList
@@ -212,7 +249,7 @@ class HomeFragment extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const {homePage, common} = state
+  const {homePage, common, profile} = state
   return {
     isRefreshing: homePage.isRefreshing,
     diarys: homePage.diarys,
@@ -221,12 +258,13 @@ const mapStateToProps = (state) => {
     page: homePage.page,
     isLogin: homePage.isLogin,
     loadingSuccess: homePage.loadingSuccess,
-    common
+    common,
+    message: profile.message
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch)
+  actions: bindActionCreators({...actions, ...profileAction}, dispatch)
 })
 
 const styles = StyleSheet.create({
@@ -235,7 +273,7 @@ const styles = StyleSheet.create({
     height: 15,
     marginLeft: 16
   },
-  search: {
+  msg: {
     width: 18,
     height: 18,
     marginRight: 4
