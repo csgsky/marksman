@@ -57,14 +57,14 @@ public class BitmapUtils {
 
     public static void saveImage(Context context,Bitmap bmp) {
         String orFileName = System.currentTimeMillis() + ".jpg";
-        File file = new File("/sdcard/qianyan");
+        File file = new File("/sdcard/浅言");
         if (!file.exists())
             file.mkdir();
         file = new File("/sdcard/" + orFileName.trim());
         String fileName = file.getName();
         String mName = fileName.substring(0, fileName.lastIndexOf("."));
         String sName = fileName.substring(fileName.lastIndexOf("."));
-        String newFilePath = "/sdcard/qianyan" + "/" + mName + "_cropped" + sName;
+        String newFilePath = "/sdcard/浅言" + "/" + mName + "_cropped" + sName;
         file = new File(newFilePath);
         try {
             file.createNewFile();

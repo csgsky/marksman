@@ -11,10 +11,36 @@ import Seven from '../img/diary_material_seven.jpg'
 import Eight from '../img/diary_material_eight.jpg'
 import Nine from '../img/diary_material_nine.jpg'
 import Ten from '../img/diary_material_ten.jpg'
+import tool from '../img/lightbox_toolbar.png'
+import * as consts from '../utils/const'
 
 export default class LightBoxPage extends Component {
 
-  getSource = (img) => {
+  constructor (props) {
+    super(props)
+    this.state = {
+      showToolbg: false
+    }
+  }
+
+  componentWillMount () {
+    const {state} = this.props.navigation
+    if (this.isMaterialImg(state.params.img)) {
+      this.setState({
+        showToolbg: false
+      })
+    } else {
+      Image.getSize(state.params.imgR, (width, height) => {
+        if (height > theme.screenWidth) {
+          this.setState({
+            showToolbg: true
+          })
+        }
+      })
+    }
+  }
+
+  getSource = (img, imgR) => {
     if (img === '0') {
       return One
     } else if (img === '1') {
@@ -36,13 +62,66 @@ export default class LightBoxPage extends Component {
     } else if (img === '9') {
       return Ten
     }
-    return {uri: img}
+    return {uri: imgR}
+  }
+
+  getSourceImg = (img, imgR) => {
+    if (img === '0') {
+      return consts.materialPhotos[0]
+    } else if (img === '1') {
+      return consts.materialPhotos[1]
+    } else if (img === '2') {
+      return consts.materialPhotos[2]
+    } else if (img === '3') {
+      return consts.materialPhotos[3]
+    } else if (img === '4') {
+      return consts.materialPhotos[4]
+    } else if (img === '5') {
+      return consts.materialPhotos[5]
+    } else if (img === '6') {
+      return consts.materialPhotos[6]
+    } else if (img === '7') {
+      return consts.materialPhotos[7]
+    } else if (img === '8') {
+      return consts.materialPhotos[8]
+    } else if (img === '9') {
+      return consts.materialPhotos[9]
+    } else if (img === '10') {
+      return consts.materialPhotos[10]
+    }
+    return imgR
+  }
+
+
+  isMaterialImg = (img) => {
+    if (img === '0') {
+      return true
+    } else if (img === '1') {
+      return true
+    } else if (img === '2') {
+      return true
+    } else if (img === '3') {
+      return true
+    } else if (img === '4') {
+      return true
+    } else if (img === '5') {
+      return true
+    } else if (img === '6') {
+      return true
+    } else if (img === '7') {
+      return true
+    } else if (img === '8') {
+      return true
+    } else if (img === '9') {
+      return true
+    }
+    return false
   }
 
   save = () => {
-    const {img} = this.props.navigation.state.params
+    const {img, imgR} = this.props.navigation.state.params
     if (img) {
-      NativeModules.SplashScreen.saveImg(img)
+      NativeModules.SplashScreen.saveImg(this.getSourceImg(img, imgR))
     }
   }
 
@@ -53,10 +132,16 @@ export default class LightBoxPage extends Component {
   render () {
     const {state} = this.props.navigation
     return (<TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.back}>
-      <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img)} />
-      <TouchableOpacity onPress={this.save} style={{position: 'absolute', bottom: 16, right: 16, left: theme.screenWidth - 80, height: 30, alignItems: 'flex-end', justifyContent: 'flex-end'}}>
-        <Text style={{color: 'white'}}>保存</Text>
-      </TouchableOpacity>
+      <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img, state.params.imgR)} />
+
+      {this.state.showToolbg && <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 40}}>
+        <Image source={tool}/>
+      </View>}
+      <View onPress={this.save} style={{position: 'absolute', bottom: 0, right: 0, left: 0, height: 40, alignItems: 'flex-end', justifyContent: 'center'}}>
+        <TouchableOpacity style={{width: 50, height: 40, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{color: 'white'}}>保存</Text>
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>)
   }
 }
