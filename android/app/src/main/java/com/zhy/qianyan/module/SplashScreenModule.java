@@ -1,7 +1,9 @@
 package com.zhy.qianyan.module;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -9,14 +11,17 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhy.qianyan.MainActivity;
 import com.zhy.qianyan.utils.ApiSp;
 import com.zhy.qianyan.utils.ApkUtils;
+import com.zhy.qianyan.utils.BitmapUtils;
 import com.zhy.qianyan.utils.SplashScreen;
 
 /**
@@ -171,6 +176,29 @@ public class SplashScreenModule extends ReactContextBaseJavaModule {
             new ApiSp(getCurrentActivity()).setCurrentPage(page);
         }
 
+    }
+
+    @ReactMethod
+    public void saveImg (String img) {
+        BitmapUtils.getBitmapFromUrl(getCurrentActivity(), img, new BitmapUtils.BitmapLoadListener() {
+            @Override
+            public void onLoaded(Bitmap bitmap) {
+                RxPermissions permissions = new RxPermissions(getCurrentActivity());
+
+                permissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .subscribe(granted -> {
+                            if (granted) {
+                                BitmapUtils.saveImage(getCurrentActivity(), bitmap);
+                                Toast.makeText(getCurrentActivity(), "已保存至相册", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            }
+
+            @Override
+            public void onLoadFail() {
+                Toast.makeText(getCurrentActivity(), "保存失败，请重试！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

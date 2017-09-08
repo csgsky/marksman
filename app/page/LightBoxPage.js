@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import {View, Image, Text, StyleSheet, TouchableOpacity, NativeModules} from 'react-native'
 import theme from '../config/theme'
 import One from '../img/diary_material_one.jpg'
 import Two from '../img/diary_material_two.jpg'
@@ -13,15 +13,6 @@ import Nine from '../img/diary_material_nine.jpg'
 import Ten from '../img/diary_material_ten.jpg'
 
 export default class LightBoxPage extends Component {
-  render () {
-    const {state} = this.props.navigation
-    return (<TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.back}>
-      <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img)} />
-      <TouchableOpacity style={{position: 'absolute', bottom: 16, right: 16, left: 0, height: 30, alignItems: 'flex-end', justifyContent: 'flex-end'}}>
-        <Text style={{color: 'white'}}>保存</Text>
-      </TouchableOpacity>
-    </TouchableOpacity>)
-  }
 
   getSource = (img) => {
     if (img === '0') {
@@ -48,8 +39,25 @@ export default class LightBoxPage extends Component {
     return {uri: img}
   }
 
+  save = () => {
+    const {img} = this.props.navigation.state.params
+    if (img) {
+      NativeModules.SplashScreen.saveImg(img)
+    }
+  }
+
   back = () => {
     this.props.navigation.goBack()
+  }
+
+  render () {
+    const {state} = this.props.navigation
+    return (<TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.back}>
+      <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img)} />
+      <TouchableOpacity onPress={this.save} style={{position: 'absolute', bottom: 16, right: 16, left: theme.screenWidth - 80, height: 30, alignItems: 'flex-end', justifyContent: 'flex-end'}}>
+        <Text style={{color: 'white'}}>保存</Text>
+      </TouchableOpacity>
+    </TouchableOpacity>)
   }
 }
 

@@ -125,7 +125,7 @@ export default class DiaryItem extends Component {
   photoView = () => {
     if (this.props.isDetail) {
       const {navigation, item} = this.props
-      navigation.navigate('LightBoxPage', {img: item.img})
+      navigation.navigate('LightBoxPage', {img: item.img_r})
     } else if (!this.props.isDetail && !this.props.isDefault) {
       this.routeDiaryDetails()
     }
