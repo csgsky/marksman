@@ -87,6 +87,7 @@ function checkVersion (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
+                console.warn('check', {it})
                 if (it.return_code === 2) {
                   return showError(NET_WORK_ERROR);
                 } else if (it.return_code === 0) {

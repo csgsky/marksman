@@ -14,8 +14,23 @@ export const PROFILE_RECOMMOND_F = '推荐给好友'
 export const PROFILE_NOTIFICATION = '系统通知'
 export const PROFILE_FEEDBACK = '反馈问题'
 export const PROFILE_ABOUT_US = '关于我们'
+export const PROFILE_MINE_HOME_PAGE = '我的主页'
+export const materialPhotos = [
+  'http://qycdn.zhuoyoutech.com/h5share/sck/0.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/1.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/2.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/3.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/4.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/5.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/6.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/7.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/8.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/9.jpg',
+  'http://qycdn.zhuoyoutech.com/h5share/sck/10.jpg'
+]
 
 // AsyncStorage 变量
 export const TOKEN = 'token'
 export const USERID = 'userId'
 export const DEVICEID = 'devicedid'
+export const GUIDETAG = 'GUIDETAG'

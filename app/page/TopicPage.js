@@ -247,6 +247,7 @@ class Topic extends PureComponent {
             <CommentItem data={item}
               navigation={this.props.navigation}
               index={index}
+              isLikingComment={isLikingComment}
               showReport={() => this.showReport(item)}
               onPressCommentItem={() => { this._onPressCommentItem(item) }}
               onPressLike={this._onPressCommentLike}/>)}

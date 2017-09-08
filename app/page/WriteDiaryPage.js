@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, Image, KeyboardAvoidingView, NativeModules, Keyboard, Dimensions} from 'react-native'
+import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInput, ActivityIndicator, Image, KeyboardAvoidingView, NativeModules, Keyboard, Dimensions} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Rx from 'rxjs'
@@ -81,7 +81,7 @@ class WriteDiaryPage extends PureComponent {
     }
 
     this.props.navigation.setParams({
-      handleSubmit: this._postDiary
+      handleSubmit: this.postDiary
     })
   }
 
@@ -104,14 +104,22 @@ class WriteDiaryPage extends PureComponent {
     this.props.cleanWritePage()
   }
 
-
-  _postDiary = () => {
-    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation, isPosting} = this.props
-    const come4 = navigation.state.params.come4
-    const diary = this.props.navigation.state.params.diary
+  postDiary = () => {
+    const {isPosting} = this.props
+    dismissKeyboard()
     if (isPosting) {
       return;
     }
+    this.props.setPostingStatus()
+    Rx.Observable.of('post').delay(500).subscribe(() => {
+      this._postDiary()
+    })
+  }
+
+  _postDiary = () => {
+    const {ifprivate, materialPosition, imgBase64, content, postDiary, feel, navigation} = this.props
+    const come4 = navigation.state.params.come4
+    // const diary = this.props.navigation.state.params.diary
     NativeModules.TCAgent.track('写日记', '日记保存')
     if (materialPosition >= 0) {
       const dataOne = this.props.diary === null ?
@@ -148,6 +156,14 @@ class WriteDiaryPage extends PureComponent {
   _closeKeyBoard = () => {
     dismissKeyboard()
   }
+
+  getActivityIndicator = () => <TouchableOpacity activeOpacity={1}
+    onPress={() => console.log('sss')}
+    style={{
+      position: 'absolute', bottom: 0, top: 0, left: 0, right: 0, backgroundColor: 'transparent', justifyContent: 'center'
+    }}>
+    <ActivityIndicator size="large"/>
+  </TouchableOpacity>
 
   _showPhoto = () => {
     this._closeKeyBoard()
@@ -415,6 +431,7 @@ class WriteDiaryPage extends PureComponent {
           <View style={{backgroundColor: '#e0e0e0', height: 0.5}}/>
           </View>
         }
+        {this.props.isPosting && this.getActivityIndicator()}
       </View>
     )
   }

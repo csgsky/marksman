@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {View, Text, Image, TouchableOpacity, AsyncStorage, StyleSheet, NativeModules} from 'react-native'
 import theme from '../../config/theme'
 import * as consts from '../../utils/const'
-import Msg from '../../img/msg.png'
 import Follow from '../../img/follow.png'
 import Delete from '../../img/delete.png'
 import Share from '../../img/share.png'
@@ -11,13 +10,15 @@ import Write from '../../img/write.png'
 import Me from '../../img/me.png'
 import Reminder from '../../component/Reminder'
 import Next from '../../img/next.png'
+import HomePage from '../../img/homepage.png'
+
 
 export default class ProfileItem extends Component {
 
   _getSource = (type) => {
     switch (type) {
-      case consts.PROFILE_MINE_MESSAGE:
-        return Msg
+      case consts.PROFILE_MINE_HOME_PAGE:
+        return HomePage
       case consts.PROFILE_MINE_FOLLOW:
         return Follow
       case consts.PROFILE_MINE_TRASH:
@@ -39,9 +40,9 @@ export default class ProfileItem extends Component {
     const that = this
     const {value} = this.props
     switch (value) {
-      case consts.PROFILE_MINE_MESSAGE:
-        NativeModules.TCAgent.track('我的', '我的消息')
-        that._routerMineNews()
+      case consts.PROFILE_MINE_HOME_PAGE:
+        NativeModules.TCAgent.track('我的', '我的主页')
+        that._routerPersonalPage()
         break;
       case consts.PROFILE_MINE_FOLLOW:
         NativeModules.TCAgent.track('我的', '我的关注')
@@ -72,12 +73,12 @@ export default class ProfileItem extends Component {
     }
   }
 
-  _routerMineNews = () => {
+  _routerPersonalPage = () => {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
       } else {
-        this.props.navigation.navigate('NewsCenterPage', {come4: 'profile'})
+        this.props.navigation.navigate('PersonalPage', {message: '个人中心', id: result, me: true})
       }
     })
   }

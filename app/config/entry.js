@@ -42,7 +42,7 @@ import TopicNewsPage from '../page/news/TopicNewsPage'
 import UserNewsPage from '../page/news/UserNewsPage'
 import SystemMessagePage from '../page/news/SystemMessagePage'
 import ForgetPasswordPage from '../page/login/forget'
-
+import Guide from '../page/splash/GuidePage'
 import theme from '../config/theme'
 import AppConfig from '../constant/config.json'
 
@@ -219,6 +219,12 @@ const Navigator = StackNavigator(
   {
     Splash: {
       screen: Splash,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Guide: {
+      screen: Guide,
       navigationOptions: {
         header: null
       }

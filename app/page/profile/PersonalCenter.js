@@ -241,6 +241,8 @@ class PersonalCenter extends Component {
     return '慵懒~是一种生活的姿态！'
   }
 
+  // <ProfileItem navigation={navigation} reminder={this.props.message && this.props.message.mymsg_rd === 1} value={consts.PROFILE_MINE_MESSAGE}/>
+
   render () {
     const {navigation} = this.props
     return (
@@ -272,7 +274,7 @@ class PersonalCenter extends Component {
               </View>
             </View>
           </TouchableOpacity>
-          <ProfileItem navigation={navigation} reminder={this.props.message && this.props.message.mymsg_rd === 1} value={consts.PROFILE_MINE_MESSAGE}/>
+          <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_HOME_PAGE}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_FOLLOW}/>
           <ProfileItem navigation={navigation} value={consts.PROFILE_MINE_TRASH}/>
           <View style={{height: 20}}/>
