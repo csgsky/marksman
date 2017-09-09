@@ -62,8 +62,11 @@ export default class Splash extends Component {
           img: {uri: image}
         })
       } else {
-        const authorization = this._generateAuth()
-        this._getSplash(authorization)
+        Rx.Observable.fromPromise(NativeModules.SplashScreen.getDeviceId())
+        .subscribe((imsi) => {
+          const token = this.unLoginToken(imsi.split('-').join(''))
+          this._getSplash(token)
+        })
       }
     })
   }

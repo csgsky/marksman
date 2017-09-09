@@ -6,9 +6,11 @@ import Rx from 'rxjs'
 import CollectionItem from '../component/item/CollectionsItem'
 import ListSeparator from '../component/ListSeparator'
 import * as actions from '../actions/collectionsAction'
+import * as consts from '../utils/const'
 import Footer from '../component/Footer'
 import theme from '../config/theme'
-import {splashApi} from '../api/apis'
+import {splashApi, CommonInfoApi} from '../api/apis'
+
 
 class MeFragment extends Component {
   static navigationOptions = () => ({
@@ -21,6 +23,7 @@ class MeFragment extends Component {
   componentDidMount () {
     this.props.actions.collectionsInit(0)
     this.getSplashImg()
+    this.getCommonInfo()
   }
 
 
@@ -34,6 +37,11 @@ class MeFragment extends Component {
     })
   }
 
+  getCommonInfo = () => {
+    Rx.Observable.from(AsyncStorage.getItem('token')).subscribe((it) => {
+      this._getCommonInfo(it)
+    })
+  }
 
   getItemSeparator = () => <ListSeparator />
 
@@ -50,14 +58,25 @@ class MeFragment extends Component {
     return <View />
   }
 
-  _getSplash = (authorization) => {
+  _getSplash = (token) => {
     Rx.Observable
-      .from(splashApi(authorization))
+      .from(splashApi(token))
       .subscribe((it) => {
         if (it.return_code === 1) {
           AsyncStorage.setItem('splashImage', it.img_url)
         }
       })
+  }
+
+  _getCommonInfo = (token) => {
+    Rx.Observable
+    .from(CommonInfoApi(token))
+    .subscribe((it) => {
+      if (it.return_code === 1) {
+        // alert('问候语' + it.welcome)
+        AsyncStorage.setItem(consts.WELCOME, it.welcome)
+      }
+    })
   }
 
   handleLoadingMore = () => {

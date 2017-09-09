@@ -286,3 +286,8 @@ export const checkAndroidVersion = (userId, sdkVersion) =>
 // 举报的接口
 export const ReportApi = (userId, map) =>
   postApi('/api/tipoff', map, userId)
+
+// 基础配置信息获取接口
+export const CommonInfoApi = userId =>
+  getApi('/api/base', userId)
+

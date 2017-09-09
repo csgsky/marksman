@@ -3,11 +3,11 @@ import {StyleSheet, View, Image, Text, TouchableOpacity, AsyncStorage} from 'rea
 import { NavigationActions } from 'react-navigation'
 import Swiper from 'react-native-swiper'
 import theme from '../../config/theme'
-import pageOne from '../../img/boot_page_one.jpg'
+import pageOne from '../../img/boot_page_one@2x.jpg'
 import pageOneWord from '../../img/boot_page_one_word.png'
-import pageTwo from '../../img/boot_page_two.jpg'
+import pageTwo from '../../img/boot_page_two@2x.jpg'
 import pageTwoWord from '../../img/boot_page_two_word.png'
-import pageThree from '../../img/boot_page_three.jpg'
+import pageThree from '../../img/boot_page_three@2x.jpg'
 import pageThreeWord from '../../img/boot_page_three_word.png'
 import * as consts from '../../utils/const'
 
@@ -25,25 +25,24 @@ export default class Guide extends Component {
   }
   render () {
     return (<Swiper
-      activeDot={<View style={
-                            styles.activeDot}/>}
+      activeDot={<View style={styles.activeDot}/>}
       dot={<View style={styles.dot}/>}
       loop={false}
       dotStyle={styles.dotStyle}
       showsButtons={false}>
-      <View style={styles.slide}>
+      <View>
         <Image resizeMode="stretch" style={styles.image} source={pageOne}/>
         <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 130}}>
           <Image resizeMode="contain" style={{width: 350, height: 180}} source={pageOneWord}/>
         </View>
       </View>
-      <View style={styles.slide}>
+      <View>
         <Image resizeMode="stretch" style={styles.image} source={pageTwo}/>
         <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 120}}>
           <Image resizeMode="contain" style={{width: 350, height: 180}} source={pageThreeWord}/>
         </View>
       </View>
-      <View style={styles.slide}>
+      <View>
         <Image resizeMode="stretch" style={styles.image} source={pageThree}/>
         <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 80}}>
           <Image resizeMode="contain" style={{width: 350, height: 180}} source={pageTwoWord}/>
@@ -63,12 +62,6 @@ const styles = StyleSheet.create({
   swiper: {
     width: theme.screenWidth,
     height: theme.screenHeight,
-  },
-  slide: {
-    width: theme.screenWidth,
-    height: theme.screenHeight,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   image: {
     width: theme.screenWidth,

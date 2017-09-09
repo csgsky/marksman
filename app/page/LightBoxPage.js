@@ -137,8 +137,8 @@ export default class LightBoxPage extends Component {
       {this.state.showToolbg && <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 40}}>
         <Image source={tool}/>
       </View>}
-      <View onPress={this.save} style={{position: 'absolute', bottom: 0, right: 0, left: 0, height: 40, alignItems: 'flex-end', justifyContent: 'center'}}>
-        <TouchableOpacity style={{width: 50, height: 40, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{position: 'absolute', bottom: 0, right: 0, left: 0, height: 40, alignItems: 'flex-end', justifyContent: 'center'}}>
+        <TouchableOpacity onPress={this.save} style={{width: 50, height: 40, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{color: 'white'}}>保存</Text>
         </TouchableOpacity>
       </View>

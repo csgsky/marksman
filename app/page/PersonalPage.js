@@ -86,7 +86,7 @@ class PersonalPage extends PureComponent {
           renderItem={this.getItemCompt}
           removeClippedSubviews={Platform.OS === 'android'}
           ItemSeparatorComponent={() => <ListSeparator/>}
-          ListHeaderComponent={() => <PersonalInfoView info={info} diaries={diaries}/>}
+          ListHeaderComponent={() => <PersonalInfoView navigation={this.props.navigation} info={info} diaries={diaries}/>}
           onEndReached={() => this.handleLoadingMore()}
           ListFooterComponent={this.getFooterCompt}
           onEndReachedThreshold={0.1}

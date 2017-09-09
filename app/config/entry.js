@@ -43,6 +43,7 @@ import UserNewsPage from '../page/news/UserNewsPage'
 import SystemMessagePage from '../page/news/SystemMessagePage'
 import ForgetPasswordPage from '../page/login/forget'
 import Guide from '../page/splash/GuidePage'
+import RegisterInfo from '../page/login/registerInfo'
 import theme from '../config/theme'
 import AppConfig from '../constant/config.json'
 
@@ -408,9 +409,16 @@ const Navigator = StackNavigator(
     ForgetPasswordPage: {
       screen: ForgetPasswordPage,
       mode: 'card'
+    },
+    RegisterInfo: {
+      screen: RegisterInfo,
+      mode: 'card',
+      navigationOptions: {
+        header: null
+      }
     }
   },
-  { initialRouteName: 'Splash',
+  { initialRouteName: 'RegisterInfo',
     navigationOptions: {
       headerBackTitle: null,
       headerTintColor: '#333333',

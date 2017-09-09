@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from '../actions/homeActions'
 import * as profileAction from '../actions/profile'
+import * as consts from '../utils/const'
 import theme from '../config/theme'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
@@ -154,13 +155,28 @@ class HomeFragment extends Component {
 
   _onRouterWrite = () => {
     NativeModules.TCAgent.track('浅记', '写日记')
-    AsyncStorage.getItem('userId').then((result) => {
-      if (result === null) {
-        this.props.navigation.navigate('Login', {come4: 'profile'})
-      } else {
-        this.props.navigation.navigate('WriteDiaryPage', {diary: null, come4: 'write'})
+
+    Rx.Observable.zip(
+      Rx.Observable.from(AsyncStorage.getItem('userId')),
+      Rx.Observable.from(AsyncStorage.getItem(consts.WELCOME)),
+      (userId, welcome) => ({userId, welcome: welcome || '今天，你过的好么？'})
+    ).subscribe(
+      (it) => {
+        if (it.userId) {
+          this.props.navigation.navigate('WriteDiaryPage', {diary: null, come4: 'write', welcome: it.welcome})
+        } else {
+          this.props.navigation.navigate('Login', {come4: 'profile'})
+        }
       }
-    })
+    )
+
+    // AsyncStorage.getItem('userId').then((result) => {
+    //   if (result === null) {
+    //     this.props.navigation.navigate('Login', {come4: 'profile'})
+    //   } else {
+    //     this.props.navigation.navigate('WriteDiaryPage', {diary: null, come4: 'write'})
+    //   }
+    // })
   }
 
   _onRouterMine = () => {

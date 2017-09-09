@@ -18,6 +18,7 @@ import PhotoPickerModal from '../widget/PhotoPickerModal'
 import DeletePhoto from '../img/photo_delete.png'
 
 const dismissKeyboard = require('dismissKeyboard')
+
 const screenHeight = Dimensions.get('window').height
 const optionsiOS = {
   title: '图片选择',
@@ -315,9 +316,10 @@ class WriteDiaryPage extends PureComponent {
               underlineColorAndroid="transparent"
               autoFocus
               focus
+              blurOnSubmit={false}
               ref={(c) => this._input = c}
               maxLength={1500}
-              placeholder="今天的你过得好吗？"
+              placeholder={this.props.navigation.state.params.welcome}
               onChangeText={(content) => {
                 this.props.diaryContentChange({content})
                 this.props.navigation.setParams({content})
@@ -387,7 +389,7 @@ class WriteDiaryPage extends PureComponent {
               autoFocus
               ref={(c) => this._input = c}
               maxLength={1500}
-              placeholder="今天，你过得好么？"
+              placeholder={this.props.navigation.state.params.welcome}
               onChangeText={(content) => {
                 this.props.diaryContentChange({content})
                 this.props.navigation.setParams({content})

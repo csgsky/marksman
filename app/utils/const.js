@@ -34,3 +34,5 @@ export const TOKEN = 'token'
 export const USERID = 'userId'
 export const DEVICEID = 'devicedid'
 export const GUIDETAG = 'GUIDETAG'
+export const SPLASHIMAGE = 'splashImage' // 存放引导页图片地址
+export const WELCOME = 'welcome' // 问候语

@@ -1,9 +1,20 @@
 import React, {Component} from 'react'
-import {View, Text, Image, StyleSheet} from 'react-native'
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
 import DiaryEmpty from '../img/diary_empty.png'
 import theme from '../config/theme'
 
 class PersonalInfoView extends Component {
+
+  _getSource = (img) => {
+    return img === '' ? require('../img/default_vatar.png') : {uri: img}
+  }
+
+  photoView =(img) => {
+    if (img && img !== '') {
+      this.props.navigation.navigate('LightBoxPage', {imgR: img, img})
+    }
+  }
+
   renderEmptyView = () => (
     <View style={styles.emptyView}>
       <Image style={styles.emptyImg} resizeMode="contain" source={DiaryEmpty} />
@@ -15,22 +26,20 @@ class PersonalInfoView extends Component {
     return (
       <View style={{height: diaries.length === 0 ? theme.screenHeight - 64 : 'auto', backgroundColor: '#fff'}}>
         <View style={styles.container}>
-          <Image source={this._getSource(info.avtar)} style={styles.img}/>
+          <TouchableOpacity onPress={() => this.photoView(info.avtar)}>
+            <Image source={this._getSource(info.avtar)} style={styles.img}/>
+          </TouchableOpacity>
           <Text style={styles.nickname}>{info.nickname}</Text>
           <View style={styles.nums}>
-            <Text style={styles.num}>公开日记  {info.diary_num}  |</Text>
-            <Text style={styles.num}>  粉丝  {info.focus_num}</Text>
-            <Text style={styles.num}>  |  收获赞  {info.like_num}</Text>
+            <Text style={styles.num}>公开日记 {info.diary_num}  |</Text>
+            <Text style={styles.num}>  粉丝 {info.focus_num}</Text>
+            <Text style={styles.num}>  |  收获赞 {info.like_num}</Text>
           </View>
           <Text style={styles.sign} numberOfLines={2}>{info.sign || '慵懒~也是一种生活的姿态！'}</Text>
         </View>
         {diaries.length === 0 && this.renderEmptyView()}
       </View>
     )
-  }
-
-  _getSource = (img) => {
-    return img === '' ? require('../img/default_vatar.png') : {uri: img}
   }
 }
 
