@@ -121,6 +121,8 @@ export default class LightBoxPage extends Component {
   save = () => {
     const {img, imgR} = this.props.navigation.state.params
     if (img) {
+      console.log('save img')
+      console.log(NativeModules.SplashScreen.saveImg)
       NativeModules.SplashScreen.saveImg(this.getSourceImg(img, imgR))
     }
   }
