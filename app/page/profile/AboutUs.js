@@ -12,10 +12,17 @@ export default class AboutUsPage extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
   render () {
-    return (<View style={styles.view}>
-      <Image source={Logo} resizeMode="contain" style={styles.icon}/>
-      <Text style={styles.version}>浅 言 V1.0</Text>
-    </View>)
+    return (<View style={{flex: 1, backgroundColor: 'white'}}>
+      <View style={styles.view}>
+        <Image source={Logo} resizeMode="contain" style={styles.icon}/>
+        <Text style={styles.version}>浅 言 V1.0</Text>
+      </View>
+      <View style={{flexDirection: 'column', alignItems: 'center', marginBottom: 35}}>
+        <Text style={{fontSize: 16, color: '#767676'}}>上海卓悠网络科技有限公司</Text>
+        <Text style={{fontSize: 16, color: '#767676', marginTop: 10}}>版权所有</Text>
+      </View>
+    </View>
+    )
   }
 }
 
@@ -23,7 +30,6 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     backgroundColor: 'white',
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
