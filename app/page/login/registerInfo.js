@@ -1,9 +1,16 @@
 import React, { Component} from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native'
+import {Text, View, StyleSheet, TouchableOpacity, Image, TextInput, AsyncStorage} from 'react-native'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
 import Toast from 'react-native-root-toast'
-import theme from '../../config/theme'
+import PubSub from 'pubsub-js'
 
+import theme from '../../config/theme'
+import * as actions from '../../actions/registerAction'
+
+// 加密使用
+var CryptoJS = require('crypto-js')
 const dismissKeyboard = require('dismissKeyboard')
 
 const options = {
@@ -15,7 +22,7 @@ const options = {
   quality: 0.5,
   allowsEditing: true
 }
-export default class RegisterInfo extends Component {
+class RegisterInfo extends Component {
 
   constructor (props) {
     super(props)
@@ -23,10 +30,33 @@ export default class RegisterInfo extends Component {
       source: null,
       imgByte: null,
       suffix: '',
-      nickname: ''
+      nickname: '',
+      pageType: ''
     }
   }
 
+  componentWillMount() {
+    this.setState({pageType: this.props.navigation.state.params.type})
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const {userId} = nextProps
+    if (userId !== this.props.userId && userId !== '') {
+      var base64 = require('base-64')
+      var utf8 = require('utf8')
+      var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
+      var words = encodeURIComponent(rawStr)
+      var base64 = base64.encode(words)
+      var hmacSHA1 = CryptoJS.HmacSHA1(base64, 'qy_0_23').toString(CryptoJS.enc.Hex)
+      AsyncStorage.setItem('userId', userId)
+      AsyncStorage.setItem('token', 'param=' + rawStr + '/' + hmacSHA1).then(
+          () => {
+            PubSub.publish('loginRefresh', hmacSHA1)
+            this.props.navigation.goBack(this.props.navigation.state.params.key)
+          }
+        )
+    }
+  }
   getSource = () => {
     if (this.state.source) {
       return this.state.source
@@ -52,8 +82,13 @@ export default class RegisterInfo extends Component {
       this.showToast('请填写昵称')
     } else {
       dismissKeyboard()
-      alert(this.state.imgByte)
+      this._login()
     }
+  }
+
+  _login = () => {
+    const {username, password, code} = this.props
+    this.props.register(username, password, code, this.state.pageType, this.state.nickname, this.state.imgByte, this.state.suffix)
   }
 
   chooseImage = () => {
@@ -103,6 +138,20 @@ export default class RegisterInfo extends Component {
     </View>)
   }
 }
+
+const mapStateToProps = (state) => {
+  const {register} = state
+  return {
+    username: register.username,
+    password: register.password,
+    code: register.code,
+    userId: register.userId
+  }
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterInfo)
 
 const styles = StyleSheet.create({
   avtar: {

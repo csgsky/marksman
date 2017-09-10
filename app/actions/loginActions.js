@@ -36,12 +36,14 @@ export function login (account, password) {
   }
 }
 
-export function thirdLogin (loginType, code, openId) {
+export function thirdLogin (loginType, code, openId, nickname, avtar) {
   return {
     type: THIRD_LOGIN,
     loginType,
     code,
-    openId
+    openId,
+    nickname,
+    avtar
   }
 }
 

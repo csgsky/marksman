@@ -7,6 +7,9 @@ const userAgent = 'zy'
 const contentType = 'application/json;charset=UTF-8'
 // post 提交
 export function postApi (path, map, userId) {
+  console.warn('post', baseUrlWithoutToken(path))
+  console.warn('accept: ', accept)
+  console.warn('body: ', {map})
   return fetch(baseUrlWithoutToken(path), {
     method: 'POST',
     credentials: 'include',
@@ -28,7 +31,7 @@ export function postApi (path, map, userId) {
 // get 请求
 export function getApi (path, userId) {
   console.warn('get', baseUrlWithoutToken(path))
-  console.log('accept: ', accept)
+  console.warn('accept: ', accept)
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {

@@ -13,13 +13,15 @@ export const REGISTER_CODE_TIME_OVER = 'REGISTER_CODE_TIME_OVER'
 export const REGISTER_CODE_COUNTER = 'REGISTER_CODE_COUNTER'
 export const CLEAR_REGISTER_DATA = 'CLEAR_REGISTER_DATA'
 export const REGISTER_CHANGE_SECURE = 'REGISTER_CHANGE_SECURE'
-export function register (account, password, message, pageType) {
+export function register (account, password, message, pageType, nickname, avtarByte, avtarSuffix) {
   return {
     type: REGISTER,
     account,
     password,
     message,
-    pageType
+    pageType,
+    avtarByte,
+    avtarSuffix
   }
 }
 

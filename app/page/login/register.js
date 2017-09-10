@@ -33,7 +33,6 @@ class Register extends Component {
     BackAndroid.addEventListener('hardwareBackPress', this._backPress)
   }
 
-
   componentWillReceiveProps (nextProps) {
     const {userId} = nextProps
     if (userId !== this.props.userId && userId !== '') {
@@ -66,82 +65,82 @@ class Register extends Component {
     return (
       <KeyboardAwareScrollView>
         <TouchableOpacity style={styles.view} onPress={() => dismissKeyboard()} activeOpacity={1}>
-        <TouchableOpacity
-          style={{width: 18}}
-          onPress={() => this.props.navigation.goBack()}>
-          <Image resizeMode="contain"
-            style={{width: 18, height: 18}}
-            source={theme.imgs.PageBack} /></TouchableOpacity>
-        <Text style={styles.title}>浅 言</Text>
-        <View style={styles.itemView}>
-          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-            <Image style={styles.icon} resizeMode='contain' source={require('../../img/tel.png')} />
-          </View>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput style={styles.username}
-              placeholder={consts.USERNAME_PLACE_HOLDER}
-              placeholderTextColor="#8d8d8d"
-              underlineColorAndroid="transparent"
-              maxLength={11}
-              keyboardType="numeric"
-              onChangeText={(username) => {
-                actions.nicknameChange(username)
-              }}/>
-          </View>
-        </View>
-        <View style={styles.underLine} />
-        <View style={[styles.itemView, {marginTop: 10}]}>
-          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-            <Image style={styles.icon} resizeMode="contain" source={require('../../img/password.png')} />
-          </View>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput style={styles.username}
-              placeholder={this.state.pageType === 'register' ? consts.PASSWORD_PLACE_HOLDER : consts.PASSWORD_NEW_PLACE_HOLDER}
-              placeholderTextColor="#8d8d8d"
-              underlineColorAndroid="transparent"
-              secureTextEntry={securePassword}
-              onChangeText={(password) => {
-                actions.passwordChange(password)
-              }}/>
-          </View>
           <TouchableOpacity
-            style={{flexDirection: 'column', justifyContent: 'center'}}
-            onPress={actions.changeSecure}
-            >
-            <Image source={securePassword ? PasswordInvisible : PasswordVisible} style={{width: 25, height: 12}}/>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.underLine} />
-        <View style={[styles.itemView, {marginTop: 10}]}>
-          <View style={{flexDirection: 'column', justifyContent: 'center'}}>
-            <Image style={styles.icon} resizeMode="contain" source={require('../../img/vel.png')} />
+            style={{width: 18}}
+            onPress={() => this.props.navigation.goBack()}>
+            <Image resizeMode="contain"
+              style={{width: 18, height: 18}}
+              source={theme.imgs.PageBack} /></TouchableOpacity>
+          <Text style={styles.title}>浅 言</Text>
+          <View style={styles.itemView}>
+            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+              <Image style={styles.icon} resizeMode='contain' source={require('../../img/tel.png')} />
+            </View>
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+              <TextInput style={styles.username}
+                placeholder={consts.USERNAME_PLACE_HOLDER}
+                placeholderTextColor="#8d8d8d"
+                underlineColorAndroid="transparent"
+                maxLength={11}
+                keyboardType="numeric"
+                onChangeText={(username) => {
+                  actions.nicknameChange(username)
+                }}/>
+            </View>
           </View>
-          <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
-            <TextInput style={styles.username}
-              placeholderTextColor="#8d8d8d"
-              underlineColorAndroid="transparent"
-              maxLength={6}
-              keyboardType="numeric"
-              onChangeText={(code) => {
-                actions.verCodeChange(code)
-              }}/>
+          <View style={styles.underLine} />
+          <View style={[styles.itemView, {marginTop: 10}]}>
+            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+              <Image style={styles.icon} resizeMode="contain" source={require('../../img/password.png')} />
+            </View>
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+              <TextInput style={styles.username}
+                placeholder={this.state.pageType === 'register' ? consts.PASSWORD_PLACE_HOLDER : consts.PASSWORD_NEW_PLACE_HOLDER}
+                placeholderTextColor="#8d8d8d"
+                underlineColorAndroid="transparent"
+                secureTextEntry={securePassword}
+                onChangeText={(password) => {
+                  actions.passwordChange(password)
+                }}/>
+            </View>
+            <TouchableOpacity
+              style={{flexDirection: 'column', justifyContent: 'center'}}
+              onPress={actions.changeSecure}
+              >
+              <Image source={securePassword ? PasswordInvisible : PasswordVisible} style={{width: 25, height: 12}}/>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity activeOpacity={1} style={[styles.vertiView, {borderColor: '#8d8d8d'}]} onPress={!isCounting && this._getCode}>
-            <Text>{btnCodeText}</Text>
+          <View style={styles.underLine} />
+          <View style={[styles.itemView, {marginTop: 10}]}>
+            <View style={{flexDirection: 'column', justifyContent: 'center'}}>
+              <Image style={styles.icon} resizeMode="contain" source={require('../../img/vel.png')} />
+            </View>
+            <View style={{flex: 1, flexDirection: 'column', justifyContent: 'center'}}>
+              <TextInput style={styles.username}
+                placeholderTextColor="#8d8d8d"
+                underlineColorAndroid="transparent"
+                maxLength={6}
+                keyboardType="numeric"
+                onChangeText={(code) => {
+                  actions.verCodeChange(code)
+                }}/>
+            </View>
+            <TouchableOpacity activeOpacity={1} style={[styles.vertiView, {borderColor: '#8d8d8d'}]} onPress={!isCounting && this._getCode}>
+              <Text>{btnCodeText}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.underLine} />
+          <TouchableOpacity onPress={this._login} style={styles.confirm}>
+            <Text style={styles.login}>{consts.CONFIRM}</Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.underLine} />
-        <TouchableOpacity onPress={this._login} style={styles.confirm}>
-          <Text style={styles.login}>{consts.CONFIRM}</Text>
+          {this.state.pageType === 'register' && <View style={styles.protocolView}>
+            <View style={{flexDirection: 'row'}}>
+              <Text style={styles.protocol}>注册表示同意</Text>
+              <Text onPress={() => this.props.navigation.navigate('CommonWebviewPage', {url: 'http://iranshao.com/', name: '用户协议', type: 'protocol'})} style={[styles.protocol, {color: '#0091EA'}]}>Droi服务条款</Text>
+              <Text style={styles.protocol}>内容</Text>
+            </View>
+          </View>}
         </TouchableOpacity>
-        {this.state.pageType === 'register' && <View style={styles.protocolView}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.protocol}>注册表示同意</Text>
-            <Text onPress={() => this.props.navigation.navigate('CommonWebviewPage', {url: 'http://iranshao.com/', name: '用户协议', type: 'protocol'})} style={[styles.protocol, {color: '#0091EA'}]}>Droi服务条款</Text>
-            <Text style={styles.protocol}>内容</Text>
-          </View>
-        </View>}
-      </TouchableOpacity>
       </KeyboardAwareScrollView>
     )
   }
@@ -178,9 +177,12 @@ class Register extends Component {
 
   _login = () => {
     const {correctUsername, correctPassword, correctCode} = this.props
-    if (correctUsername && correctPassword && correctCode) {
+    if (correctUsername && correctPassword && correctCode && this.state.pageType === 'forget') {
       const {username, password, code} = this.props
       this.props.actions.register(username, password, code, this.state.pageType)
+    } else if (correctUsername && correctPassword && correctCode && this.state.pageType === 'register') {
+      const key = this.props.navigation.state.params.key
+      this.props.navigation.navigate('RegisterInfo', {type: 'register', key})
     } else if (!correctUsername) {
       Toast.show('您输入的手机号码有误，请重新输入', {
         duration: Toast.durations.LONG,

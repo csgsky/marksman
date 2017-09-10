@@ -53,14 +53,16 @@ function thirdLoginEpic (action$) {
                 Observable.of(action.openId),
                 Observable.from(AsyncStorage.getItem('sex')),
                 Observable.from(AsyncStorage.getItem('sign')),
-                Observable.from(AsyncStorage.getItem('nickname')),
+                Observable.of(action.nickname),
                 Observable.from(AsyncStorage.getItem('tags')),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, login_type, login_code, open_id, sex, sign, nickname, tags, net) => {
-                  return {token, data: {login_type, login_code, open_id, sex, sign, nickname, tags}, net}
+                Observable.of(action.avtar),
+                (token, login_type, login_code, open_id, sex, sign, nickname, tags, net, avtar) => {
+                  return {token, data: {login_type, login_code, open_id, sex, sign, nickname, tags, avtar}, net}
                 }
               ).flatMap(
                 (it) => {
+                  console.log({data: it.data})
                   if (it.token && it.net === '1') {
                     return Observable.from(ThirdLoginApi(it.token, it.data))
                   }

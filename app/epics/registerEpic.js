@@ -51,12 +51,14 @@ function registerEpic (action$) {
                 Observable.of(action.message),
                 Observable.from(AsyncStorage.getItem('sex')),
                 Observable.from(AsyncStorage.getItem('sign')),
-                Observable.from(AsyncStorage.getItem('nickname')),
+                Observable.of(action.nickname),
                 Observable.from(AsyncStorage.getItem('tags')),
                 Observable.of(action.pageType),
+                Observable.of(action.avtarByte),
+                Observable.of(action.avtarSuffix),
                 Observable.from(NativeModules.SplashScreen.getNetInfo()),
-                (token, account, password, message, sex, sign, nickname, tags, pageType, net) => {
-                  return {token, data: {account, password, message, sex: sex || '1', sign: sign || '慵懒~是一种生活的姿态！', nickname: nickname || '尚未填写昵称', tags: tags || '9'}, pageType, net}
+                (token, account, password, message, sex, sign, nickname, tags, pageType, avtar_byte, avtar_suffix, net) => {
+                  return {token, data: {account, password, message, sex: sex || '1', sign: sign || '慵懒~是一种生活的姿态！', nickname: nickname || '尚未填写昵称', tags: tags || '9', avtar_byte, avtar_suffix}, pageType, net}
                 }
               ).flatMap(
                 it => {

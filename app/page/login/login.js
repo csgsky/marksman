@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, TextInput, Image, Platform, TouchableOpacity, AsyncStorage, ScrollView} from 'react-native'
+import {StyleSheet, View, Text, TextInput, Image, Platform, TouchableOpacity, AsyncStorage, ScrollView, NativeModules} from 'react-native'
 import PubSub from 'pubsub-js'
 import Rx from 'rxjs'
 import CryptoJS from 'crypto-js'
@@ -99,6 +99,7 @@ class Login extends Component {
         if (installed) {
           WeChat.sendAuthRequest('snsapi_userinfo')
             .then((result) => {
+              console.log({result})
               this.getWechatOpenId(result.code)
             })
             .catch((e) => {
@@ -129,9 +130,20 @@ class Login extends Component {
         }
         return 1
       })).subscribe((it) => {
+        console.log({wechat: it})
         if (it === 1) {
         } else {
-          this.props.actions.thirdLogin(loginType, code, it.openid)
+          const userInfoUrl = `https://api.weixin.qq.com/sns/userinfo?access_token=${it.access_token}&openid=${it.openid}`
+          Rx.Observable.from(fetch(userInfoUrl)
+            .then((response) => {
+              if (response.ok) {
+                return response.json()
+              }
+            })
+          ).subscribe((info) => {
+            console.log({info})
+            this.props.actions.thirdLogin(loginType, code, it.openid, info.nickname, info.headimgurl)
+          })
         }
       })
   }
@@ -141,8 +153,19 @@ class Login extends Component {
     QQAPI.isQQInstalled()
       .then((installed) => {
         if (installed) {
-          QQAPI.login().then((result) => {
-            this.props.actions.thirdLogin(loginType, result.access_token, result.openid)
+          QQAPI.login('all').then((result) => {
+            const qqinfo = `https://graph.qq.com/user/get_user_info?access_token=${result.access_token}&oauth_consumer_key=${result.oauth_consumer_key}&openid=${result.openid}`
+            Rx.Observable.from(fetch(qqinfo)
+              .then((response) => {
+                if (response.ok) {
+                  return response.json()
+                }
+              })
+            ).subscribe((info) => {
+              console.log({info})
+              this.props.actions.thirdLogin(loginType, result.access_token, result.openid, info.nickname, info.figureurl_2)
+            }
+            )
           })
         } else {
           Toast.show('未安装QQ客户端', {

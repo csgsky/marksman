@@ -206,7 +206,7 @@ const Tab = TabNavigator(
     tabBarPosition: 'bottom',
     swipeEnabled: false,
     animationEnabled: false,
-    lazy: false,
+    lazy: true,
     initialRouteName: 'Home',
     tabBarOptions: {
       activeTintColor: '#ffa3c4',
@@ -418,7 +418,7 @@ const Navigator = StackNavigator(
       }
     }
   },
-  { initialRouteName: 'RegisterInfo',
+  { initialRouteName: 'Splash',
     navigationOptions: {
       headerBackTitle: null,
       headerTintColor: '#333333',
