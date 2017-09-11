@@ -36,7 +36,7 @@ class RegisterInfo extends Component {
   }
 
   componentWillMount() {
-    this.setState({pageType: this.props.navigation.state.params.type})
+    // this.setState({pageType: this.props.navigation.state.params.type})
   }
 
   componentWillReceiveProps (nextProps) {
@@ -169,12 +169,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 25,
     height: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
     width: theme.screenWidth - 50
   },
   input: {
     fontSize: 15,
-    marginLeft: 4,
-    backgroundColor: 'white'
+    position: 'absolute',
+    left: 5,
+    right: 0,
+    bottom: 0,
+    top: 0
   },
   submit: {
     height: 45,
