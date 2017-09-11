@@ -14,15 +14,15 @@ export default class CheckReportModal extends Component {
     }
   }
 
-  check = (index) => {
-    this.setState({
-      index
-    })
-  }
-
   onViewShow = () => {
     this.setState({
       index: 0
+    })
+  }
+
+  check = (index) => {
+    this.setState({
+      index
     })
   }
 

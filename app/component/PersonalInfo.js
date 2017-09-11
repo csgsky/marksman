@@ -9,11 +9,11 @@ class PersonalInfoView extends Component {
     return img === '' ? require('../img/default_vatar.png') : {uri: img}
   }
 
-  photoView =(img) => {
-    if (img && img !== '') {
-      this.props.navigation.navigate('LightBoxPage', {imgR: img, img})
-    }
-  }
+  // photoView =(img) => {
+  //   if (img && img !== '') {
+  //     this.props.navigation.navigate('LightBoxPage', {imgR: img, img})
+  //   }
+  // }
 
   renderEmptyView = () => (
     <View style={styles.emptyView}>
@@ -26,7 +26,7 @@ class PersonalInfoView extends Component {
     return (
       <View style={{height: diaries.length === 0 ? theme.screenHeight - 64 : 'auto', backgroundColor: '#fff'}}>
         <View style={styles.container}>
-          <TouchableOpacity onPress={() => this.photoView(info.avtar)}>
+          <TouchableOpacity>
             <Image source={this._getSource(info.avtar)} style={styles.img}/>
           </TouchableOpacity>
           <Text style={styles.nickname}>{info.nickname}</Text>

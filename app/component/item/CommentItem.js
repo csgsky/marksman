@@ -87,14 +87,15 @@ export default class CommentItem extends Component {
 
   // getSource = (img) => {
   //   return {uri: img}
-  // } 
+  // }
 }
 
 const likeStyle = function(liked) {
   return {
     fontSize: theme.text.xlgFontSize,
     color: liked ? theme.likedColor : theme.text.globalSubTextColor,
-    height: 15
+    height: 15,
+    lineHeight: 15
   }
 }
 

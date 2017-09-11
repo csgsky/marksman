@@ -15,7 +15,7 @@ export default class AboutUsPage extends Component {
     return (<View style={{flex: 1, backgroundColor: 'white'}}>
       <View style={styles.view}>
         <Image source={Logo} resizeMode="contain" style={styles.icon}/>
-        <Text style={styles.version}>浅 言 V1.0</Text>
+        <Text style={styles.version}>浅 言 V1.1.1</Text>
       </View>
       <View style={{flexDirection: 'column', alignItems: 'center', marginBottom: 35}}>
         <Text style={{fontSize: 16, color: '#767676'}}>上海卓悠网络科技有限公司</Text>

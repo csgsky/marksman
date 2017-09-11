@@ -20,6 +20,7 @@ export function register (account, password, message, pageType, nickname, avtarB
     password,
     message,
     pageType,
+    nickname,
     avtarByte,
     avtarSuffix
   }

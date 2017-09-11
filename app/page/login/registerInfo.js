@@ -38,7 +38,7 @@ class RegisterInfo extends Component {
   }
 
   componentWillMount() {
-    // this.setState({pageType: this.props.navigation.state.params.type})
+    this.setState({pageType: this.props.navigation.state.params.type})
   }
 
   componentWillReceiveProps (nextProps) {
