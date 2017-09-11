@@ -8,6 +8,7 @@ import PubSub from 'pubsub-js'
 
 import theme from '../../config/theme'
 import * as actions from '../../actions/registerAction'
+import PhotoPickerModal from '../../widget/PhotoPickerModal'
 
 // 加密使用
 var CryptoJS = require('crypto-js')
@@ -31,7 +32,8 @@ class RegisterInfo extends Component {
       imgByte: null,
       suffix: '',
       nickname: '',
-      pageType: ''
+      pageType: '',
+      showPhotoPickerModal: false,
     }
   }
 
@@ -91,13 +93,15 @@ class RegisterInfo extends Component {
     this.props.register(username, password, code, this.state.pageType, this.state.nickname, this.state.imgByte, this.state.suffix)
   }
 
-  chooseImage = () => {
+  launchCamera () {
     dismissKeyboard()
-    ImagePicker.showImagePicker(options, (response) => {
+    ImagePicker.launchCamera(options, (response) => {
+      this.setState({
+        showPhotoPickerModal: false
+      })
       if (response.didCancel) {
-        alert('取消')
       } else if (response.error) {
-        alert('错误')
+      } else if (response.customButton) {
       } else {
         const suffix = response.uri.split('.')
         const imgBase64 = response.data
@@ -110,9 +114,46 @@ class RegisterInfo extends Component {
     })
   }
 
+  launchImageLibrary () {
+    dismissKeyboard()
+    ImagePicker.launchImageLibrary(options, (response) => {
+      this.setState({
+        showPhotoPickerModal: false
+      })
+      if (response.didCancel) {
+      } else if (response.error) {
+      } else if (response.customButton) {
+      } else {
+        const suffix = response.uri.split('.')
+        const imgBase64 = response.data
+        this.setState({
+          source: {uri: response.uri},
+          suffix: suffix[suffix.length - 1],
+          imgByte: imgBase64
+        })
+      }
+    })
+  }
+
+  hideDialog() {
+    this.setState({
+      showPhotoPickerModal: false
+    })
+  }
+
   render () {
     return (<View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
-      <TouchableOpacity onPress={this.chooseImage} activeOpacity={0.8} style={{marginTop: 80}}>
+      <PhotoPickerModal
+        _dialogVisible={this.state.showPhotoPickerModal}
+        hide={() => this.hideDialog()}
+        launchCamera={() => this.launchCamera()}
+        launchImageLibrary={() => this.launchImageLibrary()}
+      />
+      <TouchableOpacity onPress={() => {
+        this.setState({showPhotoPickerModal: true})
+      }}
+        activeOpacity={0.8}
+        style={{marginTop: 80}}>
         <Image style={styles.avtar} source={this.getSource()}/>
       </TouchableOpacity>
       <Text style={styles.reminder}>请上传您的头像</Text>

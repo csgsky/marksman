@@ -23,7 +23,7 @@ export default class CommentItem extends Component {
   }
   photoView = () => {
     const {navigation, data} = this.props
-    navigation.navigate('LightBoxPage', {img: data.img})
+    navigation.navigate('LightBoxPage', {imgR: data.img, img: data.img})
   }
   getIndexText = () => {
     const {index, type} = this.props;
@@ -74,7 +74,7 @@ export default class CommentItem extends Component {
           {type !== 'commentsList' && !!data.recomments && data.recomments.length > 0 && <View style={styles.comments}>
             <Text style={styles.link}>{data.recomments[0].nickname}</Text>
             <Text style={styles.subText}>等人 </Text>
-            <Text style={styles.link}>共{data.count}条回复>> </Text>
+            <Text style={styles.link}>共{data.count}条回复 > </Text>
           </View>}
         </View>
       </TouchableOpacity>

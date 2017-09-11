@@ -17,17 +17,19 @@ import CheckReport from '../widget/CheckReportModal'
 class HotDiary extends Component {
   constructor (props) {
     super(props)
+    const timeStap = new Date().getTime()
     this.state = {
       shareVisible: false, // 显示分享
       reportVisible: false,
       reportedUserId: 0,
       checkReportVisible: false,
-      wechatMetadata: null
+      wechatMetadata: null,
+      timeStap
     }
   }
   componentDidMount () {
     NativeModules.TCAgent.track('足印', '热门')
-    this.props.actions.hotDiaryInit(0, new Date().getTime())
+    this.props.actions.hotDiaryInit(0, this.state.timeStap)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('refreshDiaryListLike', (msg, diaryId) => {
       this.props.actions.updateDiaryLike(diaryId)
@@ -39,7 +41,11 @@ class HotDiary extends Component {
 
   onRefresh = () => {
     NativeModules.TCAgent.track('足印', '热门')
-    this.props.actions.hotDiaryInit(0, new Date().getTime())
+    const timeStap = new Date().getTime();
+    this.setState({
+      timeStap
+    })
+    this.props.actions.hotDiaryInit(0, timeStap)
   }
 
   getItemSeparator = () => <ListSeparator />
@@ -70,7 +76,7 @@ class HotDiary extends Component {
     if (hasMoreData && !isLoadingMore) {
       Rx.Observable.of('refresh').delay(800).subscribe(
         (it) => {
-          this.props.actions.hotDiaryLoadingMore(page, new Date().getTime())
+          this.props.actions.hotDiaryLoadingMore(page, this.state.timeStap)
         }
       )
     }
