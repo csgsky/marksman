@@ -418,7 +418,7 @@ const Navigator = StackNavigator(
       }
     }
   },
-  { initialRouteName: 'RegisterInfo',
+  { initialRouteName: 'Splash',
     navigationOptions: {
       headerBackTitle: null,
       headerTintColor: '#333333',
