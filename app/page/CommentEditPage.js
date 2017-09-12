@@ -19,8 +19,10 @@ const options = {
   takePhotoButtonTitle: '拍照',
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
+  quality: 0.5,
   allowsEditing: true
 }
+
 class CommentEditor extends PureComponent {
 
   static navigationOptions = ({navigation}) => ({

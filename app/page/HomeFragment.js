@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Image, TouchableOpacity, AsyncStorage, StyleSheet, FlatList, RefreshControl, NativeModules, Platform} from 'react-native'
+import {View, Image, TouchableOpacity, AsyncStorage, Text, StyleSheet, FlatList, RefreshControl, NativeModules, Platform} from 'react-native'
 import Rx from 'rxjs'
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
@@ -10,10 +10,11 @@ import * as consts from '../utils/const'
 import theme from '../config/theme'
 import DiaryItem from '../component/item/DiaryItem'
 import ListSeparator from '../component/ListSeparator'
+import Separator from '../component/Separator'
 import Mine from '../img/mine.png'
 // import Search from '../img/search.png'
 import Msg from '../img/msg.png'
-import MsgP from '../img/message_prompt.png'
+// import MsgP from '../img/message_prompt.png'
 import Pen from '../img/pen.png'
 import Footer from '../component/Footer'
 import Reminder from '../component/Reminder'
@@ -22,32 +23,23 @@ import EmptyView from '../component/EmptyPageView'
 
 class HomeFragment extends Component {
 
-  static navigationOptions = ({navigation}) => ({
-    title: '浅言',
-    headerStyle: {elevation: 0.3, backgroundColor: '#fff'},
-    headerRight: <TouchableOpacity style={{width: 40, height: 40, marginRight: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
-      onPress={() => navigation.state.params.routerNews()}>
-      <Image source={(navigation.state.params && navigation.state.params.showMsgReminder) ? MsgP : Msg} style={styles.msg} />
-    </TouchableOpacity>,
-    headerLeft: <TouchableOpacity style={{height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}
-      onPress={() => navigation.state.params.routerMine()}>
-      <Image source={Mine} style={styles.profile} />
-      {navigation.state.params && navigation.state.params.showReminder && <View style={{height: 15, marginLeft: 2}}>
-        <Reminder />
-      </View>}
-    </TouchableOpacity>,
-    headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
-  })
+  constructor (props) {
+    super(props)
+    this.state = {
+      showLeftReminder: false,
+      showRightReminder: false
+    }
+  }
 
   componentWillMount () {
     AsyncStorage.getItem('showHomeReminder').then((result) => {
       if (result === null) {
-        this.props.navigation.setParams({
-          showReminder: true
+        this.setState({
+          showLeftReminder: true
         })
       } else {
-        this.props.navigation.setParams({
-          showReminder: false
+        this.setState({
+          showLeftReminder: false
         })
       }
     })
@@ -72,12 +64,12 @@ class HomeFragment extends Component {
     const {message} = this.props
     if (message && newMessage) {
       if (newMessage.mymsg_rd === 0 && message.mymsg_rd === 1) {
-        this.props.navigation.setParams({
-          showMsgReminder: false
+        this.setState({
+          showRightReminder: false
         })
       } else if (newMessage.mymsg_rd === 1 && message.mymsg_rd === 0) {
-        this.props.navigation.setParams({
-          showMsgReminder: true
+        this.setState({
+          showRightReminder: true
         })
       }
     }
@@ -85,6 +77,7 @@ class HomeFragment extends Component {
 
   onRefresh = () => {
     NativeModules.TCAgent.track('浅记', '浅记')
+    this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.actions.visitor()
@@ -115,18 +108,6 @@ class HomeFragment extends Component {
     return <View />
   }
 
-
-  handleLoadingMore = () => {
-    const {page, hasMoreData, isLoadingMore} = this.props
-    if (hasMoreData && !isLoadingMore) {
-      Rx.Observable.of('refresh').delay(800).subscribe(
-        (it) => {
-          this.props.actions.homeLoadingMore(page)
-        }
-      )
-    }
-  }
-
   // _routerSearch = () => {
   //   AsyncStorage.getItem('userId').then((result) => {
   //     if (result === null) {
@@ -137,6 +118,14 @@ class HomeFragment extends Component {
   //   })
   //   NativeModules.TCAgent.track('浅记', '搜索')
   // }
+
+  getHeaderCompt = () => {
+    const {diarys, isRefreshing, isLogin, loadingSuccess} = this.props
+    if (!isRefreshing && loadingSuccess && diarys.length === 0 && isLogin) {
+      return <EmptyView come4="diary" message="这个人很懒，什么都没留下~~" />
+    }
+    return <View />
+  }
 
   _routerNews = () => {
     AsyncStorage.getItem('userId').then((result) => {
@@ -183,8 +172,8 @@ class HomeFragment extends Component {
     NativeModules.TCAgent.track('浅记', '个人中心')
     if (this.props.navigation.state.params.showReminder) {
       AsyncStorage.setItem('showHomeReminder', 'true')
-      this.props.navigation.setParams({
-        showReminder: false
+      this.setState({
+        showLeftReminder: false
       })
     }
 
@@ -209,12 +198,15 @@ class HomeFragment extends Component {
     })
   }
 
-  getHeaderCompt = () => {
-    const {diarys, isRefreshing, isLogin, loadingSuccess} = this.props
-    if (!isRefreshing && loadingSuccess && diarys.length === 0 && isLogin) {
-      return <EmptyView come4="diary" message="这个人很懒，什么都没留下~~" />
+  handleLoadingMore = () => {
+    const {page, hasMoreData, isLoadingMore} = this.props
+    if (hasMoreData && !isLoadingMore) {
+      Rx.Observable.of('refresh').delay(800).subscribe(
+        () => {
+          this.props.actions.homeLoadingMore(page)
+        }
+      )
     }
-    return <View />
   }
 
   initData = () => {
@@ -224,7 +216,7 @@ class HomeFragment extends Component {
       } else {
         this.props.actions.homeInit(0)
         Rx.Observable.timer(0, 1000).subscribe((it) => {
-          if (it % 50 === 0) {
+          if (it % 10 === 0) {
             this.props.actions.profileMessageReminder()
           }
         })
@@ -236,10 +228,31 @@ class HomeFragment extends Component {
     const {diarys, isRefreshing, isLogin} = this.props
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
+        <View style={{height: 56, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
+          <TouchableOpacity style={{marginLeft: 16, padding: 2}} onPress={this._onRouterMine}>
+            <Image source={Mine} style={styles.profile} />
+            {this.state.showLeftReminder && <View style={{position: 'absolute', right: 0, top: 0}}>
+              <Reminder />
+            </View>}
+          </TouchableOpacity>
+
+          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}}>浅言</Text>
+          </View>
+
+          <TouchableOpacity style={{marginRight: 16}} onPress={this._routerNews}>
+            <Image source={Msg} style={styles.msg} />
+            {this.state.showRightReminder && <View style={{position: 'absolute', right: 0, top: 0}}>
+              <Reminder />
+            </View>}
+          </TouchableOpacity>
+
+        </View>
+        <Separator />
         <FlatList
           style={{flex: 1}}
           data={isLogin ? diarys : defaultDiary}
-          ref='_homefragmentlist'
+          ref={(homefragmentlist) => { this._homefragmentlist = homefragmentlist }}
           renderItem={this.getItemCompt}
           ItemSeparatorComponent={this.getItemSeparator}
           ListFooterComponent={this.getFooterCompt}
@@ -286,13 +299,11 @@ const mapDispatchToProps = dispatch => ({
 const styles = StyleSheet.create({
   profile: {
     width: 15,
-    height: 15,
-    marginLeft: 16
+    height: 15
   },
   msg: {
-    width: 18,
-    height: 18,
-    marginRight: 4
+    width: 19,
+    height: 19
   },
   penView: {
     width: 53,

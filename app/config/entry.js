@@ -142,6 +142,7 @@ const Tab = TabNavigator(
     Home: {
       screen: HomeFragment,
       navigationOptions: ({ navigation }) => ({
+        header: null,
         tabBarLabel: '浅记',
         tabBarIcon: ({ focused, tintColor }) => (
           <TabBarItem

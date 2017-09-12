@@ -14,11 +14,11 @@ export default class CheckReportModal extends Component {
     }
   }
 
-  onViewShow = () => {
-    this.setState({
-      index: 0
-    })
-  }
+  // onViewShow = () => {
+  //   this.setState({
+  //     index: 0
+  //   })
+  // }
 
   check = (index) => {
     this.setState({
@@ -31,7 +31,6 @@ export default class CheckReportModal extends Component {
       <Modal
         visible={this.props.visible}
         animationType={'fade'}
-        onShow={this.onViewShow}
         transparent>
         <TouchableOpacity activeOpacity={1} style={styles.bg}>
           <View style={{width: theme.screenWidth - 100, backgroundColor: 'white', borderRadius: 6}}>
@@ -105,7 +104,12 @@ export default class CheckReportModal extends Component {
                 <Text style={{fontSize: theme.text.xxlgFontSize, color: '#9b9b9b'}}>取消</Text>
               </TouchableOpacity>
               <View style={{width: 0.5, height: 50, backgroundColor: '#cfcfcf'}} />
-              <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={() => this.props.confirmReport(this.state.index)}>
+              <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} onPress={() => {
+                this.props.confirmReport(this.state.index)
+                this.setState({
+                  index: 0
+                })
+              }}>
                 <Text style={{fontSize: theme.text.xxlgFontSize, color: '#2d4896'}}>确定</Text>
               </TouchableOpacity>
             </View>

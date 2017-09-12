@@ -70,10 +70,10 @@ class NewsCenterPage extends Component {
   render () {
     return (<View style={{flex: 1, backgroundColor: '#fff'}}>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerTopicListPage}>
-        <Image source={TopicIcon} style={styles.icon}/>
-        <Text style={styles.type}>话题</Text>
-        {this.props.modes && this.props.modes.length === 4 && this.props.modes[0].red_dot === 1 && <Reminder />}
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerCommentNewsPage}>
+        <Image source={CommentIcon} style={styles.icon}/>
+        <Text style={styles.type}>评论</Text>
+        {this.props.modes && this.props.modes.length === 4 && this.props.modes[2].red_dot === 1 && <Reminder />}
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
@@ -84,10 +84,10 @@ class NewsCenterPage extends Component {
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />
-      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerCommentNewsPage}>
-        <Image source={CommentIcon} style={styles.icon}/>
-        <Text style={styles.type}>评论</Text>
-        {this.props.modes && this.props.modes.length === 4 && this.props.modes[2].red_dot === 1 && <Reminder />}
+      <TouchableOpacity style={styles.itemView} activeOpacity={0.8} onPress={this._routerTopicListPage}>
+        <Image source={TopicIcon} style={styles.icon}/>
+        <Text style={styles.type}>话题</Text>
+        {this.props.modes && this.props.modes.length === 4 && this.props.modes[0].red_dot === 1 && <Reminder />}
         <Image style={styles.next} source={Next} />
       </TouchableOpacity>
       <Separator />

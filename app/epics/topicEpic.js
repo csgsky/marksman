@@ -179,6 +179,7 @@ function commentUnlikeEpic (action$) {
 
 function topicLikeEpic (action$) {
   return action$.ofType(actions.TOPIC_LIKE)
+            .debounceTime(1000)
             .mergeMap(action =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),
@@ -187,6 +188,7 @@ function topicLikeEpic (action$) {
               ).flatMap(
                 (it) => {
                   if (it.token && it.net === '1') {
+                    alert('like')
                     return Observable.from(LikeTopicApi({id: action.payload.diaryId, ownerId: action.payload.ownerId, userId: it.token}))
                   }
                   return Observable.of(2)
