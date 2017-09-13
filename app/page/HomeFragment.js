@@ -55,7 +55,10 @@ class HomeFragment extends Component {
       routerMine: this._onRouterMine,
       routerNews: this._routerNews
     })
-    PubSub.subscribe('refreshDiaryList', this.onRefresh)
+    PubSub.subscribe('refreshDiaryList', () => {
+      this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
+      this.onRefresh()
+    })
     PubSub.subscribe('loginRefresh', this.onRefresh)
   }
 
@@ -77,7 +80,6 @@ class HomeFragment extends Component {
 
   onRefresh = () => {
     NativeModules.TCAgent.track('浅记', '浅记')
-    this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.actions.visitor()
