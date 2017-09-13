@@ -56,6 +56,7 @@ class HomeFragment extends Component {
       routerNews: this._routerNews
     })
     PubSub.subscribe('refreshDiaryList', () => {
+<<<<<<< HEAD
       this.onRefresh();
       this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true});
     })
@@ -63,6 +64,12 @@ class HomeFragment extends Component {
       this.onRefresh();
       this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true});
     })
+=======
+      this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
+      this.onRefresh()
+    })
+    PubSub.subscribe('loginRefresh', this.onRefresh)
+>>>>>>> f6f91b320f942f84aae527f3cca0ad1262e8d02f
   }
 
   componentWillReceiveProps (nextProps) {
@@ -175,7 +182,7 @@ class HomeFragment extends Component {
 
   _onRouterMine = () => {
     NativeModules.TCAgent.track('浅记', '个人中心')
-    if (this.props.navigation.state.params.showReminder) {
+    if (this.state.showLeftReminder) {
       AsyncStorage.setItem('showHomeReminder', 'true')
       this.setState({
         showLeftReminder: false
