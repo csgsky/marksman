@@ -27,7 +27,7 @@ const optionsiOS = {
   chooseFromLibraryButtonTitle: '图片库',
   mediaType: 'photo',
   quality: 0.5,
-  allowsEditing: true
+  allowsEditing: false
 }
 
 const optionsAndroid = {

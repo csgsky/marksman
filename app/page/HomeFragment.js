@@ -172,7 +172,7 @@ class HomeFragment extends Component {
 
   _onRouterMine = () => {
     NativeModules.TCAgent.track('浅记', '个人中心')
-    if (this.props.navigation.state.params.showReminder) {
+    if (this.state.showLeftReminder) {
       AsyncStorage.setItem('showHomeReminder', 'true')
       this.setState({
         showLeftReminder: false
