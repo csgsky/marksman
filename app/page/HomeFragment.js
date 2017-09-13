@@ -55,8 +55,14 @@ class HomeFragment extends Component {
       routerMine: this._onRouterMine,
       routerNews: this._routerNews
     })
-    PubSub.subscribe('refreshDiaryList', this.onRefresh)
-    PubSub.subscribe('loginRefresh', this.onRefresh)
+    PubSub.subscribe('refreshDiaryList', () => {
+      this.onRefresh();
+      this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true});
+    })
+    PubSub.subscribe('loginRefresh', () => {
+      this.onRefresh();
+      this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true});
+    })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -77,7 +83,6 @@ class HomeFragment extends Component {
 
   onRefresh = () => {
     NativeModules.TCAgent.track('浅记', '浅记')
-    this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.actions.visitor()
@@ -228,7 +233,7 @@ class HomeFragment extends Component {
     const {diarys, isRefreshing, isLogin} = this.props
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
-        <View style={{height: 56, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
+        <View style={{height: 56, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', paddingTop: Platform.OS === 'ios' ? 20 : 0}}>
           <TouchableOpacity style={{marginLeft: 16, padding: 2}} onPress={this._onRouterMine}>
             <Image source={Mine} style={styles.profile} />
             {this.state.showLeftReminder && <View style={{position: 'absolute', right: 0, top: 0}}>
