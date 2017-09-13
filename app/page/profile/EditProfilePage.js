@@ -200,7 +200,7 @@ class EditProfilePage extends Component {
           <TextInput style={styles.nickname}
             ref="nicknameTextInput"
             underlineColorAndroid="transparent"
-            maxLength={18}
+            maxLength={14}
             onFocus={() => {
               this.setState({
                 showDelete: true

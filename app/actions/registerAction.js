@@ -2,6 +2,7 @@ import Toast from 'react-native-root-toast'
 
 export const REGISTER = 'REGISTER'
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+export const REGISTER_CODE_ERROR = 'REGISTER_CODE_ERROR'
 export const REGISTER_ERROR = 'REGISTER_ERROR'
 export const REGISTER_GET_CODE = 'REGISTER_GET_CODE'
 export const REGISTER_CODE_SUCCESS = 'REGISTER_CODE_SUCCESS'
@@ -44,6 +45,21 @@ export function registerError (returnMsg) {
   })
   return {
     type: REGISTER_ERROR,
+    returnMsg
+  }
+}
+
+export function registerCodeError (returnMsg) {
+  Toast.show(returnMsg, {
+    duration: Toast.durations.SHORT,
+    position: Toast.positions.BOTTOM,
+    shadow: true,
+    animation: true,
+    hideOnPress: true,
+    delay: 0
+  })
+  return {
+    type: REGISTER_CODE_ERROR,
     returnMsg
   }
 }

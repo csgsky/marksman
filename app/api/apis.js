@@ -1,6 +1,6 @@
 const dev = 'http://101.95.97.178:2003'
 const product = 'http://business.qianyan.zhuoyoutech.com:2003'
-const baseUrlWithoutToken = path => dev + path
+const baseUrlWithoutToken = path => product + path
 
 const accept = 'application/com.droi.qy-v2.0-3+json'
 const userAgent = 'zy'

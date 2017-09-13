@@ -34,6 +34,7 @@ function vertiCodeEpic (action$) {
                 if (it.return_code === 3) {
                   return showError(PHONO_NUMBER_HAS_REGISTER)
                 }
+                return actions.registerCodeError(it.return_msg)
               }
             ).catch((error) => {
               return Observable.of(showError(NET_WORK_ERROR))

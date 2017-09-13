@@ -31,12 +31,12 @@ export default class LightBoxPage extends Component {
       })
     } else {
       Image.getSize(state.params.imgR, (width, height) => {
-        // alert('imgHeiget: ' + height + ' scrrenHeiget: ' + theme.screenHeight)
-        // if (height > theme.screenWidth) {
-        //   this.setState({
-        //     showToolbg: true
-        //   })
-        // }
+        // alert('imgHeiget: ' + (height / width) + ' scrrenHeiget: ' + (theme.screenHeight / theme.screenWidth))
+        if ((height / width) + 0.2 > (theme.screenHeight / theme.screenWidth)) {
+          this.setState({
+            showToolbg: true
+          })
+        }
       })
     }
   }
@@ -137,7 +137,7 @@ export default class LightBoxPage extends Component {
     return (<TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.back}>
       <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img, state.params.imgR)} />
 
-      {this.state.showToolbg && <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 100, backgroundColor: 'white'}}>
+      {this.state.showToolbg && <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 40, backgroundColor: 'transparent'}}>
         <Image source={tool}/>
       </View>}
       <View style={{position: 'absolute', bottom: 0, right: 0, left: 0, height: 40, alignItems: 'flex-end', justifyContent: 'center'}}>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   img: {
-    width: theme.screenWidth - 32,
-    height: theme.screenHeight - 32
+    width: theme.screenWidth,
+    height: theme.screenHeight
   }
 })

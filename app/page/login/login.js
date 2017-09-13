@@ -162,8 +162,8 @@ class Login extends Component {
                 }
               })
             ).subscribe((info) => {
-              console.log({info})
-              this.props.actions.thirdLogin(loginType, result.access_token, result.openid, info.nickname, info.figureurl_2)
+              // console.log({info})
+              this.props.actions.thirdLogin(loginType, result.access_token, result.openid, info.nickname, info.figureurl_qq_2)
             }
             )
           })
