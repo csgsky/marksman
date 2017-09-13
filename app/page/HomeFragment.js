@@ -56,20 +56,10 @@ class HomeFragment extends Component {
       routerNews: this._routerNews
     })
     PubSub.subscribe('refreshDiaryList', () => {
-<<<<<<< HEAD
-      this.onRefresh();
-      this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true});
-    })
-    PubSub.subscribe('loginRefresh', () => {
-      this.onRefresh();
-      this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true});
-    })
-=======
       this._homefragmentlist.scrollToOffset({x: 0, y: 0, animated: true})
       this.onRefresh()
     })
     PubSub.subscribe('loginRefresh', this.onRefresh)
->>>>>>> f6f91b320f942f84aae527f3cca0ad1262e8d02f
   }
 
   componentWillReceiveProps (nextProps) {
