@@ -66,13 +66,13 @@ class HomeFragment extends Component {
     const newMessage = nextProps.message
     const {message} = this.props
     if (message && newMessage) {
-      if (newMessage.mymsg_rd === 0 && message.mymsg_rd === 1) {
-        this.setState({
-          showRightReminder: false
-        })
-      } else if (newMessage.mymsg_rd === 1 && message.mymsg_rd === 0) {
+      if (newMessage.mymsg_rd === 1) {
         this.setState({
           showRightReminder: true
+        })
+      } else if (newMessage.mymsg_rd === 0) {
+        this.setState({
+          showRightReminder: false
         })
       }
     }
