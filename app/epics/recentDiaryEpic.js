@@ -39,7 +39,7 @@ function recentInitEpic (action$) {
 
 function recentMoreEpic (action$) {
   return action$.ofType(actions.RECENTDIARY_LOADING_MORE)
-            .debounceTime(1000)
+            .debounceTime(500)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),

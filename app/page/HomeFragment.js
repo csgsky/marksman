@@ -203,7 +203,7 @@ class HomeFragment extends Component {
   handleLoadingMore = () => {
     const {page, hasMoreData, isLoadingMore} = this.props
     if (hasMoreData && !isLoadingMore) {
-      Rx.Observable.of('refresh').delay(800).subscribe(
+      Rx.Observable.of('refresh').delay(400).subscribe(
         () => {
           this.props.actions.homeLoadingMore(page)
         }
@@ -230,7 +230,7 @@ class HomeFragment extends Component {
     const {diarys, isRefreshing, isLogin} = this.props
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
-        <View style={{height: 56, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
+        <View style={{height: 56, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', paddingTop: Platform.OS === 'ios' ? 20 : 0}}>
           <TouchableOpacity style={{marginLeft: 16, padding: 2}} onPress={this._onRouterMine}>
             <Image source={Mine} style={styles.profile} />
             {this.state.showLeftReminder && <View style={{position: 'absolute', right: 0, top: 0}}>
