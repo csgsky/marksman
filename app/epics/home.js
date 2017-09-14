@@ -39,6 +39,7 @@ function homeInitEpic (action$) {
 
 function homeMoreEpic (action$) {
   return action$.ofType(actions.HOME_LOADING_MORE)
+            .debounceTime(500)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),

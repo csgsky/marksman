@@ -91,7 +91,7 @@ class RecentDiary extends Component {
   handleLoadingMore = () => {
     const {page, hasMoreData, isLoadingMore} = this.props
     if (hasMoreData && !isLoadingMore) {
-      Rx.Observable.of('refresh').delay(800).subscribe(
+      Rx.Observable.of('refresh').delay(400).subscribe(
         (it) => {
           // todo
           this.props.actions.recentDiaryLoadingMore(page, this.state.timeStap)

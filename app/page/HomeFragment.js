@@ -203,7 +203,7 @@ class HomeFragment extends Component {
   handleLoadingMore = () => {
     const {page, hasMoreData, isLoadingMore} = this.props
     if (hasMoreData && !isLoadingMore) {
-      Rx.Observable.of('refresh').delay(800).subscribe(
+      Rx.Observable.of('refresh').delay(400).subscribe(
         () => {
           this.props.actions.homeLoadingMore(page)
         }
