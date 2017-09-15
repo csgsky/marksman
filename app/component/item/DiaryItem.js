@@ -26,12 +26,19 @@ export default class DiaryItem extends Component {
     }
   }
   componentWillMount () {
-    if ((this.props.item.img_d !== '' || this.props.item.img_d !== null) && this.props.isDetail) {
-      Image.getSize(this.props.item.img_d, (width, height) => {
-        this.setState({
-          detailImgHeight: (height / width) * (theme.screenWidth - 32)
-        })
+    const isMaterial = this.isMaterialImg(this.props.item.img)
+    if (isMaterial) {
+      this.setState({
+        detailImgHeight: (theme.screenWidth - 32) * 2 / 3
       })
+    } else {
+      if ((this.props.item.img_d !== '' || this.props.item.img_d !== null) && this.props.isDetail) {
+        Image.getSize(this.props.item.img_d, (width, height) => {
+          this.setState({
+            detailImgHeight: (height / width) * (theme.screenWidth - 32)
+          })
+        })
+      }
     }
   }
 
@@ -146,6 +153,31 @@ export default class DiaryItem extends Component {
       return Ten
     }
     return {uri: imgD}
+  }
+
+  isMaterialImg = (img) => {
+    if (img === '0') {
+      return true
+    } else if (img === '1') {
+      return true
+    } else if (img === '2') {
+      return true
+    } else if (img === '3') {
+      return true
+    } else if (img === '4') {
+      return true
+    } else if (img === '5') {
+      return true
+    } else if (img === '6') {
+      return true
+    } else if (img === '7') {
+      return true
+    } else if (img === '8') {
+      return true
+    } else if (img === '9') {
+      return true
+    }
+    return false
   }
 
   photoView = () => {
