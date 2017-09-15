@@ -19,6 +19,22 @@ import Report from '../../img/report.png'
 
 export default class DiaryItem extends Component {
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      detailImgHeight: 0
+    }
+  }
+  componentWillMount () {
+    if ((this.props.item.img_d !== '' || this.props.item.img_d !== null) && this.props.isDetail) {
+      Image.getSize(this.props.item.img_d, (width, height) => {
+        this.setState({
+          detailImgHeight: (height / width) * (theme.screenWidth - 32)
+        })
+      })
+    }
+  }
+
   getIconSource = (img) => {
     return img === '' ? theme.imgs.DefaultUserAvatar : {uri: img}
   }
@@ -77,9 +93,16 @@ export default class DiaryItem extends Component {
             </TouchableOpacity>
           </View>}
           <Text style={styles.body} numberOfLines={this.props.isDetail ? 100 : 5}>{content}</Text>
-          {img !== '' &&
+          {img !== '' && !this.props.isDetail &&
             <TouchableOpacity onPress={this.photoView} activeOpacity={1} style={{backgroundColor: '#EEEEEE', marginBottom: hasComment ? 0 : 15}}>
               <Image style={styles.img}
+                source={this.getSource(img, imgD)}
+                resizeMode="cover"/></TouchableOpacity>
+          }
+          {img !== '' && this.props.isDetail &&
+            <TouchableOpacity onPress={this.photoView} activeOpacity={1} style={{backgroundColor: '#EEEEEE', marginBottom: hasComment ? 0 : 15}}>
+              <Image
+                style={{width: theme.screenWidth - 32, height: this.state.detailImgHeight}}
                 source={this.getSource(img, imgD)}
                 resizeMode="cover"/></TouchableOpacity>
           }

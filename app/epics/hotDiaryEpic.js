@@ -40,7 +40,7 @@ function hotDiaryInitEpic (action$) {
 
 function hotDiaryMoreEpic (action$) {
   return action$.ofType(actions.HOTDIARY_LOADING_MORE)
-            .debounceTime(500)
+            .debounceTime(1000)
             .mergeMap((action) =>
               Observable.zip(
                 Observable.from(AsyncStorage.getItem('token')),

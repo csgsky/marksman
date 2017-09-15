@@ -66,6 +66,7 @@ class HomeFragment extends Component {
     const newMessage = nextProps.message
     const {message} = this.props
     if (message && newMessage) {
+      // alert('newMessage: ' + newMessage.mymsg_rd)
       if (newMessage.mymsg_rd === 1) {
         this.setState({
           showRightReminder: true
@@ -95,7 +96,11 @@ class HomeFragment extends Component {
 
   getItemCompt = ({item, index}) => {
     const {navigation} = this.props
-    return <DiaryItem item={item} navigation={navigation} hasComment={false} showStamp isDefault={!this.props.isLogin}/>
+    return <DiaryItem item={item}
+      navigation={navigation}
+      hasComment={false}
+      showStamp
+      isDefault={!this.props.isLogin}/>
   }
 
   getItemSeparator = () => <ListSeparator />
@@ -218,7 +223,7 @@ class HomeFragment extends Component {
       } else {
         this.props.actions.homeInit(0)
         Rx.Observable.timer(0, 1000).subscribe((it) => {
-          if (it % 10 === 0) {
+          if (it % 30 === 0) {
             this.props.actions.profileMessageReminder()
           }
         })

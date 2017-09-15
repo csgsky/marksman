@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 
 import com.facebook.common.executors.UiThreadImmediateExecutorService;
@@ -56,25 +57,29 @@ public class BitmapUtils {
     }
 
     public static void saveImage(Context context,Bitmap bmp) {
-        String orFileName = System.currentTimeMillis() + ".jpg";
-        File file = new File("/sdcard/浅言");
-        if (!file.exists())
-            file.mkdir();
-        file = new File("/sdcard/" + orFileName.trim());
-        String fileName = file.getName();
-        String mName = fileName.substring(0, fileName.lastIndexOf("."));
-        String sName = fileName.substring(fileName.lastIndexOf("."));
-        String newFilePath = "/sdcard/浅言" + "/" + mName + "_cropped" + sName;
-        file = new File(newFilePath);
+        // 首先保存图片
+        String storePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "浅言";
+        File appDir = new File(storePath);
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
         try {
-            file.createNewFile();
             FileOutputStream fos = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+            //通过io流的方式来压缩保存图片
+            boolean isSuccess = bmp.compress(Bitmap.CompressFormat.JPEG, 60, fos);
             fos.flush();
             fos.close();
+
+            //把文件插入到系统图库
+            //MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
+
+            //保存图片后发送广播通知更新数据库
+            Uri uri = Uri.fromFile(file);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
     }
 }
