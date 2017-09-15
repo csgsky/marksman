@@ -230,7 +230,8 @@ class HomeFragment extends Component {
     const {diarys, isRefreshing, isLogin} = this.props
     return (
       <View style={{flex: 1, backgroundColor: '#FAFAFA'}}>
-        <View style={{height: 56, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white', paddingTop: Platform.OS === 'ios' ? 20 : 0}}>
+        {Platform.OS === 'ios' && <View style={{backgroundColor: '#fff', height: 20}}/>}
+        <View style={{height: Platform.OS === 'ios' ? 44 : 56, flexDirection: 'row', alignItems: 'center', backgroundColor: 'white'}}>
           <TouchableOpacity style={{marginLeft: 16, padding: 2}} onPress={this._onRouterMine}>
             <Image source={Mine} style={styles.profile} />
             {this.state.showLeftReminder && <View style={{position: 'absolute', right: 0, top: 0}}>

@@ -33,19 +33,19 @@ export default class Guide extends Component {
       <View>
         <Image resizeMode="stretch" style={styles.image} source={pageOne}/>
         <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 130}}>
-          <Image resizeMode="contain" style={{width: 350, height: 180}} source={pageOneWord}/>
+          <Image resizeMode="contain" style={{width: theme.screenWidth, height: 180}} source={pageOneWord}/>
         </View>
       </View>
       <View>
         <Image resizeMode="stretch" style={styles.image} source={pageTwo}/>
         <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 120}}>
-          <Image resizeMode="contain" style={{width: 350, height: 180}} source={pageThreeWord}/>
+          <Image resizeMode="contain" style={{width: theme.screenWidth, height: 180}} source={pageThreeWord}/>
         </View>
       </View>
       <View>
         <Image resizeMode="stretch" style={styles.image} source={pageThree}/>
         <View style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 80}}>
-          <Image resizeMode="contain" style={{width: 350, height: 180}} source={pageTwoWord}/>
+          <Image resizeMode="contain" style={{width: theme.screenWidth, height: 180}} source={pageTwoWord}/>
           <TouchableOpacity
             activeOpacity={0.8}
             style={{width: 190, height: 35, borderColor: 'white', borderRadius: 4, borderWidth: 0.5, justifyContent: 'center', alignItems: 'center', marginTop: 10}}
