@@ -72,6 +72,7 @@ function thirdLoginEpic (action$) {
                 if (it === 2) {
                   return showError(NET_WORK_ERROR)
                 }
+                console.log({it})
                 if (it.return_code === 1) {
                   return actions.loginSuccess(it, it.user_id)
                 } else if (it.return_code === 6) {

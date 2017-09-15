@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, TextInpu
 import { bindActionCreators } from 'redux'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Rx from 'rxjs'
+import Toast from 'react-native-root-toast'
 import PubSub from 'pubsub-js'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
@@ -16,6 +17,7 @@ import LockClose from '../img/lock_close.png'
 import LockOpen from '../img/lock_open.png'
 import PhotoPickerModal from '../widget/PhotoPickerModal'
 import DeletePhoto from '../img/photo_delete.png'
+
 
 const dismissKeyboard = require('dismissKeyboard')
 
@@ -94,6 +96,14 @@ class WriteDiaryPage extends PureComponent {
       NativeModules.TCAgent.track('写日记', '保存成功')
       PubSub.publish('refreshDiaryList')
       dismissKeyboard()
+      Toast.show('发布成功', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0
+      })
       if (come4 === 'edit') {
         this.props.navigation.goBack(key)
       } else {
