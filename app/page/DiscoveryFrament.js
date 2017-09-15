@@ -104,8 +104,8 @@ class DiscoveryFrament extends Component {
   }
 
   getHeaderView = () => {
-    // const {banners} = this.props
-    const banners = ['a', 'b', 'c']
+    const {banners} = this.props
+    // const banners = ['a', 'b', 'c']
     if (banners.length > 0) {
       return (<Swiper style={styles.wrapper}
         height={170}
@@ -117,7 +117,7 @@ class DiscoveryFrament extends Component {
         autoplayTimeout={5}>
         {
           banners.map((item, i) => <TouchableOpacity style={styles.slide} onPress={this._bannerRouter.bind(this, i)}>
-            <Image resizeMode="stretch" source={{uri: 'http://qycdn.zhuoyoutech.com/qyresource/img/2017/09/14/5126584789/1505368300357.jpg?imageView2/1/w/1280/h/853/q/100'}} style={styles.image}/>
+            <Image resizeMode="stretch" source={{uri: item.img_url}} style={styles.image}/>
           </TouchableOpacity>)}
       </Swiper>)
     }
