@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Text, View, Image, StyleSheet, Platform, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
+import {Text, View, Image, StyleSheet, Platform, NativeModules, TouchableOpacity, SectionList, FlatList, RefreshControl} from 'react-native'
 import { bindActionCreators } from 'redux'
 import PubSub from 'pubsub-js'
 import Swiper from 'react-native-swiper'
@@ -23,6 +23,7 @@ class DiscoveryFrament extends Component {
   })
   componentDidMount () {
     this.props.actions.discoveryInit()
+    NativeModules.TCAgent.trackSingle('发现页面访问')
     PubSub.subscribe('discoveryfragment/init/data', this.onRefresh)
   }
 
@@ -30,36 +31,8 @@ class DiscoveryFrament extends Component {
     PubSub.unsubscribe('discoveryfragment/init/data')
   }
 
-  render () {
-    const {talks, ranks, isRefreshing} = this.props
-    return (
-      <View style={{flex: 1, backgroundColor: '#fafafa'}}>
-        <SectionList
-          ListHeaderComponent={this.getHeaderView}
-          renderSectionHeader={this.getSectionView}
-          stickySectionHeadersEnabled={false}
-          ListFooterComponent={this.getFooterCompt}
-          onEndReached={this.handleLoadingMore}
-          removeClippedSubviews={false}
-          SectionSeparatorComponent={() => <Separator />}
-          onEndReachedThreshold={0.1}
-          sections={[
-            {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem},
-            {data: talks, key: 'talks', renderItem: this.getTalksItem}
-          ]}
-          refreshControl={
-            <RefreshControl
-              onRefresh={this.onRefresh}
-              color="#ccc"
-              refreshing={isRefreshing}
-            />
-          }
-        />
-      </View>
-    )
-  }
-
   onRefresh = () => {
+    NativeModules.TCAgent.trackSingle('发现页面访问')
     this.props.actions.discoveryInit()
   }
 
@@ -69,13 +42,6 @@ class DiscoveryFrament extends Component {
       return <Footer hasMoreData={hasMoreData}/>
     }
     return <View />
-  }
-
-  handleLoadingMore = () => {
-    const {page, hasMoreData, isLoadingMore} = this.props
-    if (hasMoreData && !isLoadingMore) {
-      this.props.actions.discoveryMore(page)
-    }
   }
 
   getTalksItem = ({item}) => {
@@ -142,11 +108,19 @@ class DiscoveryFrament extends Component {
     </TouchableOpacity>
   </View>)
 
+  handleLoadingMore = () => {
+    const {page, hasMoreData, isLoadingMore} = this.props
+    if (hasMoreData && !isLoadingMore) {
+      this.props.actions.discoveryMore(page)
+    }
+  }
+
   _routerToTopicList = () => {
     this.props.navigation.navigate('TopicListPage', {come4: 'discovery'})
   }
 
   _routerToLovedList = () => {
+    NativeModules.TCAgent.trackSingle('发现-备受宠爱榜更多')
     this.props.navigation.navigate('LovedListPage', {message: '备受宠爱'})
   }
 
@@ -161,6 +135,34 @@ class DiscoveryFrament extends Component {
       // alert('2')
     }
     // this.props.navigation
+  }
+  render () {
+    const {talks, ranks, isRefreshing} = this.props
+    return (
+      <View style={{flex: 1, backgroundColor: '#fafafa'}}>
+        <SectionList
+          ListHeaderComponent={this.getHeaderView}
+          renderSectionHeader={this.getSectionView}
+          stickySectionHeadersEnabled={false}
+          ListFooterComponent={this.getFooterCompt}
+          onEndReached={this.handleLoadingMore}
+          removeClippedSubviews={false}
+          SectionSeparatorComponent={() => <Separator />}
+          onEndReachedThreshold={0.1}
+          sections={[
+            {data: [{data: ranks}], key: 'ranks', renderItem: this.getRanksItem},
+            {data: talks, key: 'talks', renderItem: this.getTalksItem}
+          ]}
+          refreshControl={
+            <RefreshControl
+              onRefresh={this.onRefresh}
+              color="#ccc"
+              refreshing={isRefreshing}
+            />
+          }
+        />
+      </View>
+    )
   }
 }
 

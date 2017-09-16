@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react'
-import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image} from 'react-native'
+import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image, NativeModules} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
@@ -54,7 +54,7 @@ class CommentEditor extends PureComponent {
 
   componentDidMount() {
     const that = this;
-    const {diaryId, ownerId, commentId, pid} = this.props.navigation.state.params;
+    const {diaryId, ownerId, commentId, pid, come4} = this.props.navigation.state.params;
     this.props.navigation.setParams({
       handleSubmit: () => {
         const {isLoading} = that.props;
@@ -70,11 +70,15 @@ class CommentEditor extends PureComponent {
           data.pid = pid
         }
         if (that.state.text) {
+          NativeModules.TCAgent.trackSingle(come4 + '-发布评论')
           that.props.commentPost({diaryId, ownerId, commentId, data})
         }
       }
     })
-    PubSub.subscribe('refreshDetailPage', () => this.props.navigation.goBack())
+    PubSub.subscribe('refreshDetailPage', () => {
+      NativeModules.TCAgent.trackSingle(come4 + '-发布评论成功')
+      this.props.navigation.goBack()
+    })
   }
 
   // componentWillReceiveProps(nextProps) {

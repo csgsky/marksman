@@ -29,6 +29,13 @@ public class SensorModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void trackSingle(String eventName) {
+        if (getCurrentActivity() instanceof MainActivity) {
+            TCAgent.onEvent(getCurrentActivity(), eventName);
+        }
+    }
+
+    @ReactMethod
     public void trackWithParams(String eventName,ReadableMap map) {
 
     }

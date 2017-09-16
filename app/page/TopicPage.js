@@ -37,6 +37,7 @@ class Topic extends PureComponent {
     }
   }
   componentDidMount () {
+    NativeModules.TCAgent.trackSingle('进入话题详情')
     const {topicId, ownerId, diaryId} = this.props.navigation.state.params
     this.props.topicInit({topicId, ownerId, diaryId})
     PubSub.subscribe('refreshDetailPage', this.onRefresh)
@@ -70,21 +71,23 @@ class Topic extends PureComponent {
     }
   }
   _onPressFollow = (focused, id) => {
-    NativeModules.TCAgent.track('发现', '日记详情页-关注')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'topic'})
       } else if (!focused) {
+        NativeModules.TCAgent.trackSingle('话题-关注')
         this.props.topicFollow(id)
+      } else {
+        NativeModules.TCAgent.trackSingle('话题-取消关注')
+        this.props.topicUnfollow(id)
       }
-      this.props.topicUnfollow(id)
     })
   }
   _onPressLike = (diaryId, ownerId, myLike, isLikingTopic) => {
     if (isLikingTopic) {
       return
     }
-    NativeModules.TCAgent.track('发现', '日记详情页-点赞')
+    NativeModules.TCAgent.trackSingle('话题点赞')
     if (!myLike) {
       AsyncStorage.getItem('userId').then((result) => {
         if (result === null) {
@@ -99,15 +102,15 @@ class Topic extends PureComponent {
     NativeModules.TCAgent.track('发现', '日记详情页-评论')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        this.props.navigation.navigate('Login', {come4: 'topic'})
+        this.props.navigation.navigate('Login', {come4: '话题'})
       } else {
-        this.props.navigation.navigate('CommentEditPage', {com4: 'topic', diaryId: topic.diary_id, ownerId: topic.user_id, type: 'topic'})
+        this.props.navigation.navigate('CommentEditPage', {come4: '话题', diaryId: topic.diary_id, ownerId: topic.user_id, type: 'topic'})
       }
     })
   }
   _onPressCommentItem = (item) => {
     setTimeout(() => {
-      this.props.navigation.navigate('CommentsListPage', {com4: 'comment', item})
+      this.props.navigation.navigate('CommentsListPage', {come4: '话题', item})
     }, 300)
   }
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {

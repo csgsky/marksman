@@ -1,11 +1,16 @@
 import React, {Component} from 'react'
-import {View, Text, Image, TouchableOpacity, StyleSheet, AsyncStorage} from 'react-native'
+import {View, Text, Image, TouchableOpacity, StyleSheet, AsyncStorage, NativeModules} from 'react-native'
 import Rx from 'rxjs'
 import theme from '../../config/theme'
 
 export default class RecommendUserItem extends Component {
 
   _onPressFollow = (myFocus, id, position) => {
+    if (!myFocus) {
+      NativeModules.TCAgent.trackSingle('发现-备受宠爱榜关注')
+    } else {
+      NativeModules.TCAgent.trackSingle('发现-备受宠爱榜取消关注')
+    }
     const {LovedFollowed} = this.props
     Rx.Observable.from(AsyncStorage.getItem('userId')).subscribe(
       (it) => {
@@ -20,6 +25,7 @@ export default class RecommendUserItem extends Component {
   _routerToPersonalPage = () => {
     const userId = this.props.item.user_id
     setTimeout(() => {
+      NativeModules.TCAgent.trackSingle('发现-备受宠爱榜头像')
       this.props.navigation.navigate('PersonalPage', {message: '备受宠爱', id: userId})
     }, 300)
   }

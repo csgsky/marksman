@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Image, Text, TouchableOpacity, AsyncStorage} from 'react-native'
+import {StyleSheet, View, Image, Text, TouchableOpacity, AsyncStorage, NativeModules} from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import Swiper from 'react-native-swiper'
 import theme from '../../config/theme'
@@ -19,15 +19,35 @@ const resetActionMain = NavigationActions.reset({
 })
 export default class Guide extends Component {
 
+  componentDidMount () {
+    NativeModules.TCAgent.trackSingle('引导页第一页展现')
+  }
+
+  onScrollEnd = (e, state) => {
+    let page = ''
+    if (state.index === 0) {
+      page = '引导页第一页展现'
+    } else if (state.index === 1) {
+      page = '进入引导页第二页'
+    } else if (state.index === 2) {
+      page = '进入引导页第三页'
+    }
+    NativeModules.TCAgent.trackSingle(page)
+  };
+
   enterApp = () => {
+    NativeModules.TCAgent.trackSingle('引导页第三页—进入浅言')
     AsyncStorage.setItem(consts.GUIDETAG, '1.1')
     this.props.navigation.dispatch(resetActionMain)
+    NativeModules.TCAgent.trackSingle('引导页-进入浅言成功')
   }
+
   render () {
     return (<Swiper
       activeDot={<View style={styles.activeDot}/>}
       dot={<View style={styles.dot}/>}
       loop={false}
+      onMomentumScrollEnd={this.onScrollEnd}
       dotStyle={styles.dotStyle}
       showsButtons={false}>
       <View>

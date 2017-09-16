@@ -208,7 +208,7 @@ export default class DiaryItem extends Component {
 
   routeDiaryDetails = () => {
     const come4 = this.props.come4 || '浅记'
-    NativeModules.TCAgent.track(come4, '点日记进入日记详情页')
+    NativeModules.TCAgent.trackSingle('浅记-点击日记进入详情')
     const {navigation, item} = this.props
     setTimeout(() => {
       AsyncStorage.getItem('userId').then((result) => {

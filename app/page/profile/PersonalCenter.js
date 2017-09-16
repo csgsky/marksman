@@ -75,6 +75,7 @@ class PersonalCenter extends Component {
     const {success} = nextProps
     const oldSuccess = this.props.success
     if (oldSuccess !== success && success) {
+      NativeModules.TCAgent.track('个人中心-头像', '修改成功')
       Toast.show('更新成功', {
         duration: Toast.durations.SHORT,
         position: Toast.positions.BOTTOM,
@@ -117,12 +118,14 @@ class PersonalCenter extends Component {
   }
 
   hideDialog() {
+    NativeModules.TCAgent.track('个人中心-头像', '取消')
     this.setState({
       showPhotoPickerModal: false
     })
   }
 
   launchCamera () {
+    NativeModules.TCAgent.track('个人中心-头像', '拍照')
     ImagePicker.launchCamera(options, (response) => {
       this.setState({
         showPhotoPickerModal: false
@@ -144,6 +147,7 @@ class PersonalCenter extends Component {
 
 
   launchImageLibrary () {
+    NativeModules.TCAgent.track('个人中心-头像', '从手机相册选择')
     ImagePicker.launchImageLibrary(options, (response) => {
       this.setState({
         showPhotoPickerModal: false
@@ -169,6 +173,7 @@ class PersonalCenter extends Component {
 
   _loginOut = () => {
     if (this.state.isLogin) {
+      NativeModules.TCAgent.trackSingle('个人中心—退出账号')
       Rx.Observable.from(NativeModules.SplashScreen.getNetInfo()).subscribe((it) => {
         if (it === '1') {
           this.setState({
@@ -187,6 +192,7 @@ class PersonalCenter extends Component {
       })
       PubSub.publish('refreshDiaryList')
     } else {
+      NativeModules.TCAgent.trackSingle('个人中心—登陆/注册')
       this.props.navigation.navigate('Login', {come4: 'profile'})
     }
   }
@@ -217,7 +223,7 @@ class PersonalCenter extends Component {
   }
 
   clickUserIcon = () => {
-    NativeModules.TCAgent.track('我的', '头像')
+    NativeModules.TCAgent.track('个人中心-头像', '点击头像')
     AsyncStorage.getItem('userId').then((result) => {
       if (result) {
         this.setState({showPhotoPickerModal: true})

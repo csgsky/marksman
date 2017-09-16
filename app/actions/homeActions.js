@@ -63,7 +63,7 @@ export function checkVersionData (data) {
           {text: '取消'},
           {text: '确定', onPress: () => NativeModules.SplashScreen.toChrome(data.download_url)}
         ],
-        { cancelable: true })
+        { cancelable: false })
     }
   })
   return {

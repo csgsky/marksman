@@ -43,14 +43,12 @@ export function selectMaterial(payload) {
 }
 
 export function deletePhoto() {
-  NativeModules.TCAgent.track('写日记', '插入图片成功')
   return {
     type: WRITE_DIARY_DELETE_PHOTO
   }
 }
 
 export function changeDiaryState () {
-  NativeModules.TCAgent.track('写日记', '隐私')
   return {
     type: WRITE_DIARY_CHANGE_STATE
   }

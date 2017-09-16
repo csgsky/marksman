@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, TouchableOpacity, Text, Image, StyleSheet} from 'react-native'
+import {View, TouchableOpacity, Text, Image, StyleSheet, NativeModules} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PubSub from 'pubsub-js'
@@ -21,7 +21,10 @@ class NewsCenterPage extends Component {
     headerStyle: {elevation: 0, backgroundColor: '#fff'},
     headerRight: <View />,
     headerLeft: <TouchableOpacity style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}
-      onPress={() => {navigation.state.params.pageBack()}}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={PageBack} /></TouchableOpacity>,
+      onPress={() => {
+        NativeModules.TCAgent.track('浅记-我的消息', '返回')
+        navigation.state.params.pageBack()
+      }}><Image resizeMode="contain" style={{width: 18, height: 18, marginLeft: 16}} source={PageBack} /></TouchableOpacity>,
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
 
@@ -47,21 +50,25 @@ class NewsCenterPage extends Component {
   }
 
   _routerNotificationPage = () => {
+    NativeModules.TCAgent.track('浅记-我的消息', '通知')
     this.props.dismissReminder(3)
     this.props.navigation.navigate('NotificationPage')
   }
 
   _routerCommentNewsPage = () => {
+    NativeModules.TCAgent.track('浅记-我的消息', '评论')
     this.props.dismissReminder(2)
     this.props.navigation.navigate('CommentNewsPage')
   }
 
   _routerUserNewsPage = () => {
+    NativeModules.TCAgent.track('浅记-我的消息', '用户')
     this.props.dismissReminder(1)
     this.props.navigation.navigate('UserNewsPage')
   }
 
   _routerTopicListPage = () => {
+    NativeModules.TCAgent.track('浅记-我的消息', '话题')
     this.props.dismissReminder(0)
     this.props.navigation.navigate('TopicListPage', {come4: 'news'})
   }
