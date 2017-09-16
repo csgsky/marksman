@@ -30,10 +30,11 @@ class RecentDiary extends Component {
   }
 
   componentDidMount () {
-    NativeModules.TCAgent.track('足印', '最新')
+    NativeModules.TCAgent.trackSingle('足印-最新')
     this.props.actions.recentDiaryInit(0, this.state.timeStap)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('refreshDiaryListLike', (msg, diaryId) => {
+      NativeModules.TCAgent.trackSingle('足印-点赞成功')
       this.props.actions.updateDiaryLike(diaryId)
     })
     PubSub.subscribe('refreshDiaryListComment', (msg, diaryId) => {
@@ -42,7 +43,7 @@ class RecentDiary extends Component {
   }
 
   onRefresh = () => {
-    NativeModules.TCAgent.track('足印', '最新')
+    NativeModules.TCAgent.trackSingle('足印-最新')
     const timeStap = new Date().getTime();
     this.setState({
       timeStap
@@ -55,7 +56,7 @@ class RecentDiary extends Component {
     if (isLiking || myLike) {
       return
     }
-    NativeModules.TCAgent.track('足印', '点赞')
+    NativeModules.TCAgent.trackSingle('足印-点赞')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'recentDiary'})

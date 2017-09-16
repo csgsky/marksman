@@ -21,6 +21,7 @@ class MeFragment extends Component {
     headerTitleStyle: {alignSelf: 'center', color: theme.text.toolbarTitleColor, fontWeight: 'normal', fontSize: 18}
   })
   componentDidMount () {
+    NativeModules.TCAgent.trackSingle('文集页面访问')
     this.props.actions.collectionsInit(0)
     this.getSplashImg()
     this.getCommonInfo()
@@ -28,6 +29,7 @@ class MeFragment extends Component {
 
 
   onRefresh = () => {
+    NativeModules.TCAgent.trackSingle('文集页面访问')
     this.props.actions.collectionsInit(0)
   }
 

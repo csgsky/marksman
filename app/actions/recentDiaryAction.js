@@ -1,3 +1,5 @@
+import {NativeModules} from 'react-native'
+
 export const RECENTDIARY_INIT = 'RECENTDIARY_INIT'
 export const RECENTDIARY_DATA = 'RECENTDIARY_DATA'
 export const RECENTDIARY_LOADING_MORE = 'RECENTDIARY_LOADING_MORE'
@@ -52,6 +54,7 @@ export function rencentDiaryLike(payload) {
 }
 
 export function recentDiaryLikeSuccess(payload) {
+  NativeModules.TCAgent.trackSingle('足印-点赞成功')
   return {
     type: RECENTDIARY_LIKE_SUCCESS,
     payload

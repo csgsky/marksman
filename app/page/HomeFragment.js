@@ -46,7 +46,7 @@ class HomeFragment extends Component {
   }
 
   componentDidMount () {
-    NativeModules.TCAgent.track('浅记', '浅记')
+    NativeModules.TCAgent.trackSingle('浅言首页访问')
     if (Platform.OS === 'android') {
       this.props.actions.checkVersion()
     }
@@ -79,7 +79,7 @@ class HomeFragment extends Component {
   }
 
   onRefresh = () => {
-    NativeModules.TCAgent.track('浅记', '浅记')
+    NativeModules.TCAgent.trackSingle('浅言首页访问')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.actions.visitor()
@@ -134,6 +134,7 @@ class HomeFragment extends Component {
   }
 
   _routerNews = () => {
+    NativeModules.TCAgent.track('浅记-我的消息', '我的消息')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'profile'})
@@ -149,8 +150,7 @@ class HomeFragment extends Component {
   }
 
   _onRouterWrite = () => {
-    NativeModules.TCAgent.track('浅记', '写日记')
-
+    NativeModules.TCAgent.trackSingle('浅记-写日记')
     Rx.Observable.zip(
       Rx.Observable.from(AsyncStorage.getItem('userId')),
       Rx.Observable.from(AsyncStorage.getItem(consts.WELCOME)),
@@ -175,7 +175,7 @@ class HomeFragment extends Component {
   }
 
   _onRouterMine = () => {
-    NativeModules.TCAgent.track('浅记', '个人中心')
+    NativeModules.TCAgent.trackSingle('个人中心访问')
     if (this.state.showLeftReminder) {
       AsyncStorage.setItem('showHomeReminder', 'true')
       this.setState({

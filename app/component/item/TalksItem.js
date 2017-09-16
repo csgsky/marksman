@@ -5,7 +5,7 @@ import theme from '../../config/theme'
 export default class TalksItem extends Component {
   _onPress = (topicId, ownerId, diaryId) => {
     const come4 = this.props.come4 || '发现'
-    NativeModules.TCAgent.track(come4, '话题')
+    NativeModules.TCAgent.trackSingle(come4 + '话题点击')
     setTimeout(() => {
       this.props.navigation.navigate('TopicPage', {topicId, ownerId, diaryId})
     }, 300)

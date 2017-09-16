@@ -1,3 +1,5 @@
+import {NativeModules} from 'react-native'
+
 export const HOTDIARY_INIT = 'HOTDIARY_INIT'
 export const HOTDIARY_DATA = 'HOTDIARY_DATA'
 export const HOTDIARY_LOADING_MORE = 'HOTDIARY_LOADING_MORE'
@@ -49,6 +51,7 @@ export function hotDiaryLike(payload) {
 }
 
 export function hotDiaryLikeSuccess(payload) {
+  NativeModules.TCAgent.trackSingle('足印-点赞成功')
   return {
     type: HOTDIARY_LIKE_SUCCESS,
     payload

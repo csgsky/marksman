@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, FlatList, RefreshControl, TouchableOpacity, Image, Platform} from 'react-native'
+import {View, FlatList, RefreshControl, TouchableOpacity, Image, Platform, NativeModules} from 'react-native'
 import {connect} from 'react-redux'
 import PubSub from 'pubsub-js'
 import {bindActionCreators} from 'redux'
@@ -49,7 +49,9 @@ class Trash extends Component {
 
 
   toggleDialog = (index) => {
-    // console.warn('toggle dialog ==> ' + index)
+    if (this.state.showModal) {
+      NativeModules.TCAgent.track('个人中心—垃圾箱', '取消')
+    }
     this.setState({
       showModal: !this.state.showModal,
       index
@@ -57,6 +59,7 @@ class Trash extends Component {
   }
 
   _recoverDiary = () => {
+    NativeModules.TCAgent.track('个人中心—垃圾箱', '恢复')
     const payload = {diarys: [{diary_id: this.props.diaries[this.state.index].diary_id}]}
     this.props.actions.recoverDiary(payload)
     this.setState({
@@ -65,6 +68,7 @@ class Trash extends Component {
   }
 
   _deleteDiary = () => {
+    NativeModules.TCAgent.track('个人中心—垃圾箱', '彻底删除')
     const payload = {diarys: [{diary_id: this.props.diaries[this.state.index].diary_id}], mode: 1}
     this.props.actions.deleteDiary(payload)
     this.setState({

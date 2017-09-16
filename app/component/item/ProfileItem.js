@@ -41,7 +41,7 @@ export default class ProfileItem extends Component {
     const {value} = this.props
     switch (value) {
       case consts.PROFILE_MINE_HOME_PAGE:
-        NativeModules.TCAgent.track('我的', '我的主页')
+        NativeModules.TCAgent.trackSingle('个人中心-我的主页')
         that._routerPersonalPage()
         break;
       case consts.PROFILE_MINE_FOLLOW:
@@ -49,7 +49,7 @@ export default class ProfileItem extends Component {
         that._routerMineFollow()
         break;
       case consts.PROFILE_MINE_TRASH:
-        NativeModules.TCAgent.track('我的', '垃圾箱')
+        NativeModules.TCAgent.track('个人中心—垃圾箱', '垃圾箱访问')
         that._routerMineTrash()
         break;
       case consts.PROFILE_RECOMMOND_F:
@@ -58,14 +58,14 @@ export default class ProfileItem extends Component {
         break;
       case consts.PROFILE_NOTIFICATION:
         this._routerSystemMessage(consts.PROFILE_NOTIFICATION)
-        NativeModules.TCAgent.track('我的', '系统通知')
+        NativeModules.TCAgent.trackSingle('个人中心—系统通知')
         break;
       case consts.PROFILE_FEEDBACK:
-        NativeModules.TCAgent.track('我的', '反馈问题')
+        NativeModules.TCAgent.trackSingle('个人中心—反馈问题')
         that._routerFeedback()
         break;
       case consts.PROFILE_ABOUT_US:
-        NativeModules.TCAgent.track('我的', '关于我们')
+        NativeModules.TCAgent.trackSingle('个人中心—关于我们')
         this._routerAboutUs()
         break;
       default:

@@ -19,14 +19,14 @@ export default class SexModal extends Component {
         transparent>
         <TouchableOpacity activeOpacity={1} style={styles.bg} onPress={this.props.hideSex}>
           <TouchableOpacity style={styles.dialog}>
-            <TouchableOpacity style={styles.recover} onPress={this.props.selectBoy}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.recover} onPress={this.props.selectBoy}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>男</Text>
             </TouchableOpacity>
             <View style={{height: 0.5, backgroundColor: '#f8f8f8'}} />
-            <TouchableOpacity style={styles.delete} onPress={this.props.selectGirl}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.delete} onPress={this.props.selectGirl}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>女</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cancelItem} onPress={this.props.hideSex}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.cancelItem} onPress={this.props.hideSex}>
               <Text style={{fontSize: theme.text.xxlgFontSize}}>取消</Text>
             </TouchableOpacity>
           </TouchableOpacity>

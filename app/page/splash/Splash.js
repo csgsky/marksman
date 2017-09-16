@@ -37,7 +37,7 @@ export default class Splash extends Component {
   }
 
   componentWillMount () {
-    NativeModules.TCAgent.track('启动页', '启动页展现')
+    NativeModules.TCAgent.trackSingle('启动页展现')
     this._getDeviceUserInfo()
     const subscribe = Rx.Observable.timer(0, 1000).subscribe((it) => {
       if ((it + 1) === 3) {
@@ -136,7 +136,7 @@ export default class Splash extends Component {
   }
 
   _onPress = () => {
-    NativeModules.TCAgent.track('启动页', '启动页跳过')
+    NativeModules.TCAgent.trackSingle('启动页跳过')
     this._splashRouter()
   }
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Image, Text, StyleSheet, TouchableOpacity, NativeModules} from 'react-native'
+import {View, Image, Text, StyleSheet, TouchableOpacity, NativeModules, ActivityIndicator} from 'react-native'
 import theme from '../config/theme'
 import One from '../img/diary_material_one.jpg'
 import Two from '../img/diary_material_two.jpg'
@@ -19,7 +19,8 @@ export default class LightBoxPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      showToolbg: false
+      showToolbg: false,
+      loading: true
     }
   }
 
@@ -40,6 +41,14 @@ export default class LightBoxPage extends Component {
       })
     }
   }
+
+  getActivityIndicator = () => (<TouchableOpacity activeOpacity={1}
+    onPress={() => {}}
+    style={{
+      position: 'absolute', bottom: 0, top: 0, left: 0, right: 0, backgroundColor: 'transparent', justifyContent: 'center'
+    }}>
+    <ActivityIndicator size="large"/>
+  </TouchableOpacity>)
 
   getSource = (img, imgR) => {
     if (img === '0') {
@@ -135,7 +144,10 @@ export default class LightBoxPage extends Component {
   render () {
     const {state} = this.props.navigation
     return (<TouchableOpacity style={styles.view} activeOpacity={1} onPress={this.back}>
-      <Image style={styles.img} resizeMode="contain" source={this.getSource(state.params.img, state.params.imgR)} />
+      <Image style={styles.img}
+        onLoad={() => this.setState({loading: false})}
+        resizeMode="contain"
+        source={this.getSource(state.params.img, state.params.imgR)} />
 
       {this.state.showToolbg && <View style={{position: 'absolute', left: 0, right: 0, bottom: 0, height: 40, backgroundColor: 'transparent'}}>
         <Image source={tool}/>
@@ -145,6 +157,7 @@ export default class LightBoxPage extends Component {
           <Text style={{color: 'white'}}>保存</Text>
         </TouchableOpacity>
       </View>
+      {this.state.loading && this.getActivityIndicator()}
     </TouchableOpacity>)
   }
 }

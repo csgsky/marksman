@@ -74,7 +74,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   componentDidMount() {
-    NativeModules.TCAgent.track('写日记', '写日记')
+    NativeModules.TCAgent.trackSingle('进入写日记页面')
     const diary = this.props.navigation.state.params.diary
     this.props.writeDiaryInit(diary)
     if (this.props.navigation.state.params.come4 === 'edit') {
@@ -104,6 +104,7 @@ class WriteDiaryPage extends PureComponent {
         hideOnPress: true,
         delay: 0
       })
+      NativeModules.TCAgent.trackSingle('写日记-发布成功')
       if (come4 === 'edit') {
         this.props.navigation.goBack(key)
       } else {
@@ -121,6 +122,7 @@ class WriteDiaryPage extends PureComponent {
     if (isPosting) {
       return;
     }
+    NativeModules.TCAgent.trackSingle('写日记—发布')
     this.props.setPostingStatus()
     Rx.Observable.of('post').delay(500).subscribe(() => {
       this._postDiary()
@@ -188,6 +190,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   launchCamera () {
+    NativeModules.TCAgent.trackSingle('写日记插入图片-拍照')
     const that = this;
     const options = Platform.OS === 'android' ? optionsAndroid : optionsiOS
     ImagePicker.launchCamera(options, (response) => {
@@ -198,7 +201,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.error) {
       } else if (response.customButton) {
       } else {
-        NativeModules.TCAgent.track('写日记', '插入图片成功')
+        NativeModules.TCAgent.trackSingle('写日记-插入图片成功')
         const suffix = response.uri.split('.')
         this.setState({
           suffix: suffix[suffix.length - 1]
@@ -213,6 +216,7 @@ class WriteDiaryPage extends PureComponent {
 
 
   launchImageLibrary () {
+    NativeModules.TCAgent.trackSingle('写日记插入图片-从手机相册选择')
     const that = this;
     const options = Platform.OS === 'android' ? optionsAndroid : optionsiOS
     ImagePicker.launchImageLibrary(options, (response) => {
@@ -223,7 +227,7 @@ class WriteDiaryPage extends PureComponent {
       } else if (response.error) {
       } else if (response.customButton) {
       } else {
-        NativeModules.TCAgent.track('写日记', '插入图片成功')
+        NativeModules.TCAgent.trackSingle('写日记-插入图片成功')
         const suffix = response.uri.split('.')
         this.setState({
           suffix: suffix[suffix.length - 1]
@@ -237,7 +241,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   _onColorChanged = (color, feel) => {
-    NativeModules.TCAgent.track('写日记', '选择心情')
+    // NativeModules.TCAgent.track('写日记', '选择心情')
     this.props.writeDiaryColorChange({color, feel})
     this.setState({
       color2: color
@@ -254,7 +258,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   showDialog() {
-    NativeModules.TCAgent.track('写日记', '插入图片')
+    NativeModules.TCAgent.trackSingle('写日记—点击插入图片')
     this._closeKeyBoard()
     this.setState({
       showModal: true
@@ -262,6 +266,7 @@ class WriteDiaryPage extends PureComponent {
   }
 
   hideDialog() {
+    NativeModules.TCAgent.trackSingle('写日记插入图片-取消')
     this._closeKeyBoard()
     this.setState({
       showModal: false
@@ -311,7 +316,11 @@ class WriteDiaryPage extends PureComponent {
                   <Text style={styles.week}>{this.props.date}</Text>
                   <Text style={styles.year_month}>{this.props.yymm}</Text>
                 </View>
-                <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}} onPress={this.props.changeDiaryState}>
+                <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}}
+                  onPress={() => {
+                    NativeModules.TCAgent.trackSingle('写日记—设为隐私')
+                    this.props.changeDiaryState()
+                  }}>
                   <Image
                     source={this.props.ifprivate === 1 ? LockOpen : LockClose}
                     resizeMode="contain"
@@ -343,7 +352,11 @@ class WriteDiaryPage extends PureComponent {
               value={this.props.content} />
             {this.props.source && <View style={styles.imageView}>
               <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="cover"/>
-              <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
+              <TouchableOpacity style={styles.deleteView}
+                onPress={() => {
+                  this.props.deletePhoto()
+                  NativeModules.TCAgent.trackSingle('写日记—删除图片')
+                }}>
                 <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
               </TouchableOpacity>
               </View>}
@@ -383,7 +396,11 @@ class WriteDiaryPage extends PureComponent {
                   <Text style={styles.week}>{this.props.date}</Text>
                   <Text style={styles.year_month}>{this.props.yymm}</Text>
                 </View>
-                <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}} onPress={this.props.changeDiaryState}>
+                <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}}
+                  onPress={() => {
+                    NativeModules.TCAgent.trackSingle('写日记—设为隐私')
+                    this.props.changeDiaryState()
+                  }}>
                   <Image
                     source={this.props.ifprivate === 1 ? LockOpen : LockClose}
                     resizeMode="contain"
@@ -413,7 +430,11 @@ class WriteDiaryPage extends PureComponent {
               value={this.props.content} />
             {this.props.source && <View style={styles.imageView}>
               <Image source={this.props.source} style={{width: theme.screenWidth - 32, height: ((theme.screenWidth - 32) * 3) / 4}} resizeMode="cover"/>
-              <TouchableOpacity style={styles.deleteView} onPress={this.props.deletePhoto}>
+              <TouchableOpacity style={styles.deleteView}
+                onPress={() => {
+                  this.props.deletePhoto()
+                  NativeModules.TCAgent.trackSingle('写日记—删除图片')
+                }}>
                 <Image style={{width: 23, height: 23}} source={DeletePhoto} resizeMode="contain"/>
               </TouchableOpacity>
               </View>}

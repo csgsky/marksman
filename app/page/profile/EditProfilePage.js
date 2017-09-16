@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, NativeModules} from 'react-native'
 import PubSub from 'pubsub-js'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -49,6 +49,7 @@ class EditProfilePage extends Component {
   }
 
   componentDidMount() {
+    NativeModules.TCAgent.track('个人中心-修改资料', '点击修改资料')
     this.props.navigation.setParams({
       handleSubmit: this.handleSubmit
     })
@@ -66,6 +67,7 @@ class EditProfilePage extends Component {
     const oldSuccess = this.props.success
     if (oldSuccess !== success && success) {
       this.props.navigation.goBack()
+      NativeModules.TCAgent.track('个人中心-修改资料', '保存成功')
     }
   }
 
@@ -84,6 +86,7 @@ class EditProfilePage extends Component {
       }})
   }
   _routerToProvince = () => {
+    NativeModules.TCAgent.track('个人中心-修改资料', '所在地')
     this.props.navigation.navigate('ProvincePage')
   }
 
@@ -120,6 +123,7 @@ class EditProfilePage extends Component {
       addr: info.addr,
       job: info.job
     }, this.state.info, null)
+    NativeModules.TCAgent.track('个人中心-修改资料', '保存')
   }
 
   _hideDateTimePicker = () => {
@@ -129,6 +133,7 @@ class EditProfilePage extends Component {
   }
 
   _handleDatePicked = (date) => {
+    NativeModules.TCAgent.track('个人中心-修改资料', '生日-确定')
     this.state.info.birthday = getDotYYMMDD(date)
     this.setState({
       info: this.state.info
@@ -138,12 +143,14 @@ class EditProfilePage extends Component {
   }
 
   hideConstellation = () => {
+    NativeModules.TCAgent.track('个人中心-修改资料', '星座-取消')
     this.setState({
       constellationVisible: false
     })
   }
 
   selectConstellation = (constellation) => {
+    NativeModules.TCAgent.track('个人中心-修改资料', '星座-确定')
     this.state.info.constellation = constellation
     this.setState({
       info: this.state.info,
@@ -152,6 +159,7 @@ class EditProfilePage extends Component {
   }
 
   selectBoy = () => {
+    NativeModules.TCAgent.track('个人中心-修改资料', '性别-男')
     this.state.info.sex = 1
     this.setState({
       sexModalVisible: false,
@@ -166,6 +174,7 @@ class EditProfilePage extends Component {
   }
 
   selectGirl = () => {
+    NativeModules.TCAgent.track('个人中心-修改资料', '性别-女')
     this.state.info.sex = 2
     this.setState({
       sexModalVisible: false,
@@ -179,7 +188,10 @@ class EditProfilePage extends Component {
         <DateTimePicker
           isVisible={this.state.dateTimePickerVisible}
           onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
+          onCancel={() => {
+            NativeModules.TCAgent.track('个人中心-修改资料', '生日-取消')
+            this._hideDateTimePicker()
+          }}
           titleIOS="选择日期"
           cancelTextIOS="取消"
           confirmTextIOS="确定"
@@ -202,6 +214,7 @@ class EditProfilePage extends Component {
             underlineColorAndroid="transparent"
             maxLength={14}
             onFocus={() => {
+              NativeModules.TCAgent.track('个人中心-修改资料', '昵称')
               this.setState({
                 showDelete: true
               })
@@ -233,6 +246,9 @@ class EditProfilePage extends Component {
             numberOfLines={3}
             maxLength={30}
             multiline
+            onFocus={() => {
+              NativeModules.TCAgent.track('个人中心-修改资料', '签名')
+            }}
             value={this.state.info.sign}
             onChangeText={(sign) => {
               this.state.info.sign = sign
@@ -246,12 +262,20 @@ class EditProfilePage extends Component {
           <Text style={styles.content}>{this.state.info.sex === 1 ? '男' : '女'}</Text>
           <Image style={styles.next} source={Next} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemView} onPress={() => this.setState({dateTimePickerVisible: true})}>
+        <TouchableOpacity style={styles.itemView}
+          onPress={() => {
+            NativeModules.TCAgent.track('个人中心-修改资料', '点击生日')
+            this.setState({dateTimePickerVisible: true})
+          }}>
           <Text style={styles.title}>生日</Text>
           <Text style={styles.content}>{this.state.info.birthday}</Text>
           <Image style={styles.next} source={Next} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemView} onPress={() => this.setState({constellationVisible: true})}>
+        <TouchableOpacity style={styles.itemView}
+          onPress={() => {
+            NativeModules.TCAgent.track('个人中心-修改资料', '点击星座')
+            this.setState({constellationVisible: true})
+          }}>
           <Text style={styles.title}>星座</Text>
           <Text style={styles.content}>{this.state.info.constellation}</Text>
           <Image style={styles.next} source={Next} />
@@ -261,7 +285,11 @@ class EditProfilePage extends Component {
           <Text style={styles.content}>{this.state.info.addr}</Text>
           <Image style={styles.next} source={Next} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemView} onPress={() => this._routerToCareer(this.state.info.job)}>
+        <TouchableOpacity style={styles.itemView}
+          onPress={() => {
+            NativeModules.TCAgent.track('个人中心-修改资料', '职业')
+            this._routerToCareer(this.state.info.job)
+          }}>
           <Text style={styles.title}>职业</Text>
           <Text style={styles.content}>{this.state.info.job}</Text>
           <Image style={styles.next} source={Next} />

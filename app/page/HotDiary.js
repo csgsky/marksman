@@ -28,7 +28,7 @@ class HotDiary extends Component {
     }
   }
   componentDidMount () {
-    NativeModules.TCAgent.track('足印', '热门')
+    NativeModules.TCAgent.trackSingle('足印-最热')
     this.props.actions.hotDiaryInit(0, this.state.timeStap)
     PubSub.subscribe('refreshDiaryList', this.onRefresh)
     PubSub.subscribe('refreshDiaryListLike', (msg, diaryId) => {
@@ -40,7 +40,7 @@ class HotDiary extends Component {
   }
 
   onRefresh = () => {
-    NativeModules.TCAgent.track('足印', '热门')
+    NativeModules.TCAgent.trackSingle('足印-最热')
     const timeStap = new Date().getTime();
     this.setState({
       timeStap
@@ -71,14 +71,14 @@ class HotDiary extends Component {
     return <View />
   }
 
-  handleLoadingMore = () => {
-    const {page, hasMoreData, isLoadingMore} = this.props
-    if (hasMoreData && !isLoadingMore) {
-      Rx.Observable.of('refresh').delay(400).subscribe(
-        (it) => {
-          this.props.actions.hotDiaryLoadingMore(page, this.state.timeStap)
-        }
-      )
+  getWechatShareMeta = (index, item) => {
+    const user = item.user
+    return {
+      type: 'news',
+      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
+      title: '来自' + user.nickname + '的日记',
+      description: item.content,
+      thumbImage: item.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.user.avtar
     }
   }
 
@@ -87,7 +87,7 @@ class HotDiary extends Component {
     if (isLiking || myLike) {
       return
     }
-    NativeModules.TCAgent.track('足印', '点赞')
+    NativeModules.TCAgent.trackSingle('足印-点赞')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
         this.props.navigation.navigate('Login', {come4: 'recentDiary'})
@@ -141,14 +141,14 @@ class HotDiary extends Component {
     this.props.actions.reportInit({obj_type: 0, obj_id: this.state.reportedUserId, type: index})
   }
 
-  getWechatShareMeta = (index, item) => {
-    const user = item.user
-    return {
-      type: 'news',
-      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${item.diary_id}`,
-      title: '来自' + user.nickname + '的日记',
-      description: item.content,
-      thumbImage: item.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : item.user.avtar
+  handleLoadingMore = () => {
+    const {page, hasMoreData, isLoadingMore} = this.props
+    if (hasMoreData && !isLoadingMore) {
+      Rx.Observable.of('refresh').delay(400).subscribe(
+        () => {
+          this.props.actions.hotDiaryLoadingMore(page, this.state.timeStap)
+        }
+      )
     }
   }
 

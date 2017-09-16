@@ -69,7 +69,7 @@ class DiaryDetailPage extends Component {
   }
 
   componentDidMount () {
-    NativeModules.TCAgent.track('日记详情页', '日记详情')
+    NativeModules.TCAgent.trackSingle('进入日记详情')
     const id = this.props.navigation.state.params.item.diary_id
     const ownerId = this.props.navigation.state.params.item.user_id
     this.props.diaryCommentInit({id, ownerId})
@@ -143,8 +143,19 @@ class DiaryDetailPage extends Component {
     </View>)
   }
 
+  getWechatShareMeta = () => {
+    const diary = this.state.diary
+    return {
+      type: 'news',
+      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${diary.diary_id}`,
+      title: '来自' + diary.user.nickname + '的日记',
+      description: diary.content,
+      thumbImage: diary.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : diary.user.avtar
+    }
+  }
+
   deleteDiary = () => {
-    NativeModules.TCAgent.track('日记详情页', '删除日记')
+    NativeModules.TCAgent.trackSingle('日记详情-删除日记')
     const payload = {diarys: [{diary_id: this.state.diary.diary_id}], mode: 0}
     Alert.alert(
       '提示',
@@ -158,7 +169,7 @@ class DiaryDetailPage extends Component {
   }
 
   editDiary = () => {
-    NativeModules.TCAgent.track('日记详情页', '编辑')
+    NativeModules.TCAgent.trackSingle('日记详情-编辑')
     const key = this.props.navigation.state.key
     this.props.navigation.navigate('WriteDiaryPage', {diary: this.state.diary, come4: 'edit', key})
   }
@@ -174,7 +185,7 @@ class DiaryDetailPage extends Component {
   }
 
   _onPressLike = (diaryId, ownerId, myLike, isLikingDiary) => {
-    NativeModules.TCAgent.track('日记详情页', '点赞')
+    NativeModules.TCAgent.trackSingle('日记详情-点赞')
     if (!myLike && !isLikingDiary) {
       AsyncStorage.getItem('userId').then((result) => {
         if (result === null) {
@@ -190,39 +201,29 @@ class DiaryDetailPage extends Component {
     NativeModules.TCAgent.track('日记详情页', '评论')
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        this.props.navigation.navigate('Login', {come4: 'diary'})
+        this.props.navigation.navigate('Login', {come4: '日记详情'})
       } else {
-        this.props.navigation.navigate('CommentEditPage', {com4: 'diary', diaryId: diary.diary_id, ownerId: diary.user_id, nickname: diary.user.nickname, type: 'diary'})
+        this.props.navigation.navigate('CommentEditPage', {come4: '日记详情', diaryId: diary.diary_id, ownerId: diary.user_id, nickname: diary.user.nickname, type: 'diary'})
       }
     })
   }
 
   _onPressCommentItem = (item) => {
     setTimeout(() => {
-      this.props.navigation.navigate('CommentsListPage', {com4: 'diary', item})
+      this.props.navigation.navigate('CommentsListPage', {come4: '日记详情', item})
     }, 300)
   }
 
   _onPressCommentLike = ({diaryId, ownerId, commentId, index, myLike}) => {
     AsyncStorage.getItem('userId').then((result) => {
       if (result === null) {
-        this.props.navigation.navigate('Login', {come4: 'diary'})
+        this.props.navigation.navigate('Login', {come4: '日记'})
       } else if (!myLike) {
         this.props.diaryCommentLike({diaryId, ownerId, commentId, index})
       }
     })
   }
 
-  getWechatShareMeta = () => {
-    const diary = this.state.diary
-    return {
-      type: 'news',
-      webpageUrl: `http://qycdn.zhuoyoutech.com/h5/diary.html?diary_id=${diary.diary_id}`,
-      title: '来自' + diary.user.nickname + '的日记',
-      description: diary.content,
-      thumbImage: diary.user.avtar === '' ? 'http://qycdn.zhuoyoutech.com/h5share/android/user.png' : diary.user.avtar
-    }
-  }
   routerToPersonalPage = (userId) => {
     this.props.navigation.navigate('PersonalPage', {message: '个人主页', id: userId})
   }
