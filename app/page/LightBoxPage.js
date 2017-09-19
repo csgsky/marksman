@@ -154,7 +154,7 @@ export default class LightBoxPage extends Component {
       </View>}
       <View style={{position: 'absolute', bottom: 0, right: 0, left: 0, height: 40, alignItems: 'flex-end', justifyContent: 'center'}}>
         {!this.state.loading && <TouchableOpacity onPress={this.save} style={{width: 50, height: 40, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={{color: 'white'}}>保存</Text>
+          <Text style={{color: 'white', backgroundColor: 'transparent'}}>保存</Text>
         </TouchableOpacity>}
       </View>
       {this.state.loading && this.getActivityIndicator()}

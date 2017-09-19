@@ -8,6 +8,7 @@
 
 #import "SplashScreen.h"
 #import "Reachability.h"
+#import "Toast.h"
 
 @implementation SplashScreen
 
@@ -53,16 +54,22 @@ RCT_EXPORT_METHOD(saveImg: (NSString*)url)
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-  
+  UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+  UIViewController *rootViewController = keyWindow.rootViewController;
   if (error == nil) {
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"已存入手机相册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [alert show];
+    [rootViewController.view makeToast:@"已保存至相册"
+                              duration:3.0
+                              position:CSToastPositionCenter];
+    // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"已保存至相册" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    // [alert show];
     
   }else{
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存失败" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    [alert show];
+    [rootViewController.view makeToast:@"保存失败"
+                              duration:3.0
+                              position:CSToastPositionCenter];
+    // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"保存失败" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+    // [alert show];
   }
   
 }
