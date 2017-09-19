@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity} from 'react-native'
+import {StyleSheet, View, Text, Image, BackAndroid, TextInput, AsyncStorage, TouchableOpacity, NativeModules} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -61,7 +61,7 @@ class Register extends Component {
 
   render () {
     const {actions, isCounting, btnCodeText, securePassword} = this.props
-    console.warn('render ==> securePassword ', securePassword)
+    // console.warn('render ==> securePassword ', securePassword)
     return (
       <KeyboardAwareScrollView>
         <TouchableOpacity style={styles.view} onPress={() => dismissKeyboard()} activeOpacity={1}>
@@ -82,6 +82,9 @@ class Register extends Component {
                 placeholderTextColor="#8d8d8d"
                 underlineColorAndroid="transparent"
                 maxLength={11}
+                onFocus={() => {
+                  NativeModules.TCAgent.trackSingle('快速注册-点击输入密码')
+                }}
                 keyboardType="numeric"
                 onChangeText={(username) => {
                   actions.nicknameChange(username)
@@ -98,6 +101,9 @@ class Register extends Component {
                 placeholder={this.state.pageType === 'register' ? consts.PASSWORD_PLACE_HOLDER : consts.PASSWORD_NEW_PLACE_HOLDER}
                 placeholderTextColor="#8d8d8d"
                 underlineColorAndroid="transparent"
+                onFocus={() => {
+                  NativeModules.TCAgent.trackSingle('快速注册-点击输入手机号')
+                }}
                 secureTextEntry={securePassword}
                 onChangeText={(password) => {
                   actions.passwordChange(password)
@@ -146,6 +152,7 @@ class Register extends Component {
   }
 
   _getCode = () => {
+    NativeModules.TCAgent.trackSingle('快速注册-点击获取验证码')
     const {isCounting, correctUsername, username} = this.props
     if (correctUsername && !isCounting) {
       this.props.actions.getVerCode(username, this.state.pageType)
@@ -176,6 +183,7 @@ class Register extends Component {
   }
 
   _login = () => {
+    NativeModules.TCAgent.trackSingle('快速注册-点击登陆')
     const {correctUsername, correctPassword, correctCode} = this.props
     if (correctUsername && correctPassword && correctCode && this.state.pageType === 'forget') {
       const {username, password, code} = this.props

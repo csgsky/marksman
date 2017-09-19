@@ -36,6 +36,7 @@ class Login extends Component {
   }
 
   componentDidMount () {
+    NativeModules.TCAgent.trackSingle('登陆页展现')
     this.props.actions.initPage()
   }
 
