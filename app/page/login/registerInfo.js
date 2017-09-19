@@ -1,5 +1,5 @@
 import React, { Component} from 'react'
-import {Text, View, StyleSheet, TouchableOpacity, Image, TextInput, AsyncStorage} from 'react-native'
+import {Text, View, StyleSheet, TouchableOpacity, Image, TextInput, AsyncStorage, NativeModules} from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker'
@@ -38,12 +38,14 @@ class RegisterInfo extends Component {
   }
 
   componentWillMount() {
+    NativeModules.TCAgent.trackSingle('完善资料—进入页面')
     this.setState({pageType: this.props.navigation.state.params.type})
   }
 
   componentWillReceiveProps (nextProps) {
     const {userId} = nextProps
     if (userId !== this.props.userId && userId !== '') {
+      NativeModules.TCAgent.trackSingle('完善资料—提交成功')
       var base64 = require('base-64')
       var utf8 = require('utf8')
       var rawStr = '/ZTE/ZTE1.1/460022402238613/null/10.0.10.243/17695/02:00:00:00:00:00/com.droi.qy/720/1280/' + userId
@@ -78,9 +80,12 @@ class RegisterInfo extends Component {
   }
 
   submit = () => {
+    NativeModules.TCAgent.trackSingle('完善资料—点击提交')
     if (this.state.source === null) {
+      NativeModules.TCAgent.trackSingle('完善资料—请上传头像')
       this.showToast('请上传头像')
     } else if (this.state.nickname === '') {
+      NativeModules.TCAgent.trackSingle('完善资料—请填写昵称')
       this.showToast('请填写昵称')
     } else {
       dismissKeyboard()
@@ -103,6 +108,7 @@ class RegisterInfo extends Component {
       } else if (response.error) {
       } else if (response.customButton) {
       } else {
+        NativeModules.TCAgent.trackSingle('完善资料—修改头像成功')
         const suffix = response.uri.split('.')
         const imgBase64 = response.data
         this.setState({
@@ -124,6 +130,7 @@ class RegisterInfo extends Component {
       } else if (response.error) {
       } else if (response.customButton) {
       } else {
+        NativeModules.TCAgent.trackSingle('完善资料—修改头像成功')
         const suffix = response.uri.split('.')
         const imgBase64 = response.data
         this.setState({
@@ -150,6 +157,7 @@ class RegisterInfo extends Component {
         launchImageLibrary={() => this.launchImageLibrary()}
       />
       <TouchableOpacity onPress={() => {
+        NativeModules.TCAgent.trackSingle('完善资料—点击修改头像')
         this.setState({showPhotoPickerModal: true})
       }}
         activeOpacity={0.8}

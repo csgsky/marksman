@@ -43,7 +43,7 @@ export default class LightBoxPage extends Component {
   }
 
   getActivityIndicator = () => (<TouchableOpacity activeOpacity={1}
-    onPress={() => {}}
+    onPress={this.back}
     style={{
       position: 'absolute', bottom: 0, top: 0, left: 0, right: 0, backgroundColor: 'transparent', justifyContent: 'center'
     }}>
@@ -153,9 +153,9 @@ export default class LightBoxPage extends Component {
         <Image source={tool}/>
       </View>}
       <View style={{position: 'absolute', bottom: 0, right: 0, left: 0, height: 40, alignItems: 'flex-end', justifyContent: 'center'}}>
-        <TouchableOpacity onPress={this.save} style={{width: 50, height: 40, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}>
+        {!this.state.loading && <TouchableOpacity onPress={this.save} style={{width: 50, height: 40, marginRight: 10, justifyContent: 'center', alignItems: 'center'}}>
           <Text style={{color: 'white'}}>保存</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
       {this.state.loading && this.getActivityIndicator()}
     </TouchableOpacity>)

@@ -72,6 +72,7 @@ class Login extends Component {
     await AsyncStorage.setItem('nickname', info.nickname + '')
     await AsyncStorage.setItem('tags', info.tags + '')
   }
+
   isWeChatInstalled = () => {
     WeChat.isWXAppInstalled()
       .then((installed) => {
@@ -82,6 +83,7 @@ class Login extends Component {
         }
       })
   }
+
   isQQInstalled = () => {
     QQAPI.isQQInstalled()
       .then((installed) => {
@@ -92,6 +94,7 @@ class Login extends Component {
         }
       })
   }
+
 // https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx304eb8f40f7a2d88&secret=e19bae2990b22fafcc25f17c7b22650f&code=0715dpWH02XYrk2BVdZH0ydmWH05dpWy&grant_type=authorization_code
   loginWeChat = () => {
     WeChat.isWXAppInstalled()
@@ -99,11 +102,11 @@ class Login extends Component {
         if (installed) {
           WeChat.sendAuthRequest('snsapi_userinfo')
             .then((result) => {
-              console.log({result})
+              // console.log({result})
               this.getWechatOpenId(result.code)
             })
             .catch((e) => {
-              console.error(e);
+              // console.error(e);
             })
         } else {
           Toast.show('未安装微信客户端', {
@@ -119,6 +122,7 @@ class Login extends Component {
   }
 
   getWechatOpenId = (code) => {
+    NativeModules.TCAgent.trackSingle('点击微信登陆')
     const appid = Platform.OS === 'ios' ? AppConfig.wechat.appId.ios : AppConfig.wechat.appId.android
     const appSecret = Platform.OS === 'ios' ? AppConfig.wechat.appSecret.ios : AppConfig.wechat.appSecret.android
     const loginType = Platform.OS === 'ios' ? 1 : 2
@@ -130,7 +134,7 @@ class Login extends Component {
         }
         return 1
       })).subscribe((it) => {
-        console.log({wechat: it})
+        // console.log({wechat: it})
         if (it === 1) {
         } else {
           const userInfoUrl = `https://api.weixin.qq.com/sns/userinfo?access_token=${it.access_token}&openid=${it.openid}`
@@ -141,7 +145,7 @@ class Login extends Component {
               }
             })
           ).subscribe((info) => {
-            console.log({info})
+            NativeModules.TCAgent.trackSingle('微信登陆成功')
             this.props.actions.thirdLogin(loginType, code, it.openid, info.nickname, info.headimgurl)
           })
         }
@@ -149,6 +153,7 @@ class Login extends Component {
   }
 
   loginQQ = () => {
+    NativeModules.TCAgent.trackSingle('点击QQ登陆')
     const loginType = Platform.OS === 'ios' ? 3 : 4
     QQAPI.isQQInstalled()
       .then((installed) => {
@@ -162,7 +167,7 @@ class Login extends Component {
                 }
               })
             ).subscribe((info) => {
-              console.log({info})
+              NativeModules.TCAgent.trackSingle('QQ登陆成功')
               this.props.actions.thirdLogin(loginType, result.access_token, result.openid, info.nickname, info.figureurl_qq_2)
             }
             )
