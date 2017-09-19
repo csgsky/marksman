@@ -19,6 +19,11 @@ RCT_EXPORT_METHOD(track: (NSString*)name
   [TalkingData trackEvent:name label:label];
 }
 
+RCT_EXPORT_METHOD(trackSingle: (NSString*)eventName)
+{
+  [TalkingData trackEvent:eventName];
+}
+
 RCT_EXPORT_METHOD(trackWithParams: (NSString*)name
                   label: (NSString*)label
                   params: (NSDictionary*)params)
