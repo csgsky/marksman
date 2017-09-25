@@ -11,8 +11,8 @@ export function collectionsInit (page) {
 }
 
 export function collectionsData (data) {
-  console.warn('action  --->  COLLECTIONS LENGTH ' + data.collections.length)
-  console.warn('action  --->  COLLECTIONS_DATA ', data.collections.length >= 10)
+  // console.warn('action  --->  COLLECTIONS LENGTH ' + data.collections.length)
+  // console.warn('action  --->  COLLECTIONS_DATA ', data.collections.length >= 10)
   return {
     type: COLLECTIONS_DATA,
     isRefreshing: false,
