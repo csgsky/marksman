@@ -296,7 +296,7 @@ class WriteDiaryPage extends PureComponent {
             onKeyboardWillHide={(frames) => {
               this.setState({
                 keyboardShow: false,
-                screenHeight: screenHeight - 64- 40
+                screenHeight: screenHeight - 64 - 40
               });
             }}
             onContentSizeChange={(contentWidth, contentHeight) => {
@@ -316,7 +316,8 @@ class WriteDiaryPage extends PureComponent {
                   <Text style={styles.week}>{this.props.date}</Text>
                   <Text style={styles.year_month}>{this.props.yymm}</Text>
                 </View>
-                <TouchableOpacity activeOpacity={0.8} style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}}
+                <TouchableOpacity activeOpacity={0.8}
+                  style={{width: 100, height: 60, justifyContent: 'center', alignItems: 'center'}}
                   onPress={() => {
                     NativeModules.TCAgent.trackSingle('写日记—设为隐私')
                     this.props.changeDiaryState()

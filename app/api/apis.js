@@ -14,10 +14,10 @@ export function postApi (path, map, userId) {
     method: 'POST',
     credentials: 'include',
     headers: {
-      'Accept': accept,
+      Accept: accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': userId
+      Authorization: userId
     },
     body: JSON.stringify(map)
   }).then((response) => {
@@ -35,10 +35,10 @@ export function getApi (path, userId) {
   return fetch(baseUrlWithoutToken(path), {
     method: 'GET',
     headers: {
-      'Accept': accept,
+      Accept: accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': userId
+      Authorization: userId
     }
   }).then((response) => {
     return response.json()
@@ -54,10 +54,10 @@ export function deleteApi (path, userId, map) {
   return fetch(baseUrlWithoutToken(path), {
     method: 'DELETE',
     headers: {
-      'Accept': accept,
+      Accept: accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': userId
+      Authorization: userId
     },
     body: JSON.stringify(map)
   }).then((response) => {
@@ -73,10 +73,10 @@ export function putApi (path, userId, map) {
   return fetch(baseUrlWithoutToken(path), {
     method: 'PUT',
     headers: {
-      'Accept': accept,
+      Accept: accept,
       'User-Agent': userAgent,
       'Content-Type': contentType,
-      'Authorization': userId
+      Authorization: userId
     },
     body: JSON.stringify(map)
   }).then((response) => {

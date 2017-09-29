@@ -114,16 +114,17 @@ class HomeFragment extends Component {
     return <View />
   }
 
-  // _routerSearch = () => {
-  //   AsyncStorage.getItem('userId').then((result) => {
-  //     if (result === null) {
-  //       this.props.navigation.navigate('Login', {come4: 'profile'})
-  //     } else {
-  //       this.props.navigation.navigate('SearchPage', {message: '搜索'})
-  //     }
-  //   })
-  //   NativeModules.TCAgent.track('浅记', '搜索')
-  // }
+  _routerSearch = () => {
+    // AsyncStorage.getItem('userId').then((result) => {
+    //   if (result === null) {
+    //     this.props.navigation.navigate('Login', {come4: 'profile'})
+    //   } else {
+    //     this.props.navigation.navigate('SearchPage', {message: '搜索'})
+    //   }
+    // })
+    this.props.navigation.navigate('SearchPage', {message: '搜索'})
+    NativeModules.TCAgent.track('浅记', '搜索')
+  }
 
   getHeaderCompt = () => {
     const {diarys, isRefreshing, isLogin, loadingSuccess} = this.props
@@ -276,7 +277,7 @@ class HomeFragment extends Component {
             />
           }
         />
-        <TouchableOpacity style={styles.penView} onPress={this._onRouterWrite}>
+        <TouchableOpacity style={styles.penView} onPress={this._routerSearch}>
           <Image source={Pen} style={styles.pen} />
         </TouchableOpacity>
       </View>

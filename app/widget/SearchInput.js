@@ -26,7 +26,7 @@ export default class SearchTextInput extends Component {
             placeholder={title}
             onSubmitEditing={() => {
               if (searchText) {
-                const value = stringTrim(searchText)
+                const value = stringTrim(searchText) // 去掉空字符串
                 if (searchText && value && value.length > 0) {
                   onSubmitEditing()
                 } else {
